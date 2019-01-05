@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Cerasus">
+      <UniqueIdentifier>{30252608-e225-4e57-a4b7-c5f7c76f96c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DirectX">
+      <UniqueIdentifier>{a0a82034-f0b7-4fc5-b83c-d8e5084045d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -22,6 +28,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="WinUtilities.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="LiveIn.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -38,6 +47,333 @@
     <ClInclude Include="resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\CerasusAlgorithm.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\Cerasusfps.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\CerasusUnit.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\DirectCommon.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\DirectFont.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\DirectGraphics.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\DirectGraphics2D.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\DirectGraphics3D.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\DirectInput.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\DirectMesh.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\DirectSafe.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\DirectShow.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\DirectSound.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\DirectSprite.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\DirectSurface.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\DirectTexture.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\DirectThreadSafe.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\SakuraBlend.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\SakuraButton.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\SakuraCheckBox.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\SakuraComboBox.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\SakuraControl.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\SakuraDialog.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\SakuraEditBox.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\SakuraElement.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\SakuraListBox.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\SakuraRadioButton.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\SakuraResource.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\SakuraResourceManager.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\SakuraScrollBar.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\SakuraSlider.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\SakuraStatic.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\SakuraUICommon.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="LiveIn.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\audiodefs.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\comdecl.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\D2D1.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\D2D1Helper.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\D2DBaseTypes.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\D2Derr.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\d3d9.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\d3d9caps.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\d3d9types.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\D3D10.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\D3D10_1.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\D3D10_1shader.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\D3D10effect.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\d3d10misc.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\d3d10sdklayers.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\D3D10shader.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\D3D11.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\D3D11SDKLayers.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\D3D11Shader.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\D3Dcommon.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\D3Dcompiler.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\D3DCSX.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\d3dx9.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\d3dx9anim.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\d3dx9core.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\d3dx9effect.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\d3dx9math.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\d3dx9mesh.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\d3dx9shader.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\d3dx9shape.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\d3dx9tex.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\d3dx9xof.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\D3DX10.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\d3dx10async.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\D3DX10core.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\D3DX10math.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\D3DX10mesh.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\D3DX10tex.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\D3DX11.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\D3DX11async.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\D3DX11core.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\D3DX11tex.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\Dcommon.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\dinput.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\dinputd.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\dsconf.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\dsetup.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\dsound.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\DWrite.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\dxdiag.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\DxErr.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\dxfile.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\DXGI.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\DXGIFormat.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\DXGIType.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\dxsdkver.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\gameux.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\PIXPlugin.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\rmxfguid.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\rmxftmpl.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\rpcsal.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\X3DAudio.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\xact3.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\xact3d3.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\xact3wb.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\XAPO.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\XAPOBase.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\XAPOFX.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\XAudio2.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\XAudio2fx.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\XDSP.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\XInput.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\xma2defs.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectX\Inc\xnamath.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LiveIn.rc">
@@ -48,5 +384,28 @@
     <Image Include="Resource\Icon\LiveIn.ico">
       <Filter>资源文件</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\DirectX\Inc\D3DX_DXGIFormatConvert.inl">
+      <Filter>DirectX</Filter>
+    </None>
+    <None Include="..\DirectX\Inc\d3dx9math.inl">
+      <Filter>DirectX</Filter>
+    </None>
+    <None Include="..\DirectX\Inc\D3DX10math.inl">
+      <Filter>DirectX</Filter>
+    </None>
+    <None Include="..\DirectX\Inc\xnamathconvert.inl">
+      <Filter>DirectX</Filter>
+    </None>
+    <None Include="..\DirectX\Inc\xnamathmatrix.inl">
+      <Filter>DirectX</Filter>
+    </None>
+    <None Include="..\DirectX\Inc\xnamathmisc.inl">
+      <Filter>DirectX</Filter>
+    </None>
+    <None Include="..\DirectX\Inc\xnamathvector.inl">
+      <Filter>DirectX</Filter>
+    </None>
   </ItemGroup>
 </Project>
