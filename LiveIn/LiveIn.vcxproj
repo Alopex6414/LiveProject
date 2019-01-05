@@ -70,12 +70,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)DirectX\Inc;$(SolutionDir)Cerasus\Inc;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)DirectX\Lib\x86;$(SolutionDir)Cerasus\Lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)DirectX\Inc;$(SolutionDir)Cerasus\Inc;$(SolutionDir)Prunus\Inc;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)DirectX\Lib\x86;$(SolutionDir)Cerasus\Lib;$(SolutionDir)Prunus\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)DirectX\Inc;$(SolutionDir)Cerasus\Inc;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)DirectX\Lib\x86;$(SolutionDir)Cerasus\Lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)DirectX\Inc;$(SolutionDir)Cerasus\Inc;$(SolutionDir)Prunus\Inc;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)DirectX\Lib\x86;$(SolutionDir)Cerasus\Lib;$(SolutionDir)Prunus\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -241,6 +241,19 @@
     <ClInclude Include="..\DirectX\Inc\XInput.h" />
     <ClInclude Include="..\DirectX\Inc\xma2defs.h" />
     <ClInclude Include="..\DirectX\Inc\xnamath.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumCipherA.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumCommon.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumConsole.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumCrypt.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumFile.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumGraphics.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumIni.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumLog.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumLogEx.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumPack.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumPath.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumProcess.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumThread.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="LiveIn.h" />
     <ClInclude Include="resource.h" />

@@ -58,8 +58,26 @@
 #include "SakuraCheckBox.h"
 #include "SakuraResource.h"
 
-//Inlcude Cerasus(DirectX) Dynamic Link Library
+// Include Prunus(C/C++ Win32) Library Header File
+#include "PlumCommon.h"
+#include "PlumConsole.h"
+#include "PlumCipherA.h"
+#include "PlumCrypt.h"
+#include "PlumPack.h"
+#include "PlumFile.h"
+#include "PlumGraphics.h"
+#include "PlumIni.h"
+#include "PlumLog.h"
+#include "PlumLogEx.h"
+#include "PlumPath.h"
+#include "PlumProcess.h"
+#include "PlumThread.h"
+
+// Inlcude Cerasus(DirectX) Dynamic Link Library
 #pragma comment(lib, "Cerasus.lib")
+
+// Include Prunus(C/C++ Win32) Dynamic Link Library
+#pragma comment(lib, "Prunus.lib")
 
 #endif // !__COMMON_H_
 

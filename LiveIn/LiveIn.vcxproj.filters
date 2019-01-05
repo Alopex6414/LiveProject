@@ -19,6 +19,9 @@
     <Filter Include="DirectX">
       <UniqueIdentifier>{a0a82034-f0b7-4fc5-b83c-d8e5084045d0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Prunus">
+      <UniqueIdentifier>{9c93083b-3d2f-42de-8fdc-6fdfbdaa66bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -373,6 +376,45 @@
     </ClInclude>
     <ClInclude Include="..\DirectX\Inc\xnamath.h">
       <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Prunus\Inc\PlumCipherA.h">
+      <Filter>Prunus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Prunus\Inc\PlumCommon.h">
+      <Filter>Prunus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Prunus\Inc\PlumConsole.h">
+      <Filter>Prunus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Prunus\Inc\PlumCrypt.h">
+      <Filter>Prunus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Prunus\Inc\PlumFile.h">
+      <Filter>Prunus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Prunus\Inc\PlumGraphics.h">
+      <Filter>Prunus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Prunus\Inc\PlumIni.h">
+      <Filter>Prunus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Prunus\Inc\PlumLog.h">
+      <Filter>Prunus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Prunus\Inc\PlumLogEx.h">
+      <Filter>Prunus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Prunus\Inc\PlumPack.h">
+      <Filter>Prunus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Prunus\Inc\PlumPath.h">
+      <Filter>Prunus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Prunus\Inc\PlumProcess.h">
+      <Filter>Prunus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Prunus\Inc\PlumThread.h">
+      <Filter>Prunus</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
