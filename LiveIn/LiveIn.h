@@ -30,14 +30,22 @@ private:
 private:
 	CCerasusfps * m_pCerasusfpsMain;				// DirectX fps实例
 
+public:
+	CSakuraResourceManager * m_pResourceManager;	// Sakura 资源管理器
+	CSakuraDialog* m_pSakuraDialog;					// Sakura 窗口
+
 private:
 	int m_nIsUseLog;			// CLiveIn 是否启用日志文件记录
 	int m_nIsShowAdapter;		// CLiveIn 是否显示显卡型号
 	int m_nIsShowFps;			// CLiveIn 是否显示Fps
 
+	char m_chPacketRes_bk_00[4096];					// CLiveIn 背景bk_00资源
+
 protected:
 	void CLiveDrawAdapter();	// CLiveIn 绘制显卡信息
 	void CLiveDrawfps();		// CLiveIn 绘制fps
+
+	void CLiveInAddPacketResBK00(CUUintEx& sUnitEx);			// CLiveIn 加载背景bk_00资源结构
 
 public:
 	CLiveIn();					// CLiveIn 构造
@@ -51,8 +59,11 @@ public:
 
 protected:
 	BOOL CLiveInReadConfigFile();	// CLiveIn 读取配置文件
+	BOOL CLiveInLoadPacketFile();	// CLiveIn 加载封包文件
 
 };
+
+extern void __stdcall CLiveInSakuraGUIEvent(UINT nEvent, int nControlID, CSakuraControl * pControl, void * pUserContext);
 
 #endif // !__LIVEIN_H_
 

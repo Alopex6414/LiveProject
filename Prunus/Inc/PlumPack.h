@@ -66,6 +66,7 @@ public:
 
 	virtual void PLUMPACK_CALLMETHOD PlumPackFileExtractFromMemoryA(const void * pArray, int nSize, const char * pDest, DWORD * pLuckyArr);
 	virtual void PLUMPACK_CALLMETHOD PlumUnPackFileStoreInMemoryA(const char * pSrc, const void * pValArr, DWORD dwValSize);
+	virtual void PLUMPACK_CALLMETHOD PlumUnPackOneFileStoreInMemoryA(const char * pSrc, const char * pFileName, const void * pValArr, DWORD dwValSize);
 
 	//AES Packer(PackerMaker)
 	virtual void PLUMPACK_CALLMETHOD PlumPackFilePackerA(const char* pSrcArr[], int nArrSize, const char* pDest, int* pCount);

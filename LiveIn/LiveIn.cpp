@@ -25,6 +25,10 @@ CLiveIn::CLiveIn() :m_nIsUseLog(0), m_nIsShowAdapter(0), m_nIsShowFps(0)
 	m_pDirectGraphicsMain = NULL;
 	m_pDirectGraphics3DMain = NULL;
 	m_pCerasusfpsMain = NULL;
+	m_pResourceManager = NULL;
+	m_pSakuraDialog = NULL;
+
+	memset(m_chPacketRes_bk_00, 0, sizeof(m_chPacketRes_bk_00));
 }
 
 //----------------------------------------------
@@ -36,6 +40,8 @@ CLiveIn::CLiveIn() :m_nIsUseLog(0), m_nIsShowAdapter(0), m_nIsShowFps(0)
 //----------------------------------------------
 CLiveIn::~CLiveIn()
 {
+	SAFE_DELETE(m_pSakuraDialog);
+	SAFE_DELETE(m_pResourceManager);
 	SAFE_DELETE(m_pCerasusfpsMain);
 	SAFE_DELETE(m_pDirectGraphics3DMain);
 	SAFE_DELETE(m_pDirectGraphicsMain);
@@ -109,6 +115,23 @@ BOOL CLiveIn::CLiveInInit()
 	}
 	if (m_nIsUseLog != 0) CLiveInLog::LiveInLogExWriteLine(__FILE__, __LINE__, "Cerasusfps初始化成功!");
 
+	// CLiveIn 加载资源文件
+	CLiveInLoadPacketFile();
+
+	// SakuraResourceManager 初始化
+	m_pResourceManager = new CSakuraResourceManager();
+	m_pResourceManager->OnCreate(pD3D9Device);
+
+	CUUintEx sUnitEx = { 0 };
+	CLiveInAddPacketResBK00(sUnitEx);
+
+	// SakuraDialog 初始化
+	m_pSakuraDialog = new CSakuraDialog();
+	m_pSakuraDialog->OnCreate(m_pResourceManager, sUnitEx);
+	m_pSakuraDialog->SetLocation(0, 0);
+	m_pSakuraDialog->SetSize(USER_WINDOWWIDTH, USER_WINDOWHEIGHT);
+	m_pSakuraDialog->SetCallback(CLiveInSakuraGUIEvent, this);
+
 	return TRUE;
 }
 
@@ -121,6 +144,8 @@ BOOL CLiveIn::CLiveInInit()
 //----------------------------------------------
 void CLiveIn::CLiveInRelease()
 {
+	SAFE_DELETE(m_pSakuraDialog);
+	SAFE_DELETE(m_pResourceManager);
 	SAFE_DELETE(m_pCerasusfpsMain);
 	SAFE_DELETE(m_pDirectGraphics3DMain);
 	SAFE_DELETE(m_pDirectGraphicsMain);
@@ -151,13 +176,17 @@ void CLiveIn::CLiveInUpdate()
 
 		if (hr == D3DERR_DEVICENOTRESET)	// DirectX 设备重置
 		{
+			HRESULT hr2;
+
 			// 丢失设备
-			m_pCerasusfpsMain->CCerasusfpsReset();
-			m_pDirectGraphics3DMain->DirectGraphics3DReset();
-			m_pDirectGraphicsMain->DirectGraphicsReset();
+			hr2 = m_pCerasusfpsMain->CCerasusfpsReset();
+			hr2 = m_pDirectGraphics3DMain->DirectGraphics3DReset();
+			m_pSakuraDialog->OnLost();
+			hr2 = m_pDirectGraphicsMain->DirectGraphicsReset();
 
 			// 重置设备
-			m_pDirectGraphics3DMain->DirectGraphics3DInitVertex3DBase(6);
+			m_pSakuraDialog->OnReset();
+			hr2 = m_pDirectGraphics3DMain->DirectGraphics3DInitVertex3DBase(6);
 		}
 
 	}
@@ -190,6 +219,8 @@ void CLiveIn::CLiveInRender()
 	m_pDirectGraphics3DMain->DirectGraphics3DRenderStateLightDisable();			// 渲染光源关闭
 	m_pDirectGraphics3DMain->DirectGraphics3DRenderStateSetting();				// 渲染状态设置
 	m_pDirectGraphics3DMain->DirectGraphics3DRenderStateAlphaDisable();			// Alpha混合关闭
+
+	m_pSakuraDialog->OnRender();	// 绘制Sakura
 
 	if (m_nIsShowAdapter != 0)
 	{
@@ -237,6 +268,28 @@ BOOL CLiveIn::CLiveInReadConfigFile()
 }
 
 //----------------------------------------------
+// @Function:	CLiveInLoadPacketFile()
+// @Purpose: CLiveIn加载封包文件分析
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+BOOL CLiveIn::CLiveInLoadPacketFile()
+{
+	char chPacket[MAX_PATH] = { 0 };
+
+	CPlumPath::PlumPathGetLocalPathA(chPacket, sizeof(chPacket));
+	strcat_s(chPacket, "\\pak\\LiveIn.pak");
+
+	CPlumPack packet;
+
+	// 加载资源(bk_00.png)
+	packet.PlumUnPackOneFileStoreInMemoryA(chPacket, "bk_00.png", m_chPacketRes_bk_00, sizeof(m_chPacketRes_bk_00));
+
+	return TRUE;
+}
+
+//----------------------------------------------
 // @Function:	CLiveDrawAdapter()
 // @Purpose: CLiveIn绘制显卡信息
 // @Since: v1.00a
@@ -259,7 +312,7 @@ void CLiveIn::CLiveDrawAdapter()
 
 	// Direct3D 绘制缓冲模板
 	Rect.top += 20;
-	m_pDirectGraphicsMain->DirectGraphicsFontDrawTextFormat(&Rect, DT_TOP | DT_LEFT, D3DXCOLOR(1.0f, 1.0f, 0.5f, 1.0f));
+	m_pDirectGraphicsMain->DirectGraphicsFontDrawTextFormat(&Rect, DT_TOP | DT_LEFT, D3DXCOLOR(0.5f, 1.0f, 0.5f, 1.0f));
 }
 
 //----------------------------------------------
@@ -272,5 +325,63 @@ void CLiveIn::CLiveDrawAdapter()
 void CLiveIn::CLiveDrawfps()
 {
 	m_pCerasusfpsMain->CCerasusfpsGetfps();				// Direct3D 绘制静态信息
-	m_pCerasusfpsMain->CCerasusfpsDrawfps(g_hWnd);		// Direct3D 绘制fps
+	m_pCerasusfpsMain->CCerasusfpsDrawfps(g_hWnd, DIRECTFONT_FORMAT_BOTTOMRIGHT, D3DXCOLOR(0.5f, 0.5f, 1.0f, 1.0f));		// Direct3D 绘制fps
+}
+
+//----------------------------------------------
+// @Function:	CLiveInAddPacketResBK00()
+// @Purpose: CLiveIn加载背景bk_00资源结构
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CLiveIn::CLiveInAddPacketResBK00(CUUintEx & sUnitEx)
+{
+	sUnitEx.nTextureWidth = 320;
+	sUnitEx.nTextureHeight = 480;
+	sUnitEx.nScreenWidth = USER_WINDOWWIDTH;
+	sUnitEx.nScreenHeight = USER_WINDOWHEIGHT;
+	sUnitEx.fUnitAlpha = 1.0f;
+	sUnitEx.pTextureArr = m_chPacketRes_bk_00;
+	sUnitEx.nTextureArrSize = sizeof(m_chPacketRes_bk_00);
+	sUnitEx.rcUnit.left = 0;
+	sUnitEx.rcUnit.right = USER_WINDOWWIDTH;
+	sUnitEx.rcUnit.top = 0;
+	sUnitEx.rcUnit.bottom = USER_WINDOWHEIGHT;
+	sUnitEx.rcUnitTex.left = 0;
+	sUnitEx.rcUnitTex.right = 320;
+	sUnitEx.rcUnitTex.top = 0;
+	sUnitEx.rcUnitTex.bottom = 480;
+
+	//世界变换
+	sUnitEx.sCoordsTransformPara.sWorldTransformPara.sScalePara.fScaleX = 1.0f;
+	sUnitEx.sCoordsTransformPara.sWorldTransformPara.sScalePara.fScaleY = 1.0f;
+	sUnitEx.sCoordsTransformPara.sWorldTransformPara.sScalePara.fScaleZ = 1.0f;
+	sUnitEx.sCoordsTransformPara.sWorldTransformPara.sRotatePara.fRotateX = 0.0f;
+	sUnitEx.sCoordsTransformPara.sWorldTransformPara.sRotatePara.fRotateY = 0.0f;
+	sUnitEx.sCoordsTransformPara.sWorldTransformPara.sRotatePara.fRotateZ = 0.0f;
+	sUnitEx.sCoordsTransformPara.sWorldTransformPara.sTranslatePara.fTranslateX = 0.0f;
+	sUnitEx.sCoordsTransformPara.sWorldTransformPara.sTranslatePara.fTranslateY = 0.0f;
+	sUnitEx.sCoordsTransformPara.sWorldTransformPara.sTranslatePara.fTranslateZ = 0.0f;
+
+	//取景变换
+	sUnitEx.sCoordsTransformPara.sViewTransformPara.vAt = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	sUnitEx.sCoordsTransformPara.sViewTransformPara.vUp = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	sUnitEx.sCoordsTransformPara.sViewTransformPara.vEye = D3DXVECTOR3(0.0f, 0.0f, -(USER_WINDOWHEIGHT * 0.5f));
+
+	//投影变换
+	sUnitEx.sCoordsTransformPara.sPrespectiveTransformPara.fovy = D3DX_PI / 2.0f;
+	sUnitEx.sCoordsTransformPara.sPrespectiveTransformPara.fAspect = (float)(USER_WINDOWWIDTH * 1.0f / USER_WINDOWHEIGHT);
+	sUnitEx.sCoordsTransformPara.sPrespectiveTransformPara.fZn = 1.0f;
+	sUnitEx.sCoordsTransformPara.sPrespectiveTransformPara.fZf = (USER_WINDOWHEIGHT * 0.5f);
+
+	//视口变换
+	sUnitEx.sCoordsTransformPara.sViewPortTransformPara.nUserWidth = USER_WINDOWWIDTH;
+	sUnitEx.sCoordsTransformPara.sViewPortTransformPara.nUserHeight = USER_WINDOWHEIGHT;
+}
+
+//CDXSampleCore 控件事件回调函数 
+void __stdcall CLiveInSakuraGUIEvent(UINT nEvent, int nControlID, CSakuraControl * pControl, void * pUserContext)
+{
+
 }
