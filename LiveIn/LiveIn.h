@@ -19,6 +19,7 @@
 
 // Include LiveIn Header File
 #include "LiveInlog.h"
+#include "LiveInres.h"
 
 // Class Definition
 class CLiveIn

@@ -518,6 +518,9 @@
     <ClInclude Include="..\Cerasus\Inc\SakuraUnit.h">
       <Filter>Cerasus</Filter>
     </ClInclude>
+    <ClInclude Include="LiveInres.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LiveIn.rc">

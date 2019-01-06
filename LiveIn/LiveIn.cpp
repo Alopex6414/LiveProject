@@ -135,6 +135,28 @@ BOOL CLiveIn::CLiveInInit()
 	m_pSakuraDialog->SetSize(USER_WINDOWWIDTH, USER_WINDOWHEIGHT);
 	m_pSakuraDialog->SetCallback(CLiveInSakuraGUIEvent, this);
 
+	// SakuraResourceManager 资源载入
+	CUUintEx sUnitEx_title_00 = { 0 };
+	CLiveInAddPacketResTITLE00(sUnitEx_title_00);
+	m_pSakuraDialog->SetTextrueExRes(&sUnitEx_title_00);
+
+	CUUintEx sUnitEx_title_01 = { 0 };
+	CLiveInAddPacketResTITLE01(sUnitEx_title_01);
+	m_pSakuraDialog->SetTextrueExRes(&sUnitEx_title_01);
+
+	CUUintEx sUnitEx_title_02 = { 0 };
+	CLiveInAddPacketResTITLE02(sUnitEx_title_02);
+	m_pSakuraDialog->SetTextrueExRes(&sUnitEx_title_02);
+
+	// SakuraControl 初始化
+	m_pSakuraDialog->AddUnit(SID_SAKURAUNIT_TITLE_00, 32, 32, 256, 64);
+	m_pSakuraDialog->AddUnit(SID_SAKURAUNIT_TITLE_01, 32, 96, 256, 32);
+	m_pSakuraDialog->AddUnit(SID_SAKURAUNIT_TITLE_02, 32, 448, 256, 32);
+
+	m_pSakuraDialog->AddTextureEx(SID_SAKURAUNIT_TITLE_00, SAKURA_CONTROL_UNIT, 0, SAKURA_STATE_NORMAL, 0);
+	m_pSakuraDialog->AddTextureEx(SID_SAKURAUNIT_TITLE_01, SAKURA_CONTROL_UNIT, 0, SAKURA_STATE_NORMAL, 1);
+	m_pSakuraDialog->AddTextureEx(SID_SAKURAUNIT_TITLE_02, SAKURA_CONTROL_UNIT, 0, SAKURA_STATE_NORMAL, 2);
+
 	return TRUE;
 }
 
@@ -408,10 +430,10 @@ void CLiveIn::CLiveInAddPacketResTITLE00(CUUintEx & sUnitEx)
 	sUnitEx.fUnitAlpha = 1.0f;
 	sUnitEx.pTextureArr = m_chPacketRes_title_00;
 	sUnitEx.nTextureArrSize = sizeof(m_chPacketRes_title_00);
-	sUnitEx.rcUnit.left = 0;
-	sUnitEx.rcUnit.right = USER_WINDOWWIDTH;
-	sUnitEx.rcUnit.top = 0;
-	sUnitEx.rcUnit.bottom = USER_WINDOWHEIGHT;
+	sUnitEx.rcUnit.left = 32;
+	sUnitEx.rcUnit.right = 288;
+	sUnitEx.rcUnit.top = 32;
+	sUnitEx.rcUnit.bottom = 96;
 	sUnitEx.rcUnitTex.left = 0;
 	sUnitEx.rcUnitTex.right = 256;
 	sUnitEx.rcUnitTex.top = 0;
@@ -458,12 +480,12 @@ void CLiveIn::CLiveInAddPacketResTITLE01(CUUintEx & sUnitEx)
 	sUnitEx.nScreenWidth = USER_WINDOWWIDTH;
 	sUnitEx.nScreenHeight = USER_WINDOWHEIGHT;
 	sUnitEx.fUnitAlpha = 1.0f;
-	sUnitEx.pTextureArr = m_chPacketRes_title_00;
-	sUnitEx.nTextureArrSize = sizeof(m_chPacketRes_title_00);
-	sUnitEx.rcUnit.left = 0;
-	sUnitEx.rcUnit.right = USER_WINDOWWIDTH;
-	sUnitEx.rcUnit.top = 0;
-	sUnitEx.rcUnit.bottom = USER_WINDOWHEIGHT;
+	sUnitEx.pTextureArr = m_chPacketRes_title_01;
+	sUnitEx.nTextureArrSize = sizeof(m_chPacketRes_title_01);
+	sUnitEx.rcUnit.left = 32;
+	sUnitEx.rcUnit.right = 288;
+	sUnitEx.rcUnit.top = 96;
+	sUnitEx.rcUnit.bottom = 128;
 	sUnitEx.rcUnitTex.left = 0;
 	sUnitEx.rcUnitTex.right = 256;
 	sUnitEx.rcUnitTex.top = 0;
@@ -510,12 +532,12 @@ void CLiveIn::CLiveInAddPacketResTITLE02(CUUintEx & sUnitEx)
 	sUnitEx.nScreenWidth = USER_WINDOWWIDTH;
 	sUnitEx.nScreenHeight = USER_WINDOWHEIGHT;
 	sUnitEx.fUnitAlpha = 1.0f;
-	sUnitEx.pTextureArr = m_chPacketRes_title_00;
-	sUnitEx.nTextureArrSize = sizeof(m_chPacketRes_title_00);
-	sUnitEx.rcUnit.left = 0;
-	sUnitEx.rcUnit.right = USER_WINDOWWIDTH;
-	sUnitEx.rcUnit.top = 0;
-	sUnitEx.rcUnit.bottom = USER_WINDOWHEIGHT;
+	sUnitEx.pTextureArr = m_chPacketRes_title_02;
+	sUnitEx.nTextureArrSize = sizeof(m_chPacketRes_title_02);
+	sUnitEx.rcUnit.left = 32;
+	sUnitEx.rcUnit.right = 288;
+	sUnitEx.rcUnit.top = 448;
+	sUnitEx.rcUnit.bottom = 480;
 	sUnitEx.rcUnitTex.left = 0;
 	sUnitEx.rcUnitTex.right = 256;
 	sUnitEx.rcUnitTex.top = 0;
