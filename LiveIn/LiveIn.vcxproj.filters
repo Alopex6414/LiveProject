@@ -42,6 +42,9 @@
     <ClCompile Include="LiveIn.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="LiveInlog.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WinMain.h">
@@ -508,6 +511,9 @@
     </ClInclude>
     <ClInclude Include="..\Convallaria\Inc\ConvallariaLuaType.h">
       <Filter>Convallaria</Filter>
+    </ClInclude>
+    <ClInclude Include="LiveInlog.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

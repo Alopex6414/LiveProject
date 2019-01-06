@@ -27,6 +27,11 @@ private:
 private:
 	CCerasusfps * m_pCerasusfpsMain;				// DirectX fps实例
 
+private:
+	int m_nIsUseLog;			// CLiveIn 是否启用日志文件记录
+	int m_nIsShowAdapter;		// CLiveIn 是否显示显卡型号
+	int m_nIsShowFps;			// CLiveIn 是否显示Fps
+
 protected:
 	void CLiveDrawAdapter();	// CLiveIn 绘制显卡信息
 	void CLiveDrawfps();		// CLiveIn 绘制fps
@@ -40,6 +45,9 @@ public:
 
 	void CLiveInUpdate();		// CLiveIn 刷新
 	void CLiveInRender();		// CLiveIn 渲染
+
+protected:
+	BOOL CLiveInReadConfigFile();	// CLiveIn 读取配置文件
 
 };
 

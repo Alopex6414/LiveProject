@@ -20,7 +20,7 @@
 // @Para: None
 // @Return: None
 //----------------------------------------------
-CLiveIn::CLiveIn()
+CLiveIn::CLiveIn() :m_nIsUseLog(0), m_nIsShowAdapter(0), m_nIsShowFps(0)
 {
 	m_pDirectGraphicsMain = NULL;
 	m_pDirectGraphics3DMain = NULL;
@@ -52,6 +52,15 @@ BOOL CLiveIn::CLiveInInit()
 {
 	HRESULT hr;
 	IDirect3DDevice9* pD3D9Device = NULL;
+
+	// CLiveIn 读取配置文件信息
+	BOOL bRet = FALSE;
+	bRet = CLiveInReadConfigFile();
+	if (!bRet)
+	{
+		MessageBox(g_hWnd, _T("LiveIn读取配置文件失败!"), _T("错误"), MB_OK | MB_ICONERROR);
+		return FALSE;
+	}
 
 	// DirectGraphics 初始化
 	m_pDirectGraphicsMain = new DirectGraphics();
@@ -170,11 +179,49 @@ void CLiveIn::CLiveInRender()
 	m_pDirectGraphics3DMain->DirectGraphics3DRenderStateSetting();				// 渲染状态设置
 	m_pDirectGraphics3DMain->DirectGraphics3DRenderStateAlphaDisable();			// Alpha混合关闭
 
-	CLiveDrawAdapter();			// 绘制显卡型号
-	CLiveDrawfps();				// 绘制fps
+	if (m_nIsShowAdapter != 0)
+	{
+		CLiveDrawAdapter();			// 绘制显卡型号
+	}
+	
+	if (m_nIsShowFps != 0)
+	{
+		CLiveDrawfps();				// 绘制fps
+	}
 
 	// DirectX 结束绘制
 	m_pDirectGraphicsMain->DirectGraphicsEnd();
+}
+
+//----------------------------------------------
+// @Function:	CLiveInReadConfigFile()
+// @Purpose: CLiveIn读取配置文件信息
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+BOOL CLiveIn::CLiveInReadConfigFile()
+{
+	char chFile[MAX_PATH] = { 0 };
+
+	strcpy_s(chFile, "config\\LiveIn.lua");
+
+	CConvallariaLua* lua = new CConvallariaLua(chFile);		// lua script 实例化
+	BOOL bRet = FALSE;
+
+	bRet = lua->ConvallariaLua_Init();	// lua script 初始化
+	if (!bRet)
+	{
+		SAFE_DELETE(lua);
+		return FALSE;
+	}
+
+	lua->ConvallariaLua_GetGlobal_Int("LiveIn_Use_Log", m_nIsUseLog);					// 获取是否日志记录
+	lua->ConvallariaLua_GetGlobal_Int("LiveIn_Show_Adapter", m_nIsShowAdapter);			// 获取是否显示显卡
+	lua->ConvallariaLua_GetGlobal_Int("LiveIn_Show_Fps", m_nIsShowFps);					// 获取是否显示fps
+
+	SAFE_DELETE(lua);
+	return TRUE;
 }
 
 //----------------------------------------------

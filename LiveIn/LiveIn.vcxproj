@@ -129,6 +129,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="LiveIn.cpp" />
+    <ClCompile Include="LiveInlog.cpp" />
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="WinProcess.cpp" />
     <ClCompile Include="WinUtilities.cpp" />
@@ -285,6 +286,7 @@
     <ClInclude Include="..\Prunus\Inc\PlumThread.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="LiveIn.h" />
+    <ClInclude Include="LiveInlog.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="WinMain.h" />
     <ClInclude Include="WinProcess.h" />
