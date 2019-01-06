@@ -17,5 +17,31 @@
 // Include Common Header File
 #include "Common.h"
 
+// Class Definition
+class CLiveIn
+{
+private:
+	DirectGraphics * m_pDirectGraphicsMain;			// DirectX 渲染类实例
+	DirectGraphics3D * m_pDirectGraphics3DMain;		// DirectX 渲染类实例(3D)
+
+private:
+	CCerasusfps * m_pCerasusfpsMain;				// DirectX fps实例
+
+protected:
+	void CLiveDrawAdapter();	// CLiveIn 绘制显卡信息
+	void CLiveDrawfps();		// CLiveIn 绘制fps
+
+public:
+	CLiveIn();					// CLiveIn 构造
+	~CLiveIn();					// CLiveIn 析构
+
+	BOOL CLiveInInit();			// CLiveIn 初始化
+	void CLiveInRelease();		// CLiveIn 释放
+
+	void CLiveInUpdate();		// CLiveIn 刷新
+	void CLiveInRender();		// CLiveIn 渲染
+
+};
+
 #endif // !__LIVEIN_H_
 

@@ -21,12 +21,12 @@
 #include "resource.h"
 
 //Macro Definition
-#ifndef USER_SCREENWIDTH
-#define USER_SCREENWIDTH	320							//窗口宽度
+#ifndef USER_WINDOWWIDTH
+#define USER_WINDOWWIDTH	320							//窗口宽度
 #endif
 
-#ifndef USER_SCREENHEIGHT
-#define USER_SCREENHEIGHT	480							//窗口高度
+#ifndef USER_WINDOWHEIGHT
+#define USER_WINDOWHEIGHT	480							//窗口高度
 #endif
 
 #ifndef USER_WINDOWTITLE

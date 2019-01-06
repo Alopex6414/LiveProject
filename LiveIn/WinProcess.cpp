@@ -12,6 +12,11 @@
 #include "WinProcess.h"
 #include "WinUtilities.h"
 
+#include "LiveIn.h"
+
+// Variable
+CLiveIn g_cLiveIn;
+
 //------------------------------------------------------------------
 // @Function:	 SetWindowParameterCallBack(void)
 // @Purpose: WinMain设置窗口相关参数回调函数
@@ -22,8 +27,8 @@
 WndPara* SetWindowParameterCallBack(void)
 {
 	WndPara* pWindowParameter = new WndPara;
-	pWindowParameter->nWndWidth = USER_SCREENWIDTH;//窗口宽度
-	pWindowParameter->nWndHeight = USER_SCREENHEIGHT;//窗口高度
+	pWindowParameter->nWndWidth = USER_WINDOWWIDTH;//窗口宽度
+	pWindowParameter->nWndHeight = USER_WINDOWHEIGHT;//窗口高度
 	pWindowParameter->lpszTitle = USER_WINDOWTITLE;//窗口标题名称
 	pWindowParameter->wIcon = USER_WINDOWICON;//窗口标题图标
 	return pWindowParameter;
@@ -38,7 +43,7 @@ WndPara* SetWindowParameterCallBack(void)
 //------------------------------------------------------------------
 BOOL InitWindowExtraCallBack(void)
 {
-	return TRUE;
+	return g_cLiveIn.CLiveInInit();
 }
 
 //------------------------------------------------------------------
@@ -50,6 +55,7 @@ BOOL InitWindowExtraCallBack(void)
 //------------------------------------------------------------------
 void ReleaseWindowExtraCallBack(void)
 {
+	g_cLiveIn.CLiveInRelease();
 }
 
 //------------------------------------------------------------------
@@ -61,4 +67,6 @@ void ReleaseWindowExtraCallBack(void)
 //------------------------------------------------------------------
 void Direct3DRenderCallBack(void)
 {
+	g_cLiveIn.CLiveInUpdate();
+	g_cLiveIn.CLiveInRender();
 }

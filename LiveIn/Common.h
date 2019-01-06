@@ -73,6 +73,10 @@
 #include "PlumProcess.h"
 #include "PlumThread.h"
 
+// Include Window Basic Header File
+#include "WinProcess.h"
+#include "WinUtilities.h"
+
 // Inlcude Cerasus(DirectX) Dynamic Link Library
 #pragma comment(lib, "Cerasus.lib")
 
