@@ -70,12 +70,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)DirectX\Inc;$(SolutionDir)Cerasus\Inc;$(SolutionDir)Prunus\Inc;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)DirectX\Lib\x86;$(SolutionDir)Cerasus\Lib;$(SolutionDir)Prunus\Lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)DirectX\Inc;$(SolutionDir)Lua\Inc;$(SolutionDir)Cerasus\Inc;$(SolutionDir)Prunus\Inc;$(SolutionDir)Convallaria\Inc;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)DirectX\Lib\x86;$(SolutionDir)Lua\Lib;$(SolutionDir)Cerasus\Lib;$(SolutionDir)Prunus\Lib;$(SolutionDir)Convallaria\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)DirectX\Inc;$(SolutionDir)Cerasus\Inc;$(SolutionDir)Prunus\Inc;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)DirectX\Lib\x86;$(SolutionDir)Cerasus\Lib;$(SolutionDir)Prunus\Lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)DirectX\Inc;$(SolutionDir)Lua\Inc;$(SolutionDir)Cerasus\Inc;$(SolutionDir)Prunus\Inc;$(SolutionDir)Convallaria\Inc;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)DirectX\Lib\x86;$(SolutionDir)Lua\Lib;$(SolutionDir)Cerasus\Lib;$(SolutionDir)Prunus\Lib;$(SolutionDir)Convallaria\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -167,6 +167,9 @@
     <ClInclude Include="..\Cerasus\Inc\SakuraSlider.h" />
     <ClInclude Include="..\Cerasus\Inc\SakuraStatic.h" />
     <ClInclude Include="..\Cerasus\Inc\SakuraUICommon.h" />
+    <ClInclude Include="..\Convallaria\Inc\ConvallariaLua.h" />
+    <ClInclude Include="..\Convallaria\Inc\ConvallariaLuaMsg.h" />
+    <ClInclude Include="..\Convallaria\Inc\ConvallariaLuaType.h" />
     <ClInclude Include="..\DirectX\Inc\audiodefs.h" />
     <ClInclude Include="..\DirectX\Inc\comdecl.h" />
     <ClInclude Include="..\DirectX\Inc\D2D1.h" />
@@ -241,6 +244,32 @@
     <ClInclude Include="..\DirectX\Inc\XInput.h" />
     <ClInclude Include="..\DirectX\Inc\xma2defs.h" />
     <ClInclude Include="..\DirectX\Inc\xnamath.h" />
+    <ClInclude Include="..\Lua\Inc\lapi.h" />
+    <ClInclude Include="..\Lua\Inc\lauxlib.h" />
+    <ClInclude Include="..\Lua\Inc\lcode.h" />
+    <ClInclude Include="..\Lua\Inc\lctype.h" />
+    <ClInclude Include="..\Lua\Inc\ldebug.h" />
+    <ClInclude Include="..\Lua\Inc\ldo.h" />
+    <ClInclude Include="..\Lua\Inc\lfunc.h" />
+    <ClInclude Include="..\Lua\Inc\lgc.h" />
+    <ClInclude Include="..\Lua\Inc\llex.h" />
+    <ClInclude Include="..\Lua\Inc\llimits.h" />
+    <ClInclude Include="..\Lua\Inc\lmem.h" />
+    <ClInclude Include="..\Lua\Inc\lobject.h" />
+    <ClInclude Include="..\Lua\Inc\lopcodes.h" />
+    <ClInclude Include="..\Lua\Inc\lparser.h" />
+    <ClInclude Include="..\Lua\Inc\lprefix.h" />
+    <ClInclude Include="..\Lua\Inc\lstate.h" />
+    <ClInclude Include="..\Lua\Inc\lstring.h" />
+    <ClInclude Include="..\Lua\Inc\ltable.h" />
+    <ClInclude Include="..\Lua\Inc\ltm.h" />
+    <ClInclude Include="..\Lua\Inc\lua.h" />
+    <ClInclude Include="..\Lua\Inc\lua.hpp" />
+    <ClInclude Include="..\Lua\Inc\luaconf.h" />
+    <ClInclude Include="..\Lua\Inc\lualib.h" />
+    <ClInclude Include="..\Lua\Inc\lundump.h" />
+    <ClInclude Include="..\Lua\Inc\lvm.h" />
+    <ClInclude Include="..\Lua\Inc\lzio.h" />
     <ClInclude Include="..\Prunus\Inc\PlumCipherA.h" />
     <ClInclude Include="..\Prunus\Inc\PlumCommon.h" />
     <ClInclude Include="..\Prunus\Inc\PlumConsole.h" />

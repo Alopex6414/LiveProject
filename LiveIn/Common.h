@@ -73,6 +73,9 @@
 #include "PlumProcess.h"
 #include "PlumThread.h"
 
+// Include Convallaria(Script) Library Header File
+#include "ConvallariaLua.h"
+
 // Include Window Basic Header File
 #include "WinProcess.h"
 #include "WinUtilities.h"
@@ -82,6 +85,9 @@
 
 // Include Prunus(C/C++ Win32) Dynamic Link Library
 #pragma comment(lib, "Prunus.lib")
+
+// Include Convallaria(Script) Dynamic Link Library
+#pragma comment(lib, "Convallaria.lib")
 
 #endif // !__COMMON_H_
 
