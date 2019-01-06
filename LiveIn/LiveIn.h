@@ -17,6 +17,9 @@
 // Include Common Header File
 #include "Common.h"
 
+// Include LiveIn Header File
+#include "LiveInlog.h"
+
 // Class Definition
 class CLiveIn
 {

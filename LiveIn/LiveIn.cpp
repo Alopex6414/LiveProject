@@ -62,21 +62,28 @@ BOOL CLiveIn::CLiveInInit()
 		return FALSE;
 	}
 
+	if (m_nIsUseLog != 0) CLiveInLog::LiveInLogExWriteLine(__FILE__, __LINE__, "LiveIn应用程序开启.");
+	if (m_nIsUseLog != 0) CLiveInLog::LiveInLogExWriteLine(__FILE__, __LINE__, "LiveIn读取lua文件成功.m_nIsUseLog=%d,m_nIsShowAdapter=%d,m_nIsShowFps=%d.", m_nIsUseLog, m_nIsShowAdapter, m_nIsShowFps);
+
 	// DirectGraphics 初始化
 	m_pDirectGraphicsMain = new DirectGraphics();
 	hr = m_pDirectGraphicsMain->DirectGraphicsInit(g_hWnd, true, USER_WINDOWWIDTH, USER_WINDOWHEIGHT);
 	if (FAILED(hr))
 	{
+		if (m_nIsUseLog != 0) CLiveInLog::LiveInLogExWriteLine(__FILE__, __LINE__, "Direct3D初始化失败!返回值hr=%l.", hr);
 		MessageBox(g_hWnd, _T("Direct3D初始化失败!"), _T("错误"), MB_OK | MB_ICONERROR);
 		return FALSE;
 	}
+	if (m_nIsUseLog != 0) CLiveInLog::LiveInLogExWriteLine(__FILE__, __LINE__, "Direct3D初始化成功!");
 
 	hr = m_pDirectGraphicsMain->DirectGraphicsFontInit(20);
 	if (FAILED(hr))
 	{
+		if (m_nIsUseLog != 0) CLiveInLog::LiveInLogExWriteLine(__FILE__, __LINE__, "DirectFont初始化失败!返回值hr=%l.", hr);
 		MessageBox(g_hWnd, _T("DirectFont初始化失败!"), _T("错误"), MB_OK | MB_ICONERROR);
 		return FALSE;
 	}
+	if (m_nIsUseLog != 0) CLiveInLog::LiveInLogExWriteLine(__FILE__, __LINE__, "DirectFont初始化成功!");
 
 	pD3D9Device = m_pDirectGraphicsMain->DirectGraphicsGetDevice();		// DirectX设备指针
 
@@ -85,19 +92,22 @@ BOOL CLiveIn::CLiveInInit()
 	hr = m_pDirectGraphics3DMain->DirectGraphics3DInitVertex3DBase(6);
 	if (FAILED(hr))
 	{
+		if (m_nIsUseLog != 0) CLiveInLog::LiveInLogExWriteLine(__FILE__, __LINE__, "DirectGraphics3D初始化失败!返回值hr=%l.", hr);
 		MessageBox(g_hWnd, _T("DirectGraphics3D初始化失败!"), _T("错误"), MB_OK | MB_ICONERROR);
 		return FALSE;
 	}
+	if (m_nIsUseLog != 0) CLiveInLog::LiveInLogExWriteLine(__FILE__, __LINE__, "DirectGraphics3D初始化成功!");
 
 	// Cerasusfps 初始化
 	m_pCerasusfpsMain = new CCerasusfps(pD3D9Device);
 	hr = m_pCerasusfpsMain->CCerasusfpsInit(20);
 	if (FAILED(hr))
 	{
+		if (m_nIsUseLog != 0) CLiveInLog::LiveInLogExWriteLine(__FILE__, __LINE__, "Cerasusfps初始化失败!返回值hr=%l.", hr);
 		MessageBox(g_hWnd, _T("Cerasusfps初始化失败!"), _T("错误"), MB_OK | MB_ICONERROR);
 		return FALSE;
 	}
-
+	if (m_nIsUseLog != 0) CLiveInLog::LiveInLogExWriteLine(__FILE__, __LINE__, "Cerasusfps初始化成功!");
 
 	return TRUE;
 }
@@ -114,6 +124,8 @@ void CLiveIn::CLiveInRelease()
 	SAFE_DELETE(m_pCerasusfpsMain);
 	SAFE_DELETE(m_pDirectGraphics3DMain);
 	SAFE_DELETE(m_pDirectGraphicsMain);
+
+	if (m_nIsUseLog != 0) CLiveInLog::LiveInLogExWriteLine(__FILE__, __LINE__, "LiveIn应用程序结束.");
 }
 
 //----------------------------------------------
