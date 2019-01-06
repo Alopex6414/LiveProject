@@ -168,6 +168,7 @@
     <ClInclude Include="..\Cerasus\Inc\SakuraSlider.h" />
     <ClInclude Include="..\Cerasus\Inc\SakuraStatic.h" />
     <ClInclude Include="..\Cerasus\Inc\SakuraUICommon.h" />
+    <ClInclude Include="..\Cerasus\Inc\SakuraUnit.h" />
     <ClInclude Include="..\Convallaria\Inc\ConvallariaLua.h" />
     <ClInclude Include="..\Convallaria\Inc\ConvallariaLuaMsg.h" />
     <ClInclude Include="..\Convallaria\Inc\ConvallariaLuaType.h" />
