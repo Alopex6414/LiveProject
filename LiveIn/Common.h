@@ -45,6 +45,7 @@
 #include "DirectSprite.h"
 #include "DirectFont.h"
 
+#include "CerasusAlgorithm.h"
 #include "Cerasusfps.h"
 #include "CerasusUnit.h"
 

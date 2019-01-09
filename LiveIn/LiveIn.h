@@ -40,6 +40,8 @@ private:
 	int m_nIsShowAdapter;		// CLiveIn 是否显示显卡型号
 	int m_nIsShowFps;			// CLiveIn 是否显示Fps
 
+	float m_fTimeSum;			// CLiveIn 程式运行时间累积
+
 	char m_chPacketRes_bk_00[8192];					// CLiveIn 背景bk_00资源(灰色背景)
 	char m_chPacketRes_title_00[8192];				// CLiveIn 背景title_00资源(LiveProject)
 	char m_chPacketRes_title_01[8192];				// CLiveIn 背景title_01资源(ライブプロジェクト)
@@ -63,6 +65,8 @@ public:
 
 	void CLiveInUpdate();		// CLiveIn 刷新
 	void CLiveInRender();		// CLiveIn 渲染
+
+	void CLiveInStartUpdate(float fDeltaTime);					// CLiveIn 开始场景刷新
 
 protected:
 	BOOL CLiveInReadConfigFile();	// CLiveIn 读取配置文件

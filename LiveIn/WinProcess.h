@@ -37,6 +37,11 @@
 #define USER_WINDOWICON		(WORD)IDI_ICON_LIVEIN		//窗口标题图标
 #endif
 
+//Variable Definition
+extern float g_fLastTime;
+extern float g_fCurrentTime;
+extern float g_fDeltaTime;
+
 //Function Definition
 extern WndPara* SetWindowParameterCallBack(void);
 extern BOOL InitWindowExtraCallBack(void);

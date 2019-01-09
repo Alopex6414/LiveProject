@@ -20,7 +20,7 @@
 // @Para: None
 // @Return: None
 //----------------------------------------------
-CLiveIn::CLiveIn() :m_nIsUseLog(0), m_nIsShowAdapter(0), m_nIsShowFps(0)
+CLiveIn::CLiveIn() :m_nIsUseLog(0), m_nIsShowAdapter(0), m_nIsShowFps(0), m_fTimeSum(0.0f)
 {
 	m_pDirectGraphicsMain = NULL;
 	m_pDirectGraphics3DMain = NULL;
@@ -149,9 +149,9 @@ BOOL CLiveIn::CLiveInInit()
 	m_pSakuraDialog->SetTextrueExRes(&sUnitEx_title_02);
 
 	// SakuraControl 初始化
-	m_pSakuraDialog->AddUnit(SID_SAKURAUNIT_TITLE_00, 32, 32, 256, 64);
-	m_pSakuraDialog->AddUnit(SID_SAKURAUNIT_TITLE_01, 32, 96, 256, 32);
-	m_pSakuraDialog->AddUnit(SID_SAKURAUNIT_TITLE_02, 32, 448, 256, 32);
+	m_pSakuraDialog->AddUnit(SID_SAKURAUNIT_TITLE_00, 32, 64, 256, 64);
+	m_pSakuraDialog->AddUnit(SID_SAKURAUNIT_TITLE_01, 32, 128, 256, 32);
+	m_pSakuraDialog->AddUnit(SID_SAKURAUNIT_TITLE_02, 32, 432, 256, 32);
 
 	m_pSakuraDialog->AddTextureEx(SID_SAKURAUNIT_TITLE_00, SAKURA_CONTROL_UNIT, 0, SAKURA_STATE_NORMAL, 0);
 	m_pSakuraDialog->AddTextureEx(SID_SAKURAUNIT_TITLE_01, SAKURA_CONTROL_UNIT, 0, SAKURA_STATE_NORMAL, 1);
@@ -215,6 +215,11 @@ void CLiveIn::CLiveInUpdate()
 		}
 
 	}
+
+	m_fTimeSum += g_fDeltaTime;	// 程式时间累积
+
+	CLiveInStartUpdate(g_fDeltaTime);
+
 }
 
 //----------------------------------------------
@@ -259,6 +264,49 @@ void CLiveIn::CLiveInRender()
 
 	// DirectX 结束绘制
 	m_pDirectGraphicsMain->DirectGraphicsEnd();
+}
+
+//----------------------------------------------
+// @Function:	CLiveInStartUpdate(float fDeltaTime)
+// @Purpose: CLiveIn开始场景刷新
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CLiveIn::CLiveInStartUpdate(float fDeltaTime)
+{
+	static float fTimeSum = 0.0f;
+
+	fTimeSum += fDeltaTime;		// 运行时间累加...
+
+	if (fTimeSum < 0.5f)		// 开始时间0.0s~0.5s时保持黑色屏幕,Alpha通道值为0.0f
+	{
+		m_pSakuraDialog->GetDialogGraphics()->CCerasusUnitGetAlpha() = 0.0f;	// 背景Alpha通道值为0.0f
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_00)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;		// Logo Alpha通道值为0.0f
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_01)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;		// Logo2 Alpha通道值为0.0f
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_02)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;		// Coypright Alpha通道值为0.0f
+	
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_00)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateZ() = -160.0f;	// Logo Z轴坐标为-120
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_01)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateZ() = -160.0f;	// Logo2 Z轴坐标为-120
+	}
+	else if (fTimeSum < 1.5f)	// 开始时间0.5s~1.5s时背景渐变,Alpha通道值增加
+	{
+		CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetDialogGraphics()->CCerasusUnitGetAlpha(), 1.0f, 0.02f);		// 背景Alpha通道值从0.0f递增到1.0f,递增速度0.02f,持续50帧
+	}
+	else if (fTimeSum < 2.5f)
+	{
+		CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_00)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateZ(), -160.0f, 0.0f, -0.8f);
+		CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_00)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 1.0f, 0.05f);
+		CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_02)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 1.0f, 0.02f);
+
+		if (fTimeSum >= 2.0f)
+		{
+			CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_01)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateZ(), -160.0f, 0.0f, -0.8f);
+			CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_01)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 1.0f, 0.05f);
+		}
+
+	}
+
 }
 
 //----------------------------------------------
@@ -346,7 +394,7 @@ void CLiveIn::CLiveDrawAdapter()
 
 	// Direct3D 绘制缓冲模板
 	Rect.top += 20;
-	m_pDirectGraphicsMain->DirectGraphicsFontDrawTextFormat(&Rect, DT_TOP | DT_LEFT, D3DXCOLOR(0.5f, 1.0f, 0.5f, 1.0f));
+	m_pDirectGraphicsMain->DirectGraphicsFontDrawTextFormat(&Rect, DT_TOP | DT_LEFT, D3DXCOLOR(1.0f, 1.0f, 0.5f, 1.0f));
 }
 
 //----------------------------------------------
@@ -359,7 +407,7 @@ void CLiveIn::CLiveDrawAdapter()
 void CLiveIn::CLiveDrawfps()
 {
 	m_pCerasusfpsMain->CCerasusfpsGetfps();				// Direct3D 绘制静态信息
-	m_pCerasusfpsMain->CCerasusfpsDrawfps(g_hWnd, DIRECTFONT_FORMAT_BOTTOMRIGHT, D3DXCOLOR(0.5f, 0.5f, 1.0f, 1.0f));		// Direct3D 绘制fps
+	m_pCerasusfpsMain->CCerasusfpsDrawfps(g_hWnd, DIRECTFONT_FORMAT_BOTTOMRIGHT, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));		// Direct3D 绘制fps
 }
 
 //----------------------------------------------
@@ -432,8 +480,8 @@ void CLiveIn::CLiveInAddPacketResTITLE00(CUUintEx & sUnitEx)
 	sUnitEx.nTextureArrSize = sizeof(m_chPacketRes_title_00);
 	sUnitEx.rcUnit.left = 32;
 	sUnitEx.rcUnit.right = 288;
-	sUnitEx.rcUnit.top = 32;
-	sUnitEx.rcUnit.bottom = 96;
+	sUnitEx.rcUnit.top = 64;
+	sUnitEx.rcUnit.bottom = 128;
 	sUnitEx.rcUnitTex.left = 0;
 	sUnitEx.rcUnitTex.right = 256;
 	sUnitEx.rcUnitTex.top = 0;
@@ -484,8 +532,8 @@ void CLiveIn::CLiveInAddPacketResTITLE01(CUUintEx & sUnitEx)
 	sUnitEx.nTextureArrSize = sizeof(m_chPacketRes_title_01);
 	sUnitEx.rcUnit.left = 32;
 	sUnitEx.rcUnit.right = 288;
-	sUnitEx.rcUnit.top = 96;
-	sUnitEx.rcUnit.bottom = 128;
+	sUnitEx.rcUnit.top = 128;
+	sUnitEx.rcUnit.bottom = 160;
 	sUnitEx.rcUnitTex.left = 0;
 	sUnitEx.rcUnitTex.right = 256;
 	sUnitEx.rcUnitTex.top = 0;
@@ -536,8 +584,8 @@ void CLiveIn::CLiveInAddPacketResTITLE02(CUUintEx & sUnitEx)
 	sUnitEx.nTextureArrSize = sizeof(m_chPacketRes_title_02);
 	sUnitEx.rcUnit.left = 32;
 	sUnitEx.rcUnit.right = 288;
-	sUnitEx.rcUnit.top = 448;
-	sUnitEx.rcUnit.bottom = 480;
+	sUnitEx.rcUnit.top = 432;
+	sUnitEx.rcUnit.bottom = 464;
 	sUnitEx.rcUnitTex.left = 0;
 	sUnitEx.rcUnitTex.right = 256;
 	sUnitEx.rcUnitTex.top = 0;

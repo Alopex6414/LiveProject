@@ -17,6 +17,10 @@
 // Variable
 CLiveIn g_cLiveIn;
 
+float g_fLastTime = 0.0f;
+float g_fCurrentTime = 0.0f;
+float g_fDeltaTime = 0.0f;
+
 //------------------------------------------------------------------
 // @Function:	 SetWindowParameterCallBack(void)
 // @Purpose: WinMain设置窗口相关参数回调函数
@@ -67,6 +71,9 @@ void ReleaseWindowExtraCallBack(void)
 //------------------------------------------------------------------
 void Direct3DRenderCallBack(void)
 {
+	g_fLastTime = (float)timeGetTime()*0.001f;
 	g_cLiveIn.CLiveInUpdate();
 	g_cLiveIn.CLiveInRender();
+	g_fCurrentTime = (float)timeGetTime()*0.001f;
+	g_fDeltaTime = g_fCurrentTime - g_fLastTime;
 }
