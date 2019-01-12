@@ -46,6 +46,8 @@ private:
 	char m_chPacketRes_title_00[8192];				// CLiveIn 背景title_00资源(LiveProject)
 	char m_chPacketRes_title_01[8192];				// CLiveIn 背景title_01资源(ライブプロジェクト)
 	char m_chPacketRes_title_02[8192];				// CLiveIn 背景title_02资源(版权)
+	char m_chPacketRes_wait_00[4096];				// CLiveIn 背景wait_00资源(★★★★★)
+	char m_chPacketRes_wait_01[8192];				// CLiveIn 背景wait_01资源(请稍侯...)
 
 protected:
 	void CLiveDrawAdapter();	// CLiveIn 绘制显卡信息
@@ -55,6 +57,10 @@ protected:
 	void CLiveInAddPacketResTITLE00(CUUintEx& sUnitEx);			// CLiveIn 加载背景title_00资源结构
 	void CLiveInAddPacketResTITLE01(CUUintEx& sUnitEx);			// CLiveIn 加载背景title_01资源结构
 	void CLiveInAddPacketResTITLE02(CUUintEx& sUnitEx);			// CLiveIn 加载背景title_02资源结构
+	void CLiveInAddPacketResWAIT01_0(CUUintEx& sUnitEx);		// CLiveIn 加载背景wait_01资源结构(请稍候)
+	void CLiveInAddPacketResWAIT01_1(CUUintEx& sUnitEx);		// CLiveIn 加载背景wait_01资源结构(请稍候.)
+	void CLiveInAddPacketResWAIT01_2(CUUintEx& sUnitEx);		// CLiveIn 加载背景wait_01资源结构(请稍候..)
+	void CLiveInAddPacketResWAIT01_3(CUUintEx& sUnitEx);		// CLiveIn 加载背景wait_01资源结构(请稍候...)
 
 public:
 	CLiveIn();					// CLiveIn 构造
