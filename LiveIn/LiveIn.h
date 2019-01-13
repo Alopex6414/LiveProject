@@ -61,6 +61,11 @@ protected:
 	void CLiveInAddPacketResWAIT01_1(CUUintEx& sUnitEx);		// CLiveIn 加载背景wait_01资源结构(请稍候.)
 	void CLiveInAddPacketResWAIT01_2(CUUintEx& sUnitEx);		// CLiveIn 加载背景wait_01资源结构(请稍候..)
 	void CLiveInAddPacketResWAIT01_3(CUUintEx& sUnitEx);		// CLiveIn 加载背景wait_01资源结构(请稍候...)
+	void CLiveInAddPacketResWAIT00_0(CUUintEx& sUnitEx);		// CLiveIn 加载背景wait_00资源结构(★)
+	void CLiveInAddPacketResWAIT00_1(CUUintEx& sUnitEx);		// CLiveIn 加载背景wait_00资源结构(★)
+	void CLiveInAddPacketResWAIT00_2(CUUintEx& sUnitEx);		// CLiveIn 加载背景wait_00资源结构(★)
+	void CLiveInAddPacketResWAIT00_3(CUUintEx& sUnitEx);		// CLiveIn 加载背景wait_00资源结构(★)
+	void CLiveInAddPacketResWAIT00_4(CUUintEx& sUnitEx);		// CLiveIn 加载背景wait_00资源结构(★)
 
 public:
 	CLiveIn();					// CLiveIn 构造
