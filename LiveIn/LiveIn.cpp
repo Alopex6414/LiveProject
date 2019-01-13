@@ -349,6 +349,11 @@ void CLiveIn::CLiveInStartUpdate(float fDeltaTime)
 		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_011)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 1.0f;		// Wait Alpha通道值为1.0f
 		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_012)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 1.0f;		// Wait Alpha通道值为1.0f
 		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_013)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 1.0f;		// Wait Alpha通道值为1.0f
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_001)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;		// Wait Alpha通道值为0.0f
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_002)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;		// Wait Alpha通道值为0.0f
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_003)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;		// Wait Alpha通道值为0.0f
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_004)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;		// Wait Alpha通道值为0.0f
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_005)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;		// Wait Alpha通道值为0.0f
 
 		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_00)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateZ() = -160.0f;	// Logo Z轴坐标为-120
 		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_01)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateZ() = -160.0f;	// Logo2 Z轴坐标为-120
@@ -357,7 +362,7 @@ void CLiveIn::CLiveInStartUpdate(float fDeltaTime)
 	{
 		CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetDialogGraphics()->CCerasusUnitGetAlpha(), 1.0f, 0.02f);		// 背景Alpha通道值从0.0f递增到1.0f,递增速度0.02f,持续50帧
 	}
-	else if (fTimeSum < 2.5f)
+	else if (fTimeSum < 2.5f)	// 开始时间1.5s~2.5s时背景不变,logo字体由远到近,版权信息出现
 	{
 		CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_00)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateZ(), -160.0f, 0.0f, -0.8f);
 		CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_00)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 1.0f, 0.05f);
@@ -370,12 +375,13 @@ void CLiveIn::CLiveInStartUpdate(float fDeltaTime)
 		}
 
 	}
-	else if (fTimeSum < 3.0f)
+	else if (fTimeSum < 3.0f)	// 开始时间2.5s~3.0s时出现请稍候字样
 	{
 		CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_010)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 1.0f, 0.05f);
 	}
 	else
 	{
+		// 请稍候...等待字体切换
 		static int nCount = 0;
 		static float fTimeSwitch = 0.0f;
 
@@ -392,40 +398,172 @@ void CLiveIn::CLiveInStartUpdate(float fDeltaTime)
 
 		switch (nCount)
 		{
-		case 0:
-		{
-			m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_010)->SetVisible(true);
-			m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_011)->SetVisible(false);
-			m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_012)->SetVisible(false);
-			m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_013)->SetVisible(false);
-			break;
+			case 0:
+			{
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_010)->SetVisible(true);
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_011)->SetVisible(false);
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_012)->SetVisible(false);
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_013)->SetVisible(false);
+				break;
+			}
+			case 1:
+			{
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_010)->SetVisible(false);
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_011)->SetVisible(true);
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_012)->SetVisible(false);
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_013)->SetVisible(false);
+				break;
+			}
+			case 2:
+			{
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_010)->SetVisible(false);
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_011)->SetVisible(false);
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_012)->SetVisible(true);
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_013)->SetVisible(false);
+				break;
+			}
+			case 3:
+			{
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_010)->SetVisible(false);
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_011)->SetVisible(false);
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_012)->SetVisible(false);
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_013)->SetVisible(true);
+				break;
+			}
+			default:
+				break;
 		}
-		case 1:
+
+		// 五角星★等待动画
+		static bool bStarFinish = false;		// bStarFinish=true, 五角星动画已经完成; bStarFinish=false, 五角星动画暂未完成
+		static bool bStarOrder = true;			// bStarOrder=true, 五角星从左到中匀减速运动; bStarOrder=false, 五角星从中到右边匀加速运动
+		static int nStarCount = 0;				// nStarCount 代表中间五角星数量
+		static float fTimeInterval = 0.0f;		// fTimeInterval 五角星运动时间间隔
+
+		fTimeInterval += fDeltaTime;
+		if (fTimeInterval >= 0.1f)
 		{
-			m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_010)->SetVisible(false);
-			m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_011)->SetVisible(true);
-			m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_012)->SetVisible(false);
-			m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_013)->SetVisible(false);
-			break;
+			fTimeInterval = 0.0f;
+
+			if (bStarOrder)
+			{
+				nStarCount++;
+				if (nStarCount >= 5)
+				{
+					nStarCount = 5;
+					if (bStarFinish == true)
+					{
+						bStarFinish = false;
+						bStarOrder = false;
+					}
+				}
+			}
+			else
+			{
+				nStarCount--;
+				if (nStarCount <= 1)
+				{
+					nStarCount = 1;
+					if (bStarFinish == true)
+					{
+						nStarCount = 0;
+						bStarFinish = false;
+						bStarOrder = true;
+					}
+				}
+
+			}
+			
 		}
-		case 2:
+
+		if (bStarOrder)
 		{
-			m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_010)->SetVisible(false);
-			m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_011)->SetVisible(false);
-			m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_012)->SetVisible(true);
-			m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_013)->SetVisible(false);
-			break;
+			if (nStarCount >= 1)
+			{
+				CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_001)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX(), 0.0f, 179.0f, -0.4f);
+				CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_001)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 1.0f, 0.2f);
+			}
+
+			if (nStarCount >= 2)
+			{
+				CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_002)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX(), 0.0f, 166.0f, -0.4f);
+				CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_002)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 1.0f, 0.2f);
+			}
+
+			if (nStarCount >= 3)
+			{
+				CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_003)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX(), 0.0f, 153.0f, -0.4f);
+				CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_003)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 1.0f, 0.2f);
+			}
+
+			if (nStarCount >= 4)
+			{
+				CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_004)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX(), 0.0f, 139.0f, -0.4f);
+				CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_004)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 1.0f, 0.2f);
+			}
+
+			if (nStarCount >= 5)
+			{
+				CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_005)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX(), 0.0f, 126.0f, -0.4f);
+				CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_005)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 1.0f, 0.2f);
+			}
+
+			// 判断五角星动画是否完成
+			if(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_005)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX() >= 126.0f)
+			{
+				bStarFinish = true;
+			}
 		}
-		case 3:
+		else
 		{
-			m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_010)->SetVisible(false);
-			m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_011)->SetVisible(false);
-			m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_012)->SetVisible(false);
-			m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_013)->SetVisible(true);
-			break;
-		}
-		default:
-			break;
+			if (nStarCount <= 5)
+			{
+				CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_001)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX(), 179.0f, 320.0f, -0.4f);
+				CCerasusAlgorithm::Linear_Decrease(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_001)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 0.0f, 0.05f);
+			}
+
+			if (nStarCount <= 4)
+			{
+				CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_002)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX(), 166.0f, 320.0f, -0.4f);
+				CCerasusAlgorithm::Linear_Decrease(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_002)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 0.0f, 0.05f);
+			}
+
+			if (nStarCount <= 3)
+			{
+				CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_003)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX(), 153.0f, 320.0f, -0.4f);
+				CCerasusAlgorithm::Linear_Decrease(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_003)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 0.0f, 0.05f);
+			}
+
+			if (nStarCount <= 2)
+			{
+				CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_004)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX(), 139.0f, 320.0f, -0.4f);
+				CCerasusAlgorithm::Linear_Decrease(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_004)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 0.0f, 0.05f);
+			}
+
+			if (nStarCount <= 1)
+			{
+				CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_005)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX(), 126.0f, 320.0f, -0.4f);
+				CCerasusAlgorithm::Linear_Decrease(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_005)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 0.0f, 0.05f);
+			}
+
+			// 判断五角星动画是否完成
+			if (m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_005)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX() >= 320.0f)
+			{
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_001)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX() = 0.0f;
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_002)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX() = 0.0f;
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_003)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX() = 0.0f;
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_004)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX() = 0.0f;
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_005)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX() = 0.0f;
+
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_001)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_002)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_003)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_004)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_005)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;
+
+				bStarFinish = true;
+			}
+
 		}
 
 	}
