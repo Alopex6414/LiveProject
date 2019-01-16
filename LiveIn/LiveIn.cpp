@@ -188,9 +188,15 @@ BOOL CLiveIn::CLiveInInit()
 	CLiveInAddPacketResWAIT00_4(sUnitEx_wait_004);
 	m_pSakuraDialog->SetTextrueExRes(&sUnitEx_wait_004);
 
+	// 登陆按钮资源
 	CUUintEx sUnitEx_login_00 = { 0 };
 	CLiveInAddPacketResLOGIN00(sUnitEx_login_00);
 	m_pSakuraDialog->SetTextrueExRes(&sUnitEx_login_00);
+
+	// 账户背景资源
+	CUUintEx sUnitEx_account_00 = { 0 };
+	CLiveInAddPacketResACCOUNT00(sUnitEx_account_00);
+	m_pSakuraDialog->SetTextrueExRes(&sUnitEx_account_00);
 
 	// SakuraControl 初始化
 	m_pSakuraDialog->AddUnit(SID_SAKURAUNIT_TITLE_00, 32, 64, 256, 64);
@@ -205,7 +211,10 @@ BOOL CLiveIn::CLiveInInit()
 	m_pSakuraDialog->AddUnit(SID_SAKURAUNIT_WAIT_003, 0, 250, 11, 11);
 	m_pSakuraDialog->AddUnit(SID_SAKURAUNIT_WAIT_004, 0, 250, 11, 11);
 	m_pSakuraDialog->AddUnit(SID_SAKURAUNIT_WAIT_005, 0, 250, 11, 11);
-	m_pSakuraDialog->AddButton(SID_SAKURABUTTON_LOGIN_00, NULL, 70, 320, 180, 40, 0U, true);
+	m_pSakuraDialog->AddUnit(SID_SAKURAUNIT_ACCOUNT_00, 120, 200, 80, 110);
+	m_pSakuraDialog->AddUnit(SID_SAKURAUNIT_LOGIN_00, 70, 360, 180, 40);
+
+	m_pSakuraDialog->AddButton(SID_SAKURABUTTON_LOGIN_00, NULL, 70, 360, 180, 40, 0U, true);
 
 	m_pSakuraDialog->AddTextureEx(SID_SAKURAUNIT_TITLE_00, SAKURA_CONTROL_UNIT, 0, SAKURA_STATE_NORMAL, 0);
 	m_pSakuraDialog->AddTextureEx(SID_SAKURAUNIT_TITLE_01, SAKURA_CONTROL_UNIT, 0, SAKURA_STATE_NORMAL, 1);
@@ -219,11 +228,14 @@ BOOL CLiveIn::CLiveInInit()
 	m_pSakuraDialog->AddTextureEx(SID_SAKURAUNIT_WAIT_003, SAKURA_CONTROL_UNIT, 0, SAKURA_STATE_NORMAL, 9);
 	m_pSakuraDialog->AddTextureEx(SID_SAKURAUNIT_WAIT_004, SAKURA_CONTROL_UNIT, 0, SAKURA_STATE_NORMAL, 10);
 	m_pSakuraDialog->AddTextureEx(SID_SAKURAUNIT_WAIT_005, SAKURA_CONTROL_UNIT, 0, SAKURA_STATE_NORMAL, 11);
+	m_pSakuraDialog->AddTextureEx(SID_SAKURAUNIT_LOGIN_00, SAKURA_CONTROL_UNIT, 0, SAKURA_STATE_NORMAL, 12);
 	m_pSakuraDialog->AddTextureEx(SID_SAKURABUTTON_LOGIN_00, SAKURA_CONTROL_BUTTON, 0, SAKURA_STATE_NORMAL, 12);
+	m_pSakuraDialog->AddTextureEx(SID_SAKURAUNIT_ACCOUNT_00, SAKURA_CONTROL_UNIT, 0, SAKURA_STATE_NORMAL, 13);
 
 	m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_011)->SetVisible(false);
 	m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_012)->SetVisible(false);
 	m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_013)->SetVisible(false);
+	m_pSakuraDialog->GetButton(SID_SAKURABUTTON_LOGIN_00)->SetVisible(false);
 
 	return TRUE;
 }
@@ -362,6 +374,8 @@ void CLiveIn::CLiveInStartUpdate(float fDeltaTime)
 		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_003)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;		// Wait Alpha通道值为0.0f
 		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_004)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;		// Wait Alpha通道值为0.0f
 		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_005)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;		// Wait Alpha通道值为0.0f
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_LOGIN_00)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;		// Login Alpha通道值为0.0f
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_ACCOUNT_00)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;	// Account Alpha通道值为0.0f
 
 		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_00)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateZ() = -160.0f;	// Logo Z轴坐标为-120
 		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_01)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateZ() = -160.0f;	// Logo2 Z轴坐标为-120
@@ -387,7 +401,7 @@ void CLiveIn::CLiveInStartUpdate(float fDeltaTime)
 	{
 		CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_010)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 1.0f, 0.05f);
 	}
-	else
+	else if(fTimeSum < 12.0f)	// 开始时间3.0s~8.0s时等待加载资源
 	{
 		// 请稍候...等待字体切换
 		static int nCount = 0;
@@ -572,6 +586,35 @@ void CLiveIn::CLiveInStartUpdate(float fDeltaTime)
 				bStarFinish = true;
 			}
 
+		}
+
+	}
+	else
+	{
+		// 设置请等待字样不可见
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_010)->SetVisible(false);
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_011)->SetVisible(false);
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_012)->SetVisible(false);
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_013)->SetVisible(false);
+
+		// 设置五角星动画不可见
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_001)->SetVisible(false);
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_002)->SetVisible(false);
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_003)->SetVisible(false);
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_004)->SetVisible(false);
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_005)->SetVisible(false);
+
+		CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_ACCOUNT_00)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 1.0f, 0.02f);
+
+		if (fTimeSum >= 13.0f)
+		{
+			CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_LOGIN_00)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 0.6f, 0.02f);
+		}
+
+		if (m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_LOGIN_00)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() >= 0.6f)
+		{
+			m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_LOGIN_00)->SetVisible(false);
+			m_pSakuraDialog->GetButton(SID_SAKURABUTTON_LOGIN_00)->SetVisible(true);
 		}
 
 	}
@@ -1385,8 +1428,8 @@ void CLiveIn::CLiveInAddPacketResLOGIN00(CUUintEx & sUnitEx)
 	sUnitEx.nTextureArrSize = sizeof(m_chPacketRes_login_00);
 	sUnitEx.rcUnit.left = 70;
 	sUnitEx.rcUnit.right = 250;
-	sUnitEx.rcUnit.top = 320;
-	sUnitEx.rcUnit.bottom = 360;
+	sUnitEx.rcUnit.top = 360;
+	sUnitEx.rcUnit.bottom = 400;
 	sUnitEx.rcUnitTex.left = 0;
 	sUnitEx.rcUnitTex.right = 180;
 	sUnitEx.rcUnitTex.top = 0;
@@ -1428,6 +1471,47 @@ void CLiveIn::CLiveInAddPacketResLOGIN00(CUUintEx & sUnitEx)
 //----------------------------------------------
 void CLiveIn::CLiveInAddPacketResACCOUNT00(CUUintEx & sUnitEx)
 {
+	sUnitEx.nTextureWidth = 512;
+	sUnitEx.nTextureHeight = 512;
+	sUnitEx.nScreenWidth = USER_WINDOWWIDTH;
+	sUnitEx.nScreenHeight = USER_WINDOWHEIGHT;
+	sUnitEx.fUnitAlpha = 1.0f;
+	sUnitEx.pTextureArr = m_chPacketRes_account_00;
+	sUnitEx.nTextureArrSize = sizeof(m_chPacketRes_account_00);
+	sUnitEx.rcUnit.left = 120;
+	sUnitEx.rcUnit.right = 200;
+	sUnitEx.rcUnit.top = 200;
+	sUnitEx.rcUnit.bottom = 310;
+	sUnitEx.rcUnitTex.left = 0;
+	sUnitEx.rcUnitTex.right = 80;
+	sUnitEx.rcUnitTex.top = 0;
+	sUnitEx.rcUnitTex.bottom = 110;
+
+	//世界变换
+	sUnitEx.sCoordsTransformPara.sWorldTransformPara.sScalePara.fScaleX = 1.0f;
+	sUnitEx.sCoordsTransformPara.sWorldTransformPara.sScalePara.fScaleY = 1.0f;
+	sUnitEx.sCoordsTransformPara.sWorldTransformPara.sScalePara.fScaleZ = 1.0f;
+	sUnitEx.sCoordsTransformPara.sWorldTransformPara.sRotatePara.fRotateX = 0.0f;
+	sUnitEx.sCoordsTransformPara.sWorldTransformPara.sRotatePara.fRotateY = 0.0f;
+	sUnitEx.sCoordsTransformPara.sWorldTransformPara.sRotatePara.fRotateZ = 0.0f;
+	sUnitEx.sCoordsTransformPara.sWorldTransformPara.sTranslatePara.fTranslateX = 0.0f;
+	sUnitEx.sCoordsTransformPara.sWorldTransformPara.sTranslatePara.fTranslateY = 0.0f;
+	sUnitEx.sCoordsTransformPara.sWorldTransformPara.sTranslatePara.fTranslateZ = 0.0f;
+
+	//取景变换
+	sUnitEx.sCoordsTransformPara.sViewTransformPara.vAt = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	sUnitEx.sCoordsTransformPara.sViewTransformPara.vUp = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	sUnitEx.sCoordsTransformPara.sViewTransformPara.vEye = D3DXVECTOR3(0.0f, 0.0f, -(USER_WINDOWHEIGHT * 0.5f));
+
+	//投影变换
+	sUnitEx.sCoordsTransformPara.sPrespectiveTransformPara.fovy = D3DX_PI / 2.0f;
+	sUnitEx.sCoordsTransformPara.sPrespectiveTransformPara.fAspect = (float)(USER_WINDOWWIDTH * 1.0f / USER_WINDOWHEIGHT);
+	sUnitEx.sCoordsTransformPara.sPrespectiveTransformPara.fZn = 1.0f;
+	sUnitEx.sCoordsTransformPara.sPrespectiveTransformPara.fZf = (USER_WINDOWHEIGHT * 0.5f);
+
+	//视口变换
+	sUnitEx.sCoordsTransformPara.sViewPortTransformPara.nUserWidth = USER_WINDOWWIDTH;
+	sUnitEx.sCoordsTransformPara.sViewPortTransformPara.nUserHeight = USER_WINDOWHEIGHT;
 }
 
 //CDXSampleCore 控件事件回调函数 
