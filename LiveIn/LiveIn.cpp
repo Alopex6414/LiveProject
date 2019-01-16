@@ -34,6 +34,8 @@ CLiveIn::CLiveIn() :m_nIsUseLog(0), m_nIsShowAdapter(0), m_nIsShowFps(0), m_fTim
 	memset(m_chPacketRes_title_02, 0, sizeof(m_chPacketRes_title_02));
 	memset(m_chPacketRes_wait_00, 0, sizeof(m_chPacketRes_wait_00));
 	memset(m_chPacketRes_wait_01, 0, sizeof(m_chPacketRes_wait_01));
+	memset(m_chPacketRes_login_00, 0, sizeof(m_chPacketRes_login_00));
+	memset(m_chPacketRes_account_00, 0, sizeof(m_chPacketRes_account_00));
 }
 
 //----------------------------------------------

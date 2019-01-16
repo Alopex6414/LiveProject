@@ -48,6 +48,8 @@ private:
 	char m_chPacketRes_title_02[8192];				// CLiveIn 背景title_02资源(版权)
 	char m_chPacketRes_wait_00[4096];				// CLiveIn 背景wait_00资源(★★★★★)
 	char m_chPacketRes_wait_01[8192];				// CLiveIn 背景wait_01资源(请稍侯...)
+	char m_chPacketRes_login_00[8192];				// CLiveIn 按钮login_00资源(登录)
+	char m_chPacketRes_account_00[32768];			// CLiveIn 背景account_00资源(账户)
 
 protected:
 	void CLiveDrawAdapter();	// CLiveIn 绘制显卡信息
