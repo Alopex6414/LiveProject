@@ -68,6 +68,8 @@ protected:
 	void CLiveInAddPacketResWAIT00_2(CUUintEx& sUnitEx);		// CLiveIn 加载背景wait_00资源结构(★)
 	void CLiveInAddPacketResWAIT00_3(CUUintEx& sUnitEx);		// CLiveIn 加载背景wait_00资源结构(★)
 	void CLiveInAddPacketResWAIT00_4(CUUintEx& sUnitEx);		// CLiveIn 加载背景wait_00资源结构(★)
+	void CLiveInAddPacketResLOGIN00(CUUintEx& sUnitEx);			// CLiveIn 加载按钮login_00资源(登录)
+	void CLiveInAddPacketResACCOUNT00(CUUintEx& sUnitEx);		// CLiveIn 加载背景account_00资源(账户)
 
 public:
 	CLiveIn();					// CLiveIn 构造

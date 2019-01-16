@@ -188,6 +188,10 @@ BOOL CLiveIn::CLiveInInit()
 	CLiveInAddPacketResWAIT00_4(sUnitEx_wait_004);
 	m_pSakuraDialog->SetTextrueExRes(&sUnitEx_wait_004);
 
+	CUUintEx sUnitEx_login_00 = { 0 };
+	CLiveInAddPacketResLOGIN00(sUnitEx_login_00);
+	m_pSakuraDialog->SetTextrueExRes(&sUnitEx_login_00);
+
 	// SakuraControl 初始化
 	m_pSakuraDialog->AddUnit(SID_SAKURAUNIT_TITLE_00, 32, 64, 256, 64);
 	m_pSakuraDialog->AddUnit(SID_SAKURAUNIT_TITLE_01, 32, 128, 256, 32);
@@ -201,6 +205,7 @@ BOOL CLiveIn::CLiveInInit()
 	m_pSakuraDialog->AddUnit(SID_SAKURAUNIT_WAIT_003, 0, 250, 11, 11);
 	m_pSakuraDialog->AddUnit(SID_SAKURAUNIT_WAIT_004, 0, 250, 11, 11);
 	m_pSakuraDialog->AddUnit(SID_SAKURAUNIT_WAIT_005, 0, 250, 11, 11);
+	m_pSakuraDialog->AddButton(SID_SAKURABUTTON_LOGIN_00, NULL, 70, 320, 180, 40, 0U, true);
 
 	m_pSakuraDialog->AddTextureEx(SID_SAKURAUNIT_TITLE_00, SAKURA_CONTROL_UNIT, 0, SAKURA_STATE_NORMAL, 0);
 	m_pSakuraDialog->AddTextureEx(SID_SAKURAUNIT_TITLE_01, SAKURA_CONTROL_UNIT, 0, SAKURA_STATE_NORMAL, 1);
@@ -214,6 +219,7 @@ BOOL CLiveIn::CLiveInInit()
 	m_pSakuraDialog->AddTextureEx(SID_SAKURAUNIT_WAIT_003, SAKURA_CONTROL_UNIT, 0, SAKURA_STATE_NORMAL, 9);
 	m_pSakuraDialog->AddTextureEx(SID_SAKURAUNIT_WAIT_004, SAKURA_CONTROL_UNIT, 0, SAKURA_STATE_NORMAL, 10);
 	m_pSakuraDialog->AddTextureEx(SID_SAKURAUNIT_WAIT_005, SAKURA_CONTROL_UNIT, 0, SAKURA_STATE_NORMAL, 11);
+	m_pSakuraDialog->AddTextureEx(SID_SAKURABUTTON_LOGIN_00, SAKURA_CONTROL_BUTTON, 0, SAKURA_STATE_NORMAL, 12);
 
 	m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_011)->SetVisible(false);
 	m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_012)->SetVisible(false);
@@ -636,6 +642,12 @@ BOOL CLiveIn::CLiveInLoadPacketFile()
 
 	// 加载资源(wait_01.png)
 	packet.PlumUnPackOneFileStoreInMemoryA(chPacket, "wait_01.png", m_chPacketRes_wait_01, sizeof(m_chPacketRes_wait_01));
+
+	// 加载资源(login_00.png)
+	packet.PlumUnPackOneFileStoreInMemoryA(chPacket, "login_00.png", m_chPacketRes_login_00, sizeof(m_chPacketRes_login_00));
+
+	// 加载资源(account_00.png)
+	packet.PlumUnPackOneFileStoreInMemoryA(chPacket, "avatar_00.png", m_chPacketRes_account_00, sizeof(m_chPacketRes_account_00));
 
 	return TRUE;
 }
@@ -1353,6 +1365,69 @@ void CLiveIn::CLiveInAddPacketResWAIT00_4(CUUintEx & sUnitEx)
 	//视口变换
 	sUnitEx.sCoordsTransformPara.sViewPortTransformPara.nUserWidth = USER_WINDOWWIDTH;
 	sUnitEx.sCoordsTransformPara.sViewPortTransformPara.nUserHeight = USER_WINDOWHEIGHT;
+}
+
+//----------------------------------------------
+// @Function:	CLiveInAddPacketResLOGIN00()
+// @Purpose: CLiveIn加载按钮login_00资源(登录)
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CLiveIn::CLiveInAddPacketResLOGIN00(CUUintEx & sUnitEx)
+{
+	sUnitEx.nTextureWidth = 512;
+	sUnitEx.nTextureHeight = 512;
+	sUnitEx.nScreenWidth = USER_WINDOWWIDTH;
+	sUnitEx.nScreenHeight = USER_WINDOWHEIGHT;
+	sUnitEx.fUnitAlpha = 1.0f;
+	sUnitEx.pTextureArr = m_chPacketRes_login_00;
+	sUnitEx.nTextureArrSize = sizeof(m_chPacketRes_login_00);
+	sUnitEx.rcUnit.left = 70;
+	sUnitEx.rcUnit.right = 250;
+	sUnitEx.rcUnit.top = 320;
+	sUnitEx.rcUnit.bottom = 360;
+	sUnitEx.rcUnitTex.left = 0;
+	sUnitEx.rcUnitTex.right = 180;
+	sUnitEx.rcUnitTex.top = 0;
+	sUnitEx.rcUnitTex.bottom = 40;
+
+	//世界变换
+	sUnitEx.sCoordsTransformPara.sWorldTransformPara.sScalePara.fScaleX = 1.0f;
+	sUnitEx.sCoordsTransformPara.sWorldTransformPara.sScalePara.fScaleY = 1.0f;
+	sUnitEx.sCoordsTransformPara.sWorldTransformPara.sScalePara.fScaleZ = 1.0f;
+	sUnitEx.sCoordsTransformPara.sWorldTransformPara.sRotatePara.fRotateX = 0.0f;
+	sUnitEx.sCoordsTransformPara.sWorldTransformPara.sRotatePara.fRotateY = 0.0f;
+	sUnitEx.sCoordsTransformPara.sWorldTransformPara.sRotatePara.fRotateZ = 0.0f;
+	sUnitEx.sCoordsTransformPara.sWorldTransformPara.sTranslatePara.fTranslateX = 0.0f;
+	sUnitEx.sCoordsTransformPara.sWorldTransformPara.sTranslatePara.fTranslateY = 0.0f;
+	sUnitEx.sCoordsTransformPara.sWorldTransformPara.sTranslatePara.fTranslateZ = 0.0f;
+
+	//取景变换
+	sUnitEx.sCoordsTransformPara.sViewTransformPara.vAt = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	sUnitEx.sCoordsTransformPara.sViewTransformPara.vUp = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	sUnitEx.sCoordsTransformPara.sViewTransformPara.vEye = D3DXVECTOR3(0.0f, 0.0f, -(USER_WINDOWHEIGHT * 0.5f));
+
+	//投影变换
+	sUnitEx.sCoordsTransformPara.sPrespectiveTransformPara.fovy = D3DX_PI / 2.0f;
+	sUnitEx.sCoordsTransformPara.sPrespectiveTransformPara.fAspect = (float)(USER_WINDOWWIDTH * 1.0f / USER_WINDOWHEIGHT);
+	sUnitEx.sCoordsTransformPara.sPrespectiveTransformPara.fZn = 1.0f;
+	sUnitEx.sCoordsTransformPara.sPrespectiveTransformPara.fZf = (USER_WINDOWHEIGHT * 0.5f);
+
+	//视口变换
+	sUnitEx.sCoordsTransformPara.sViewPortTransformPara.nUserWidth = USER_WINDOWWIDTH;
+	sUnitEx.sCoordsTransformPara.sViewPortTransformPara.nUserHeight = USER_WINDOWHEIGHT;
+}
+
+//----------------------------------------------
+// @Function:	CLiveInAddPacketResACCOUNT00()
+// @Purpose: CLiveIn加载背景account_00资源(账户)
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CLiveIn::CLiveInAddPacketResACCOUNT00(CUUintEx & sUnitEx)
+{
 }
 
 //CDXSampleCore 控件事件回调函数 
