@@ -311,8 +311,8 @@ void CLiveIn::CLiveInUpdate()
 			hr2 = m_pCerasusfpsMain->CCerasusfpsReset();
 			hr2 = m_pDirectGraphics3DMain->DirectGraphics3DReset();
 			m_pSakuraDialog->OnLost();
-			hr2 = m_pDirectGraphicsMain->DirectGraphicsReset();
 			m_pDirectSprite->DirectSpriteReset();
+			hr2 = m_pDirectGraphicsMain->DirectGraphicsReset();
 
 			// ÖØÖÃÉè±¸
 			m_pSakuraDialog->OnReset();
