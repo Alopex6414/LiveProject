@@ -27,6 +27,7 @@ class CLiveIn
 private:
 	DirectGraphics * m_pDirectGraphicsMain;			// DirectX 渲染类实例
 	DirectGraphics3D * m_pDirectGraphics3DMain;		// DirectX 渲染类实例(3D)
+	DirectSprite* m_pDirectSprite;					// DirectX 渲染粒子
 
 private:
 	CCerasusfps * m_pCerasusfpsMain;				// DirectX fps实例
