@@ -27,14 +27,14 @@ class CLiveIn
 private:
 	DirectGraphics * m_pDirectGraphicsMain;			// DirectX 渲染类实例
 	DirectGraphics3D * m_pDirectGraphics3DMain;		// DirectX 渲染类实例(3D)
-	DirectSprite* m_pDirectSprite;					// DirectX 渲染粒子
+	DirectSprite * m_pDirectSprite;					// DirectX 渲染粒子
 
 private:
 	CCerasusfps * m_pCerasusfpsMain;				// DirectX fps实例
 
 public:
 	CSakuraResourceManager * m_pResourceManager;	// Sakura 资源管理器
-	CSakuraDialog* m_pSakuraDialog;					// Sakura 窗口
+	CSakuraDialog * m_pSakuraDialog;				// Sakura 窗口
 
 private:
 	int m_nIsUseLog;			// CLiveIn 是否启用日志文件记录
@@ -51,6 +51,7 @@ private:
 	char m_chPacketRes_wait_01[8192];				// CLiveIn 背景wait_01资源(请稍侯...)
 	char m_chPacketRes_login_00[8192];				// CLiveIn 按钮login_00资源(登录)
 	char m_chPacketRes_account_00[32768];			// CLiveIn 背景account_00资源(账户)
+	char m_chPacketRes_sprite_00[4096];				// CLiveIn 粒子sprite_00资源(粒子)
 
 protected:
 	void CLiveDrawAdapter();	// CLiveIn 绘制显卡信息

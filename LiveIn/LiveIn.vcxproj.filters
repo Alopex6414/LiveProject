@@ -521,6 +521,9 @@
     <ClInclude Include="LiveInres.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="LiveIntype.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LiveIn.rc">

@@ -289,6 +289,7 @@
     <ClInclude Include="LiveIn.h" />
     <ClInclude Include="LiveInlog.h" />
     <ClInclude Include="LiveInres.h" />
+    <ClInclude Include="LiveIntype.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="WinMain.h" />
     <ClInclude Include="WinProcess.h" />

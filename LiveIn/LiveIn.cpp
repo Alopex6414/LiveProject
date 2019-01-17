@@ -37,6 +37,7 @@ CLiveIn::CLiveIn() :m_nIsUseLog(0), m_nIsShowAdapter(0), m_nIsShowFps(0), m_fTim
 	memset(m_chPacketRes_wait_01, 0, sizeof(m_chPacketRes_wait_01));
 	memset(m_chPacketRes_login_00, 0, sizeof(m_chPacketRes_login_00));
 	memset(m_chPacketRes_account_00, 0, sizeof(m_chPacketRes_account_00));
+	memset(m_chPacketRes_sprite_00, 0, sizeof(m_chPacketRes_sprite_00));
 }
 
 //----------------------------------------------
@@ -126,6 +127,17 @@ BOOL CLiveIn::CLiveInInit()
 
 	// CLiveIn 加载资源文件
 	CLiveInLoadPacketFile();
+
+	// DirectSprite 初始化
+	m_pDirectSprite = new DirectSprite(pD3D9Device);
+	hr = m_pDirectSprite->DirectSpriteInit(m_chPacketRes_sprite_00, sizeof(m_chPacketRes_sprite_00), 32, 32);
+	if (FAILED(hr))
+	{
+		if (m_nIsUseLog != 0) CLiveInLog::LiveInLogExWriteLine(__FILE__, __LINE__, "DirectSprite初始化失败!返回值hr=%l.", hr);
+		MessageBox(g_hWnd, _T("DirectSprite初始化失败!"), _T("错误"), MB_OK | MB_ICONERROR);
+		return FALSE;
+	}
+	if (m_nIsUseLog != 0) CLiveInLog::LiveInLogExWriteLine(__FILE__, __LINE__, "DirectSprite初始化成功!");
 
 	// SakuraResourceManager 初始化
 	m_pResourceManager = new CSakuraResourceManager();
@@ -694,6 +706,9 @@ BOOL CLiveIn::CLiveInLoadPacketFile()
 
 	// 加载资源(account_00.png)
 	packet.PlumUnPackOneFileStoreInMemoryA(chPacket, "avatar_00.png", m_chPacketRes_account_00, sizeof(m_chPacketRes_account_00));
+	
+	// 加载资源(sprite_00.png)
+	packet.PlumUnPackOneFileStoreInMemoryA(chPacket, "sprite_00.png", m_chPacketRes_sprite_00, sizeof(m_chPacketRes_sprite_00));
 
 	return TRUE;
 }
