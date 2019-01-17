@@ -20,7 +20,7 @@
 // @Para: None
 // @Return: None
 //----------------------------------------------
-CLiveIn::CLiveIn() :m_nIsUseLog(0), m_nIsShowAdapter(0), m_nIsShowFps(0), m_fTimeSum(0.0f)
+CLiveIn::CLiveIn() :m_nIsUseLog(0), m_nIsShowAdapter(0), m_nIsShowFps(0), m_nSpriteNum(0), m_fTimeSum(0.0f), m_bSpriteRender(false)
 {
 	m_pDirectGraphicsMain = NULL;
 	m_pDirectGraphics3DMain = NULL;
@@ -28,6 +28,12 @@ CLiveIn::CLiveIn() :m_nIsUseLog(0), m_nIsShowAdapter(0), m_nIsShowFps(0), m_fTim
 	m_pCerasusfpsMain = NULL;
 	m_pResourceManager = NULL;
 	m_pSakuraDialog = NULL;
+
+	m_nStarPosX = 0;
+	m_nStarPosY = 0;
+	m_nStarWidth = 0;
+	m_nStarHeight = 0;
+	m_vecStarArray.clear();
 
 	memset(m_chPacketRes_bk_00, 0, sizeof(m_chPacketRes_bk_00));
 	memset(m_chPacketRes_title_00, 0, sizeof(m_chPacketRes_title_00));
@@ -138,6 +144,9 @@ BOOL CLiveIn::CLiveInInit()
 		return FALSE;
 	}
 	if (m_nIsUseLog != 0) CLiveInLog::LiveInLogExWriteLine(__FILE__, __LINE__, "DirectSprite初始化成功!");
+
+	CLiveInSetSpriteArea(0, 0, 320, 480);
+	CLiveInInitSprite();
 
 	// SakuraResourceManager 初始化
 	m_pResourceManager = new CSakuraResourceManager();
@@ -303,10 +312,12 @@ void CLiveIn::CLiveInUpdate()
 			hr2 = m_pDirectGraphics3DMain->DirectGraphics3DReset();
 			m_pSakuraDialog->OnLost();
 			hr2 = m_pDirectGraphicsMain->DirectGraphicsReset();
+			m_pDirectSprite->DirectSpriteReset();
 
 			// 重置设备
 			m_pSakuraDialog->OnReset();
 			hr2 = m_pDirectGraphics3DMain->DirectGraphics3DInitVertex3DBase(6);
+			hr2 = m_pDirectSprite->DirectSpriteInit(m_chPacketRes_sprite_00, sizeof(m_chPacketRes_sprite_00), 32, 32);
 		}
 
 	}
@@ -346,6 +357,11 @@ void CLiveIn::CLiveInRender()
 	m_pDirectGraphics3DMain->DirectGraphics3DRenderStateAlphaDisable();			// Alpha混合关闭
 
 	m_pSakuraDialog->OnRender();	// 绘制Sakura
+
+	if (m_bSpriteRender)			// 渲染粒子系统
+	{
+		CLiveInRenderSprite();
+	}
 
 	if (m_nIsShowAdapter != 0)
 	{
@@ -604,7 +620,7 @@ void CLiveIn::CLiveInStartUpdate(float fDeltaTime)
 		}
 
 	}
-	else
+	else if(fTimeSum < 15.0f)
 	{
 		// 设置请等待字样不可见
 		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_010)->SetVisible(false);
@@ -632,6 +648,14 @@ void CLiveIn::CLiveInStartUpdate(float fDeltaTime)
 			m_pSakuraDialog->GetButton(SID_SAKURABUTTON_LOGIN_00)->SetVisible(true);
 		}
 
+	}
+	else
+	{
+		// 渲染粒子开始
+		m_bSpriteRender = true;
+
+		// 刷新渲染粒子
+		CLiveInUpdateSprite();
 	}
 
 }
@@ -662,6 +686,7 @@ BOOL CLiveIn::CLiveInReadConfigFile()
 	lua->ConvallariaLua_GetGlobal_Int("LiveIn_Use_Log", m_nIsUseLog);					// 获取是否日志记录
 	lua->ConvallariaLua_GetGlobal_Int("LiveIn_Show_Adapter", m_nIsShowAdapter);			// 获取是否显示显卡
 	lua->ConvallariaLua_GetGlobal_Int("LiveIn_Show_Fps", m_nIsShowFps);					// 获取是否显示fps
+	lua->ConvallariaLua_GetGlobal_Int("LiveIn_Sprite_Num", m_nSpriteNum);				// 获取粒子系统数量
 
 	SAFE_DELETE(lua);
 	return TRUE;
@@ -711,6 +736,140 @@ BOOL CLiveIn::CLiveInLoadPacketFile()
 	packet.PlumUnPackOneFileStoreInMemoryA(chPacket, "sprite_00.png", m_chPacketRes_sprite_00, sizeof(m_chPacketRes_sprite_00));
 
 	return TRUE;
+}
+
+//----------------------------------------------
+// @Function:	CLiveInSetSpriteArea()
+// @Purpose: CLiveIn设置粒子出现区域
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CLiveIn::CLiveInSetSpriteArea(int nX, int nY, int nWidth, int nHeight)
+{
+	m_nStarPosX = nX;
+	m_nStarPosY = nY;
+	m_nStarWidth = nWidth;
+	m_nStarHeight = nHeight;
+}
+
+//----------------------------------------------
+// @Function:	CLiveInInitSprite()
+// @Purpose: CLiveIn初始化粒子系统
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CLiveIn::CLiveInInitSprite()
+{
+	// 初始化随机数种子
+	srand(GetTickCount());
+
+	// 初始化粒子系统--粒子状态
+	for (int i = 0; i < m_nSpriteNum; ++i)
+	{
+		TLIVEINSTAR tStar = { 0 };
+
+		tStar.fAlpha = (float)(0.5f + ((rand() % 101) * 1.0f / 200.0f));																		// 粒子Alpha: (0.5f~1.0f)
+		tStar.fFallSpeed = (float)(m_nStarHeight * 1.0f / 5.0f + ((rand() % 100) * 1.0f / 200.0f) * m_nStarHeight);								// 粒子下落速度
+		tStar.fMoveSpeed = (float)(((rand() % 100) * 1.0f / 500.0f) * m_nStarWidth);															// 粒子移动速度
+		tStar.fRotateSpeed = (float)(D3DX_PI * 1.0f / 5.0f + ((rand() % 100) * 1.0f / 200.0f) * D3DX_PI);										// 粒子旋转速度
+		tStar.nMoveDirect = rand() % 2;																											// 粒子移动方向: (0~左 1~右)
+		tStar.nRotateDirect = rand() % 2;																										// 粒子旋转方向: (0~左 1~右)
+		tStar.sTransformPara.sTranslatePara.fTranslateX = (float)(m_nStarPosX + m_nStarWidth * 0.1f + (rand() % m_nStarWidth) * 0.9f);			// 粒子X坐标: (x~x+width)
+		tStar.sTransformPara.sTranslatePara.fTranslateY = (float)(m_nStarPosY + rand() % m_nStarHeight - m_nStarHeight);						// 粒子Y左边: (y~y+height)
+		tStar.sTransformPara.sScalePara.fScaleX = (float)(0.2f + ((rand() % 80) * 1.0f / 100.0f));												// 粒子拉伸变换系数: (0.2f~1.0f)
+		tStar.sTransformPara.sScalePara.fScaleY = tStar.sTransformPara.sScalePara.fScaleX;														// 粒子拉伸变换系数: (0.2f~1.0f)
+		tStar.sTransformPara.sRotatePara.fRotateZ = (float)(((rand() % 100) * 1.0f / 600.0f) * D3DX_PI);										// 粒子旋转变换系数: (Arc:0~Pi/6)
+
+		m_vecStarArray.push_back(tStar);
+	}
+
+}
+
+//----------------------------------------------
+// @Function:	CLiveInUpdateSprite()
+// @Purpose: CLiveIn刷新粒子
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CLiveIn::CLiveInUpdateSprite()
+{
+	for (auto iter = m_vecStarArray.begin(); iter != m_vecStarArray.end(); ++iter)
+	{
+		iter->sTransformPara.sTranslatePara.fTranslateY += iter->fFallSpeed * 0.0167f;
+
+		if (iter->sTransformPara.sTranslatePara.fTranslateY > m_nStarHeight * 1.0f
+			|| iter->sTransformPara.sTranslatePara.fTranslateX < m_nStarWidth * 0.0f
+			|| iter->sTransformPara.sTranslatePara.fTranslateX > m_nStarWidth * 1.0f)
+		{
+			iter->fAlpha = (float)(0.5f + ((rand() % 101) * 1.0f / 200.0f));																		// 粒子Alpha: (0.5f~1.0f)
+			iter->fFallSpeed = (float)(m_nStarHeight * 1.0f / 5.0f + ((rand() % 100) * 1.0f / 200.0f) * m_nStarHeight);								// 粒子下落速度
+			iter->fMoveSpeed = (float)(((rand() % 100) * 1.0f / 500.0f) * m_nStarWidth);															// 粒子移动速度
+			iter->fRotateSpeed = (float)(D3DX_PI * 1.0f / 5.0f + ((rand() % 100) * 1.0f / 200.0f) * D3DX_PI);										// 粒子旋转速度
+			iter->nMoveDirect = rand() % 2;																											// 粒子移动方向: (0~左 1~右)
+			iter->nRotateDirect = rand() % 2;																										// 粒子旋转方向: (0~左 1~右)
+			iter->sTransformPara.sTranslatePara.fTranslateX = (float)(m_nStarPosX + m_nStarWidth * 0.1f + (rand() % m_nStarWidth) * 0.9f);			// 粒子X坐标: (x~x+width)
+			iter->sTransformPara.sTranslatePara.fTranslateY = (float)(m_nStarPosY + rand() % m_nStarHeight - m_nStarHeight);						// 粒子Y左边: (y~y+height)
+			iter->sTransformPara.sScalePara.fScaleX = (float)(0.2f + ((rand() % 80) * 1.0f / 100.0f));												// 粒子拉伸变换系数: (0.2f~1.0f)
+			iter->sTransformPara.sScalePara.fScaleY = iter->sTransformPara.sScalePara.fScaleX;														// 粒子拉伸变换系数: (0.2f~1.0f)
+			iter->sTransformPara.sRotatePara.fRotateZ = (float)(((rand() % 100) * 1.0f / 600.0f) * D3DX_PI);										// 粒子旋转变换系数: (Arc:0~Pi/6)
+		}
+
+		if (iter->sTransformPara.sTranslatePara.fTranslateY > m_nStarHeight * 0.8f)
+		{
+			iter->fAlpha -= 0.05f;
+			if (iter->fAlpha <= 0.5f)
+			{
+				iter->fAlpha = 0.5f;
+			}
+		}
+
+		if (iter->nMoveDirect == 0)
+		{
+			iter->sTransformPara.sTranslatePara.fTranslateX += iter->fMoveSpeed * 0.0167f;
+		}
+		else
+		{
+			iter->sTransformPara.sTranslatePara.fTranslateX -= iter->fMoveSpeed * 0.0167f;
+		}
+
+		if (iter->nRotateDirect == 0)
+		{
+			iter->sTransformPara.sRotatePara.fRotateZ += iter->fRotateSpeed * 0.0167f;
+		}
+		else
+		{
+			iter->sTransformPara.sRotatePara.fRotateZ -= iter->fRotateSpeed * 0.0167f;
+		}
+
+	}
+
+}
+
+//----------------------------------------------
+// @Function:	CLiveInUpdateSprite()
+// @Purpose: CLiveIn渲染粒子
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CLiveIn::CLiveInRenderSprite()
+{
+	m_pDirectSprite->DirectSpriteBegin();
+
+	for(auto iter = m_vecStarArray.begin(); iter != m_vecStarArray.end(); ++iter)
+	{
+		DirectSpriteDrawPara sDrawPara = { 0 };
+		SetRect(&sDrawPara.SpriteRect, 0, 0, 21, 20);
+		sDrawPara.SpriteCenter = D3DXVECTOR3(10.0f, 11.0f, 0.0f);
+		sDrawPara.SpritePosition = D3DXVECTOR3(iter->sTransformPara.sTranslatePara.fTranslateX, iter->sTransformPara.sTranslatePara.fTranslateY, 0.0f);
+		sDrawPara.SpriteColor = D3DXCOLOR(1.0f, 1.0f, 1.0f, iter->fAlpha);
+		m_pDirectSprite->DirectSpriteDrawTransform(&sDrawPara, iter->sTransformPara, iter->sTransformPara.sTranslatePara.fTranslateY, m_nStarPosY);
+	}
+
+	m_pDirectSprite->DirectSpriteEnd();
 }
 
 //----------------------------------------------

@@ -20,6 +20,7 @@
 // Include LiveIn Header File
 #include "LiveInlog.h"
 #include "LiveInres.h"
+#include "LiveIntype.h"
 
 // Class Definition
 class CLiveIn
@@ -40,8 +41,10 @@ private:
 	int m_nIsUseLog;			// CLiveIn 是否启用日志文件记录
 	int m_nIsShowAdapter;		// CLiveIn 是否显示显卡型号
 	int m_nIsShowFps;			// CLiveIn 是否显示Fps
+	int m_nSpriteNum;			// CLiveIn 粒子星数量
 
 	float m_fTimeSum;			// CLiveIn 程式运行时间累积
+	bool m_bSpriteRender;		// CLiveIn 粒子星渲染状态
 
 	char m_chPacketRes_bk_00[8192];					// CLiveIn 背景bk_00资源(灰色背景)
 	char m_chPacketRes_title_00[8192];				// CLiveIn 背景title_00资源(LiveProject)
@@ -52,6 +55,14 @@ private:
 	char m_chPacketRes_login_00[8192];				// CLiveIn 按钮login_00资源(登录)
 	char m_chPacketRes_account_00[32768];			// CLiveIn 背景account_00资源(账户)
 	char m_chPacketRes_sprite_00[4096];				// CLiveIn 粒子sprite_00资源(粒子)
+
+private:
+	int m_nStarPosX;			// CLiveIn 粒子坐标--X
+	int m_nStarPosY;			// CLiveIn 粒子坐标--Y
+	int m_nStarWidth;			// CLiveIn 粒子区域--宽度
+	int m_nStarHeight;			// CLiveIn 粒子区域--高度
+
+	vector<TLIVEINSTAR>	m_vecStarArray;				// CLiveIn 粒子数组向量
 
 protected:
 	void CLiveDrawAdapter();	// CLiveIn 绘制显卡信息
@@ -88,6 +99,12 @@ public:
 protected:
 	BOOL CLiveInReadConfigFile();	// CLiveIn 读取配置文件
 	BOOL CLiveInLoadPacketFile();	// CLiveIn 加载封包文件
+
+	void CLiveInSetSpriteArea(int nX, int nY, int nWidth, int nHeight);		// CLiveIn 设置粒子出现区域
+	void CLiveInInitSprite();												// CLiveIn 初始化粒子系统
+
+	void CLiveInUpdateSprite();		// CLiveIn 刷新粒子
+	void CLiveInRenderSprite();		// CLiveIn 渲染粒子
 
 };
 
