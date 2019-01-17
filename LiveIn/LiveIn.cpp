@@ -24,6 +24,7 @@ CLiveIn::CLiveIn() :m_nIsUseLog(0), m_nIsShowAdapter(0), m_nIsShowFps(0), m_fTim
 {
 	m_pDirectGraphicsMain = NULL;
 	m_pDirectGraphics3DMain = NULL;
+	m_pDirectSprite = NULL;
 	m_pCerasusfpsMain = NULL;
 	m_pResourceManager = NULL;
 	m_pSakuraDialog = NULL;
@@ -50,6 +51,7 @@ CLiveIn::~CLiveIn()
 	SAFE_DELETE(m_pSakuraDialog);
 	SAFE_DELETE(m_pResourceManager);
 	SAFE_DELETE(m_pCerasusfpsMain);
+	SAFE_DELETE(m_pDirectSprite);
 	SAFE_DELETE(m_pDirectGraphics3DMain);
 	SAFE_DELETE(m_pDirectGraphicsMain);
 }
@@ -252,6 +254,7 @@ void CLiveIn::CLiveInRelease()
 	SAFE_DELETE(m_pSakuraDialog);
 	SAFE_DELETE(m_pResourceManager);
 	SAFE_DELETE(m_pCerasusfpsMain);
+	SAFE_DELETE(m_pDirectSprite);
 	SAFE_DELETE(m_pDirectGraphics3DMain);
 	SAFE_DELETE(m_pDirectGraphicsMain);
 
