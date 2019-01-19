@@ -1694,5 +1694,37 @@ void CLiveIn::CLiveInAddPacketResACCOUNT00(CUUintEx & sUnitEx)
 //CDXSampleCore 控件事件回调函数 
 void __stdcall CLiveInSakuraGUIEvent(UINT nEvent, int nControlID, CSakuraControl * pControl, void * pUserContext)
 {
+	switch (nEvent)
+	{
+	case EVENT_BUTTON_CLICKED:
+		{
+			if (nControlID == SID_SAKURABUTTON_LOGIN_00)
+			{
+				::PostMessageA(g_hWnd, WM_CLOSE, (WPARAM)0, (LPARAM)0);
+			}
+
+		}
+		break;
+	case EVENT_COMBOBOX_SELECTION_CHANGED:
+		break;
+	case EVENT_RADIOBUTTON_CHANGED:
+		break;
+	case EVENT_CHECKBOX_CHANGED:
+		break;
+	case EVENT_SLIDER_VALUE_CHANGED:
+		break;
+	case EVENT_EDITBOX_STRING:
+		break;
+	case EVENT_EDITBOX_CHANGE:
+		break;
+	case EVENT_LISTBOX_ITEM_DBLCLK:
+		break;
+	case EVENT_LISTBOX_SELECTION:
+		break;
+	case EVENT_LISTBOX_SELECTION_END:
+		break;
+	default:
+		break;
+	}
 
 }
