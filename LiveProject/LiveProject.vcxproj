@@ -29,14 +29,14 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -69,13 +69,21 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(SolutionDir)Cerasus\Inc;$(SolutionDir)Prunus\Inc;$(SolutionDir)Convallaria\Inc;$(SolutionDir)DirectX\Inc;$(SolutionDir)Lua\Inc;$(SolutionDir)DuiLib\DuiLib;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Cerasus\Lib;$(SolutionDir)Prunus\Lib;$(SolutionDir)Convallaria\Lib;$(SolutionDir)DirectX\Lib\x86;$(SolutionDir)Lua\Lib;$(SolutionDir)DuiLib\Lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(SolutionDir)Cerasus\Inc;$(SolutionDir)Prunus\Inc;$(SolutionDir)Convallaria\Inc;$(SolutionDir)DirectX\Inc;$(SolutionDir)Lua\Inc;$(SolutionDir)DuiLib\DuiLib;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Cerasus\Lib;$(SolutionDir)Prunus\Lib;$(SolutionDir)Convallaria\Lib;$(SolutionDir)DirectX\Lib\x86;$(SolutionDir)Lua\Lib;$(SolutionDir)DuiLib\Lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -94,6 +102,11 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -115,10 +128,179 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Cerasus\Inc\CerasusAlgorithm.h" />
+    <ClInclude Include="..\Cerasus\Inc\Cerasusfps.h" />
+    <ClInclude Include="..\Cerasus\Inc\CerasusUnit.h" />
+    <ClInclude Include="..\Cerasus\Inc\DirectCommon.h" />
+    <ClInclude Include="..\Cerasus\Inc\DirectFont.h" />
+    <ClInclude Include="..\Cerasus\Inc\DirectGraphics.h" />
+    <ClInclude Include="..\Cerasus\Inc\DirectGraphics2D.h" />
+    <ClInclude Include="..\Cerasus\Inc\DirectGraphics3D.h" />
+    <ClInclude Include="..\Cerasus\Inc\DirectInput.h" />
+    <ClInclude Include="..\Cerasus\Inc\DirectMesh.h" />
+    <ClInclude Include="..\Cerasus\Inc\DirectSafe.h" />
+    <ClInclude Include="..\Cerasus\Inc\DirectShow.h" />
+    <ClInclude Include="..\Cerasus\Inc\DirectSound.h" />
+    <ClInclude Include="..\Cerasus\Inc\DirectSprite.h" />
+    <ClInclude Include="..\Cerasus\Inc\DirectSurface.h" />
+    <ClInclude Include="..\Cerasus\Inc\DirectTexture.h" />
+    <ClInclude Include="..\Cerasus\Inc\DirectThreadSafe.h" />
+    <ClInclude Include="..\Cerasus\Inc\SakuraBlend.h" />
+    <ClInclude Include="..\Cerasus\Inc\SakuraButton.h" />
+    <ClInclude Include="..\Cerasus\Inc\SakuraCheckBox.h" />
+    <ClInclude Include="..\Cerasus\Inc\SakuraComboBox.h" />
+    <ClInclude Include="..\Cerasus\Inc\SakuraControl.h" />
+    <ClInclude Include="..\Cerasus\Inc\SakuraDialog.h" />
+    <ClInclude Include="..\Cerasus\Inc\SakuraEditBox.h" />
+    <ClInclude Include="..\Cerasus\Inc\SakuraElement.h" />
+    <ClInclude Include="..\Cerasus\Inc\SakuraListBox.h" />
+    <ClInclude Include="..\Cerasus\Inc\SakuraRadioButton.h" />
+    <ClInclude Include="..\Cerasus\Inc\SakuraResource.h" />
+    <ClInclude Include="..\Cerasus\Inc\SakuraResourceManager.h" />
+    <ClInclude Include="..\Cerasus\Inc\SakuraScrollBar.h" />
+    <ClInclude Include="..\Cerasus\Inc\SakuraSlider.h" />
+    <ClInclude Include="..\Cerasus\Inc\SakuraStatic.h" />
+    <ClInclude Include="..\Cerasus\Inc\SakuraUICommon.h" />
+    <ClInclude Include="..\Cerasus\Inc\SakuraUnit.h" />
+    <ClInclude Include="..\Convallaria\Inc\ConvallariaLua.h" />
+    <ClInclude Include="..\Convallaria\Inc\ConvallariaLuaMsg.h" />
+    <ClInclude Include="..\Convallaria\Inc\ConvallariaLuaType.h" />
+    <ClInclude Include="..\DirectX\Inc\audiodefs.h" />
+    <ClInclude Include="..\DirectX\Inc\comdecl.h" />
+    <ClInclude Include="..\DirectX\Inc\D2D1.h" />
+    <ClInclude Include="..\DirectX\Inc\D2D1Helper.h" />
+    <ClInclude Include="..\DirectX\Inc\D2DBaseTypes.h" />
+    <ClInclude Include="..\DirectX\Inc\D2Derr.h" />
+    <ClInclude Include="..\DirectX\Inc\D3D10.h" />
+    <ClInclude Include="..\DirectX\Inc\D3D10effect.h" />
+    <ClInclude Include="..\DirectX\Inc\d3d10misc.h" />
+    <ClInclude Include="..\DirectX\Inc\d3d10sdklayers.h" />
+    <ClInclude Include="..\DirectX\Inc\D3D10shader.h" />
+    <ClInclude Include="..\DirectX\Inc\D3D10_1.h" />
+    <ClInclude Include="..\DirectX\Inc\D3D10_1shader.h" />
+    <ClInclude Include="..\DirectX\Inc\D3D11.h" />
+    <ClInclude Include="..\DirectX\Inc\D3D11SDKLayers.h" />
+    <ClInclude Include="..\DirectX\Inc\D3D11Shader.h" />
+    <ClInclude Include="..\DirectX\Inc\d3d9.h" />
+    <ClInclude Include="..\DirectX\Inc\d3d9caps.h" />
+    <ClInclude Include="..\DirectX\Inc\d3d9types.h" />
+    <ClInclude Include="..\DirectX\Inc\D3Dcommon.h" />
+    <ClInclude Include="..\DirectX\Inc\D3Dcompiler.h" />
+    <ClInclude Include="..\DirectX\Inc\D3DCSX.h" />
+    <ClInclude Include="..\DirectX\Inc\D3DX10.h" />
+    <ClInclude Include="..\DirectX\Inc\d3dx10async.h" />
+    <ClInclude Include="..\DirectX\Inc\D3DX10core.h" />
+    <ClInclude Include="..\DirectX\Inc\D3DX10math.h" />
+    <ClInclude Include="..\DirectX\Inc\D3DX10mesh.h" />
+    <ClInclude Include="..\DirectX\Inc\D3DX10tex.h" />
+    <ClInclude Include="..\DirectX\Inc\D3DX11.h" />
+    <ClInclude Include="..\DirectX\Inc\D3DX11async.h" />
+    <ClInclude Include="..\DirectX\Inc\D3DX11core.h" />
+    <ClInclude Include="..\DirectX\Inc\D3DX11tex.h" />
+    <ClInclude Include="..\DirectX\Inc\d3dx9.h" />
+    <ClInclude Include="..\DirectX\Inc\d3dx9anim.h" />
+    <ClInclude Include="..\DirectX\Inc\d3dx9core.h" />
+    <ClInclude Include="..\DirectX\Inc\d3dx9effect.h" />
+    <ClInclude Include="..\DirectX\Inc\d3dx9math.h" />
+    <ClInclude Include="..\DirectX\Inc\d3dx9mesh.h" />
+    <ClInclude Include="..\DirectX\Inc\d3dx9shader.h" />
+    <ClInclude Include="..\DirectX\Inc\d3dx9shape.h" />
+    <ClInclude Include="..\DirectX\Inc\d3dx9tex.h" />
+    <ClInclude Include="..\DirectX\Inc\d3dx9xof.h" />
+    <ClInclude Include="..\DirectX\Inc\Dcommon.h" />
+    <ClInclude Include="..\DirectX\Inc\dinput.h" />
+    <ClInclude Include="..\DirectX\Inc\dinputd.h" />
+    <ClInclude Include="..\DirectX\Inc\dsconf.h" />
+    <ClInclude Include="..\DirectX\Inc\dsetup.h" />
+    <ClInclude Include="..\DirectX\Inc\dsound.h" />
+    <ClInclude Include="..\DirectX\Inc\DWrite.h" />
+    <ClInclude Include="..\DirectX\Inc\dxdiag.h" />
+    <ClInclude Include="..\DirectX\Inc\DxErr.h" />
+    <ClInclude Include="..\DirectX\Inc\dxfile.h" />
+    <ClInclude Include="..\DirectX\Inc\DXGI.h" />
+    <ClInclude Include="..\DirectX\Inc\DXGIFormat.h" />
+    <ClInclude Include="..\DirectX\Inc\DXGIType.h" />
+    <ClInclude Include="..\DirectX\Inc\dxsdkver.h" />
+    <ClInclude Include="..\DirectX\Inc\gameux.h" />
+    <ClInclude Include="..\DirectX\Inc\PIXPlugin.h" />
+    <ClInclude Include="..\DirectX\Inc\rmxfguid.h" />
+    <ClInclude Include="..\DirectX\Inc\rmxftmpl.h" />
+    <ClInclude Include="..\DirectX\Inc\rpcsal.h" />
+    <ClInclude Include="..\DirectX\Inc\X3DAudio.h" />
+    <ClInclude Include="..\DirectX\Inc\xact3.h" />
+    <ClInclude Include="..\DirectX\Inc\xact3d3.h" />
+    <ClInclude Include="..\DirectX\Inc\xact3wb.h" />
+    <ClInclude Include="..\DirectX\Inc\XAPO.h" />
+    <ClInclude Include="..\DirectX\Inc\XAPOBase.h" />
+    <ClInclude Include="..\DirectX\Inc\XAPOFX.h" />
+    <ClInclude Include="..\DirectX\Inc\XAudio2.h" />
+    <ClInclude Include="..\DirectX\Inc\XAudio2fx.h" />
+    <ClInclude Include="..\DirectX\Inc\XDSP.h" />
+    <ClInclude Include="..\DirectX\Inc\XInput.h" />
+    <ClInclude Include="..\DirectX\Inc\xma2defs.h" />
+    <ClInclude Include="..\DirectX\Inc\xnamath.h" />
+    <ClInclude Include="..\Lua\Inc\lapi.h" />
+    <ClInclude Include="..\Lua\Inc\lauxlib.h" />
+    <ClInclude Include="..\Lua\Inc\lcode.h" />
+    <ClInclude Include="..\Lua\Inc\lctype.h" />
+    <ClInclude Include="..\Lua\Inc\ldebug.h" />
+    <ClInclude Include="..\Lua\Inc\ldo.h" />
+    <ClInclude Include="..\Lua\Inc\lfunc.h" />
+    <ClInclude Include="..\Lua\Inc\lgc.h" />
+    <ClInclude Include="..\Lua\Inc\llex.h" />
+    <ClInclude Include="..\Lua\Inc\llimits.h" />
+    <ClInclude Include="..\Lua\Inc\lmem.h" />
+    <ClInclude Include="..\Lua\Inc\lobject.h" />
+    <ClInclude Include="..\Lua\Inc\lopcodes.h" />
+    <ClInclude Include="..\Lua\Inc\lparser.h" />
+    <ClInclude Include="..\Lua\Inc\lprefix.h" />
+    <ClInclude Include="..\Lua\Inc\lstate.h" />
+    <ClInclude Include="..\Lua\Inc\lstring.h" />
+    <ClInclude Include="..\Lua\Inc\ltable.h" />
+    <ClInclude Include="..\Lua\Inc\ltm.h" />
+    <ClInclude Include="..\Lua\Inc\lua.h" />
+    <ClInclude Include="..\Lua\Inc\lua.hpp" />
+    <ClInclude Include="..\Lua\Inc\luaconf.h" />
+    <ClInclude Include="..\Lua\Inc\lualib.h" />
+    <ClInclude Include="..\Lua\Inc\lundump.h" />
+    <ClInclude Include="..\Lua\Inc\lvm.h" />
+    <ClInclude Include="..\Lua\Inc\lzio.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumCat.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumCipherA.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumCommon.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumConsole.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumCrypt.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumFile.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumGraphics.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumIni.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumLog.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumLogEx.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumPack.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumPath.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumProcess.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumThread.h" />
+    <ClInclude Include="Common.h" />
+    <ClInclude Include="CommonWnd.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="WinMain.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LiveProject.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="WinMain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\DirectX\Inc\D3DX10math.inl" />
+    <None Include="..\DirectX\Inc\d3dx9math.inl" />
+    <None Include="..\DirectX\Inc\D3DX_DXGIFormatConvert.inl" />
+    <None Include="..\DirectX\Inc\xnamathconvert.inl" />
+    <None Include="..\DirectX\Inc\xnamathmatrix.inl" />
+    <None Include="..\DirectX\Inc\xnamathmisc.inl" />
+    <None Include="..\DirectX\Inc\xnamathvector.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resource\Icon\LiveIn.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
