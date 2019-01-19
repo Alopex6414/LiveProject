@@ -25,6 +25,7 @@ CLiveIn::CLiveIn() :m_nIsUseLog(0), m_nIsShowAdapter(0), m_nIsShowFps(0), m_nSpr
 	m_pDirectGraphicsMain = NULL;
 	m_pDirectGraphics3DMain = NULL;
 	m_pDirectSprite = NULL;
+	m_pDirectInput = NULL;
 	m_pCerasusfpsMain = NULL;
 	m_pResourceManager = NULL;
 	m_pSakuraDialog = NULL;
@@ -58,6 +59,7 @@ CLiveIn::~CLiveIn()
 	SAFE_DELETE(m_pSakuraDialog);
 	SAFE_DELETE(m_pResourceManager);
 	SAFE_DELETE(m_pCerasusfpsMain);
+	SAFE_DELETE(m_pDirectInput);
 	SAFE_DELETE(m_pDirectSprite);
 	SAFE_DELETE(m_pDirectGraphics3DMain);
 	SAFE_DELETE(m_pDirectGraphicsMain);
@@ -119,6 +121,17 @@ BOOL CLiveIn::CLiveInInit()
 		return FALSE;
 	}
 	if (m_nIsUseLog != 0) CLiveInLog::LiveInLogExWriteLine(__FILE__, __LINE__, "DirectGraphics3D初始化成功!");
+
+	// DirectInput 初始化
+	m_pDirectInput = new DirectInput();
+	hr = m_pDirectInput->DirectInputInit(g_hWnd, g_hInstance, DirectInputDevice_KeyBoard, DirectInputCoopFlags_ForeGround_Exclusive);
+	if (FAILED(hr))
+	{
+		if (m_nIsUseLog != 0) CLiveInLog::LiveInLogExWriteLine(__FILE__, __LINE__, "DirectInput初始化失败!返回值hr=%l.", hr);
+		MessageBox(g_hWnd, _T("DirectInput初始化失败!"), _T("错误"), MB_OK | MB_ICONERROR);
+		return FALSE;
+	}
+	if (m_nIsUseLog != 0) CLiveInLog::LiveInLogExWriteLine(__FILE__, __LINE__, "DirectInput初始化成功!");
 
 	// Cerasusfps 初始化
 	m_pCerasusfpsMain = new CCerasusfps(pD3D9Device);
@@ -275,6 +288,7 @@ void CLiveIn::CLiveInRelease()
 	SAFE_DELETE(m_pSakuraDialog);
 	SAFE_DELETE(m_pResourceManager);
 	SAFE_DELETE(m_pCerasusfpsMain);
+	SAFE_DELETE(m_pDirectInput);
 	SAFE_DELETE(m_pDirectSprite);
 	SAFE_DELETE(m_pDirectGraphics3DMain);
 	SAFE_DELETE(m_pDirectGraphicsMain);
@@ -656,6 +670,77 @@ void CLiveIn::CLiveInStartUpdate(float fDeltaTime)
 
 		// 刷新渲染粒子
 		CLiveInUpdateSprite();
+
+		// 小彩蛋...
+		m_pDirectInput->DirectInputGetDeviceState(DirectInputDevice_KeyBoard);
+		
+		if (m_pDirectInput->DIKeyBoardIsDown(DIK_LEFT))		// 方向键左键"←"按下
+		{
+			// Surface向左旋转...
+			m_pSakuraDialog->GetDialogGraphics()->CCerasusUnitGetRotateZ() += D3DX_PI * 0.01f;
+
+			for (auto iter = m_pSakuraDialog->GetControls().begin(); iter != m_pSakuraDialog->GetControls().end(); ++iter)
+			{
+				(*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetRotateZ() += D3DX_PI * 0.01f;
+			}
+
+		}
+		if (m_pDirectInput->DIKeyBoardIsDown(DIK_RIGHT))	// 方向键右键"→"按下
+		{
+			// Surface向右旋转...
+			m_pSakuraDialog->GetDialogGraphics()->CCerasusUnitGetRotateZ() -= D3DX_PI * 0.01f;
+
+			for (auto iter = m_pSakuraDialog->GetControls().begin(); iter != m_pSakuraDialog->GetControls().end(); ++iter)
+			{
+				(*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetRotateZ() -= D3DX_PI * 0.01f;
+			}
+
+		}
+		if (m_pDirectInput->DIKeyBoardIsDown(DIK_UP))		// 方向键上键"↑"按下
+		{
+			// Surface远离屏幕...
+			m_pSakuraDialog->GetDialogGraphics()->CCerasusUnitGetTranslateZ() += 0.2f;
+			if (m_pSakuraDialog->GetDialogGraphics()->CCerasusUnitGetTranslateZ() >= 0.0f)	// 不要离开摄像机视野
+			{
+				m_pSakuraDialog->GetDialogGraphics()->CCerasusUnitGetTranslateZ() = 0.0f;
+			}
+
+			for (auto iter = m_pSakuraDialog->GetControls().begin(); iter != m_pSakuraDialog->GetControls().end(); ++iter)
+			{
+				(*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateZ() += 0.2f;
+				if ((*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateZ() >= 0.0f)	// 不要离开摄像机视野
+				{
+					(*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateZ() = 0.0f;
+				}
+			}
+
+		}
+		if (m_pDirectInput->DIKeyBoardIsDown(DIK_DOWN))		// 方向键下键"↓"按下
+		{
+			// Surface靠近屏幕...
+			m_pSakuraDialog->GetDialogGraphics()->CCerasusUnitGetTranslateZ() -= 0.2f;
+
+			for (auto iter = m_pSakuraDialog->GetControls().begin(); iter != m_pSakuraDialog->GetControls().end(); ++iter)
+			{
+				(*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateZ() -= 0.2f;
+			}
+
+		}
+		if (m_pDirectInput->DIKeyBoardIsDown(DIK_SPACE))		// 空格键Space按下
+		{
+			// Surface恢复正常...
+			m_pSakuraDialog->GetDialogGraphics()->CCerasusUnitGetRotateZ() = 0.0f;
+			m_pSakuraDialog->GetDialogGraphics()->CCerasusUnitGetTranslateZ() = 0.0f;
+
+			for (auto iter = m_pSakuraDialog->GetControls().begin(); iter != m_pSakuraDialog->GetControls().end(); ++iter)
+			{
+				(*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetRotateZ() = 0.0f;
+				(*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateZ() = 0.0f;
+			}
+
+		}
+
+
 	}
 
 }

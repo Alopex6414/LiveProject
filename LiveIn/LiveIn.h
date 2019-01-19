@@ -31,6 +31,9 @@ private:
 	DirectSprite * m_pDirectSprite;					// DirectX 渲染粒子
 
 private:
+	DirectInput * m_pDirectInput;					// DirectX Keyboard键盘输入控制
+
+private:
 	CCerasusfps * m_pCerasusfpsMain;				// DirectX fps实例
 
 public:
