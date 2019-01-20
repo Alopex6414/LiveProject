@@ -43,12 +43,23 @@ public:
 	LRESULT OnSysCommand(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 
 public:
-	void ConstructExtra();
-	void InitControls();
+	CButtonUI * m_pCloseBtn;
+	CButtonUI * m_pRestoreBtn;
+	CButtonUI * m_pMaxBtn;
+	CButtonUI * m_pMinBtn;
 
+public:
+	void ConstructExtra();			// LiveProject 构造函数extra
+	void InitControls();			// LiveProject 初始化控件
 
 public:
 
+
+public:
+	void OnLButtonClickedMinBtn();
+	void OnLButtonClickedMaxBtn();
+	void OnLButtonClickedRestoreBtn();
+	void OnLButtonClickedCloseBtn();
 
 };
 

@@ -46,6 +46,27 @@ UINT CFrameMain::GetClassStyle() const
 //----------------------------------------------
 void CFrameMain::Notify(TNotifyUI & msg)
 {
+	if (msg.sType == _T("click"))
+	{
+		if (msg.pSender == m_pCloseBtn)
+		{
+			OnLButtonClickedCloseBtn();
+		}
+		else if (msg.pSender == m_pRestoreBtn)
+		{
+			OnLButtonClickedRestoreBtn();
+		}
+		else if (msg.pSender == m_pMaxBtn)
+		{
+			OnLButtonClickedMaxBtn();
+		}
+		else if (msg.pSender == m_pMinBtn)
+		{
+			OnLButtonClickedMinBtn();
+		}
+
+	}
+
 }
 
 //----------------------------------------------
@@ -91,6 +112,9 @@ LRESULT CFrameMain::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_GETMINMAXINFO:
 		lRes = OnGetMinMaxInfo(uMsg, wParam, lParam, bHandled);
+		break;
+	case WM_SYSCOMMAND:
+		lRes = OnSysCommand(uMsg, wParam, lParam, bHandled);
 		break;
 	/*case WM_USER_MSG_ADDITEM_SEEKPACKET:
 		lRes = OnAddPacketSeekList(uMsg, wParam, lParam, bHandled);
@@ -150,7 +174,8 @@ LRESULT CFrameMain::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHa
 //----------------------------------------------
 LRESULT CFrameMain::OnLButtonDown(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled)
 {
-	return LRESULT();
+	bHandled = FALSE;
+	return 0;
 }
 
 //----------------------------------------------
@@ -162,7 +187,8 @@ LRESULT CFrameMain::OnLButtonDown(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL 
 //----------------------------------------------
 LRESULT CFrameMain::OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled)
 {
-	return LRESULT();
+	bHandled = FALSE;
+	return 0;
 }
 
 //----------------------------------------------
@@ -378,4 +404,58 @@ void CFrameMain::ConstructExtra()
 //----------------------------------------------
 void CFrameMain::InitControls()
 {
+	// menu buttons
+	m_pCloseBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("closebtn")));
+	m_pRestoreBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("restorebtn")));
+	m_pMaxBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("maxbtn")));
+	m_pMinBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("minbtn")));
+
+}
+
+//----------------------------------------------
+// @Function:	OnLButtonClickedMinBtn()
+// @Purpose: CFrameMain鼠标左键单击最小化按钮
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::OnLButtonClickedMinBtn()
+{
+	SendMessage(WM_SYSCOMMAND, SC_MINIMIZE, 0);
+}
+
+//----------------------------------------------
+// @Function:	OnLButtonClickedMaxBtn()
+// @Purpose: CFrameMain鼠标左键单击最大化按钮
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::OnLButtonClickedMaxBtn()
+{
+	SendMessage(WM_SYSCOMMAND, SC_MAXIMIZE, 0);
+}
+
+//----------------------------------------------
+// @Function:	OnLButtonClickedRestoreBtn()
+// @Purpose: CFrameMain鼠标左键单击还原按钮
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::OnLButtonClickedRestoreBtn()
+{
+	SendMessage(WM_SYSCOMMAND, SC_RESTORE, 0);
+}
+
+//----------------------------------------------
+// @Function:	OnLButtonClickedCloseBtn()
+// @Purpose: CFrameMain鼠标左键单击关闭按钮
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::OnLButtonClickedCloseBtn()
+{
+	::PostMessageA(this->GetHWND(), WM_CLOSE, (WPARAM)0, (LPARAM)0);
 }
