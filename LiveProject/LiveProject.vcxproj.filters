@@ -495,6 +495,9 @@
     <ClInclude Include="CommonWnd.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="frameMain.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LiveProject.rc">
@@ -503,6 +506,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="frameMain.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
