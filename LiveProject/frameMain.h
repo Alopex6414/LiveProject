@@ -52,6 +52,8 @@ public:
 	COptionUI * m_pLiveVideoOpt;
 	COptionUI * m_pLiveAudioOpt;
 	COptionUI * m_pLiveAlbumOpt;
+	COptionUI * m_pLiveShotOpt;
+	COptionUI * m_pLiveAIOpt;
 
 public:
 	void ConstructExtra();			// LiveProject ¹¹Ôìº¯Êýextra
