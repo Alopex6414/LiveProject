@@ -48,6 +48,11 @@ public:
 	CButtonUI * m_pMaxBtn;
 	CButtonUI * m_pMinBtn;
 
+	COptionUI * m_pLiveWallpaperOpt;
+	COptionUI * m_pLiveVideoOpt;
+	COptionUI * m_pLiveAudioOpt;
+	COptionUI * m_pLiveAlbumOpt;
+
 public:
 	void ConstructExtra();			// LiveProject 构造函数extra
 	void InitControls();			// LiveProject 初始化控件
