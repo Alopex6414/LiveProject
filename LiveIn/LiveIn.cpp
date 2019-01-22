@@ -1785,6 +1785,7 @@ void __stdcall CLiveInSakuraGUIEvent(UINT nEvent, int nControlID, CSakuraControl
 		{
 			if (nControlID == SID_SAKURABUTTON_LOGIN_00)
 			{
+				CPlumProcess::PlumProcessStartProcessExA("LiveProject.exe");
 				::PostMessageA(g_hWnd, WM_CLOSE, (WPARAM)0, (LPARAM)0);
 			}
 
