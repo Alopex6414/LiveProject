@@ -418,6 +418,7 @@ void CFrameMain::InitControls()
 	m_pLiveShotOpt = static_cast<COptionUI*>(m_PaintManager.FindControl(_T("liveshotopt")));
 	m_pLiveAIOpt = static_cast<COptionUI*>(m_PaintManager.FindControl(_T("liveaiopt")));
 
+
 }
 
 //----------------------------------------------
