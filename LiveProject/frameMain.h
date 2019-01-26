@@ -43,10 +43,12 @@ public:
 	LRESULT OnSysCommand(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 
 public:
-	CButtonUI * m_pCloseBtn;
-	CButtonUI * m_pRestoreBtn;
-	CButtonUI * m_pMaxBtn;
-	CButtonUI * m_pMinBtn;
+	CButtonUI * m_pCloseBtn;		// LiveProject 关闭按钮
+	CButtonUI * m_pRestoreBtn;		// LiveProject 还原按钮
+	CButtonUI * m_pMaxBtn;			// LiveProject 最大化按钮
+	CButtonUI * m_pMinBtn;			// LiveProject 最小化按钮
+	CButtonUI * m_pOverBtn;			// LiveProject 置顶按钮
+	CButtonUI * m_pCancelOverBtn;	// LiveProject 取消置顶按钮
 
 	COptionUI * m_pLiveWallpaperOpt;
 	COptionUI * m_pLiveVideoOpt;
@@ -63,10 +65,10 @@ public:
 
 
 public:
-	void OnLButtonClickedMinBtn();
-	void OnLButtonClickedMaxBtn();
-	void OnLButtonClickedRestoreBtn();
-	void OnLButtonClickedCloseBtn();
+	void OnLButtonClickedMinBtn();					// LiveProject 单击最小化按钮事件响应
+	void OnLButtonClickedMaxBtn();					// LiveProject 单击最大化按钮事件响应
+	void OnLButtonClickedRestoreBtn();				// LiveProject 单击还原按钮事件响应
+	void OnLButtonClickedCloseBtn();				// LiveProject 单击关闭按钮事件响应
 
 };
 
