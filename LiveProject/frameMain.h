@@ -50,15 +50,15 @@ public:
 	CButtonUI * m_pOverBtn;			// LiveProject 置顶按钮
 	CButtonUI * m_pCancelOverBtn;	// LiveProject 取消置顶按钮
 
-	COptionUI * m_pLiveWallpaperOpt;
-	COptionUI * m_pLiveVideoOpt;
-	COptionUI * m_pLiveAudioOpt;
-	COptionUI * m_pLiveAlbumOpt;
-	COptionUI * m_pLiveShotOpt;
-	COptionUI * m_pLiveAIOpt;
+	COptionUI * m_pLiveWallpaperOpt;		// LiveProject LiveWallpaper选项卡
+	COptionUI * m_pLiveVideoOpt;			// LiveProject LiveVideo选项卡
+	COptionUI * m_pLiveAudioOpt;			// LiveProject LiveAudio选项卡
+	COptionUI * m_pLiveAlbumOpt;			// LiveProject LiveAlbum选项卡
+	COptionUI * m_pLiveShotOpt;				// LiveProject LiveShot选项卡
+	COptionUI * m_pLiveAIOpt;				// LiveProject LiveAI选项卡
 
 public:
-	void ConstructExtra();			// LiveProject 构造函数extra
+	void ConstructExtra();			// LiveProject 构造函数(extra)
 	void InitControls();			// LiveProject 初始化控件
 
 public:
