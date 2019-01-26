@@ -284,6 +284,7 @@
     <ClInclude Include="frameAI.h" />
     <ClInclude Include="frameAlbum.h" />
     <ClInclude Include="frameAudio.h" />
+    <ClInclude Include="frameCallbackEx.h" />
     <ClInclude Include="frameHome.h" />
     <ClInclude Include="frameMain.h" />
     <ClInclude Include="frameShot.h" />
@@ -300,6 +301,7 @@
     <ClCompile Include="frameAI.cpp" />
     <ClCompile Include="frameAlbum.cpp" />
     <ClCompile Include="frameAudio.cpp" />
+    <ClCompile Include="frameCallbackEx.cpp" />
     <ClCompile Include="frameHome.cpp" />
     <ClCompile Include="frameMain.cpp" />
     <ClCompile Include="frameShot.cpp" />

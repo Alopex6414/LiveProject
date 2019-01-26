@@ -522,6 +522,9 @@
     <ClInclude Include="frameAI.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="frameCallbackEx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LiveProject.rc">
@@ -557,6 +560,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="frameAI.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="frameCallbackEx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
