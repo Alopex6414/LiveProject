@@ -498,6 +498,30 @@
     <ClInclude Include="frameMain.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="frameSpace.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="frameHome.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="frameWallpaper.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="frameVideo.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="frameAudio.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="frameAlbum.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="frameShot.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="frameAI.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LiveProject.rc">
