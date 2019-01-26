@@ -87,7 +87,16 @@
 
 //Include Frame Window Header File
 #include "CommonWnd.h"
+#include "frameCallbackEx.h"
 #include "frameMain.h"
+#include "frameSpace.h"
+#include "frameHome.h"
+#include "frameWallpaper.h"
+#include "frameVideo.h"
+#include "frameAudio.h"
+#include "frameAlbum.h"
+#include "frameShot.h"
+#include "frameAI.h"
 
 // Include Convallaria(Script) Library Header File
 #include "ConvallariaLua.h"
