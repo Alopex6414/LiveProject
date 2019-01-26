@@ -13,44 +13,44 @@
 
 CControlUI * CDialogBuilderCallbackEx::CreateControl(LPCTSTR pstrClass)
 {
-	if (_tcscmp(pstrClass, _T("FrameWndSigleFile")) == 0)
+	if (_tcscmp(pstrClass, _T("frameSpace")) == 0)
 	{
-		return new CFrameWndSingleFileUI();
+		return new CFrameSpaceUI();
 	}
 
-	if (_tcscmp(pstrClass, _T("FrameWndMultiFile")) == 0)
+	if (_tcscmp(pstrClass, _T("frameHome")) == 0)
 	{
-		return new CFrameWndMultipleFileUI();
+		return new CFrameHomeUI();
 	}
 
-	if (_tcscmp(pstrClass, _T("FrameWndTextFile")) == 0)
+	if (_tcscmp(pstrClass, _T("frameWallpaper")) == 0)
 	{
-		return new CFrameWndTextFileUI();
+		return new CFrameWallpaperUI();
 	}
 
-	if (_tcscmp(pstrClass, _T("FrameWndAppsFile")) == 0)
+	if (_tcscmp(pstrClass, _T("frameVideo")) == 0)
 	{
-		return new CFrameWndAppsFileUI();
+		return new CFrameVideoUI();
 	}
 
-	if (_tcscmp(pstrClass, _T("FrameWndCipherConfig")) == 0)
+	if (_tcscmp(pstrClass, _T("frameAudio")) == 0)
 	{
-		return new CFrameWndCipherConfigUI();
+		return new CFrameAudioUI();
 	}
 
-	if (_tcscmp(pstrClass, _T("FrameWndCipherInfo")) == 0)
+	if (_tcscmp(pstrClass, _T("frameAlbum")) == 0)
 	{
-		return new CFrameWndCipherInfoUI();
+		return new CFrameAlbumUI();
 	}
 
-	if (_tcscmp(pstrClass, _T("FrameWndMoreInfo")) == 0)
+	if (_tcscmp(pstrClass, _T("frameShot")) == 0)
 	{
-		return new CFrameWndMoreInfoUI();
+		return new CFrameShotUI();
 	}
 
-	if (_tcscmp(pstrClass, _T("FrameWndAboutInfo")) == 0)
+	if (_tcscmp(pstrClass, _T("frameAI")) == 0)
 	{
-		return new CFrameWndAboutInfoUI();
+		return new CFrameAIUI();
 	}
 
 	return nullptr;
