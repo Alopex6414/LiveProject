@@ -65,6 +65,8 @@ public:
 
 
 public:
+	void OnLButtonClickedOverBtn();					// LiveProject 单击置顶按钮事件响应
+	void OnLButtonClickedCancelOverBtn();			// LiveProject 单击取消置顶按钮事件响应
 	void OnLButtonClickedMinBtn();					// LiveProject 单击最小化按钮事件响应
 	void OnLButtonClickedMaxBtn();					// LiveProject 单击最大化按钮事件响应
 	void OnLButtonClickedRestoreBtn();				// LiveProject 单击还原按钮事件响应

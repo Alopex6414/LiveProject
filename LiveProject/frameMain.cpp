@@ -64,6 +64,14 @@ void CFrameMain::Notify(TNotifyUI & msg)
 		{
 			OnLButtonClickedMinBtn();
 		}
+		else if (msg.pSender == m_pOverBtn)
+		{
+			OnLButtonClickedOverBtn();
+		}
+		else if (msg.pSender == m_pCancelOverBtn)
+		{
+			OnLButtonClickedCancelOverBtn();
+		}
 
 	}
 
@@ -420,6 +428,36 @@ void CFrameMain::InitControls()
 	m_pLiveShotOpt = static_cast<COptionUI*>(m_PaintManager.FindControl(_T("liveshotopt")));
 	m_pLiveAIOpt = static_cast<COptionUI*>(m_PaintManager.FindControl(_T("liveaiopt")));
 
+}
+
+//----------------------------------------------
+// @Function:	OnLButtonClickedOverBtn()
+// @Purpose: CFrameMainÊó±ê×ó¼üµ¥»÷ÖÃ¶¥°´Å¥
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::OnLButtonClickedOverBtn()
+{
+	::SetWindowPos(this->GetHWND(), HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+
+	m_pOverBtn->SetVisible(false);
+	m_pCancelOverBtn->SetVisible(true);
+}
+
+//----------------------------------------------
+// @Function:	OnLButtonClickedCancelOverBtn()
+// @Purpose: CFrameMainÊó±ê×ó¼üµ¥»÷È¡ÏûÖÃ¶¥°´Å¥
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::OnLButtonClickedCancelOverBtn()
+{
+	::SetWindowPos(this->GetHWND(), HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+
+	m_pOverBtn->SetVisible(true);
+	m_pCancelOverBtn->SetVisible(false);
 }
 
 //----------------------------------------------
