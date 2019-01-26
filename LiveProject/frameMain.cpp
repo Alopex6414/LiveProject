@@ -10,6 +10,7 @@
 * @version	v1.00a
 * @date		2019-01-20
 */
+#include "Common.h"
 
 // CFrameMainÀà(LiveProjectÖ÷´°¿Ú)
 
@@ -71,6 +72,38 @@ void CFrameMain::Notify(TNotifyUI & msg)
 		else if (msg.pSender == m_pCancelOverBtn)
 		{
 			OnLButtonClickedCancelOverBtn();
+		}
+
+	}
+	else if (msg.sType == _T("selectchanged"))
+	{
+		if (msg.pSender == m_pLiveHomeOpt)
+		{
+			m_pLiveMainTab->SelectItem(1);
+		}
+		else if (msg.pSender == m_pLiveWallpaperOpt)
+		{
+			m_pLiveMainTab->SelectItem(2);
+		}
+		else if (msg.pSender == m_pLiveVideoOpt)
+		{
+			m_pLiveMainTab->SelectItem(3);
+		}
+		else if (msg.pSender == m_pLiveAudioOpt)
+		{
+			m_pLiveMainTab->SelectItem(4);
+		}
+		else if (msg.pSender == m_pLiveAlbumOpt)
+		{
+			m_pLiveMainTab->SelectItem(5);
+		}
+		else if (msg.pSender == m_pLiveShotOpt)
+		{
+			m_pLiveMainTab->SelectItem(6);
+		}
+		else if (msg.pSender == m_pLiveAIOpt)
+		{
+			m_pLiveMainTab->SelectItem(7);
 		}
 
 	}
@@ -160,8 +193,8 @@ LRESULT CFrameMain::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHa
 	m_PaintManager.Init(m_hWnd);
 
 	CDialogBuilder builder;
-	//CDialogBuilderCallbackEx cb;
-	CControlUI* pRoot = builder.Create(_T("frame\\frameMain.xml"), (UINT)0, NULL, &m_PaintManager);
+	CDialogBuilderCallbackEx cb;
+	CControlUI* pRoot = builder.Create(_T("frame\\frameMain.xml"), (UINT)0, &cb, &m_PaintManager);
 	ASSERT(pRoot && "Failed to parse XML");
 
 	m_PaintManager.AttachDialog(pRoot);
@@ -421,6 +454,8 @@ void CFrameMain::InitControls()
 	m_pCancelOverBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("canceloverbtn")));
 
 	// menu options
+	m_pLiveMainTab = static_cast<CTabLayoutUI*>(m_PaintManager.FindControl(_T("maintab")));
+	m_pLiveHomeOpt = static_cast<COptionUI*>(m_PaintManager.FindControl(_T("livehomeopt")));
 	m_pLiveWallpaperOpt = static_cast<COptionUI*>(m_PaintManager.FindControl(_T("livewallopt")));
 	m_pLiveVideoOpt = static_cast<COptionUI*>(m_PaintManager.FindControl(_T("livevideoopt")));
 	m_pLiveAudioOpt = static_cast<COptionUI*>(m_PaintManager.FindControl(_T("liveaudioopt")));
