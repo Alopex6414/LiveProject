@@ -535,6 +535,30 @@
     <ClCompile Include="frameMain.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="frameSpace.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="frameHome.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="frameWallpaper.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="frameVideo.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="frameAudio.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="frameAlbum.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="frameShot.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="frameAI.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\DirectX\Inc\D3DX_DXGIFormatConvert.inl">

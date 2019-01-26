@@ -297,7 +297,15 @@
     <ResourceCompile Include="LiveProject.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="frameAI.cpp" />
+    <ClCompile Include="frameAlbum.cpp" />
+    <ClCompile Include="frameAudio.cpp" />
+    <ClCompile Include="frameHome.cpp" />
     <ClCompile Include="frameMain.cpp" />
+    <ClCompile Include="frameShot.cpp" />
+    <ClCompile Include="frameSpace.cpp" />
+    <ClCompile Include="frameVideo.cpp" />
+    <ClCompile Include="frameWallpaper.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
