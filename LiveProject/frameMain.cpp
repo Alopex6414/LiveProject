@@ -82,39 +82,144 @@ void CFrameMain::Notify(TNotifyUI & msg)
 			m_pLiveMainTab->SelectItem(1);
 
 			m_pLiveHomeCtr->SetVisible(true);
+			m_pLiveWallpaperCtr->SetVisible(false);
+			m_pLiveVideoCtr->SetVisible(false);
+			m_pLiveAudioCtr->SetVisible(false);
+			m_pLiveAlbumCtr->SetVisible(false);
+			m_pLiveShotCtr->SetVisible(false);
+			m_pLiveAICtr->SetVisible(false);
+			m_pLiveSettingsCtr->SetVisible(false);
+			m_pLiveAboutCtr->SetVisible(false);
+
 			m_pSplitLineVtl->SetVisible(true);
 		}
 		else if (msg.pSender == m_pLiveWallpaperOpt)
 		{
 			m_pLiveMainTab->SelectItem(2);
+
+			m_pLiveHomeCtr->SetVisible(false);
+			m_pLiveWallpaperCtr->SetVisible(true);
+			m_pLiveVideoCtr->SetVisible(false);
+			m_pLiveAudioCtr->SetVisible(false);
+			m_pLiveAlbumCtr->SetVisible(false);
+			m_pLiveShotCtr->SetVisible(false);
+			m_pLiveAICtr->SetVisible(false);
+			m_pLiveSettingsCtr->SetVisible(false);
+			m_pLiveAboutCtr->SetVisible(false);
+
+			m_pSplitLineVtl->SetVisible(true);
 		}
 		else if (msg.pSender == m_pLiveVideoOpt)
 		{
 			m_pLiveMainTab->SelectItem(3);
+
+			m_pLiveHomeCtr->SetVisible(false);
+			m_pLiveWallpaperCtr->SetVisible(false);
+			m_pLiveVideoCtr->SetVisible(true);
+			m_pLiveAudioCtr->SetVisible(false);
+			m_pLiveAlbumCtr->SetVisible(false);
+			m_pLiveShotCtr->SetVisible(false);
+			m_pLiveAICtr->SetVisible(false);
+			m_pLiveSettingsCtr->SetVisible(false);
+			m_pLiveAboutCtr->SetVisible(false);
+
+			m_pSplitLineVtl->SetVisible(true);
 		}
 		else if (msg.pSender == m_pLiveAudioOpt)
 		{
 			m_pLiveMainTab->SelectItem(4);
+
+			m_pLiveHomeCtr->SetVisible(false);
+			m_pLiveWallpaperCtr->SetVisible(false);
+			m_pLiveVideoCtr->SetVisible(false);
+			m_pLiveAudioCtr->SetVisible(true);
+			m_pLiveAlbumCtr->SetVisible(false);
+			m_pLiveShotCtr->SetVisible(false);
+			m_pLiveAICtr->SetVisible(false);
+			m_pLiveSettingsCtr->SetVisible(false);
+			m_pLiveAboutCtr->SetVisible(false);
+
+			m_pSplitLineVtl->SetVisible(true);
 		}
 		else if (msg.pSender == m_pLiveAlbumOpt)
 		{
 			m_pLiveMainTab->SelectItem(5);
+
+			m_pLiveHomeCtr->SetVisible(false);
+			m_pLiveWallpaperCtr->SetVisible(false);
+			m_pLiveVideoCtr->SetVisible(false);
+			m_pLiveAudioCtr->SetVisible(false);
+			m_pLiveAlbumCtr->SetVisible(true);
+			m_pLiveShotCtr->SetVisible(false);
+			m_pLiveAICtr->SetVisible(false);
+			m_pLiveSettingsCtr->SetVisible(false);
+			m_pLiveAboutCtr->SetVisible(false);
+
+			m_pSplitLineVtl->SetVisible(true);
 		}
 		else if (msg.pSender == m_pLiveShotOpt)
 		{
 			m_pLiveMainTab->SelectItem(6);
+
+			m_pLiveHomeCtr->SetVisible(false);
+			m_pLiveWallpaperCtr->SetVisible(false);
+			m_pLiveVideoCtr->SetVisible(false);
+			m_pLiveAudioCtr->SetVisible(false);
+			m_pLiveAlbumCtr->SetVisible(false);
+			m_pLiveShotCtr->SetVisible(true);
+			m_pLiveAICtr->SetVisible(false);
+			m_pLiveSettingsCtr->SetVisible(false);
+			m_pLiveAboutCtr->SetVisible(false);
+
+			m_pSplitLineVtl->SetVisible(true);
 		}
 		else if (msg.pSender == m_pLiveAIOpt)
 		{
 			m_pLiveMainTab->SelectItem(7);
+
+			m_pLiveHomeCtr->SetVisible(false);
+			m_pLiveWallpaperCtr->SetVisible(false);
+			m_pLiveVideoCtr->SetVisible(false);
+			m_pLiveAudioCtr->SetVisible(false);
+			m_pLiveAlbumCtr->SetVisible(false);
+			m_pLiveShotCtr->SetVisible(false);
+			m_pLiveAICtr->SetVisible(true);
+			m_pLiveSettingsCtr->SetVisible(false);
+			m_pLiveAboutCtr->SetVisible(false);
+
+			m_pSplitLineVtl->SetVisible(true);
 		}
 		else if (msg.pSender == m_pSettingsOpt)
 		{
 			m_pLiveMainTab->SelectItem(8);
+
+			m_pLiveHomeCtr->SetVisible(false);
+			m_pLiveWallpaperCtr->SetVisible(false);
+			m_pLiveVideoCtr->SetVisible(false);
+			m_pLiveAudioCtr->SetVisible(false);
+			m_pLiveAlbumCtr->SetVisible(false);
+			m_pLiveShotCtr->SetVisible(false);
+			m_pLiveAICtr->SetVisible(false);
+			m_pLiveSettingsCtr->SetVisible(true);
+			m_pLiveAboutCtr->SetVisible(false);
+
+			m_pSplitLineVtl->SetVisible(true);
 		}
 		else if (msg.pSender == m_pAboutOpt)
 		{
 			m_pLiveMainTab->SelectItem(9);
+
+			m_pLiveHomeCtr->SetVisible(false);
+			m_pLiveWallpaperCtr->SetVisible(false);
+			m_pLiveVideoCtr->SetVisible(false);
+			m_pLiveAudioCtr->SetVisible(false);
+			m_pLiveAlbumCtr->SetVisible(false);
+			m_pLiveShotCtr->SetVisible(false);
+			m_pLiveAICtr->SetVisible(false);
+			m_pLiveSettingsCtr->SetVisible(false);
+			m_pLiveAboutCtr->SetVisible(true);
+
+			m_pSplitLineVtl->SetVisible(true);
 		}
 
 	}
@@ -472,6 +577,14 @@ void CFrameMain::InitControls()
 
 	// info titles
 	m_pLiveHomeCtr = static_cast<CContainerUI*>(m_PaintManager.FindControl(_T("livehometitle")));
+	m_pLiveWallpaperCtr = static_cast<CContainerUI*>(m_PaintManager.FindControl(_T("livewallpapertitle")));
+	m_pLiveVideoCtr = static_cast<CContainerUI*>(m_PaintManager.FindControl(_T("livevideotitle")));
+	m_pLiveAudioCtr = static_cast<CContainerUI*>(m_PaintManager.FindControl(_T("liveaudiotitle")));
+	m_pLiveAlbumCtr = static_cast<CContainerUI*>(m_PaintManager.FindControl(_T("livealbumtitle")));
+	m_pLiveShotCtr = static_cast<CContainerUI*>(m_PaintManager.FindControl(_T("liveshottitle")));
+	m_pLiveAICtr = static_cast<CContainerUI*>(m_PaintManager.FindControl(_T("liveaititle")));
+	m_pLiveSettingsCtr = static_cast<CContainerUI*>(m_PaintManager.FindControl(_T("livesettingstitle")));
+	m_pLiveAboutCtr = static_cast<CContainerUI*>(m_PaintManager.FindControl(_T("liveabouttitle")));
 
 	m_pSplitLineVtl = static_cast<CVerticalLayoutUI*>(m_PaintManager.FindControl(_T("splitline")));
 
