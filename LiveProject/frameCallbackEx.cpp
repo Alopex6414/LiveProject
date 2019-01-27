@@ -53,5 +53,15 @@ CControlUI * CDialogBuilderCallbackEx::CreateControl(LPCTSTR pstrClass)
 		return new CFrameAIUI();
 	}
 
+	if (_tcscmp(pstrClass, _T("frameSettings")) == 0)
+	{
+		return new CFrameSettingsUI();
+	}
+
+	if (_tcscmp(pstrClass, _T("frameAbout")) == 0)
+	{
+		return new CFrameAboutUI();
+	}
+
 	return nullptr;
 }

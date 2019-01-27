@@ -97,6 +97,8 @@
 #include "frameAlbum.h"
 #include "frameShot.h"
 #include "frameAI.h"
+#include "frameSettings.h"
+#include "frameAbout.h"
 
 // Include Convallaria(Script) Library Header File
 #include "ConvallariaLua.h"

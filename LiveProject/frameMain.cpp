@@ -105,6 +105,14 @@ void CFrameMain::Notify(TNotifyUI & msg)
 		{
 			m_pLiveMainTab->SelectItem(7);
 		}
+		else if (msg.pSender == m_pSettingsOpt)
+		{
+			m_pLiveMainTab->SelectItem(8);
+		}
+		else if (msg.pSender == m_pAboutOpt)
+		{
+			m_pLiveMainTab->SelectItem(9);
+		}
 
 	}
 
