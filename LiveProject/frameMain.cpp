@@ -157,12 +157,6 @@ LRESULT CFrameMain::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_SYSCOMMAND:
 		lRes = OnSysCommand(uMsg, wParam, lParam, bHandled);
 		break;
-	/*case WM_USER_MSG_ADDITEM_SEEKPACKET:
-		lRes = OnAddPacketSeekList(uMsg, wParam, lParam, bHandled);
-		break;
-	case WM_USER_MSG_ADDITEM_PACKETLIST:
-		lRes = OnAddPacketListItem(uMsg, wParam, lParam, bHandled);
-		break;*/
 	default:
 		bHandled = FALSE;
 		break;
@@ -462,6 +456,7 @@ void CFrameMain::InitControls()
 	m_pLiveAlbumOpt = static_cast<COptionUI*>(m_PaintManager.FindControl(_T("livealbumopt")));
 	m_pLiveShotOpt = static_cast<COptionUI*>(m_PaintManager.FindControl(_T("liveshotopt")));
 	m_pLiveAIOpt = static_cast<COptionUI*>(m_PaintManager.FindControl(_T("liveaiopt")));
+	m_pSettingsOpt = static_cast<COptionUI*>(m_PaintManager.FindControl(_T("settingsopt")));
 
 }
 

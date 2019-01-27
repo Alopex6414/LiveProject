@@ -58,6 +58,7 @@ public:
 	COptionUI * m_pLiveAlbumOpt;			// LiveProject LiveAlbum选项卡
 	COptionUI * m_pLiveShotOpt;				// LiveProject LiveShot选项卡
 	COptionUI * m_pLiveAIOpt;				// LiveProject LiveAI选项卡
+	COptionUI * m_pSettingsOpt;				// LiveProject Settings选项卡
 
 public:
 	void ConstructExtra();			// LiveProject 构造函数(extra)
