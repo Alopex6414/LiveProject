@@ -80,6 +80,9 @@ void CFrameMain::Notify(TNotifyUI & msg)
 		if (msg.pSender == m_pLiveHomeOpt)
 		{
 			m_pLiveMainTab->SelectItem(1);
+
+			m_pLiveHomeCtr->SetVisible(true);
+			m_pSplitLineVtl->SetVisible(true);
 		}
 		else if (msg.pSender == m_pLiveWallpaperOpt)
 		{
@@ -466,6 +469,11 @@ void CFrameMain::InitControls()
 	m_pLiveAIOpt = static_cast<COptionUI*>(m_PaintManager.FindControl(_T("liveaiopt")));
 	m_pSettingsOpt = static_cast<COptionUI*>(m_PaintManager.FindControl(_T("settingsopt")));
 	m_pAboutOpt = static_cast<COptionUI*>(m_PaintManager.FindControl(_T("aboutopt")));
+
+	// info titles
+	m_pLiveHomeCtr = static_cast<CContainerUI*>(m_PaintManager.FindControl(_T("livehometitle")));
+
+	m_pSplitLineVtl = static_cast<CVerticalLayoutUI*>(m_PaintManager.FindControl(_T("splitline")));
 
 }
 

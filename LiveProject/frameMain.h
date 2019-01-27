@@ -61,6 +61,10 @@ public:
 	COptionUI * m_pSettingsOpt;				// LiveProject Settings选项卡
 	COptionUI * m_pAboutOpt;				// LiveProject About选项卡
 
+	CContainerUI * m_pLiveHomeCtr;			// LiveProject LiveHome标题
+
+	CVerticalLayoutUI * m_pSplitLineVtl;	// LiveProject 标题分割线
+
 public:
 	void ConstructExtra();			// LiveProject 构造函数(extra)
 	void InitControls();			// LiveProject 初始化控件
