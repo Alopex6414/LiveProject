@@ -61,18 +61,6 @@ public:
 	COptionUI * m_pSettingsOpt;				// LiveProject Settings选项卡
 	COptionUI * m_pAboutOpt;				// LiveProject About选项卡
 
-	CContainerUI * m_pLiveHomeCtr;			// LiveProject LiveHome标题
-	CContainerUI * m_pLiveWallpaperCtr;		// LiveProject LiveWallpaper标题
-	CContainerUI * m_pLiveVideoCtr;			// LiveProject LiveVideo标题
-	CContainerUI * m_pLiveAudioCtr;			// LiveProject LiveAudio标题
-	CContainerUI * m_pLiveAlbumCtr;			// LiveProject LiveAlbum标题
-	CContainerUI * m_pLiveShotCtr;			// LiveProject LiveShot标题
-	CContainerUI * m_pLiveAICtr;			// LiveProject LiveAI标题
-	CContainerUI * m_pLiveSettingsCtr;		// LiveProject Settings标题
-	CContainerUI * m_pLiveAboutCtr;			// LiveProject About标题
-
-	CVerticalLayoutUI * m_pSplitLineVtl;	// LiveProject 标题分割线
-
 public:
 	void ConstructExtra();			// LiveProject 构造函数(extra)
 	void InitControls();			// LiveProject 初始化控件
