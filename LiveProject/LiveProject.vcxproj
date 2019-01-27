@@ -281,12 +281,14 @@
     <ClInclude Include="..\Prunus\Inc\PlumThread.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="CommonWnd.h" />
+    <ClInclude Include="frameAbout.h" />
     <ClInclude Include="frameAI.h" />
     <ClInclude Include="frameAlbum.h" />
     <ClInclude Include="frameAudio.h" />
     <ClInclude Include="frameCallbackEx.h" />
     <ClInclude Include="frameHome.h" />
     <ClInclude Include="frameMain.h" />
+    <ClInclude Include="frameSettings.h" />
     <ClInclude Include="frameShot.h" />
     <ClInclude Include="frameSpace.h" />
     <ClInclude Include="frameVideo.h" />
@@ -298,12 +300,14 @@
     <ResourceCompile Include="LiveProject.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="frameAbout.cpp" />
     <ClCompile Include="frameAI.cpp" />
     <ClCompile Include="frameAlbum.cpp" />
     <ClCompile Include="frameAudio.cpp" />
     <ClCompile Include="frameCallbackEx.cpp" />
     <ClCompile Include="frameHome.cpp" />
     <ClCompile Include="frameMain.cpp" />
+    <ClCompile Include="frameSettings.cpp" />
     <ClCompile Include="frameShot.cpp" />
     <ClCompile Include="frameSpace.cpp" />
     <ClCompile Include="frameVideo.cpp" />
