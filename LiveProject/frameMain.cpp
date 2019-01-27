@@ -11,6 +11,7 @@
 * @date		2019-01-20
 */
 #include "Common.h"
+#include "defineMain.h"
 
 // CFrameMain类(LiveProject主窗口)
 
@@ -165,6 +166,12 @@ LRESULT CFrameMain::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_SYSCOMMAND:
 		lRes = OnSysCommand(uMsg, wParam, lParam, bHandled);
 		break;
+	/*
+	 *	User Message
+	 */
+	case WM_USER_MESSAGE_MENU:
+		lRes = OnUserMessageMenu(uMsg, wParam, lParam, bHandled);
+		break;
 	default:
 		bHandled = FALSE;
 		break;
@@ -203,6 +210,7 @@ LRESULT CFrameMain::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHa
 	m_PaintManager.AddNotifier(this);   // 添加控件等消息响应，这样消息就会传达到duilib的消息循环，我们可以在Notify函数里做消息处理
 
 	ConstructExtra();
+	InitMenuShow();
 	InitWindowSharp();
 	InitControls();
 
@@ -231,6 +239,9 @@ LRESULT CFrameMain::OnLButtonDown(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL 
 //----------------------------------------------
 LRESULT CFrameMain::OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled)
 {
+	// 菜单栏小图标删除
+	Shell_NotifyIcon(NIM_DELETE, &m_nid);
+
 	bHandled = FALSE;
 	return 0;
 }
@@ -437,6 +448,32 @@ LRESULT CFrameMain::OnSysCommand(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &
 //----------------------------------------------
 void CFrameMain::ConstructExtra()
 {
+	m_hMenu = NULL;
+	memset(&m_nid, 0, sizeof(m_nid));
+}
+
+//----------------------------------------------
+// @Function:	InitMenuShow()
+// @Purpose: CFrameMain初始化菜单显示
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::InitMenuShow()
+{
+	m_nid.cbSize = sizeof(NOTIFYICONDATA);
+	m_nid.hWnd = this->GetHWND();
+	m_nid.uID = IDI_ICON;
+	m_nid.hIcon = ::LoadIcon(CPaintManagerUI::GetInstance(), MAKEINTRESOURCE(IDI_ICON));
+	m_nid.uCallbackMessage = WM_USER_MESSAGE_MENU;
+	m_nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP | NIF_INFO;
+	_tcscpy(m_nid.szTip, _T("LiveProject"));
+	Shell_NotifyIcon(NIM_ADD, &m_nid);
+
+	m_hMenu = ::CreatePopupMenu();
+	AppendMenu(m_hMenu, MF_STRING, ID_MAIN_RESTART, _T("ReStart"));
+	AppendMenu(m_hMenu, MF_STRING, ID_MAIN_EXIT, _T("Exit"));
+
 }
 
 //----------------------------------------------
@@ -481,6 +518,49 @@ void CFrameMain::InitControls()
 	m_pSettingsOpt = static_cast<COptionUI*>(m_PaintManager.FindControl(_T("settingsopt")));
 	m_pAboutOpt = static_cast<COptionUI*>(m_PaintManager.FindControl(_T("aboutopt")));
 
+}
+
+//----------------------------------------------
+// @Function:	OnUserMessageMenu()
+// @Purpose: CFrameMain菜单栏用户消息
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+LRESULT CFrameMain::OnUserMessageMenu(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled)
+{
+	switch (lParam)
+	{
+	case WM_RBUTTONDOWN:
+		{
+			POINT pt;
+			int nRet;
+
+			GetCursorPos(&pt);
+			::SetForegroundWindow(this->GetHWND());
+			
+			nRet = TrackPopupMenu(m_hMenu, TPM_RETURNCMD, pt.x, pt.y, NULL, this->GetHWND(), NULL);
+			if (nRet == ID_MAIN_RESTART)
+			{
+
+			}
+			if (nRet == ID_MAIN_EXIT)
+			{
+				::PostMessageA(this->GetHWND(), WM_CLOSE, (WPARAM)0, (LPARAM)0);
+			}
+		}
+		break;
+	case WM_LBUTTONDOWN:
+	case WM_LBUTTONDBLCLK:
+		{
+			::ShowWindow(this->GetHWND(), SW_SHOW);
+		}
+		break;
+	default:
+		break;
+	}
+
+	return 0;
 }
 
 //----------------------------------------------
@@ -558,5 +638,6 @@ void CFrameMain::OnLButtonClickedRestoreBtn()
 //----------------------------------------------
 void CFrameMain::OnLButtonClickedCloseBtn()
 {
-	::PostMessageA(this->GetHWND(), WM_CLOSE, (WPARAM)0, (LPARAM)0);
+	//::PostMessageA(this->GetHWND(), WM_CLOSE, (WPARAM)0, (LPARAM)0);
+	::ShowWindow(this->GetHWND(), SW_HIDE);
 }

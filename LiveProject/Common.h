@@ -42,6 +42,9 @@
 // Include Assert Header File
 #include <assert.h>
 
+// Include Resource Header File
+#include "resource.h"
+
 // Include Cerasus(DirectX) Library Header File
 #include "DirectCommon.h"
 #include "DirectGraphics.h"

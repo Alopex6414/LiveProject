@@ -61,13 +61,19 @@ public:
 	COptionUI * m_pSettingsOpt;				// LiveProject Settings选项卡
 	COptionUI * m_pAboutOpt;				// LiveProject About选项卡
 
+private:
+	HMENU m_hMenu;					// LiveProject 菜单栏小图标句柄
+	NOTIFYICONDATA m_nid;			// LiveProject 菜单栏小图标参数
+
+
 public:
 	void ConstructExtra();			// LiveProject 构造函数(extra)
+	void InitMenuShow();			// LiveProject 初始化菜单显示
 	void InitWindowSharp();			// LiveProject 初始化窗口
 	void InitControls();			// LiveProject 初始化控件
 
 public:
-
+	LRESULT OnUserMessageMenu(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 
 public:
 	void OnLButtonClickedOverBtn();					// LiveProject 单击置顶按钮事件响应

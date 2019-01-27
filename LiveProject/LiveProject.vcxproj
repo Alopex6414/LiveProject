@@ -281,6 +281,7 @@
     <ClInclude Include="..\Prunus\Inc\PlumThread.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="CommonWnd.h" />
+    <ClInclude Include="defineMain.h" />
     <ClInclude Include="frameAbout.h" />
     <ClInclude Include="frameAI.h" />
     <ClInclude Include="frameAlbum.h" />
