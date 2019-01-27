@@ -63,6 +63,7 @@ public:
 
 public:
 	void ConstructExtra();			// LiveProject 构造函数(extra)
+	void InitWindowSharp();			// LiveProject 初始化窗口
 	void InitControls();			// LiveProject 初始化控件
 
 public:

@@ -203,6 +203,7 @@ LRESULT CFrameMain::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHa
 	m_PaintManager.AddNotifier(this);   // 添加控件等消息响应，这样消息就会传达到duilib的消息循环，我们可以在Notify函数里做消息处理
 
 	ConstructExtra();
+	InitWindowSharp();
 	InitControls();
 
 	return 0;
@@ -436,6 +437,19 @@ LRESULT CFrameMain::OnSysCommand(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &
 //----------------------------------------------
 void CFrameMain::ConstructExtra()
 {
+}
+
+//----------------------------------------------
+// @Function:	InitWindowSharp()
+// @Purpose: CFrameMain初始化窗口形状
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::InitWindowSharp()
+{
+	// change windows style ~ Areo
+	::SetClassLongA(this->GetHWND(), GCL_STYLE, ::GetClassLongA(this->GetHWND(), GCL_STYLE) | CS_DROPSHADOW);
 }
 
 //----------------------------------------------
