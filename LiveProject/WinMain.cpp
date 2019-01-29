@@ -29,7 +29,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCm
 	if (FAILED(Hr)) return -1;
 
 	CFrameMain cMainFrame;
-	cMainFrame.Create(NULL, _T("LiveProject"), WS_POPUP, WS_EX_WINDOWEDGE);
+	cMainFrame.Create(NULL, _T("LiveProject"), UI_WNDSTYLE_FRAME, WS_EX_STATICEDGE | WS_EX_APPWINDOW);
 	cMainFrame.CenterWindow();
 	cMainFrame.ShowModal();
 
