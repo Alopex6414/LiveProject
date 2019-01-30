@@ -61,6 +61,9 @@ public:
 	COptionUI * m_pSettingsOpt;				// LiveProject Settings选项卡
 	COptionUI * m_pAboutOpt;				// LiveProject About选项卡
 
+	COptionUI * m_pLiveWallVideoOpt;		// LiveWall 视频选项卡
+	COptionUI * m_pLiveWallGraphOpt;		// LiveWall 图形选项卡
+
 private:
 	HMENU m_hMenu;					// LiveProject 菜单栏小图标句柄
 	NOTIFYICONDATA m_nid;			// LiveProject 菜单栏小图标参数
