@@ -28,6 +28,9 @@
     <Filter Include="Prunus">
       <UniqueIdentifier>{a3673984-df0c-46aa-bada-e29d61893094}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Curl">
+      <UniqueIdentifier>{e3baae33-9b60-423c-9c06-c69d7a000736}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -533,6 +536,33 @@
     </ClInclude>
     <ClInclude Include="defineMain.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Curl\Inc\curl.h">
+      <Filter>Curl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Curl\Inc\curlver.h">
+      <Filter>Curl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Curl\Inc\easy.h">
+      <Filter>Curl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Curl\Inc\mprintf.h">
+      <Filter>Curl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Curl\Inc\multi.h">
+      <Filter>Curl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Curl\Inc\stdcheaders.h">
+      <Filter>Curl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Curl\Inc\system.h">
+      <Filter>Curl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Curl\Inc\typecheck-gcc.h">
+      <Filter>Curl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Curl\Inc\urlapi.h">
+      <Filter>Curl</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

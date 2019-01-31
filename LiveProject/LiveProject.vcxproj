@@ -165,6 +165,15 @@
     <ClInclude Include="..\Convallaria\Inc\ConvallariaLua.h" />
     <ClInclude Include="..\Convallaria\Inc\ConvallariaLuaMsg.h" />
     <ClInclude Include="..\Convallaria\Inc\ConvallariaLuaType.h" />
+    <ClInclude Include="..\Curl\Inc\curl.h" />
+    <ClInclude Include="..\Curl\Inc\curlver.h" />
+    <ClInclude Include="..\Curl\Inc\easy.h" />
+    <ClInclude Include="..\Curl\Inc\mprintf.h" />
+    <ClInclude Include="..\Curl\Inc\multi.h" />
+    <ClInclude Include="..\Curl\Inc\stdcheaders.h" />
+    <ClInclude Include="..\Curl\Inc\system.h" />
+    <ClInclude Include="..\Curl\Inc\typecheck-gcc.h" />
+    <ClInclude Include="..\Curl\Inc\urlapi.h" />
     <ClInclude Include="..\DirectX\Inc\audiodefs.h" />
     <ClInclude Include="..\DirectX\Inc\comdecl.h" />
     <ClInclude Include="..\DirectX\Inc\D2D1.h" />
