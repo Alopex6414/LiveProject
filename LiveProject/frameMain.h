@@ -63,6 +63,9 @@ public:
 
 	COptionUI * m_pLiveWallVideoOpt;		// LiveWall ÊÓÆµÑ¡Ïî¿¨
 	COptionUI * m_pLiveWallGraphOpt;		// LiveWall Í¼ÐÎÑ¡Ïî¿¨
+	CButtonUI * m_pLiveWallAddBtn;			// LiveWall Ìí¼Ó°´Å¥
+	CButtonUI * m_pLiveWallDelBtn;			// LiveWall É¾³ý°´Å¥
+	CButtonUI * m_pLiveWallModBtn;			// LiveWall ÐÞ¸Ä°´Å¥
 
 private:
 	HMENU m_hMenu;					// LiveProject ²Ëµ¥À¸Ð¡Í¼±ê¾ä±ú
