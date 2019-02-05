@@ -31,6 +31,9 @@
     <Filter Include="Curl">
       <UniqueIdentifier>{e3baae33-9b60-423c-9c06-c69d7a000736}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DB">
+      <UniqueIdentifier>{54906647-798e-4551-862d-be04dba5a4a2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
