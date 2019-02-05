@@ -70,12 +70,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)Cerasus\Inc;$(SolutionDir)Prunus\Inc;$(SolutionDir)Convallaria\Inc;$(SolutionDir)DirectX\Inc;$(SolutionDir)Lua\Inc;$(SolutionDir)DuiLib\DuiLib;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Cerasus\Lib;$(SolutionDir)Prunus\Lib;$(SolutionDir)Convallaria\Lib;$(SolutionDir)DirectX\Lib\x86;$(SolutionDir)Lua\Lib;$(SolutionDir)DuiLib\Lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Cerasus\Inc;$(SolutionDir)Prunus\Inc;$(SolutionDir)Convallaria\Inc;$(SolutionDir)DirectX\Inc;$(SolutionDir)Lua\Inc;$(SolutionDir)DuiLib\DuiLib;$(SolutionDir)Sqlite3\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Cerasus\Lib;$(SolutionDir)Prunus\Lib;$(SolutionDir)Convallaria\Lib;$(SolutionDir)DirectX\Lib\x86;$(SolutionDir)Lua\Lib;$(SolutionDir)DuiLib\Lib;$(SolutionDir)Sqlite3\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)Cerasus\Inc;$(SolutionDir)Prunus\Inc;$(SolutionDir)Convallaria\Inc;$(SolutionDir)DirectX\Inc;$(SolutionDir)Lua\Inc;$(SolutionDir)DuiLib\DuiLib;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Cerasus\Lib;$(SolutionDir)Prunus\Lib;$(SolutionDir)Convallaria\Lib;$(SolutionDir)DirectX\Lib\x86;$(SolutionDir)Lua\Lib;$(SolutionDir)DuiLib\Lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Cerasus\Inc;$(SolutionDir)Prunus\Inc;$(SolutionDir)Convallaria\Inc;$(SolutionDir)DirectX\Inc;$(SolutionDir)Lua\Inc;$(SolutionDir)DuiLib\DuiLib;$(SolutionDir)Sqlite3\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Cerasus\Lib;$(SolutionDir)Prunus\Lib;$(SolutionDir)Convallaria\Lib;$(SolutionDir)DirectX\Lib\x86;$(SolutionDir)Lua\Lib;$(SolutionDir)DuiLib\Lib;$(SolutionDir)Sqlite3\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
