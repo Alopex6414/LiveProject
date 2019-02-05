@@ -13,10 +13,10 @@
 
 // frameWallpaper UI¿‡
 
-CFrameWallpaperUI::CFrameWallpaperUI()
+CFrameWallpaperUI::CFrameWallpaperUI(CPaintManagerUI* pManager)
 {
 	CDialogBuilder builder;
-	CContainerUI* pframeWallpaperUI = static_cast<CContainerUI*>(builder.Create(_T("frame\\frameWallpaper.xml"), (UINT)0));
+	CContainerUI* pframeWallpaperUI = static_cast<CContainerUI*>(builder.Create(_T("frame\\frameWallpaper.xml"), NULL, NULL, pManager));
 
 	if (pframeWallpaperUI)
 	{

@@ -76,6 +76,9 @@ protected:
 	void AddOnceWallVideoContext();	// LiveProject 添加一个墙纸内容
 
 public:
+	CPaintManagerUI & GetPaintManager();
+
+public:
 	void ConstructExtra();			// LiveProject 构造函数(extra)
 	void InitMenuShow();			// LiveProject 初始化菜单显示
 	void InitWindowSharp();			// LiveProject 初始化窗口
@@ -93,6 +96,9 @@ public:
 	void OnLButtonClickedCloseBtn();				// LiveProject 单击关闭按钮事件响应
 
 };
+
+// Variable Extern
+extern CFrameMain* g_pFrameMain;
 
 #endif // !__FRAMEMAIN_H_
 

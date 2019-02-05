@@ -21,7 +21,7 @@
 class CFrameWallpaperUI : public CContainerUI
 {
 public:
-	CFrameWallpaperUI();
+	CFrameWallpaperUI(CPaintManagerUI* pManager);
 
 };
 

@@ -25,7 +25,7 @@ CControlUI * CDialogBuilderCallbackEx::CreateControl(LPCTSTR pstrClass)
 
 	if (_tcscmp(pstrClass, _T("frameWallpaper")) == 0)
 	{
-		return new CFrameWallpaperUI();
+		return new CFrameWallpaperUI(&(g_pFrameMain->GetPaintManager()));
 	}
 
 	if (_tcscmp(pstrClass, _T("frameVideo")) == 0)

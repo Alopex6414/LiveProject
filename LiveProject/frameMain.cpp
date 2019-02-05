@@ -14,6 +14,7 @@
 #include "defineMain.h"
 
 // CFrameMain类(LiveProject主窗口)
+CFrameMain* g_pFrameMain = nullptr;
 
 //----------------------------------------------
 // @Function:	GetWindowClassName()
@@ -200,6 +201,8 @@ LRESULT CFrameMain::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 LRESULT CFrameMain::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled)
 {
 	m_PaintManager.Init(m_hWnd);
+
+	g_pFrameMain = this;
 
 	CDialogBuilder builder;
 	CDialogBuilderCallbackEx cb;
@@ -474,6 +477,18 @@ void CFrameMain::AddOnceWallVideoContext()
 	pVertical->Add(pContainer);
 
 	m_pLiveWallContextLst->Add(pVertical);
+}
+
+//----------------------------------------------
+// @Function:	GetPaintManager()
+// @Purpose: CFrameMain获取绘制句柄
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+CPaintManagerUI & CFrameMain::GetPaintManager()
+{
+	return m_PaintManager;
 }
 
 //----------------------------------------------
