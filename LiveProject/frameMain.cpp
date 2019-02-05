@@ -457,26 +457,32 @@ LRESULT CFrameMain::OnSysCommand(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &
 //----------------------------------------------
 void CFrameMain::AddOnceWallVideoContext()
 {
-	CVerticalLayoutUI* pVertical = new CVerticalLayoutUI();
+	CHorizontalLayoutUI* pHorizontal = new CHorizontalLayoutUI();
 
 	// ContainerUI
 	CContainerUI* pContainer = new CContainerUI();
-	RECT rcContainer = { 0 };
-
-	rcContainer.left = 0;
-	rcContainer.right = 0;
-	rcContainer.top = 0;
-	rcContainer.bottom = 0;
 
 	pContainer->SetFloat(true);
-	pContainer->SetPos(rcContainer);
+	pContainer->SetAttribute(_T("pos"), _T("0,0,0,0"));
 	pContainer->SetFixedWidth(192);
 	pContainer->SetFixedHeight(108);
 	pContainer->SetBkColor(0xFFDADADA);
+	pHorizontal->Add(pContainer);
 
-	pVertical->Add(pContainer);
+	// TextUI
+	CTextUI* pText = new CTextUI();
 
-	m_pLiveWallContextLst->Add(pVertical);
+	pText->SetFloat(true);
+	pText->SetAttribute(_T("pos"), _T("0,108,0,0"));
+	pText->SetFixedWidth(192);
+	pText->SetFixedHeight(24);
+	pText->SetFont(2);
+	pText->SetAttribute(_T("align"), _T("center"));
+	pText->SetTextColor(0xFF363636);
+	pText->SetText(_T("Video"));
+	pHorizontal->Add(pText);
+
+	m_pLiveWallContextLst->Add(pHorizontal);
 }
 
 //----------------------------------------------

@@ -31,7 +31,7 @@
     <Filter Include="Curl">
       <UniqueIdentifier>{e3baae33-9b60-423c-9c06-c69d7a000736}</UniqueIdentifier>
     </Filter>
-    <Filter Include="DB">
+    <Filter Include="Sqlite">
       <UniqueIdentifier>{54906647-798e-4551-862d-be04dba5a4a2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -566,6 +566,12 @@
     </ClInclude>
     <ClInclude Include="..\Curl\Inc\urlapi.h">
       <Filter>Curl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sqlite3\include\sqlite3.h">
+      <Filter>Sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sqlite3\include\sqlite3ext.h">
+      <Filter>Sqlite</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
