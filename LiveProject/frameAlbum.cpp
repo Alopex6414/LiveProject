@@ -13,10 +13,10 @@
 
 // frameAlbum UI¿‡
 
-CFrameAlbumUI::CFrameAlbumUI()
+CFrameAlbumUI::CFrameAlbumUI(CPaintManagerUI* pManager)
 {
 	CDialogBuilder builder;
-	CContainerUI* pframeAlbumUI = static_cast<CContainerUI*>(builder.Create(_T("frame\\frameAlbum.xml"), (UINT)0));
+	CContainerUI* pframeAlbumUI = static_cast<CContainerUI*>(builder.Create(_T("frame\\frameAlbum.xml"), NULL, NULL, pManager));
 
 	if (pframeAlbumUI)
 	{

@@ -13,10 +13,10 @@
 
 // frameAI UI¿‡
 
-CFrameAIUI::CFrameAIUI()
+CFrameAIUI::CFrameAIUI(CPaintManagerUI* pManager)
 {
 	CDialogBuilder builder;
-	CContainerUI* pframeAIUI = static_cast<CContainerUI*>(builder.Create(_T("frame\\frameAI.xml"), (UINT)0));
+	CContainerUI* pframeAIUI = static_cast<CContainerUI*>(builder.Create(_T("frame\\frameAI.xml"), NULL, NULL, pManager));
 
 	if (pframeAIUI)
 	{

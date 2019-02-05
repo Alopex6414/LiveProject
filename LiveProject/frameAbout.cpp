@@ -13,10 +13,10 @@
 
 // frameAbout UI¿‡
 
-CFrameAboutUI::CFrameAboutUI()
+CFrameAboutUI::CFrameAboutUI(CPaintManagerUI* pManager)
 {
 	CDialogBuilder builder;
-	CContainerUI* pframeAboutUI = static_cast<CContainerUI*>(builder.Create(_T("frame\\frameAbout.xml"), (UINT)0));
+	CContainerUI* pframeAboutUI = static_cast<CContainerUI*>(builder.Create(_T("frame\\frameAbout.xml"), NULL, NULL, pManager));
 
 	if (pframeAboutUI)
 	{

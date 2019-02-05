@@ -13,10 +13,10 @@
 
 // frameAudio UI¿‡
 
-CFrameAudioUI::CFrameAudioUI()
+CFrameAudioUI::CFrameAudioUI(CPaintManagerUI* pManager)
 {
 	CDialogBuilder builder;
-	CContainerUI* pframeAudioUI = static_cast<CContainerUI*>(builder.Create(_T("frame\\frameAudio.xml"), (UINT)0));
+	CContainerUI* pframeAudioUI = static_cast<CContainerUI*>(builder.Create(_T("frame\\frameAudio.xml"), NULL, NULL, pManager));
 
 	if (pframeAudioUI)
 	{

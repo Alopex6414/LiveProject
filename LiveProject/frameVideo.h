@@ -21,7 +21,7 @@
 class CFrameVideoUI : public CContainerUI
 {
 public:
-	CFrameVideoUI();
+	CFrameVideoUI(CPaintManagerUI* pManager);
 
 };
 

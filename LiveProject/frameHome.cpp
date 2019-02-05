@@ -13,10 +13,10 @@
 
 // frameHome UI¿‡
 
-CFrameHomeUI::CFrameHomeUI()
+CFrameHomeUI::CFrameHomeUI(CPaintManagerUI* pManager)
 {
 	CDialogBuilder builder;
-	CContainerUI* pframeHomeUI = static_cast<CContainerUI*>(builder.Create(_T("frame\\frameHome.xml"), (UINT)0));
+	CContainerUI* pframeHomeUI = static_cast<CContainerUI*>(builder.Create(_T("frame\\frameHome.xml"), NULL, NULL, pManager));
 
 	if (pframeHomeUI)
 	{

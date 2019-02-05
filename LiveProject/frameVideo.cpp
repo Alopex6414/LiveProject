@@ -13,10 +13,10 @@
 
 // frameVideo UI¿‡
 
-CFrameVideoUI::CFrameVideoUI()
+CFrameVideoUI::CFrameVideoUI(CPaintManagerUI* pManager)
 {
 	CDialogBuilder builder;
-	CContainerUI* pframeVideoUI = static_cast<CContainerUI*>(builder.Create(_T("frame\\frameVideo.xml"), (UINT)0));
+	CContainerUI* pframeVideoUI = static_cast<CContainerUI*>(builder.Create(_T("frame\\frameVideo.xml"), NULL, NULL, pManager));
 
 	if (pframeVideoUI)
 	{

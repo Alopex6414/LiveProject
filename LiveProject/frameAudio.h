@@ -21,7 +21,7 @@
 class CFrameAudioUI : public CContainerUI
 {
 public:
-	CFrameAudioUI();
+	CFrameAudioUI(CPaintManagerUI* pManager);
 
 };
 

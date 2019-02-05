@@ -13,10 +13,10 @@
 
 // frameSpace UI¿‡
 
-CFrameSpaceUI::CFrameSpaceUI()
+CFrameSpaceUI::CFrameSpaceUI(CPaintManagerUI* pManager)
 {
 	CDialogBuilder builder;
-	CContainerUI* pframeSpaceUI = static_cast<CContainerUI*>(builder.Create(_T("frame\\frameSpace.xml"), (UINT)0));
+	CContainerUI* pframeSpaceUI = static_cast<CContainerUI*>(builder.Create(_T("frame\\frameSpace.xml"), NULL, NULL, pManager));
 
 	if (pframeSpaceUI)
 	{

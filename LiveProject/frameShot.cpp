@@ -13,10 +13,10 @@
 
 // frameShot UI¿‡
 
-CFrameShotUI::CFrameShotUI()
+CFrameShotUI::CFrameShotUI(CPaintManagerUI* pManager)
 {
 	CDialogBuilder builder;
-	CContainerUI* pframeShotUI = static_cast<CContainerUI*>(builder.Create(_T("frame\\frameShot.xml"), (UINT)0));
+	CContainerUI* pframeShotUI = static_cast<CContainerUI*>(builder.Create(_T("frame\\frameShot.xml"), NULL, NULL, pManager));
 
 	if (pframeShotUI)
 	{

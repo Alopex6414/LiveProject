@@ -21,7 +21,7 @@
 class CFrameAIUI : public CContainerUI
 {
 public:
-	CFrameAIUI();
+	CFrameAIUI(CPaintManagerUI* pManager);
 
 };
 

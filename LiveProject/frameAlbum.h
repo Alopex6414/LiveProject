@@ -21,7 +21,7 @@
 class CFrameAlbumUI : public CContainerUI
 {
 public:
-	CFrameAlbumUI();
+	CFrameAlbumUI(CPaintManagerUI* pManager);
 
 };
 

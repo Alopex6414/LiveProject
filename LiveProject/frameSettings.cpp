@@ -13,10 +13,10 @@
 
 // frameSettings UI¿‡
 
-CFrameSettingsUI::CFrameSettingsUI()
+CFrameSettingsUI::CFrameSettingsUI(CPaintManagerUI* pManager)
 {
 	CDialogBuilder builder;
-	CContainerUI* pframeSettingsUI = static_cast<CContainerUI*>(builder.Create(_T("frame\\frameSettings.xml"), (UINT)0));
+	CContainerUI* pframeSettingsUI = static_cast<CContainerUI*>(builder.Create(_T("frame\\frameSettings.xml"), NULL, NULL, pManager));
 
 	if (pframeSettingsUI)
 	{

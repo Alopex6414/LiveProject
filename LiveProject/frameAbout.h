@@ -21,7 +21,7 @@
 class CFrameAboutUI : public CContainerUI
 {
 public:
-	CFrameAboutUI();
+	CFrameAboutUI(CPaintManagerUI* pManager);
 
 };
 
