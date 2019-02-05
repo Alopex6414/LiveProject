@@ -66,11 +66,14 @@ public:
 	CButtonUI * m_pLiveWallAddBtn;			// LiveWall 添加按钮
 	CButtonUI * m_pLiveWallDelBtn;			// LiveWall 删除按钮
 	CButtonUI * m_pLiveWallModBtn;			// LiveWall 修改按钮
+	CTileLayoutUI * m_pLiveWallContextLst;	// LiveWall 内容列表
 
 private:
 	HMENU m_hMenu;					// LiveProject 菜单栏小图标句柄
 	NOTIFYICONDATA m_nid;			// LiveProject 菜单栏小图标参数
 
+protected:
+	void AddOnceWallVideoContext();	// LiveProject 添加一个墙纸内容
 
 public:
 	void ConstructExtra();			// LiveProject 构造函数(extra)

@@ -214,6 +214,12 @@ LRESULT CFrameMain::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHa
 	InitWindowSharp();
 	InitControls();
 
+	//just for test...
+	for (int i = 0; i < 100; ++i)
+	{
+		AddOnceWallVideoContext();
+	}
+
 	return 0;
 }
 
@@ -440,6 +446,37 @@ LRESULT CFrameMain::OnSysCommand(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &
 }
 
 //----------------------------------------------
+// @Function:	AddOnceWallVideoContext()
+// @Purpose: CFrameMain添加一个墙纸内容
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::AddOnceWallVideoContext()
+{
+	CVerticalLayoutUI* pVertical = new CVerticalLayoutUI();
+
+	// ContainerUI
+	CContainerUI* pContainer = new CContainerUI();
+	RECT rcContainer = { 0 };
+
+	rcContainer.left = 0;
+	rcContainer.right = 0;
+	rcContainer.top = 0;
+	rcContainer.bottom = 0;
+
+	pContainer->SetFloat(true);
+	pContainer->SetPos(rcContainer);
+	pContainer->SetFixedWidth(192);
+	pContainer->SetFixedHeight(108);
+	pContainer->SetBkColor(0xFFDADADA);
+
+	pVertical->Add(pContainer);
+
+	m_pLiveWallContextLst->Add(pVertical);
+}
+
+//----------------------------------------------
 // @Function:	ConstructExtra()
 // @Purpose: CFrameMain构造函数extra
 // @Since: v1.00a
@@ -524,6 +561,9 @@ void CFrameMain::InitControls()
 	m_pLiveWallAddBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewalladdbtn")));
 	m_pLiveWallDelBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewalldelbtn")));
 	m_pLiveWallModBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallmodbtn")));
+
+	// livewall context...
+	m_pLiveWallContextLst = static_cast<CTileLayoutUI*>(m_PaintManager.FindControl(_T("livewallcontextlst")));
 
 }
 
