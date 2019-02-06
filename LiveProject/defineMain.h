@@ -17,7 +17,9 @@
 // Definitions
 #pragma warning (disable:4996)
 
-#define WM_USER_MESSAGE_MENU	(WM_USER + 1)
+#define WM_USER_MESSAGE_MENU				(WM_USER + 1)
+
+#define WM_USER_MESSAGE_WALLVIDEO_INSERT	(WM_USER + 10)
 
 #endif // !__DEFINEMAIN_H_
 

@@ -34,6 +34,33 @@
     <Filter Include="Sqlite">
       <UniqueIdentifier>{54906647-798e-4551-862d-be04dba5a4a2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ffmpeg">
+      <UniqueIdentifier>{f7018bf1-379e-4d69-9709-d00cf42b417b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ffmpeg\libavcodec">
+      <UniqueIdentifier>{914e8250-8776-4782-a070-01e48ee754cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ffmpeg\libavdevice">
+      <UniqueIdentifier>{5907ed94-f41a-4ac1-8ca1-f303e7a51051}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ffmpeg\libavfilter">
+      <UniqueIdentifier>{516492d3-ab56-4b76-b763-a5c5670014da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ffmpeg\libavformat">
+      <UniqueIdentifier>{a908a0b0-3ef4-499b-841a-358c4fe24f56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ffmpeg\libavutil">
+      <UniqueIdentifier>{2cc82572-f8e4-4c10-8727-ef5df31ca7d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ffmpeg\libpostproc">
+      <UniqueIdentifier>{fb431803-12e5-4c41-9caa-d1df6d3f9650}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ffmpeg\libswresample">
+      <UniqueIdentifier>{2ee4b31a-5969-40f8-93b0-1d1abcc704fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ffmpeg\libswscale">
+      <UniqueIdentifier>{9f2c1531-1c2a-4d7e-817d-4b28ba798430}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -581,6 +608,339 @@
     </ClInclude>
     <ClInclude Include="types.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavcodec\avcodec.h">
+      <Filter>ffmpeg\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavcodec\avdct.h">
+      <Filter>ffmpeg\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavcodec\avfft.h">
+      <Filter>ffmpeg\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavcodec\d3d11va.h">
+      <Filter>ffmpeg\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavcodec\dirac.h">
+      <Filter>ffmpeg\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavcodec\dv_profile.h">
+      <Filter>ffmpeg\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavcodec\dxva2.h">
+      <Filter>ffmpeg\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavcodec\jni.h">
+      <Filter>ffmpeg\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavcodec\mediacodec.h">
+      <Filter>ffmpeg\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavcodec\qsv.h">
+      <Filter>ffmpeg\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavcodec\vaapi.h">
+      <Filter>ffmpeg\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavcodec\vda.h">
+      <Filter>ffmpeg\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavcodec\vdpau.h">
+      <Filter>ffmpeg\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavcodec\version.h">
+      <Filter>ffmpeg\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavcodec\videotoolbox.h">
+      <Filter>ffmpeg\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavcodec\vorbis_parser.h">
+      <Filter>ffmpeg\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavcodec\xvmc.h">
+      <Filter>ffmpeg\libavcodec</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavdevice\avdevice.h">
+      <Filter>ffmpeg\libavdevice</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavdevice\version.h">
+      <Filter>ffmpeg\libavdevice</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavfilter\avfilter.h">
+      <Filter>ffmpeg\libavfilter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavfilter\avfiltergraph.h">
+      <Filter>ffmpeg\libavfilter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavfilter\buffersink.h">
+      <Filter>ffmpeg\libavfilter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavfilter\buffersrc.h">
+      <Filter>ffmpeg\libavfilter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavfilter\version.h">
+      <Filter>ffmpeg\libavfilter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavformat\avformat.h">
+      <Filter>ffmpeg\libavformat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavformat\avio.h">
+      <Filter>ffmpeg\libavformat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavformat\version.h">
+      <Filter>ffmpeg\libavformat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\adler32.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\aes.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\aes_ctr.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\attributes.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\audio_fifo.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\avassert.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\avconfig.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\avstring.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\avutil.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\base64.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\blowfish.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\bprint.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\bswap.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\buffer.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\camellia.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\cast5.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\channel_layout.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\common.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\cpu.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\crc.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\des.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\dict.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\display.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\downmix_info.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\error.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\eval.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\ffversion.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\fifo.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\file.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\frame.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\hash.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\hmac.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\hwcontext.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\hwcontext_cuda.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\hwcontext_d3d11va.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\hwcontext_drm.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\hwcontext_dxva2.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\hwcontext_qsv.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\hwcontext_vaapi.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\hwcontext_vdpau.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\hwcontext_videotoolbox.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\imgutils.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\intfloat.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\intreadwrite.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\lfg.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\log.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\lzo.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\macros.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\mastering_display_metadata.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\mathematics.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\md5.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\mem.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\motion_vector.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\murmur3.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\opt.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\parseutils.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\pixdesc.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\pixelutils.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\pixfmt.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\random_seed.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\rational.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\rc4.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\replaygain.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\ripemd.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\samplefmt.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\sha.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\sha512.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\spherical.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\stereo3d.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\tea.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\threadmessage.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\time.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\timecode.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\timestamp.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\tree.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\twofish.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\version.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libavutil\xtea.h">
+      <Filter>ffmpeg\libavutil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libpostproc\postprocess.h">
+      <Filter>ffmpeg\libpostproc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libpostproc\version.h">
+      <Filter>ffmpeg\libpostproc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libswresample\swresample.h">
+      <Filter>ffmpeg\libswresample</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libswresample\version.h">
+      <Filter>ffmpeg\libswresample</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libswscale\swscale.h">
+      <Filter>ffmpeg\libswscale</Filter>
+    </ClInclude>
+    <ClInclude Include="..\FFMpeg\Inc\libswscale\version.h">
+      <Filter>ffmpeg\libswscale</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

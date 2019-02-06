@@ -77,8 +77,11 @@ private:
 public:
 	CDBWallpaperVideo m_pDBWallpaperVideo;
 
+	S_WALLVIDEO m_sWallVideoInfo;
+
 protected:
-	void AddOnceWallVideoContext();	// LiveProject 添加一个墙纸内容
+	void AddOnceWallVideoContext();								// LiveProject 添加一个墙纸内容
+	void GenerateGUID(char* chGUID, size_t nSize);				// LiveProject 生成GUID
 
 public:
 	CPaintManagerUI & GetPaintManager();
@@ -92,6 +95,7 @@ public:
 
 public:
 	LRESULT OnUserMessageMenu(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+	LRESULT OnUserMessageWallVideoInsert(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 
 public:
 	void OnLButtonClickedOverBtn();					// LiveProject 单击置顶按钮事件响应
@@ -100,6 +104,10 @@ public:
 	void OnLButtonClickedMaxBtn();					// LiveProject 单击最大化按钮事件响应
 	void OnLButtonClickedRestoreBtn();				// LiveProject 单击还原按钮事件响应
 	void OnLButtonClickedCloseBtn();				// LiveProject 单击关闭按钮事件响应
+
+	void OnLButtonClickedLiveWallAddBtn();			// LiveWallpaper 单击添加视频壁纸按钮事件响应
+	void OnLButtonClickedLiveWallModBtn();			// LiveWallpaper 单击修改视频壁纸按钮事件响应
+	void OnLButtonClickedLiveWallDelBtn();			// LiveWallpaper 单击删除视频壁纸按钮事件响应
 
 };
 

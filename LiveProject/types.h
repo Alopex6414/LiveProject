@@ -26,7 +26,7 @@ typedef struct
 	char chVideoPath[256];	// 视频路径(256)
 	char chReserved1[256];	// 保留字段1(256)
 	char chReserved2[256];	// 保留字段2(256)
-	char chVideoShot[4194304];	// 视频快照(4MB)
+	char chVideoShot[4096];	// 视频快照(4KB)
 }S_WALLVIDEO, *LPS_WALLVIDEO;
 
 #endif // !__TYPES_H_

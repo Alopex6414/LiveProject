@@ -75,6 +75,18 @@ void CFrameMain::Notify(TNotifyUI & msg)
 		{
 			OnLButtonClickedCancelOverBtn();
 		}
+		else if (msg.pSender == m_pLiveWallAddBtn)
+		{
+			OnLButtonClickedLiveWallAddBtn();
+		}
+		else if (msg.pSender == m_pLiveWallModBtn)
+		{
+			OnLButtonClickedLiveWallModBtn();
+		}
+		else if (msg.pSender == m_pLiveWallDelBtn)
+		{
+			OnLButtonClickedLiveWallDelBtn();
+		}
 
 	}
 	else if (msg.sType == _T("selectchanged"))
@@ -172,6 +184,9 @@ LRESULT CFrameMain::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	 */
 	case WM_USER_MESSAGE_MENU:
 		lRes = OnUserMessageMenu(uMsg, wParam, lParam, bHandled);
+		break;
+	case WM_USER_MESSAGE_WALLVIDEO_INSERT:
+		lRes = OnUserMessageWallVideoInsert(uMsg, wParam, lParam, bHandled);
 		break;
 	default:
 		bHandled = FALSE;
@@ -468,15 +483,15 @@ void CFrameMain::AddOnceWallVideoContext()
 	pContainer->SetFloat(true);
 	pContainer->SetAttribute(_T("pos"), _T("0,0,0,0"));
 	pContainer->SetFixedWidth(192);
-	pContainer->SetFixedHeight(108);
-	pContainer->SetBkColor(0xFFDADADA);
+	pContainer->SetFixedHeight(167);
+	pContainer->SetBkImage(_T("res\\videobk.png"));
 	pHorizontal->Add(pContainer);
 
 	// TextUI
 	CTextUI* pText = new CTextUI();
 
 	pText->SetFloat(true);
-	pText->SetAttribute(_T("pos"), _T("0,108,0,0"));
+	pText->SetAttribute(_T("pos"), _T("0,167,0,0"));
 	pText->SetFixedWidth(192);
 	pText->SetFixedHeight(24);
 	pText->SetFont(2);
@@ -486,6 +501,29 @@ void CFrameMain::AddOnceWallVideoContext()
 	pHorizontal->Add(pText);
 
 	m_pLiveWallContextLst->Add(pHorizontal);
+}
+
+//----------------------------------------------
+// @Function:	GenerateGUID()
+// @Purpose: CFrameMain生成GUID
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::GenerateGUID(char * chGUID, size_t nSize)
+{
+	GUID guid;
+
+	if (S_OK == ::CoCreateGuid(&guid))
+	{
+		sprintf_s(chGUID, nSize, "%08X-%04X-%04x-%02X%02X-%02X%02X%02X%02X%02X%02X", guid.Data1
+			, guid.Data2
+			, guid.Data3
+			, guid.Data4[0], guid.Data4[1]
+			, guid.Data4[2], guid.Data4[3], guid.Data4[4], guid.Data4[5]
+			, guid.Data4[6], guid.Data4[7]);
+	}
+
 }
 
 //----------------------------------------------
@@ -647,6 +685,52 @@ LRESULT CFrameMain::OnUserMessageMenu(UINT uMsg, WPARAM wParam, LPARAM lParam, B
 }
 
 //----------------------------------------------
+// @Function:	OnUserMessageWallVideoInsert()
+// @Purpose: CFrameMain添加视频信息
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+LRESULT CFrameMain::OnUserMessageWallVideoInsert(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled)
+{
+	S_WALLVIDEO* pMsg = reinterpret_cast<S_WALLVIDEO*>(wParam);
+
+	// add video name...
+	char* pTemp = NULL;
+	char* pTemp2 = NULL;
+
+	pTemp = strrchr(pMsg->chVideoPath, '\\');
+	if (pTemp != NULL)
+	{
+		pTemp2 = strrchr(pTemp, '.');
+		if (pTemp2 != NULL)
+		{
+			char* pArray = pMsg->chVideoName;
+
+			for (char* point = ++pTemp; point != pTemp2; )
+			{
+				*pArray++ = *point++;
+			}
+		}
+		else
+		{
+			strcpy_s(pMsg->chVideoName, ++pTemp);
+		}
+	}
+	else
+	{
+		strcpy_s(pMsg->chVideoName, pMsg->chVideoPath);
+	}
+
+	// add video id...
+	GenerateGUID(pMsg->chVideoID, sizeof(pMsg->chVideoID));
+
+	m_pDBWallpaperVideo.Insert(pMsg);
+
+	return 0;
+}
+
+//----------------------------------------------
 // @Function:	OnLButtonClickedOverBtn()
 // @Purpose: CFrameMain鼠标左键单击置顶按钮
 // @Since: v1.00a
@@ -723,4 +807,67 @@ void CFrameMain::OnLButtonClickedCloseBtn()
 {
 	//::PostMessageA(this->GetHWND(), WM_CLOSE, (WPARAM)0, (LPARAM)0);
 	::ShowWindow(this->GetHWND(), SW_HIDE);
+}
+
+//----------------------------------------------
+// @Function:	OnLButtonClickedLiveWallAddBtn()
+// @Purpose: CFrameMain鼠标左键单击添加视频按钮
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::OnLButtonClickedLiveWallAddBtn()
+{
+	OPENFILENAME file;
+	WCHAR strfile[MAX_PATH] = { 0 };
+
+	ZeroMemory(&file, sizeof(OPENFILENAME));
+
+	file.lStructSize = sizeof(OPENFILENAME);
+	file.lpstrFilter = _T(	"所有文件\0*.*\0" \
+							"MP4\0*.mp4\0" \
+							"WMV\0*.wmv\0" \
+							"MOV\0*.mov\0" \
+							"AVI\0*.avi\0" \
+							"ASF\0*.asf\0" \
+							"RMVB\0*.rmvb\0" \
+							"\0");
+	file.nFilterIndex = 1;
+	file.lpstrFile = strfile;
+	file.nMaxFile = sizeof(strfile);
+	file.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST;
+
+	if (GetOpenFileName(&file))
+	{
+		S_WALLVIDEO sVideoInfo = { 0 };
+
+		USES_CONVERSION;
+		strcpy_s(sVideoInfo.chVideoPath, T2A(strfile));
+		memset(&m_sWallVideoInfo, 0, sizeof(m_sWallVideoInfo));
+		memcpy_s(&m_sWallVideoInfo, sizeof(m_sWallVideoInfo), &sVideoInfo, sizeof(sVideoInfo));
+		::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_INSERT, (WPARAM)((LPVOID)(&m_sWallVideoInfo)), (LPARAM)0);
+	}
+
+}
+
+//----------------------------------------------
+// @Function:	OnLButtonClickedLiveWallModBtn()
+// @Purpose: CFrameMain鼠标左键单击修改视频按钮
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::OnLButtonClickedLiveWallModBtn()
+{
+}
+
+//----------------------------------------------
+// @Function:	OnLButtonClickedLiveWallDelBtn()
+// @Purpose: CFrameMain鼠标左键单击删除视频按钮
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::OnLButtonClickedLiveWallDelBtn()
+{
 }

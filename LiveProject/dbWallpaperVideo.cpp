@@ -52,7 +52,7 @@ int CDBWallpaperVideo::Create()
 		"CHVIDEOPATH    CHAR(256)	PRIMARY KEY		NOT NULL," \
 		"CHRESERVED1    CHAR(256)," \
 		"CHRESERVED2    CHAR(256)," \
-		"CHVIDEOSHOT    CHAR(4194304)" \
+		"CHVIDEOSHOT    CHAR(4096)" \
 		");";
 
 	// execute sql...
@@ -75,7 +75,7 @@ int CDBWallpaperVideo::Insert(S_WALLVIDEO * pWallVideoInfo)
 	sqlite3* db;
 	char *zErrMsg = 0;
 	int rc;
-	char chsql[5000000] = { 0 };
+	char chsql[16384] = { 0 };
 
 	// open database...
 	rc = sqlite3_open(m_chFile, &db);
