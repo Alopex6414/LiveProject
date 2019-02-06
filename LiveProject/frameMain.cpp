@@ -216,6 +216,7 @@ LRESULT CFrameMain::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHa
 	InitMenuShow();
 	InitWindowSharp();
 	InitControls();
+	InitDataBase();
 
 	//just for test...
 	for (int i = 0; i < 100; ++i)
@@ -250,6 +251,8 @@ LRESULT CFrameMain::OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHan
 {
 	// 菜单栏小图标删除
 	Shell_NotifyIcon(NIM_DELETE, &m_nid);
+
+	// 清理资源
 
 	bHandled = FALSE;
 	return 0;
@@ -586,6 +589,18 @@ void CFrameMain::InitControls()
 	// livewall context...
 	m_pLiveWallContextLst = static_cast<CTileLayoutUI*>(m_PaintManager.FindControl(_T("livewallcontextlst")));
 
+}
+
+//----------------------------------------------
+// @Function:	InitDataBase()
+// @Purpose: CFrameMain初始化数据库
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::InitDataBase()
+{
+	m_pDBWallpaperVideo.Create();
 }
 
 //----------------------------------------------

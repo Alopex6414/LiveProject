@@ -88,7 +88,7 @@
 #include "PlumProcess.h"
 #include "PlumThread.h"
 
-//Include Frame Window Header File
+// Include Frame Window Header File
 #include "CommonWnd.h"
 #include "frameCallbackEx.h"
 #include "frameMain.h"
@@ -107,6 +107,9 @@
 #include "dbWallpaperVideo.h"
 #include "dbWallpaperGraph.h"
 
+// Include Sqlite3(Database) Header File
+#include "sqlite3.h"
+
 // Include Convallaria(Script) Library Header File
 #include "ConvallariaLua.h"
 
@@ -121,6 +124,9 @@
 
 // Include Convallaria(Script) Dynamic Link Library
 #pragma comment(lib, "Convallaria.lib")
+
+// Include Sqlite3 Dynamic Link Library
+#pragma comment(lib, "sqlite3.lib")
 
 #endif // !__COMMON_H_
 

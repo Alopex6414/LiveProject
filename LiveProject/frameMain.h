@@ -16,6 +16,8 @@
 
 // Include Frame Window Common Header File
 #include "CommonWnd.h"
+#include "dbWallpaperVideo.h"
+#include "dbWallpaperGraph.h"
 
 // Class Definition
 class CFrameMain : public CWindowWnd, public INotifyUI
@@ -72,6 +74,9 @@ private:
 	HMENU m_hMenu;					// LiveProject 菜单栏小图标句柄
 	NOTIFYICONDATA m_nid;			// LiveProject 菜单栏小图标参数
 
+public:
+	CDBWallpaperVideo m_pDBWallpaperVideo;
+
 protected:
 	void AddOnceWallVideoContext();	// LiveProject 添加一个墙纸内容
 
@@ -83,6 +88,7 @@ public:
 	void InitMenuShow();			// LiveProject 初始化菜单显示
 	void InitWindowSharp();			// LiveProject 初始化窗口
 	void InitControls();			// LiveProject 初始化控件
+	void InitDataBase();			// LiveProject 初始化数据库(sqlite3)
 
 public:
 	LRESULT OnUserMessageMenu(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
