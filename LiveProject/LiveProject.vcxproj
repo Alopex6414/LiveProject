@@ -308,6 +308,7 @@
     <ClInclude Include="frameVideo.h" />
     <ClInclude Include="frameWallpaper.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="types.h" />
     <ClInclude Include="WinMain.h" />
   </ItemGroup>
   <ItemGroup>
