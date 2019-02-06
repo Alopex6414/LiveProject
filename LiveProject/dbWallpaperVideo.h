@@ -37,6 +37,9 @@
 #include "PlumLogEx.h"
 #include "PlumPath.h"
 
+// Include Types Header File
+#include "types.h"
+
 // Class Definition
 class CDBWallpaperVideo
 {
@@ -48,7 +51,7 @@ public:
 	~CDBWallpaperVideo();
 
 	int Create();
-	//int Insert();
+	int Insert(S_WALLVIDEO* pWallVideoInfo);
 	//int Update();
 	//int Delete();
 	//int Select();
