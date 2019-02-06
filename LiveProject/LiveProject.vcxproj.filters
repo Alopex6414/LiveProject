@@ -573,6 +573,12 @@
     <ClInclude Include="..\Sqlite3\include\sqlite3ext.h">
       <Filter>Sqlite</Filter>
     </ClInclude>
+    <ClInclude Include="dbWallpaperVideo.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="dbWallpaperGraph.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LiveProject.rc">
@@ -617,6 +623,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="frameAbout.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="dbWallpaperVideo.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="dbWallpaperGraph.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

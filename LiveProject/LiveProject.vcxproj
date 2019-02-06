@@ -292,6 +292,8 @@
     <ClInclude Include="..\Sqlite3\include\sqlite3ext.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="CommonWnd.h" />
+    <ClInclude Include="dbWallpaperGraph.h" />
+    <ClInclude Include="dbWallpaperVideo.h" />
     <ClInclude Include="defineMain.h" />
     <ClInclude Include="frameAbout.h" />
     <ClInclude Include="frameAI.h" />
@@ -312,6 +314,8 @@
     <ResourceCompile Include="LiveProject.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="dbWallpaperGraph.cpp" />
+    <ClCompile Include="dbWallpaperVideo.cpp" />
     <ClCompile Include="frameAbout.cpp" />
     <ClCompile Include="frameAI.cpp" />
     <ClCompile Include="frameAlbum.cpp" />
