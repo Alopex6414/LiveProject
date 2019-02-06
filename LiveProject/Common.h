@@ -103,6 +103,10 @@
 #include "frameSettings.h"
 #include "frameAbout.h"
 
+#include "types.h"
+#include "dbWallpaperVideo.h"
+#include "dbWallpaperGraph.h"
+
 // Include Convallaria(Script) Library Header File
 #include "ConvallariaLua.h"
 
