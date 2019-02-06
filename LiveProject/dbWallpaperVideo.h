@@ -40,6 +40,9 @@
 // Include Types Header File
 #include "types.h"
 
+// Callback Definition
+typedef int(*LPDBWALLVIDEOSEEKCALLBACK)(void*, int, char**, char**);
+
 // Class Definition
 class CDBWallpaperVideo
 {
@@ -52,9 +55,9 @@ public:
 
 	int Create();
 	int Insert(S_WALLVIDEO* pWallVideoInfo);
-	//int Update();
-	//int Delete();
-	//int Select();
+	int Update(S_WALLVIDEO* pWallVideoInfo, const char* szPrimaryKey);
+	int Delete(const char* szPrimaryKey);
+	int Select(LPDBWALLVIDEOSEEKCALLBACK pfunc);
 
 };
 

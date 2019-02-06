@@ -137,3 +137,124 @@ int CDBWallpaperVideo::Insert(S_WALLVIDEO * pWallVideoInfo)
 
 	return 0;
 }
+
+int CDBWallpaperVideo::Update(S_WALLVIDEO * pWallVideoInfo, const char * szPrimaryKey)
+{
+	sqlite3* db;
+	char *zErrMsg = 0;
+	int rc;
+	char chsql[16384] = { 0 };
+
+	// open database...
+	rc = sqlite3_open(m_chFile, &db);
+	if (rc)
+	{
+		fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+		return rc;
+	}
+
+	// update table...
+	sprintf_s(chsql, "UPDATE WALLPAPERVIDEO SET " \
+		"NNUMBER = %d, " \
+		"NRESERVED = %d, " \
+		"CHVIDEONAME = '%s', " \
+		"CHVIDEOAUTHOR = '%s', " \
+		"CHVIDEOTIME = '%s', " \
+		"CHVIDEOID = '%s', " \
+		"CHVIDEOPATH = '%s', " \
+		"CHRESERVED1 = '%s', " \
+		"CHRESERVED2 = '%s', " \
+		"CHVIDEOSHOT = '%s' " \
+		"WHERE CHVIDEOPATH = '%s';",
+		pWallVideoInfo->nNumber,
+		pWallVideoInfo->nReserved,
+		pWallVideoInfo->chVideoName,
+		pWallVideoInfo->chVideoAuthor,
+		pWallVideoInfo->chVideoTime,
+		pWallVideoInfo->chVideoID,
+		pWallVideoInfo->chVideoPath,
+		pWallVideoInfo->chReserved1,
+		pWallVideoInfo->chReserved2,
+		pWallVideoInfo->chVideoShot,
+		szPrimaryKey);
+
+	// execute sql...
+	rc = sqlite3_exec(db, chsql, NULL, 0, &zErrMsg);
+	if (rc != SQLITE_OK)
+	{
+		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		sqlite3_free(zErrMsg);
+		return rc;
+	}
+
+	// close database...
+	sqlite3_close(db);
+
+	return 0;
+}
+
+int CDBWallpaperVideo::Delete(const char * szPrimaryKey)
+{
+	sqlite3* db;
+	char *zErrMsg = 0;
+	int rc;
+	char chsql[16384] = { 0 };
+
+	// open database...
+	rc = sqlite3_open(m_chFile, &db);
+	if (rc)
+	{
+		fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+		return rc;
+	}
+
+	// delete table...
+	sprintf_s(chsql, "DELETE FROM WALLPAPERVIDEO WHERE CHVIDEOPATH = '%s';", szPrimaryKey);
+
+	// execute sql...
+	rc = sqlite3_exec(db, chsql, NULL, 0, &zErrMsg);
+	if (rc != SQLITE_OK)
+	{
+		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		sqlite3_free(zErrMsg);
+		return rc;
+	}
+
+	// close database...
+	sqlite3_close(db);
+
+	return 0;
+}
+
+int CDBWallpaperVideo::Select(LPDBWALLVIDEOSEEKCALLBACK pfunc)
+{
+	sqlite3* db;
+	char *zErrMsg = 0;
+	int rc;
+	char* sql;
+
+	// open database...
+	rc = sqlite3_open(m_chFile, &db);
+	if (rc)
+	{
+		fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+		return rc;
+	}
+
+	// seek table...
+	sql = (char*)"SELECT * FROM WALLPAPERVIDEO;";
+
+	// execute sql...
+	rc = sqlite3_exec(db, sql, pfunc, 0, &zErrMsg);
+	if (rc != SQLITE_OK)
+	{
+		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		sqlite3_free(zErrMsg);
+		return rc;
+	}
+
+	// close database...
+	sqlite3_close(db);
+
+	return 0;
+}
