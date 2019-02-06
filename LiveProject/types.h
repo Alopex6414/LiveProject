@@ -15,6 +15,8 @@
 #define __TYPES_H_
 
 // Struct & Enum Types Definitions.
+
+// LiveWall -- Type of Video...
 typedef struct
 {
 	int nNumber;			//  ”∆µ–Ú∫≈(4)

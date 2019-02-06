@@ -188,6 +188,12 @@ LRESULT CFrameMain::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_USER_MESSAGE_WALLVIDEO_INSERT:
 		lRes = OnUserMessageWallVideoInsert(uMsg, wParam, lParam, bHandled);
 		break;
+	case WM_USER_MESSAGE_WALLVIDEO_SEARCH:
+		lRes = OnUserMessageWallVideoSearch(uMsg, wParam, lParam, bHandled);
+		break;
+	case WM_USER_MESSAGE_WALLVIDEO_ADDITEM:
+		lRes = OnUserMessageWallVideoAddItem(uMsg, wParam, lParam, bHandled);
+		break;
 	default:
 		bHandled = FALSE;
 		break;
@@ -232,12 +238,7 @@ LRESULT CFrameMain::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHa
 	InitWindowSharp();
 	InitControls();
 	InitDataBase();
-
-	//just for test...
-	for (int i = 0; i < 100; ++i)
-	{
-		AddOnceWallVideoContext();
-	}
+	InitSearch();
 
 	return 0;
 }
@@ -473,7 +474,7 @@ LRESULT CFrameMain::OnSysCommand(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL &
 // @Para: None
 // @Return: None
 //----------------------------------------------
-void CFrameMain::AddOnceWallVideoContext()
+void CFrameMain::AddOnceVideoContext(S_WALLVIDEO* pVideoInfo)
 {
 	CHorizontalLayoutUI* pHorizontal = new CHorizontalLayoutUI();
 
@@ -489,6 +490,10 @@ void CFrameMain::AddOnceWallVideoContext()
 
 	// TextUI
 	CTextUI* pText = new CTextUI();
+	CDuiString strText = _T("");
+
+	USES_CONVERSION;
+	strText.Format(_T("%s"), A2T(pVideoInfo->chVideoName));
 
 	pText->SetFloat(true);
 	pText->SetAttribute(_T("pos"), _T("0,167,0,0"));
@@ -497,7 +502,7 @@ void CFrameMain::AddOnceWallVideoContext()
 	pText->SetFont(2);
 	pText->SetAttribute(_T("align"), _T("center"));
 	pText->SetTextColor(0xFF363636);
-	pText->SetText(_T("Video"));
+	pText->SetText(strText.GetData());
 	pHorizontal->Add(pText);
 
 	m_pLiveWallContextLst->Add(pHorizontal);
@@ -642,6 +647,18 @@ void CFrameMain::InitDataBase()
 }
 
 //----------------------------------------------
+// @Function:	InitSearch()
+// @Purpose: CFrameMain初始化查询
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::InitSearch()
+{
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_SEARCH, (WPARAM)0, (LPARAM)0);
+}
+
+//----------------------------------------------
 // @Function:	OnUserMessageMenu()
 // @Purpose: CFrameMain菜单栏用户消息
 // @Since: v1.00a
@@ -686,7 +703,7 @@ LRESULT CFrameMain::OnUserMessageMenu(UINT uMsg, WPARAM wParam, LPARAM lParam, B
 
 //----------------------------------------------
 // @Function:	OnUserMessageWallVideoInsert()
-// @Purpose: CFrameMain添加视频信息
+// @Purpose: CFrameMain添加视频数据信息
 // @Since: v1.00a
 // @Para: None
 // @Return: None
@@ -725,7 +742,100 @@ LRESULT CFrameMain::OnUserMessageWallVideoInsert(UINT uMsg, WPARAM wParam, LPARA
 	// add video id...
 	GenerateGUID(pMsg->chVideoID, sizeof(pMsg->chVideoID));
 
+	// insert data...
 	m_pDBWallpaperVideo.Insert(pMsg);
+
+	// search data...
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_SEARCH, (WPARAM)0, (LPARAM)0);
+
+	// delete resources...
+	SAFE_DELETE(pMsg);
+
+	return 0;
+}
+
+//----------------------------------------------
+// @Function:	OnUserMessageWallVideoSearch()
+// @Purpose: CFrameMain查询视频数据信息
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+LRESULT CFrameMain::OnUserMessageWallVideoSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled)
+{
+	// clear vector...
+	m_vecWallVideoInfo.clear();
+
+	// select data...
+	m_pDBWallpaperVideo.Select(OnSearchWallVideoCallback);
+
+	// clear context...
+	m_pLiveWallContextLst->RemoveAll();
+
+	// new thread show...
+	HANDLE hThread = NULL;
+	DWORD dwThreadID = 0;
+
+	hThread = ::CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)(&CFrameMain::OnSearchWallVideoProcess), NULL, 0, &dwThreadID);
+	::CloseHandle(hThread);
+
+	return 0;
+}
+
+//----------------------------------------------
+// @Function:	OnUserMessageWallVideoAddItem()
+// @Purpose: CFrameMain列表添加一条视频信息
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+LRESULT CFrameMain::OnUserMessageWallVideoAddItem(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled)
+{
+	S_WALLVIDEO* pMsg = reinterpret_cast<S_WALLVIDEO*>(wParam);
+	AddOnceVideoContext(pMsg);
+	return 0;
+}
+
+//----------------------------------------------
+// @Function:	OnSearchWallVideoProcess()
+// @Purpose: CFrameMain查询视频数据线程
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+DWORD CFrameMain::OnSearchWallVideoProcess(LPVOID lpParameter)
+{
+	for (auto iter = g_pFrameMain->m_vecWallVideoInfo.begin(); iter != g_pFrameMain->m_vecWallVideoInfo.end(); ++iter)
+	{
+		::PostMessageA(g_pFrameMain->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_ADDITEM, (WPARAM)((LPVOID)(&(*iter))), (LPARAM)0);
+	}
+
+	return 0;
+}
+
+//----------------------------------------------
+// @Function:	OnSearchWallVideoCallback()
+// @Purpose: CFrameMain查询视频数据回调函数
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+int CFrameMain::OnSearchWallVideoCallback(void * data, int argc, char ** argv, char ** azColName)
+{
+	S_WALLVIDEO sVideoInfo = { 0 };
+
+	sVideoInfo.nNumber = atoi(*argv);
+	sVideoInfo.nReserved = atoi(*(argv + 1));
+	strcpy_s(sVideoInfo.chVideoName, *(argv + 2));
+	strcpy_s(sVideoInfo.chVideoAuthor, *(argv + 3));
+	strcpy_s(sVideoInfo.chVideoTime, *(argv + 4));
+	strcpy_s(sVideoInfo.chVideoID, *(argv + 5));
+	strcpy_s(sVideoInfo.chVideoPath, *(argv + 6));
+	strcpy_s(sVideoInfo.chReserved1, *(argv + 7));
+	strcpy_s(sVideoInfo.chReserved2, *(argv + 8));
+	strcpy_s(sVideoInfo.chVideoShot, *(argv + 9));
+
+	g_pFrameMain->m_vecWallVideoInfo.push_back(sVideoInfo);
 
 	return 0;
 }
@@ -839,13 +949,12 @@ void CFrameMain::OnLButtonClickedLiveWallAddBtn()
 
 	if (GetOpenFileName(&file))
 	{
-		S_WALLVIDEO sVideoInfo = { 0 };
+		S_WALLVIDEO* pVideoInfo = new S_WALLVIDEO();
 
 		USES_CONVERSION;
-		strcpy_s(sVideoInfo.chVideoPath, T2A(strfile));
-		memset(&m_sWallVideoInfo, 0, sizeof(m_sWallVideoInfo));
-		memcpy_s(&m_sWallVideoInfo, sizeof(m_sWallVideoInfo), &sVideoInfo, sizeof(sVideoInfo));
-		::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_INSERT, (WPARAM)((LPVOID)(&m_sWallVideoInfo)), (LPARAM)0);
+		memset(pVideoInfo, 0, sizeof(S_WALLVIDEO));
+		strcpy_s(pVideoInfo->chVideoPath, T2A(strfile));
+		::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_INSERT, (WPARAM)((LPVOID)(pVideoInfo)), (LPARAM)0);
 	}
 
 }

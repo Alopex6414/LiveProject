@@ -76,11 +76,10 @@ private:
 
 public:
 	CDBWallpaperVideo m_pDBWallpaperVideo;
-
-	S_WALLVIDEO m_sWallVideoInfo;
+	vector<S_WALLVIDEO> m_vecWallVideoInfo;
 
 protected:
-	void AddOnceWallVideoContext();								// LiveProject 添加一个墙纸内容
+	void AddOnceVideoContext(S_WALLVIDEO* pVideoInfo);			// LiveProject 添加一个墙纸内容
 	void GenerateGUID(char* chGUID, size_t nSize);				// LiveProject 生成GUID
 
 public:
@@ -92,10 +91,17 @@ public:
 	void InitWindowSharp();			// LiveProject 初始化窗口
 	void InitControls();			// LiveProject 初始化控件
 	void InitDataBase();			// LiveProject 初始化数据库(sqlite3)
+	void InitSearch();				// LiveProject 初始化查询
 
 public:
 	LRESULT OnUserMessageMenu(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 	LRESULT OnUserMessageWallVideoInsert(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+	LRESULT OnUserMessageWallVideoSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+	LRESULT OnUserMessageWallVideoAddItem(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+
+public:
+	static DWORD CALLBACK OnSearchWallVideoProcess(LPVOID lpParameter);
+	static int OnSearchWallVideoCallback(void *data, int argc, char **argv, char **azColName);
 
 public:
 	void OnLButtonClickedOverBtn();					// LiveProject 单击置顶按钮事件响应
