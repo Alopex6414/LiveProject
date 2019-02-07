@@ -934,8 +934,9 @@ void CFrameMain::OnLButtonClickedLiveWallAddBtn()
 	ZeroMemory(&file, sizeof(OPENFILENAME));
 
 	file.lStructSize = sizeof(OPENFILENAME);
-	file.lpstrFilter = _T(	"所有文件\0*.*\0" \
+	file.lpstrFilter = _T(	"所有文件\0*.mp4;*.mkv;*.wmv;*.mov;*.avi;*.asf;*.rmvb\0" \
 							"MP4\0*.mp4\0" \
+							"MKV\0*.mkv\0" \
 							"WMV\0*.wmv\0" \
 							"MOV\0*.mov\0" \
 							"AVI\0*.avi\0" \
