@@ -1005,7 +1005,13 @@ void CFrameMain::OnLButtonClickedLiveWallAddBtn()
 
 	// add new video file...
 	OPENFILENAME file;
-	WCHAR strfile[MAX_PATH] = { 0 };
+	WCHAR strfile[100 * MAX_PATH] = { 0 };	// support for max 100 files
+	WCHAR strpath[MAX_PATH] = { 0 };
+	WCHAR strname[MAX_PATH] = { 0 };
+	TCHAR* p = NULL;
+	int nLen = 0;
+
+	USES_CONVERSION;
 
 	ZeroMemory(&file, sizeof(OPENFILENAME));
 
@@ -1022,16 +1028,92 @@ void CFrameMain::OnLButtonClickedLiveWallAddBtn()
 	file.nFilterIndex = 1;
 	file.lpstrFile = strfile;
 	file.nMaxFile = sizeof(strfile);
-	file.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST;
+	file.Flags = OFN_EXPLORER | OFN_ALLOWMULTISELECT | OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST;
 
 	if (GetOpenFileName(&file))
 	{
-		S_WALLVIDEO* pVideoInfo = new S_WALLVIDEO();
+		lstrcpyn(strpath, strfile, file.nFileOffset);
+		strpath[file.nFileOffset] = '\0';
+		nLen = lstrlen(strpath);
 
-		USES_CONVERSION;
-		memset(pVideoInfo, 0, sizeof(S_WALLVIDEO));
-		strcpy_s(pVideoInfo->chVideoPath, T2A(strfile));
-		::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_INSERT, (WPARAM)((LPVOID)(pVideoInfo)), (LPARAM)0);
+		if (strpath[nLen - 1] != '\\')
+		{
+			lstrcat(strpath, _T("\\"));
+		}
+
+		p = strfile + file.nFileOffset;
+
+		while (*p)
+		{
+			ZeroMemory(strname, sizeof(strname));
+			lstrcat(strname, strpath);
+			lstrcat(strname, p);
+
+			char chOriginFile[MAX_PATH] = { 0 };
+			char chOriginName[MAX_PATH] = { 0 };
+			char* pTemp = NULL;
+
+			strcpy_s(chOriginFile, T2A(strname));
+			pTemp = strrchr(chOriginFile, '\\');
+			strcpy_s(chOriginName, ++pTemp);
+
+			bool bRepeat = false;
+
+			for (auto iter = m_vecWallVideoInfo.begin(); iter != m_vecWallVideoInfo.end(); ++iter)
+			{
+				if (!strcmp(iter->chVideoPath, T2A(strname)))
+				{
+					bRepeat = true;
+					break;
+				}
+			}
+
+			if (!bRepeat)
+			{
+				S_WALLVIDEO sVideoInfo = { 0 };
+
+				memset(&sVideoInfo, 0, sizeof(sVideoInfo));
+				strcpy_s(sVideoInfo.chVideoPath, T2A(strname));
+
+				// add video name...
+				char* pTemp = NULL;
+				char* pTemp2 = NULL;
+
+				pTemp = strrchr(sVideoInfo.chVideoPath, '\\');
+				if (pTemp != NULL)
+				{
+					pTemp2 = strrchr(pTemp, '.');
+					if (pTemp2 != NULL)
+					{
+						char* pArray = sVideoInfo.chVideoName;
+
+						for (char* point = ++pTemp; point != pTemp2; )
+						{
+							*pArray++ = *point++;
+						}
+					}
+					else
+					{
+						strcpy_s(sVideoInfo.chVideoName, ++pTemp);
+					}
+				}
+				else
+				{
+					strcpy_s(sVideoInfo.chVideoName, sVideoInfo.chVideoPath);
+				}
+
+				// add video id...
+				GenerateGUID(sVideoInfo.chVideoID, sizeof(sVideoInfo.chVideoID));
+
+				// insert data...
+				m_pDBWallpaperVideo.Insert(&sVideoInfo);
+			}
+
+			p += lstrlen(p) + 1;
+		}
+
+		// search data...
+		::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_SEARCH, (WPARAM)0, (LPARAM)0);
 	}
 
 }
@@ -1116,7 +1198,7 @@ void CFrameMain::OnLButtonClickedLiveWallDelBtn()
 				{
 					if (!strcmp(T2A(csText.GetData()), iter->chVideoName))
 					{
-						::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_DELETE, (WPARAM)((LPVOID)(&(*iter))), (LPARAM)0);
+						m_pDBWallpaperVideo.Delete(iter->chVideoPath);
 						break;
 					}
 				}
@@ -1127,7 +1209,11 @@ void CFrameMain::OnLButtonClickedLiveWallDelBtn()
 
 	}
 
-	//::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_SEARCH, (WPARAM)0, (LPARAM)0);
+	// recover flag...
+	m_bWallVideoMod = false;
+
+	// search data...
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_SEARCH, (WPARAM)0, (LPARAM)0);
 
 }
 
