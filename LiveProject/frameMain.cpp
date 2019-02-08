@@ -91,6 +91,10 @@ void CFrameMain::Notify(TNotifyUI & msg)
 		{
 			OnLButtonClickedLiveWallSearchBtn();
 		}
+		else
+		{
+			OnLButtonClickedOtherEvent(msg.pSender);
+		}
 
 	}
 	else if (msg.sType == _T("selectchanged"))
@@ -191,6 +195,9 @@ LRESULT CFrameMain::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_USER_MESSAGE_WALLVIDEO_INSERT:
 		lRes = OnUserMessageWallVideoInsert(uMsg, wParam, lParam, bHandled);
+		break;
+	case WM_USER_MESSAGE_WALLVIDEO_DELETE:
+		lRes = OnUserMessageWallVideoDelete(uMsg, wParam, lParam, bHandled);
 		break;
 	case WM_USER_MESSAGE_WALLVIDEO_SEARCH:
 		lRes = OnUserMessageWallVideoSearch(uMsg, wParam, lParam, bHandled);
@@ -485,12 +492,41 @@ void CFrameMain::AddOnceVideoContext(S_WALLVIDEO* pVideoInfo)
 	// ContainerUI
 	CContainerUI* pContainer = new CContainerUI();
 
+	pContainer->SetName(_T("videobk"));
 	pContainer->SetFloat(true);
 	pContainer->SetAttribute(_T("pos"), _T("0,0,0,0"));
 	pContainer->SetFixedWidth(192);
 	pContainer->SetFixedHeight(167);
 	pContainer->SetBkImage(_T("res\\videobk.png"));
 	pHorizontal->Add(pContainer);
+
+	// ButtonUI -- UnChecked
+	CButtonUI* pUnCheckedBtn = new CButtonUI();
+
+	pUnCheckedBtn->SetName(_T("unchecked"));
+	pUnCheckedBtn->SetFloat(true);
+	pUnCheckedBtn->SetAttribute(_T("pos"), _T("2,0,0,0"));
+	pUnCheckedBtn->SetFixedWidth(24);
+	pUnCheckedBtn->SetFixedHeight(24);
+	pUnCheckedBtn->SetVisible(false);
+	pUnCheckedBtn->SetAttribute(_T("normalimage"), _T("file='res\\uncheckedbuttons.png' source='0,0,24,24'"));
+	pUnCheckedBtn->SetAttribute(_T("hotimage"), _T("file='res\\uncheckedbuttons.png' source='0,24,24,48'"));
+	pUnCheckedBtn->SetAttribute(_T("pushedimage"), _T("file='res\\uncheckedbuttons.png' source='0,48,24,72'"));
+	pHorizontal->Add(pUnCheckedBtn);
+
+	// ButtonUI -- Checked
+	CButtonUI* pCheckedBtn = new CButtonUI();
+
+	pCheckedBtn->SetName(_T("checked"));
+	pCheckedBtn->SetFloat(true);
+	pCheckedBtn->SetAttribute(_T("pos"), _T("2,0,0,0"));
+	pCheckedBtn->SetFixedWidth(24);
+	pCheckedBtn->SetFixedHeight(24);
+	pCheckedBtn->SetVisible(false);
+	pCheckedBtn->SetAttribute(_T("normalimage"), _T("file='res\\checkedbuttons.png' source='0,0,24,24'"));
+	pCheckedBtn->SetAttribute(_T("hotimage"), _T("file='res\\checkedbuttons.png' source='0,24,24,48'"));
+	pCheckedBtn->SetAttribute(_T("pushedimage"), _T("file='res\\checkedbuttons.png' source='0,48,24,72'"));
+	pHorizontal->Add(pCheckedBtn);
 
 	// TextUI
 	CTextUI* pText = new CTextUI();
@@ -499,6 +535,7 @@ void CFrameMain::AddOnceVideoContext(S_WALLVIDEO* pVideoInfo)
 	USES_CONVERSION;
 	strText.Format(_T("%s"), A2T(pVideoInfo->chVideoName));
 
+	pText->SetName(_T("videoname"));
 	pText->SetFloat(true);
 	pText->SetAttribute(_T("pos"), _T("0,167,0,0"));
 	pText->SetFixedWidth(192);
@@ -558,6 +595,8 @@ void CFrameMain::ConstructExtra()
 {
 	m_hMenu = NULL;
 	memset(&m_nid, 0, sizeof(m_nid));
+
+	m_bWallVideoMod = false;
 }
 
 //----------------------------------------------
@@ -761,6 +800,26 @@ LRESULT CFrameMain::OnUserMessageWallVideoInsert(UINT uMsg, WPARAM wParam, LPARA
 }
 
 //----------------------------------------------
+// @Function:	OnUserMessageWallVideoDelete()
+// @Purpose: CFrameMain删除视频数据信息
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+LRESULT CFrameMain::OnUserMessageWallVideoDelete(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled)
+{
+	S_WALLVIDEO* pMsg = reinterpret_cast<S_WALLVIDEO*>(wParam);
+
+	// delete data...
+	m_pDBWallpaperVideo.Delete(pMsg->chVideoPath);
+
+	// search data...
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_SEARCH, (WPARAM)0, (LPARAM)0);
+
+	return 0;
+}
+
+//----------------------------------------------
 // @Function:	OnUserMessageWallVideoSearch()
 // @Purpose: CFrameMain查询视频数据信息
 // @Since: v1.00a
@@ -938,6 +997,13 @@ void CFrameMain::OnLButtonClickedCloseBtn()
 //----------------------------------------------
 void CFrameMain::OnLButtonClickedLiveWallAddBtn()
 {
+	// if mod now video file, then return...
+	if (m_bWallVideoMod)
+	{
+		return;
+	}
+
+	// add new video file...
 	OPENFILENAME file;
 	WCHAR strfile[MAX_PATH] = { 0 };
 
@@ -979,6 +1045,40 @@ void CFrameMain::OnLButtonClickedLiveWallAddBtn()
 //----------------------------------------------
 void CFrameMain::OnLButtonClickedLiveWallModBtn()
 {
+	// search for all checkbox...
+	if (!m_bWallVideoMod)
+	{
+		m_bWallVideoMod = true;
+	}
+	else
+	{
+		m_bWallVideoMod = false;
+	}
+
+	for (int i = 0; i < m_pLiveWallContextLst->GetCount(); ++i)
+	{
+		CHorizontalLayoutUI* pHorizontal = static_cast<CHorizontalLayoutUI*>(m_pLiveWallContextLst->GetItemAt(i));
+		
+		for (int j = 0; j < pHorizontal->GetCount(); ++j)
+		{
+			CButtonUI* pUnChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("unchecked")));
+			CButtonUI* pChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("checked")));
+
+			if (m_bWallVideoMod == true)
+			{
+				pUnChecked->SetVisible(true);	// show mod checkbox
+				pChecked->SetVisible(false);
+			}
+			else
+			{
+				pUnChecked->SetVisible(false);	// do not show checkbox
+				pChecked->SetVisible(false);
+			}
+			
+		}
+
+	}
+
 }
 
 //----------------------------------------------
@@ -990,6 +1090,45 @@ void CFrameMain::OnLButtonClickedLiveWallModBtn()
 //----------------------------------------------
 void CFrameMain::OnLButtonClickedLiveWallDelBtn()
 {
+	// if mod now video file, then return...
+	if (!m_bWallVideoMod)
+	{
+		return;
+	}
+
+	// delete now video file...
+	for (int i = 0; i < m_pLiveWallContextLst->GetCount(); ++i)
+	{
+		CHorizontalLayoutUI* pHorizontal = static_cast<CHorizontalLayoutUI*>(m_pLiveWallContextLst->GetItemAt(i));
+
+		for (int j = 0; j < pHorizontal->GetCount(); ++j)
+		{
+			CButtonUI* pChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("checked")));
+			CTextUI* pVideoName = static_cast<CTextUI*>(pHorizontal->FindSubControl(_T("videoname")));
+
+			if (pChecked->IsVisible() == true)
+			{
+				CDuiString csText = pVideoName->GetText();
+
+				USES_CONVERSION;
+
+				for (auto iter = m_vecWallVideoInfo.begin(); iter != m_vecWallVideoInfo.end(); ++iter)
+				{
+					if (!strcmp(T2A(csText.GetData()), iter->chVideoName))
+					{
+						::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_DELETE, (WPARAM)((LPVOID)(&(*iter))), (LPARAM)0);
+						break;
+					}
+				}
+
+			}
+
+		}
+
+	}
+
+	//::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_SEARCH, (WPARAM)0, (LPARAM)0);
+
 }
 
 //----------------------------------------------
@@ -1002,4 +1141,46 @@ void CFrameMain::OnLButtonClickedLiveWallDelBtn()
 void CFrameMain::OnLButtonClickedLiveWallSearchBtn()
 {
 	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_SEARCH, (WPARAM)0, (LPARAM)0);
+}
+
+//----------------------------------------------
+// @Function:	OnLButtonClickedOtherEvent()
+// @Purpose: CFrameMain鼠标左键单击其他事件响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::OnLButtonClickedOtherEvent(CControlUI* pSender)
+{
+	// 查找是否是单击LiveWall视频列表中控件(Mod)...
+	if (m_bWallVideoMod == true)
+	{
+		for (int i = 0; i < m_pLiveWallContextLst->GetCount(); ++i)
+		{
+			CHorizontalLayoutUI* pHorizontal = static_cast<CHorizontalLayoutUI*>(m_pLiveWallContextLst->GetItemAt(i));
+
+			for (int j = 0; j < pHorizontal->GetCount(); ++j)
+			{
+				CButtonUI* pUnChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("unchecked")));
+				CButtonUI* pChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("checked")));
+
+				if (pSender == pUnChecked)
+				{
+					pUnChecked->SetVisible(false);
+					pChecked->SetVisible(true);
+				}
+
+				if (pSender == pChecked)
+				{
+					pUnChecked->SetVisible(true);
+					pChecked->SetVisible(false);
+				}
+
+			}
+
+		}
+
+	}
+
+
 }

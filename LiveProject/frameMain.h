@@ -76,6 +76,8 @@ private:
 	HMENU m_hMenu;					// LiveProject 菜单栏小图标句柄
 	NOTIFYICONDATA m_nid;			// LiveProject 菜单栏小图标参数
 
+	bool m_bWallVideoMod;			// LiveWall 修改按钮单击状态(默认false)
+
 public:
 	CDBWallpaperVideo m_pDBWallpaperVideo;
 	vector<S_WALLVIDEO> m_vecWallVideoInfo;
@@ -98,6 +100,7 @@ public:
 public:
 	LRESULT OnUserMessageMenu(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 	LRESULT OnUserMessageWallVideoInsert(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+	LRESULT OnUserMessageWallVideoDelete(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 	LRESULT OnUserMessageWallVideoSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 	LRESULT OnUserMessageWallVideoAddItem(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 
@@ -118,6 +121,7 @@ public:
 	void OnLButtonClickedLiveWallDelBtn();			// LiveWallpaper 单击删除视频壁纸按钮事件响应
 	void OnLButtonClickedLiveWallSearchBtn();		// LiveWallpaper 单击查询视频壁纸按钮事件响应
 
+	void OnLButtonClickedOtherEvent(CControlUI*);	// LiveProject 单击事件响应(其他事件)...
 };
 
 // Variable Extern
