@@ -258,3 +258,36 @@ int CDBWallpaperVideo::Select(LPDBWALLVIDEOSEEKCALLBACK pfunc)
 
 	return 0;
 }
+
+int CDBWallpaperVideo::Select(LPDBWALLVIDEOSEEKCALLBACK pfunc, const char * szVideoName)
+{
+	sqlite3* db;
+	char *zErrMsg = 0;
+	int rc;
+	char chsql[16384] = { 0 };
+
+	// open database...
+	rc = sqlite3_open(m_chFile, &db);
+	if (rc)
+	{
+		fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+		return rc;
+	}
+
+	// seek table...
+	sprintf_s(chsql, "SELECT * FROM WALLPAPERVIDEO WHERE CHVIDEONAME LIKE '%%%s%%';", szVideoName);
+
+	// execute sql...
+	rc = sqlite3_exec(db, chsql, pfunc, 0, &zErrMsg);
+	if (rc != SQLITE_OK)
+	{
+		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		sqlite3_free(zErrMsg);
+		return rc;
+	}
+
+	// close database...
+	sqlite3_close(db);
+
+	return 0;
+}

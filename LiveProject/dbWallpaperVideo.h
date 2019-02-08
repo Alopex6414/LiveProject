@@ -58,6 +58,7 @@ public:
 	int Update(S_WALLVIDEO* pWallVideoInfo, const char* szPrimaryKey);
 	int Delete(const char* szPrimaryKey);
 	int Select(LPDBWALLVIDEOSEEKCALLBACK pfunc);
+	int Select(LPDBWALLVIDEOSEEKCALLBACK pfunc, const char* szVideoName);
 
 };
 

@@ -68,6 +68,8 @@ public:
 	CButtonUI * m_pLiveWallAddBtn;			// LiveWall 添加按钮
 	CButtonUI * m_pLiveWallDelBtn;			// LiveWall 删除按钮
 	CButtonUI * m_pLiveWallModBtn;			// LiveWall 修改按钮
+	CEditUI * m_pLiveWallSearchEdt;			// LiveWall 查询栏
+	CButtonUI * m_pLiveWallSearchBtn;		// LiveWall 查询按钮
 	CTileLayoutUI * m_pLiveWallContextLst;	// LiveWall 内容列表
 
 private:
@@ -114,6 +116,7 @@ public:
 	void OnLButtonClickedLiveWallAddBtn();			// LiveWallpaper 单击添加视频壁纸按钮事件响应
 	void OnLButtonClickedLiveWallModBtn();			// LiveWallpaper 单击修改视频壁纸按钮事件响应
 	void OnLButtonClickedLiveWallDelBtn();			// LiveWallpaper 单击删除视频壁纸按钮事件响应
+	void OnLButtonClickedLiveWallSearchBtn();		// LiveWallpaper 单击查询视频壁纸按钮事件响应
 
 };
 

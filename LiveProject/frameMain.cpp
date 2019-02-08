@@ -87,6 +87,10 @@ void CFrameMain::Notify(TNotifyUI & msg)
 		{
 			OnLButtonClickedLiveWallDelBtn();
 		}
+		else if (msg.pSender == m_pLiveWallSearchBtn)
+		{
+			OnLButtonClickedLiveWallSearchBtn();
+		}
 
 	}
 	else if (msg.sType == _T("selectchanged"))
@@ -628,6 +632,8 @@ void CFrameMain::InitControls()
 	m_pLiveWallAddBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewalladdbtn")));
 	m_pLiveWallDelBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewalldelbtn")));
 	m_pLiveWallModBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallmodbtn")));
+	m_pLiveWallSearchEdt = static_cast<CEditUI*>(m_PaintManager.FindControl(_T("livewallsearchedt")));
+	m_pLiveWallSearchBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallsearchbtn")));
 
 	// livewall context...
 	m_pLiveWallContextLst = static_cast<CTileLayoutUI*>(m_PaintManager.FindControl(_T("livewallcontextlst")));
@@ -767,7 +773,11 @@ LRESULT CFrameMain::OnUserMessageWallVideoSearch(UINT uMsg, WPARAM wParam, LPARA
 	m_vecWallVideoInfo.clear();
 
 	// select data...
-	m_pDBWallpaperVideo.Select(OnSearchWallVideoCallback);
+	CDuiString csSearch = _T("");
+
+	USES_CONVERSION;
+	csSearch = m_pLiveWallSearchEdt->GetText();
+	m_pDBWallpaperVideo.Select(OnSearchWallVideoCallback, T2A(csSearch.GetData()));
 
 	// clear context...
 	m_pLiveWallContextLst->RemoveAll();
@@ -980,4 +990,16 @@ void CFrameMain::OnLButtonClickedLiveWallModBtn()
 //----------------------------------------------
 void CFrameMain::OnLButtonClickedLiveWallDelBtn()
 {
+}
+
+//----------------------------------------------
+// @Function:	OnLButtonClickedLiveWallSearchBtn()
+// @Purpose: CFrameMain鼠标左键单击查询视频按钮
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::OnLButtonClickedLiveWallSearchBtn()
+{
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_SEARCH, (WPARAM)0, (LPARAM)0);
 }
