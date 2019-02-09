@@ -609,6 +609,52 @@ void CFrameMain::GenerateGUID(char * chGUID, size_t nSize)
 }
 
 //----------------------------------------------
+// @Function:	ReStartProcess()
+// @Purpose: CFrameMain进程ReStart
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+BOOL CFrameMain::ReStartProcess(const char * pStrArr)
+{
+	BOOL bResult;
+
+	STARTUPINFOA si = { 0 };
+	ZeroMemory(&si, sizeof(si));
+	si.cb = sizeof(STARTUPINFOA);
+	GetStartupInfoA(&si);
+	si.wShowWindow = SW_SHOW;
+	si.dwFlags = STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
+
+	PROCESS_INFORMATION pi = { 0 };
+	ZeroMemory(&pi, sizeof(pi));
+
+	char chProcessPath[MAX_PATH] = { 0 };
+	char* pTemp = NULL;
+
+	GetModuleFileNameA(NULL, chProcessPath, MAX_PATH);
+	pTemp = strrchr(chProcessPath, '\\');
+	if (pTemp) *pTemp = '\0';
+	strcat_s(chProcessPath, "\\");
+	strcat_s(chProcessPath, "LiveReStart.exe");
+
+	CHAR chCmdLine[MAX_PATH] = { 0 };
+	strcat_s(chCmdLine, chProcessPath);
+	strcat_s(chCmdLine, " ");
+	strcat_s(chCmdLine, pStrArr);
+
+	bResult = CreateProcessA(chProcessPath, chCmdLine, NULL, NULL, FALSE, NULL, NULL, NULL, &si, &pi);
+
+	if (bResult)
+	{
+		CloseHandle(pi.hThread);
+		CloseHandle(pi.hProcess);
+	}
+
+	return bResult;
+}
+
+//----------------------------------------------
 // @Function:	GetPaintManager()
 // @Purpose: CFrameMain获取绘制句柄
 // @Since: v1.00a
@@ -761,7 +807,8 @@ LRESULT CFrameMain::OnUserMessageMenu(UINT uMsg, WPARAM wParam, LPARAM lParam, B
 			nRet = TrackPopupMenu(m_hMenu, TPM_RETURNCMD, pt.x, pt.y, NULL, this->GetHWND(), NULL);
 			if (nRet == ID_MAIN_RESTART)
 			{
-
+				ReStartProcess("LiveProject.exe");
+				::PostMessageA(this->GetHWND(), WM_CLOSE, (WPARAM)0, (LPARAM)0);
 			}
 			if (nRet == ID_MAIN_EXIT)
 			{
