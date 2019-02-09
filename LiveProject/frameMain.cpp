@@ -500,6 +500,20 @@ void CFrameMain::AddOnceVideoContext(S_WALLVIDEO* pVideoInfo)
 	pContainer->SetBkImage(_T("res\\videobk.png"));
 	pHorizontal->Add(pContainer);
 
+	// ButtonUI -- Play
+	CButtonUI* pPlayBtn = new CButtonUI();
+
+	pPlayBtn->SetName(_T("play"));
+	pPlayBtn->SetFloat(true);
+	pPlayBtn->SetAttribute(_T("pos"), _T("81,61,0,0"));
+	pPlayBtn->SetFixedWidth(24);
+	pPlayBtn->SetFixedHeight(24);
+	pPlayBtn->SetVisible(true);
+	pPlayBtn->SetAttribute(_T("normalimage"), _T("file='res\\playbuttons.png' source='0,0,24,24'"));
+	pPlayBtn->SetAttribute(_T("hotimage"), _T("file='res\\playbuttons.png' source='0,24,24,48'"));
+	pPlayBtn->SetAttribute(_T("pushedimage"), _T("file='res\\playbuttons.png' source='0,48,24,72'"));
+	pHorizontal->Add(pPlayBtn);
+
 	// ButtonUI -- UnChecked
 	CButtonUI* pUnCheckedBtn = new CButtonUI();
 
@@ -1143,16 +1157,19 @@ void CFrameMain::OnLButtonClickedLiveWallModBtn()
 		
 		for (int j = 0; j < pHorizontal->GetCount(); ++j)
 		{
+			CButtonUI* pPlayBtn = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("play")));
 			CButtonUI* pUnChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("unchecked")));
 			CButtonUI* pChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("checked")));
 
 			if (m_bWallVideoMod == true)
 			{
+				pPlayBtn->SetVisible(false);	// do not show play
 				pUnChecked->SetVisible(true);	// show mod checkbox
 				pChecked->SetVisible(false);
 			}
 			else
 			{
+				pPlayBtn->SetVisible(true);	// show play button
 				pUnChecked->SetVisible(false);	// do not show checkbox
 				pChecked->SetVisible(false);
 			}
