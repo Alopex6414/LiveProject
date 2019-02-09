@@ -29,7 +29,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -69,7 +69,10 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(SolutionDir)Prunus\Inc;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Prunus\Lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -90,6 +93,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -115,10 +119,32 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Prunus\Inc\PlumCat.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumCipherA.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumCommon.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumConsole.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumCrypt.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumFile.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumGraphics.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumIni.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumLog.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumLogEx.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumPack.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumPath.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumProcess.h" />
+    <ClInclude Include="..\Prunus\Inc\PlumThread.h" />
+    <ClInclude Include="Common.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="WinMain.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="LiveReStart.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resource\Icon\LiveCore.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

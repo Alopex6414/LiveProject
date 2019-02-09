@@ -13,9 +13,60 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Prunus">
+      <UniqueIdentifier>{ba974bb5-eabc-4cfc-81c6-297e7b62f995}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WinMain.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Prunus\Inc\PlumCat.h">
+      <Filter>Prunus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Prunus\Inc\PlumCipherA.h">
+      <Filter>Prunus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Prunus\Inc\PlumCommon.h">
+      <Filter>Prunus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Prunus\Inc\PlumConsole.h">
+      <Filter>Prunus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Prunus\Inc\PlumCrypt.h">
+      <Filter>Prunus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Prunus\Inc\PlumFile.h">
+      <Filter>Prunus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Prunus\Inc\PlumGraphics.h">
+      <Filter>Prunus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Prunus\Inc\PlumIni.h">
+      <Filter>Prunus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Prunus\Inc\PlumLog.h">
+      <Filter>Prunus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Prunus\Inc\PlumLogEx.h">
+      <Filter>Prunus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Prunus\Inc\PlumPack.h">
+      <Filter>Prunus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Prunus\Inc\PlumPath.h">
+      <Filter>Prunus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Prunus\Inc\PlumProcess.h">
+      <Filter>Prunus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Prunus\Inc\PlumThread.h">
+      <Filter>Prunus</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -23,5 +74,15 @@
     <ClCompile Include="WinMain.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="LiveReStart.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resource\Icon\LiveCore.ico">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>
