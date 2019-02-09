@@ -57,6 +57,9 @@
 #include "PlumProcess.h"
 #include "PlumThread.h"
 
+// Include LiveReStart Header File
+#include "LiveReStartLog.h"
+
 // Include Prunus(C/C++ Win32) Dynamic Link Library
 #pragma comment(lib, "Prunus.lib")
 

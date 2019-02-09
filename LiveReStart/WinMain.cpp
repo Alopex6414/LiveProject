@@ -22,5 +22,9 @@
 */
 int WINAPI WinMain(IN HINSTANCE hInstance, IN HINSTANCE hPrevInstance, IN LPSTR lpCmdLine, IN int nCmdShow)
 {
+	int nResult = 0;
+
+
+
 	return 0;
 }
