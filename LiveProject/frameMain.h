@@ -84,6 +84,8 @@ public:
 
 protected:
 	void AddOnceVideoContext(S_WALLVIDEO* pVideoInfo);			// LiveProject 添加一个墙纸内容
+	void PlayOnceVideoContext(S_WALLVIDEO* pVideoInfo);			// LiveProject 播放一个墙纸内容
+	void StopOnceVideoContext();								// LiveProject 停止一个墙纸内容
 	void GenerateGUID(char* chGUID, size_t nSize);				// LiveProject 生成GUID
 
 public:

@@ -564,6 +564,28 @@ void CFrameMain::AddOnceVideoContext(S_WALLVIDEO* pVideoInfo)
 }
 
 //----------------------------------------------
+// @Function:	PlayOnceVideoContext()
+// @Purpose: CFrameMain播放一个墙纸内容
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::PlayOnceVideoContext(S_WALLVIDEO * pVideoInfo)
+{
+}
+
+//----------------------------------------------
+// @Function:	StopOnceVideoContext()
+// @Purpose: CFrameMain停止一个墙纸内容
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::StopOnceVideoContext()
+{
+}
+
+//----------------------------------------------
 // @Function:	GenerateGUID()
 // @Purpose: CFrameMain生成GUID
 // @Since: v1.00a
@@ -1154,8 +1176,8 @@ void CFrameMain::OnLButtonClickedLiveWallModBtn()
 	for (int i = 0; i < m_pLiveWallContextLst->GetCount(); ++i)
 	{
 		CHorizontalLayoutUI* pHorizontal = static_cast<CHorizontalLayoutUI*>(m_pLiveWallContextLst->GetItemAt(i));
-		
-		for (int j = 0; j < pHorizontal->GetCount(); ++j)
+
+		if (pHorizontal != NULL)
 		{
 			CButtonUI* pPlayBtn = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("play")));
 			CButtonUI* pUnChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("unchecked")));
@@ -1169,13 +1191,11 @@ void CFrameMain::OnLButtonClickedLiveWallModBtn()
 			}
 			else
 			{
-				pPlayBtn->SetVisible(true);	// show play button
+				pPlayBtn->SetVisible(true);		// show play button
 				pUnChecked->SetVisible(false);	// do not show checkbox
 				pChecked->SetVisible(false);
 			}
-			
 		}
-
 	}
 
 }
@@ -1200,7 +1220,7 @@ void CFrameMain::OnLButtonClickedLiveWallDelBtn()
 	{
 		CHorizontalLayoutUI* pHorizontal = static_cast<CHorizontalLayoutUI*>(m_pLiveWallContextLst->GetItemAt(i));
 
-		for (int j = 0; j < pHorizontal->GetCount(); ++j)
+		if (pHorizontal != NULL)
 		{
 			CButtonUI* pChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("checked")));
 			CTextUI* pVideoName = static_cast<CTextUI*>(pHorizontal->FindSubControl(_T("videoname")));
@@ -1219,11 +1239,8 @@ void CFrameMain::OnLButtonClickedLiveWallDelBtn()
 						break;
 					}
 				}
-
 			}
-
 		}
-
 	}
 
 	// recover flag...
@@ -1262,7 +1279,7 @@ void CFrameMain::OnLButtonClickedOtherEvent(CControlUI* pSender)
 		{
 			CHorizontalLayoutUI* pHorizontal = static_cast<CHorizontalLayoutUI*>(m_pLiveWallContextLst->GetItemAt(i));
 
-			for (int j = 0; j < pHorizontal->GetCount(); ++j)
+			if (pHorizontal != NULL)
 			{
 				CButtonUI* pUnChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("unchecked")));
 				CButtonUI* pChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("checked")));
@@ -1278,11 +1295,25 @@ void CFrameMain::OnLButtonClickedOtherEvent(CControlUI* pSender)
 					pUnChecked->SetVisible(true);
 					pChecked->SetVisible(false);
 				}
-
 			}
-
 		}
+	}
+	else
+	{
+		for (int i = 0; i < m_pLiveWallContextLst->GetCount(); ++i)
+		{
+			CHorizontalLayoutUI* pHorizontal = static_cast<CHorizontalLayoutUI*>(m_pLiveWallContextLst->GetItemAt(i));
 
+			if (pHorizontal != NULL)
+			{
+				CButtonUI* pPlayBtn = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("play")));		// play buttons for playing video wallpapaer...
+
+				if (pSender == pPlayBtn)
+				{
+					Sleep(1);
+				}
+			}
+		}
 	}
 
 
