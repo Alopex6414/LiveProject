@@ -19,4 +19,3 @@
 #include "WinUtilities.h"
 
 #endif // !__WINMAIN_H_
-
