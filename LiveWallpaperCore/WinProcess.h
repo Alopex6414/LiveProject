@@ -22,19 +22,19 @@
 
 //Macro Definition
 #ifndef USER_WINDOWWIDTH
-#define USER_WINDOWWIDTH	320							//窗口宽度
+#define USER_WINDOWWIDTH	1920							//窗口宽度
 #endif
 
 #ifndef USER_WINDOWHEIGHT
-#define USER_WINDOWHEIGHT	480							//窗口高度
+#define USER_WINDOWHEIGHT	1080							//窗口高度
 #endif
 
 #ifndef USER_WINDOWTITLE
-#define USER_WINDOWTITLE	L"LiveProject"				//窗口标题名称
+#define USER_WINDOWTITLE	L"LiveWallpaper"				//窗口标题名称
 #endif
 
 #ifndef USER_WINDOWICON
-#define USER_WINDOWICON		(WORD)IDI_ICON_LIVEIN		//窗口标题图标
+#define USER_WINDOWICON		(WORD)IDI_ICON					//窗口标题图标
 #endif
 
 //Variable Definition

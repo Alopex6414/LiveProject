@@ -13,15 +13,10 @@
 #include "WinUtilities.h"
 #include "resource.h"
 
-#include "LiveIn.h"
-
 //WinUtilities主要用于Win32窗口项目注册窗口、初始化、消息处理...
 //Variable
 HWND g_hWnd;					//窗口句柄
 HINSTANCE g_hInstance;			//窗口实例句柄
-
-//Extern
-extern CLiveIn g_cLiveIn;
 
 //------------------------------------------------------------------
 // @Function:	 MyRegisterClass(HINSTANCE hInstance)
@@ -127,11 +122,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	int wmId, wmEvent;
 	PAINTSTRUCT ps;
 	HDC hdc;
-
-	if (g_cLiveIn.m_pSakuraDialog)
-	{
-		g_cLiveIn.m_pSakuraDialog->MsgProc(hWnd, message, wParam, lParam);
-	}
 
 	switch (message)
 	{
