@@ -1110,6 +1110,9 @@
     <ClInclude Include="LiveCoreLog.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LiveWallpaperCore.rc">
