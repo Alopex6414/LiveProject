@@ -12,6 +12,10 @@
 #include "WinProcess.h"
 #include "WinUtilities.h"
 
+#include "LiveCore.h"
+
+CLiveCore g_LiveCore;
+
 float g_fLastTime = 0.0f;
 float g_fCurrentTime = 0.0f;
 float g_fDeltaTime = 0.0f;
@@ -42,7 +46,7 @@ WndPara* SetWindowParameterCallBack(void)
 //------------------------------------------------------------------
 BOOL InitWindowExtraCallBack(void)
 {
-	return TRUE;
+	return g_LiveCore.CLiveCoreInit();
 }
 
 //------------------------------------------------------------------
@@ -54,7 +58,7 @@ BOOL InitWindowExtraCallBack(void)
 //------------------------------------------------------------------
 void ReleaseWindowExtraCallBack(void)
 {
-
+	g_LiveCore.CLiveCoreRelease();
 }
 
 //------------------------------------------------------------------
@@ -66,7 +70,11 @@ void ReleaseWindowExtraCallBack(void)
 //------------------------------------------------------------------
 void Direct3DRenderCallBack(void)
 {
-	//g_fLastTime = (float)timeGetTime()*0.001f;
-	//g_fCurrentTime = (float)timeGetTime()*0.001f;
-	//g_fDeltaTime = g_fCurrentTime - g_fLastTime;
+	g_fLastTime = (float)timeGetTime()*0.001f;
+
+	g_LiveCore.CLiveCoreUpdate();
+	g_LiveCore.CLiveCoreRender();
+
+	g_fCurrentTime = (float)timeGetTime()*0.001f;
+	g_fDeltaTime = g_fCurrentTime - g_fLastTime;
 }

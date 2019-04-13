@@ -14,6 +14,9 @@
 #ifndef __WINMAIN_H_
 #define __WINMAIN_H_
 
+// Include Common Header File
+#include "Common.h"
+
 // Include Win32 Header File
 #include "WinProcess.h"
 #include "WinUtilities.h"

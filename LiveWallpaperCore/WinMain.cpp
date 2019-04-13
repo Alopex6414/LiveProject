@@ -23,21 +23,43 @@
 int WINAPI WinMain(IN HINSTANCE hInstance, IN HINSTANCE hPrevInstance, IN LPSTR lpCmdLine, IN int nCmdShow)
 {
 	int Msg;
+	int nResult;
 	HRESULT hr;
 
+	// start livecore process...
+	CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "LiveWallpaperCore Process Commond Line: %s", lpCmdLine);
+
+	// check commond lines...
+	nResult = strcmp(lpCmdLine, "");
+	if (nResult == 0)
+	{
+		// no commond lines...(exit)[1]...
+		CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Process Exception Exit! Return Value=1, No CmdLine Parameter!");
+		return 1;
+	}
+
+	// check process exist...
 	HANDLE hMutex;
 	hMutex = CreateMutex(NULL, TRUE, L"LiveWallpaperCore");
 	if (hMutex)
 	{
 		if (ERROR_ALREADY_EXISTS == GetLastError())
 		{
+			// process already exist...(exit)[-1]...
+			CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Process Already Exist! Return Value=-1!");
 			return -1;
 		}
 	}
 
+	// copy commond line...
+	CLiveCore::CLiveCoreSetCmdLine(lpCmdLine);
+
+	// windows application...
 	hr = InitWinMain(hInstance, hPrevInstance, lpCmdLine, nCmdShow, (LPCALLBACKSETWNDPARAFUNC)(&SetWindowParameterCallBack), (LPCALLBACKINITWNDEXTRAFUNC)(&InitWindowExtraCallBack));
 	if (FAILED(hr))
 	{
+		// function initialization failed...(exit)[-1]...
+		CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Initializa Failed! Return Value=-1!");
 		return -1;
 	}
 
