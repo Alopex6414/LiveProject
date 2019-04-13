@@ -1104,6 +1104,12 @@
     <ClInclude Include="..\SDL2\Inc\SDL_vulkan.h">
       <Filter>SDL</Filter>
     </ClInclude>
+    <ClInclude Include="LiveCore.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="LiveCoreLog.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LiveWallpaperCore.rc">
@@ -1123,6 +1129,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="WinUtilities.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="LiveCore.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="LiveCoreLog.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

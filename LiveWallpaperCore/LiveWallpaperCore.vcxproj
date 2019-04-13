@@ -467,6 +467,8 @@
     <ClInclude Include="..\SDL2\Inc\SDL_version.h" />
     <ClInclude Include="..\SDL2\Inc\SDL_video.h" />
     <ClInclude Include="..\SDL2\Inc\SDL_vulkan.h" />
+    <ClInclude Include="LiveCore.h" />
+    <ClInclude Include="LiveCoreLog.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="WinMain.h" />
     <ClInclude Include="WinProcess.h" />
@@ -479,6 +481,8 @@
     <Image Include="Resource\Icon\LiveCore.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="LiveCore.cpp" />
+    <ClCompile Include="LiveCoreLog.cpp" />
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="WinProcess.cpp" />
     <ClCompile Include="WinUtilities.cpp" />
