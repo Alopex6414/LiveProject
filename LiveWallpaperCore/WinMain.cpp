@@ -26,7 +26,7 @@ int WINAPI WinMain(IN HINSTANCE hInstance, IN HINSTANCE hPrevInstance, IN LPSTR 
 	HRESULT hr;
 
 	HANDLE hMutex;
-	hMutex = CreateMutex(NULL, TRUE, L"LiveIn");
+	hMutex = CreateMutex(NULL, TRUE, L"LiveWallpaperCore");
 	if (hMutex)
 	{
 		if (ERROR_ALREADY_EXISTS == GetLastError())

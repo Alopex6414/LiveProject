@@ -30,7 +30,7 @@
 #endif
 
 #ifndef USER_WINDOWTITLE
-#define USER_WINDOWTITLE	L"LiveWallpaper"				//窗口标题名称
+#define USER_WINDOWTITLE	L"LiveWallpaperCore"			//窗口标题名称
 #endif
 
 #ifndef USER_WINDOWICON
