@@ -29,15 +29,6 @@ int WINAPI WinMain(IN HINSTANCE hInstance, IN HINSTANCE hPrevInstance, IN LPSTR 
 	// start livecore process...
 	CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "LiveWallpaperCore Process Commond Line: %s", lpCmdLine);
 
-	// check commond lines...
-	nResult = strcmp(lpCmdLine, "");
-	if (nResult == 0)
-	{
-		// no commond lines...(exit)[1]...
-		CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Process Exception Exit! Return Value=1, No CmdLine Parameter!");
-		return 1;
-	}
-
 	// check process exist...
 	HANDLE hMutex;
 	hMutex = CreateMutex(NULL, TRUE, L"LiveWallpaperCore");
@@ -50,9 +41,6 @@ int WINAPI WinMain(IN HINSTANCE hInstance, IN HINSTANCE hPrevInstance, IN LPSTR 
 			return -1;
 		}
 	}
-
-	// copy commond line...
-	CLiveCore::CLiveCoreSetCmdLine(lpCmdLine);
 
 	// windows application...
 	hr = InitWinMain(hInstance, hPrevInstance, lpCmdLine, nCmdShow, (LPCALLBACKSETWNDPARAFUNC)(&SetWindowParameterCallBack), (LPCALLBACKINITWNDEXTRAFUNC)(&InitWindowExtraCallBack));
