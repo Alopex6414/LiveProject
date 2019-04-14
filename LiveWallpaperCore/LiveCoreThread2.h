@@ -26,6 +26,4 @@ public:
 	virtual void WINAPI PlumThreadRun();
 };
 
-
-
 #endif // !__LIVECORETHREAD2_H_

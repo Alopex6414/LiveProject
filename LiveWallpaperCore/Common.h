@@ -105,7 +105,17 @@ extern "C"
 #pragma comment(lib, "avutil.lib")  
 #pragma comment(lib, "postproc.lib")  
 #pragma comment(lib, "swresample.lib")  
-#pragma comment(lib, "swscale.lib") 
+#pragma comment(lib, "swscale.lib")
+
+// Include SDL Library Header File
+extern "C"
+{
+	#include "SDL.h"
+	#include "SDL_thread.h"
+}
+
+// Include SDL Dynamic Link Library
+#pragma comment(lib, "SDL2.lib")
 
 // Inlcude Cerasus(DirectX) Dynamic Link Library
 #pragma comment(lib, "Cerasus.lib")
