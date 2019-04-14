@@ -19,6 +19,8 @@
 
 // Include LiveCore Header File
 #include "LiveCoreLog.h"
+#include "LiveCoreThreadWait.h"
+#include "LiveCoreThreadUnpack.h"
 
 // Class Definition
 class CLiveCore
@@ -42,7 +44,11 @@ private:
 	char m_chLiveCoreVideoAddress[MAX_PATH];		// LiveCore 动态壁纸视频地址
 
 protected:
+	CLiveCoreThreadWait m_LiveCoreWait;
+	CPlumThread* m_pPlumWait;
 
+	CLiveCoreThreadUnpack m_LiveCoreUnpack;
+	CPlumThread* m_pPlumUnpack;
 
 public:
 	CLiveCore();						// CLiveCore 构造

@@ -17,6 +17,9 @@
 // Include Common Header File
 #include "Common.h"
 
+// Include LiveCore Header File
+#include "LiveCoreLog.h"
+
 // Include Win32 Header File
 #include "WinProcess.h"
 #include "WinUtilities.h"

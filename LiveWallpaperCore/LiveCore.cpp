@@ -11,6 +11,8 @@
 */
 #include "LiveCore.h"
 
+#pragma warning (disable:4996)
+
 // CLiveCore类
 CRITICAL_SECTION g_csDecode;							// LiveCore 视频解码Cirtical
 volatile bool g_bDecodeFlag = false;					// LiveCore 视频解码标志
@@ -45,6 +47,9 @@ CLiveCore::CLiveCore() :
 	m_nLiveCoreLogProcess(0),
 	m_nLiveCoreVideoMode(0)
 {
+	m_pPlumWait = nullptr;
+	m_pPlumUnpack = nullptr;
+
 	memset(m_chLiveCoreVideoName, 0, MAX_PATH);
 	memset(m_chLiveCoreVideoAddress, 0, MAX_PATH);
 }
@@ -112,6 +117,18 @@ BOOL CLiveCore::CLiveCoreInit()
 
 		// start wait for decrypt...
 		g_bWaitFlag = true;
+
+		// start waiting process...
+		m_pPlumWait = new CPlumThread(&m_LiveCoreWait);
+		m_pPlumWait->PlumThreadInit();
+		CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Succeed Start Wait Thread.");
+
+		// start unpacking process...
+		m_pPlumUnpack = new CPlumThread(&m_LiveCoreUnpack);
+		m_pPlumUnpack->PlumThreadInit();
+		CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Succeed Start Unpack Thread.");
+
+
 
 	}
 

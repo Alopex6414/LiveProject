@@ -18,7 +18,7 @@
 #include "Common.h"
 
 // Class Definition
-class CLiveCoreThreadUnpack
+class CLiveCoreThreadUnpack : public CPlumThreadBase
 {
 public:
 	CLiveCoreThreadUnpack();
@@ -26,5 +26,9 @@ public:
 	virtual void WINAPI PlumThreadRun();
 
 };
+
+extern char g_chDefaultVideoAddress[MAX_PATH];
+extern char g_chDefaultVideoDirector[MAX_PATH];
+extern char g_chDefaultVideoUnpack[MAX_PATH];
 
 #endif // !__LIVECORETHREADUNPACK_H_

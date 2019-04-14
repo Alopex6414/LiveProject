@@ -17,6 +17,9 @@
 // Include Common Header File
 #include "Common.h"
 
+// Include LiveCore Header File
+#include "LiveCoreWait.h"
+
 // Class Definition
 class CLiveCoreThreadWait : public CPlumThreadBase
 {
@@ -29,6 +32,9 @@ public:
 	virtual void WINAPI PlumThreadRun();
 
 };
+
+extern CRITICAL_SECTION g_csWait;
+extern volatile bool g_bWaitFlag;
 
 #endif // !__LIVECORETHREADWAIT_H_
 
