@@ -474,6 +474,7 @@
     <ClInclude Include="LiveCoreThread2.h" />
     <ClInclude Include="LiveCoreThreadUnpack.h" />
     <ClInclude Include="LiveCoreThreadWait.h" />
+    <ClInclude Include="LiveCoreWait.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="WinMain.h" />
     <ClInclude Include="WinProcess.h" />
@@ -492,6 +493,7 @@
     <ClCompile Include="LiveCoreThread2.cpp" />
     <ClCompile Include="LiveCoreThreadUnpack.cpp" />
     <ClCompile Include="LiveCoreThreadWait.cpp" />
+    <ClCompile Include="LiveCoreWait.cpp" />
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="WinProcess.cpp" />
     <ClCompile Include="WinUtilities.cpp" />
