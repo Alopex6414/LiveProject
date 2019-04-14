@@ -14,4 +14,17 @@
 #ifndef __LIVECORETHREAD_H_
 #define __LIVECORETHREAD_H_
 
+// Include Common Header File
+#include "Common.h"
+
+// Class Definition
+class CLiveCoreThread : public CPlumThreadBase
+{
+public:
+	CLiveCoreThread();
+	~CLiveCoreThread();
+	virtual void WINAPI PlumThreadRun();
+
+};
+
 #endif // !__LIVECORETHREAD_H_

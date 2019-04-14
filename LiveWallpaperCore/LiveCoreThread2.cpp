@@ -10,3 +10,37 @@
 * @date		2019-04-14
 */
 #include "LiveCoreThread2.h"
+
+//------------------------------------------------------------------
+// @Function:	 CLiveCoreThread2()
+// @Purpose: CLiveCoreThread2构造函数
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//------------------------------------------------------------------
+CLiveCoreThread2::CLiveCoreThread2()
+{
+}
+
+//------------------------------------------------------------------
+// @Function:	 ~CLiveCoreThread2()
+// @Purpose: CLiveCoreThread2析构函数
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//------------------------------------------------------------------
+CLiveCoreThread2::~CLiveCoreThread2()
+{
+}
+
+//------------------------------------------------------------------
+// @Function:	 PlumThreadRun()
+// @Purpose: CLiveCoreThread2线程运行
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//------------------------------------------------------------------
+void __stdcall CLiveCoreThread2::PlumThreadRun()
+{
+	return void __stdcall();
+}

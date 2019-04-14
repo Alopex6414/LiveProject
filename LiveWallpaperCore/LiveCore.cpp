@@ -239,12 +239,28 @@ BOOL CLiveCore::CLiveCoreInit()
 	}
 	CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Succeed Init Direct3D Surface.");
 
-	// initialize fps
+	// initialize fps...
 	if (m_nLiveCoreShowGraphics != 0)
 	{
 		m_pMainfps = new CCerasusfps(m_pD3D9Device);
 		m_pMainfps->CCerasusfpsInit(m_nLiveCoreShowGraphicsFont, (LPWSTR)_T("Consolas"));
 		CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Succeed Init Cerasus fps.");
+	}
+
+	// initialize critical section...
+	InitializeCriticalSection(&g_csDecode);
+	CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Succeed Init Critical Section.");
+
+	g_pPlumThread = new CPlumThread(&g_cLiveCoreThread);
+	g_pPlumThread->PlumThreadInit();
+	g_pPlumLogMain.PlumLogWriteExtend(__FILE__, __LINE__, "Succeed Init Decode Video Thread.\n");
+
+	// ²¥·ÅÊÓÆµÒôÆµ
+	if (g_nLiveCoreWallpaperAudioMode != 0)
+	{
+		g_pPlumThread2 = new CPlumThread(&g_cLiveCoreThread2);
+		g_pPlumThread2->PlumThreadInit();
+		g_pPlumLogMain.PlumLogWriteExtend(__FILE__, __LINE__, "Succeed Init Decode Audio Thread.\n");
 	}
 
 	return TRUE;
