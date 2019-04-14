@@ -229,6 +229,24 @@ BOOL CLiveCore::CLiveCoreInit()
 		m_nVideoFreq = 60;	// fps!=0
 	}
 
+	// initialize Surface...
+	hr = m_pD3D9Device->CreateOffscreenPlainSurface(m_nVideoWidth, m_nVideoHeight, (D3DFORMAT)MAKEFOURCC('Y', 'V', '1', '2'), D3DPOOL_DEFAULT, &m_pD3D9Surface, NULL);
+	if (hr)
+	{
+		MessageBox(g_hWnd, L"Direct3DSurface³õÊ¼»¯Ê§°Ü!", L"´íÎó", MB_OK | MB_ICONERROR);
+		CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Fail Init Direct3D Surface.");
+		return FALSE;
+	}
+	CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Succeed Init Direct3D Surface.");
+
+	// initialize fps
+	if (m_nLiveCoreShowGraphics != 0)
+	{
+		m_pMainfps = new CCerasusfps(m_pD3D9Device);
+		m_pMainfps->CCerasusfpsInit(m_nLiveCoreShowGraphicsFont, (LPWSTR)_T("Consolas"));
+		CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Succeed Init Cerasus fps.");
+	}
+
 	return TRUE;
 }
 
