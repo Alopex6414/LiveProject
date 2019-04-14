@@ -14,4 +14,17 @@
 #ifndef __LIVECORETHREADUNPACK_H_
 #define __LIVECORETHREADUNPACK_H_
 
+// Include Common Header File
+#include "Common.h"
+
+// Class Definition
+class CLiveCoreThreadUnpack
+{
+public:
+	CLiveCoreThreadUnpack();
+	~CLiveCoreThreadUnpack();
+	virtual void WINAPI PlumThreadRun();
+
+};
+
 #endif // !__LIVECORETHREADUNPACK_H_

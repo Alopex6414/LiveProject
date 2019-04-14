@@ -67,4 +67,12 @@ extern volatile bool g_bDecodeFlag;
 extern CRITICAL_SECTION g_csWait;
 extern volatile bool g_bWaitFlag;
 
+extern unsigned char* g_pArrayY;
+extern unsigned char* g_pArrayU;
+extern unsigned char* g_pArrayV;
+
+extern char g_chDefaultVideoAddress[MAX_PATH];
+extern char g_chDefaultVideoDirector[MAX_PATH];
+extern char g_chDefaultVideoUnpack[MAX_PATH];
+
 #endif // !__LIVECORE_H_

@@ -12,11 +12,19 @@
 #include "LiveCore.h"
 
 // CLiveCore类
-CRITICAL_SECTION g_csDecode;					// LiveCore 视频解码Cirtical
-volatile bool g_bDecodeFlag = false;			// LiveCore 视频解码标志
+CRITICAL_SECTION g_csDecode;							// LiveCore 视频解码Cirtical
+volatile bool g_bDecodeFlag = false;					// LiveCore 视频解码标志
 
-CRITICAL_SECTION g_csWait;						// LiveCore 默认视频Cirtical
-volatile bool g_bWaitFlag = false;				// LiveCore 默认视频标志
+CRITICAL_SECTION g_csWait;								// LiveCore 默认视频Cirtical
+volatile bool g_bWaitFlag = false;						// LiveCore 默认视频标志
+
+char g_chDefaultVideoAddress[MAX_PATH] = { 0 };			// LiveCore 默认视频地址
+char g_chDefaultVideoDirector[MAX_PATH] = { 0 };		// LiveCore 默认视频路径
+char g_chDefaultVideoUnpack[MAX_PATH] = { 0 };			// LiveCore 拆包视频路径
+
+unsigned char* g_pArrayY = NULL;						// LiveCore YUV图像Y帧指针
+unsigned char* g_pArrayU = NULL;						// LiveCore YUV图像U帧指针
+unsigned char* g_pArrayV = NULL;						// LiveCore YUV图像V帧指针
 
 //----------------------------------------------
 // @Function:	CLiveCore()
@@ -35,7 +43,7 @@ CLiveCore::CLiveCore() :
 	m_nLiveCoreWallpaperMode(0),
 	m_nLiveCoreWallpaperAudioMode(0),
 	m_nLiveCoreLogProcess(0),
-	m_nLiveCoreVideoMode(0),
+	m_nLiveCoreVideoMode(0)
 {
 	memset(m_chLiveCoreVideoName, 0, MAX_PATH);
 	memset(m_chLiveCoreVideoAddress, 0, MAX_PATH);
@@ -92,17 +100,15 @@ BOOL CLiveCore::CLiveCoreInit()
 	if (m_nLiveCoreVideoMode == 0)
 	{
 		char* pTemp = NULL;
-		char chDefaultDirector[MAX_PATH] = { 0 };
-		char chDefaultAddress[MAX_PATH] = { 0 };
 
 		// get default video path...
-		GetModuleFileNameA(NULL, chDefaultDirector, MAX_PATH);
-		pTemp = strrchr(chDefaultDirector, '\\');
+		GetModuleFileNameA(NULL, g_chDefaultVideoDirector, MAX_PATH);
+		pTemp = strrchr(g_chDefaultVideoDirector, '\\');
 		if (pTemp)* pTemp = '\0';
-		strcat_s(chDefaultDirector, "\\data\\");
+		strcat_s(g_chDefaultVideoDirector, "\\data\\");
 
-		memcpy_s(chDefaultAddress, MAX_PATH, chDefaultDirector, MAX_PATH);
-		strcat_s(chDefaultAddress, m_chLiveCoreVideoName);
+		memcpy_s(g_chDefaultVideoAddress, MAX_PATH, g_chDefaultVideoDirector, MAX_PATH);
+		strcat_s(g_chDefaultVideoAddress, m_chLiveCoreVideoName);
 
 		// start wait for decrypt...
 		g_bWaitFlag = true;
