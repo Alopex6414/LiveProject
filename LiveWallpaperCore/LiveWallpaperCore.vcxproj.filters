@@ -1113,6 +1113,18 @@
     <ClInclude Include="Common.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="LiveCoreThread.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="LiveCoreThread2.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="LiveCoreThreadUnpack.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="LiveCoreThreadWait.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LiveWallpaperCore.rc">
@@ -1138,6 +1150,18 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="LiveCoreLog.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="LiveCoreThread.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="LiveCoreThread2.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="LiveCoreThreadUnpack.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="LiveCoreThreadWait.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

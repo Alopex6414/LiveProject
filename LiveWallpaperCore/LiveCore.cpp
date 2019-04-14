@@ -32,7 +32,7 @@ CLiveCore::CLiveCore() :
 	m_nLiveCoreLogProcess(0),
 	m_nLiveCoreVideoMode(0),
 	m_bDecodeFlag(false),
-	g_bWaitFlag(false)
+	m_bWaitFlag(false)
 {
 	memset(m_chLiveCoreVideoName, 0, MAX_PATH);
 	memset(m_chLiveCoreVideoAddress, 0, MAX_PATH);
@@ -88,6 +88,21 @@ BOOL CLiveCore::CLiveCoreInit()
 	// whether to enable the default video...
 	if (m_nLiveCoreVideoMode == 0)
 	{
+		char* pTemp = NULL;
+		char chDefaultDirector[MAX_PATH] = { 0 };
+		char chDefaultAddress[MAX_PATH] = { 0 };
+
+		// get default video path...
+		GetModuleFileNameA(NULL, chDefaultDirector, MAX_PATH);
+		pTemp = strrchr(chDefaultDirector, '\\');
+		if (pTemp)* pTemp = '\0';
+		strcat_s(chDefaultDirector, "\\data\\");
+
+		memcpy_s(chDefaultAddress, MAX_PATH, chDefaultDirector, MAX_PATH);
+		strcat_s(chDefaultAddress, m_chLiveCoreVideoName);
+
+		// start wait for decrypt...
+		m_bWaitFlag = true;
 
 	}
 

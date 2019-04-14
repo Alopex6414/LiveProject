@@ -46,7 +46,7 @@ protected:
 	volatile bool m_bDecodeFlag;					// LiveCore 视频解码标志
 
 	CRITICAL_SECTION m_csWait;						// LiveCore 默认视频Cirtical
-	volatile bool g_bWaitFlag;						// LiveCore 默认视频标志
+	volatile bool m_bWaitFlag;						// LiveCore 默认视频标志
 
 
 public:
