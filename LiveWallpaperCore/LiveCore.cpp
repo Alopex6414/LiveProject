@@ -12,6 +12,11 @@
 #include "LiveCore.h"
 
 // CLiveCore类
+CRITICAL_SECTION g_csDecode;					// LiveCore 视频解码Cirtical
+volatile bool g_bDecodeFlag = false;			// LiveCore 视频解码标志
+
+CRITICAL_SECTION g_csWait;						// LiveCore 默认视频Cirtical
+volatile bool g_bWaitFlag = false;				// LiveCore 默认视频标志
 
 //----------------------------------------------
 // @Function:	CLiveCore()
@@ -31,8 +36,6 @@ CLiveCore::CLiveCore() :
 	m_nLiveCoreWallpaperAudioMode(0),
 	m_nLiveCoreLogProcess(0),
 	m_nLiveCoreVideoMode(0),
-	m_bDecodeFlag(false),
-	m_bWaitFlag(false)
 {
 	memset(m_chLiveCoreVideoName, 0, MAX_PATH);
 	memset(m_chLiveCoreVideoAddress, 0, MAX_PATH);
@@ -83,7 +86,7 @@ BOOL CLiveCore::CLiveCoreInit()
 	}
 
 	// initialize critical section...
-	InitializeCriticalSection(&m_csWait);
+	InitializeCriticalSection(&g_csWait);
 
 	// whether to enable the default video...
 	if (m_nLiveCoreVideoMode == 0)
@@ -102,7 +105,7 @@ BOOL CLiveCore::CLiveCoreInit()
 		strcat_s(chDefaultAddress, m_chLiveCoreVideoName);
 
 		// start wait for decrypt...
-		m_bWaitFlag = true;
+		g_bWaitFlag = true;
 
 	}
 

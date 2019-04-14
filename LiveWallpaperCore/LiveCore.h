@@ -42,11 +42,6 @@ private:
 	char m_chLiveCoreVideoAddress[MAX_PATH];		// LiveCore 动态壁纸视频地址
 
 protected:
-	CRITICAL_SECTION m_csDecode;					// LiveCore 视频解码Cirtical
-	volatile bool m_bDecodeFlag;					// LiveCore 视频解码标志
-
-	CRITICAL_SECTION m_csWait;						// LiveCore 默认视频Cirtical
-	volatile bool m_bWaitFlag;						// LiveCore 默认视频标志
 
 
 public:
@@ -65,5 +60,11 @@ protected:
 
 
 };
+
+extern CRITICAL_SECTION g_csDecode;
+extern volatile bool g_bDecodeFlag;
+
+extern CRITICAL_SECTION g_csWait;
+extern volatile bool g_bWaitFlag;
 
 #endif // !__LIVECORE_H_

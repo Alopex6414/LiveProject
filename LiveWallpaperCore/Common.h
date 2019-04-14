@@ -84,6 +84,7 @@
 // Include LiveCore Header File
 #include "LiveCore.h"
 #include "LiveCoreLog.h"
+#include "LiveCoreWait.h"
 
 // Inlcude Cerasus(DirectX) Dynamic Link Library
 #pragma comment(lib, "Cerasus.lib")
