@@ -44,6 +44,9 @@ CLiveCore::CLiveCore() :
 	m_pD3D9Surface(NULL),
 	m_nDeskTopWidth(0),
 	m_nDeskTopHeight(0),
+	m_nVideoWidth(0),
+	m_nVideoHeight(0),
+	m_nVideoFreq(0),
 	m_nLiveCoreMode(0),
 	m_nLiveCoreShowGraphics(0),
 	m_nLiveCoreShowGraphicsFont(0),
@@ -143,8 +146,8 @@ BOOL CLiveCore::CLiveCoreInit()
 			CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Unpack Thread Exit.");
 		}
 
-		ZeroMemory(g_chDefaultVideoAddress, MAX_PATH);
-		memcpy_s(g_chDefaultVideoAddress, MAX_PATH, g_chDefaultVideoUnpack, MAX_PATH);
+		ZeroMemory(m_chLiveCoreVideoAddress, MAX_PATH);
+		memcpy_s(m_chLiveCoreVideoAddress, MAX_PATH, g_chDefaultVideoUnpack, MAX_PATH);
 
 		EnterCriticalSection(&g_csWait);
 		g_bWaitFlag = false;
@@ -210,7 +213,16 @@ BOOL CLiveCore::CLiveCoreInit()
 		CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Succeed Init Direct3D Font.");
 	}
 
-	g_pD3D9Device = g_pMainGraphics->DirectGraphicsGetDevice();	// 获取D3D9绘制设备
+	m_pD3D9Device = m_pMainGraphics->DirectGraphicsGetDevice();			// get D3D9 graphics device
+
+	// analyze video information...
+	if (!AnalyzeVideoInfo(g_hWnd, m_chLiveCoreVideoAddress, &m_nVideoWidth, &m_nVideoHeight, &m_nVideoFreq))
+	{
+		CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Fail Analyze Video Infomation.");
+		return FALSE;
+	}
+	CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Succeed Analyze Video Infomation.");
+	CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Para:VideoWidth=%d, Para:VideoHeight=%d, Para:VideoFreq=%d.", m_nVideoWidth, m_nVideoHeight, m_nVideoFreq);
 
 	return TRUE;
 }
@@ -380,4 +392,78 @@ void CLiveCore::SetChildWindow(HWND hChildWindow)
 
 	hSysListView32 = FindWindowEx(hShellDefView, NULL, L"SysListView32", L"FolderView");
 	SetParent(hChildWindow, hDeskTop);
+}
+
+//----------------------------------------------
+// @Function:	AnalyzeVideoInfo()
+// @Purpose: CLiveCore分析视频信息
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+BOOL CLiveCore::AnalyzeVideoInfo(HWND hWnd, const char* pVideoPath, int* pWidth, int* pHeight, int* pFreq)
+{
+	AVFormatContext* pFormatCtx;
+	AVCodecContext* pCodecCtx;
+	AVCodec* pCodec;
+
+	av_register_all();//注册所有组件
+	pFormatCtx = avformat_alloc_context();//初始化一个AVFormatContext
+
+	// 打开输入的视频文件
+	if (avformat_open_input(&pFormatCtx, pVideoPath, NULL, NULL) != 0)
+	{
+		MessageBox(hWnd, L"打开文件失败!", L"错误", MB_OK | MB_ICONERROR);
+		return FALSE;
+	}
+
+	// 获取视频文件信息
+	if (avformat_find_stream_info(pFormatCtx, NULL) < 0)
+	{
+		MessageBox(hWnd, L"无法读取文件信息!", L"错误", MB_OK | MB_ICONERROR);
+		return FALSE;
+	}
+
+	int VideoIndex = -1;
+
+	for (int i = 0; i < pFormatCtx->nb_streams; i++)
+	{
+		if (pFormatCtx->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO)
+		{
+			VideoIndex = i;
+			break;
+		}
+	}
+
+	if (VideoIndex == -1)
+	{
+		MessageBox(hWnd, L"未读取到视频信息!", L"错误", MB_OK | MB_ICONERROR);
+		return FALSE;
+	}
+
+	pCodecCtx = pFormatCtx->streams[VideoIndex]->codec;
+
+	//查找解码器
+	pCodec = avcodec_find_decoder(pCodecCtx->codec_id);
+	if (pCodec == NULL)
+	{
+		MessageBox(hWnd, L"未查找到解码器!", L"错误", MB_OK | MB_ICONERROR);
+		return FALSE;
+	}
+
+	//打开解码器
+	if (avcodec_open2(pCodecCtx, pCodec, NULL) < 0)
+	{
+		MessageBox(hWnd, L"无法打开解码器!", L"错误", MB_OK | MB_ICONERROR);
+		return FALSE;
+	}
+
+	*pWidth = pCodecCtx->width;
+	*pHeight = pCodecCtx->height;
+	*pFreq = pCodecCtx->framerate.num;
+
+	avcodec_close(pCodecCtx);
+	avformat_free_context(pFormatCtx);
+
+	return TRUE;
 }

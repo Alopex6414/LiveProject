@@ -28,6 +28,7 @@ class CLiveCore
 {
 private:
 	DirectGraphics* m_pMainGraphics;				// DirectX 渲染类实例
+	CCerasusfps* m_pMainfps;						// DirectX 帧速率
 
 private:
 	IDirect3DDevice9* m_pD3D9Device;				// DirectX 绘制设备
@@ -36,6 +37,10 @@ private:
 private:
 	int	m_nDeskTopWidth;							// Desktop 宽度
 	int m_nDeskTopHeight;							// Desktop 高度
+
+	int m_nVideoWidth;								// Video 宽度
+	int m_nVideoHeight;								// Video 高度
+	int m_nVideoFreq;								// Video 频率
 
 private:
 	int m_nLiveCoreMode;							// LiveCore 模式: 0~组合模式 1~分离模式
@@ -69,9 +74,10 @@ public:
 	void	CLiveCoreRender();			// CLiveCore 渲染
 
 protected:
-	void	AnalyzeConfigFile();		// CLiveCore 分析配置文件
-	void	RecordConfigFile();			// CLiveCore 记录配置文件
-	void	SetChildWindow(HWND);		// CLiveCore 设置桌面子窗口
+	void	AnalyzeConfigFile();																						// CLiveCore 分析配置文件
+	void	RecordConfigFile();																							// CLiveCore 记录配置文件
+	void	SetChildWindow(HWND);																						// CLiveCore 设置桌面子窗口
+	BOOL	AnalyzeVideoInfo(HWND hWnd, const char* pVideoPath, int* pWidth, int* pHeight, int* pFreq);					// CLiveCore 分析视频信息
 
 
 };
