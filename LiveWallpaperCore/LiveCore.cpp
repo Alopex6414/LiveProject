@@ -40,6 +40,8 @@ unsigned char* g_pArrayV = NULL;						// LiveCore YUV图像V帧指针
 //----------------------------------------------
 CLiveCore::CLiveCore() :
 	m_pMainGraphics(NULL),
+	m_pD3D9Device(NULL),
+	m_pD3D9Surface(NULL),
 	m_nDeskTopWidth(0),
 	m_nDeskTopHeight(0),
 	m_nLiveCoreMode(0),
@@ -183,7 +185,7 @@ BOOL CLiveCore::CLiveCoreInit()
 	SetChildWindow(g_hWnd);
 	CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Succeed Set Window Handle.");
 
-	// initialize Graphics
+	// initialize Graphics...
 	m_pMainGraphics = new DirectGraphics();
 	hr = m_pMainGraphics->DirectGraphicsInit(g_hWnd, true, m_nDeskTopWidth, m_nDeskTopHeight);
 	if (FAILED(hr))
@@ -193,6 +195,22 @@ BOOL CLiveCore::CLiveCoreInit()
 		return FALSE;
 	}
 	CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Succeed Init Direct3D Graphics.");
+
+	// whether to display the graphics card model and frame rate (Debug Mode)...
+	if (m_nLiveCoreShowGraphics != 0)
+	{
+		// initialize font...
+		hr = m_pMainGraphics->DirectGraphicsFontInit(m_nLiveCoreShowGraphicsFont);
+		if (FAILED(hr))
+		{
+			MessageBox(g_hWnd, _T("Direct3DFont初始化失败!"), _T("错误"), MB_OK | MB_ICONERROR);
+			CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Fail Init Direct3D Font.");
+			return FALSE;
+		}
+		CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Succeed Init Direct3D Font.");
+	}
+
+	g_pD3D9Device = g_pMainGraphics->DirectGraphicsGetDevice();	// 获取D3D9绘制设备
 
 	return TRUE;
 }
