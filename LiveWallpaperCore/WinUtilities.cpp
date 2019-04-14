@@ -13,10 +13,15 @@
 #include "WinUtilities.h"
 #include "resource.h"
 
+#pragma warning (disable:4996)
+
 //WinUtilities主要用于Win32窗口项目注册窗口、初始化、消息处理...
 //Variable
 HWND g_hWnd;					//窗口句柄
 HINSTANCE g_hInstance;			//窗口实例句柄
+
+HMENU g_hMenu;					//窗口菜单句柄
+bool g_bActive = true;			//窗口当前是否激活
 
 //------------------------------------------------------------------
 // @Function:	 MyRegisterClass(HINSTANCE hInstance)
@@ -69,9 +74,9 @@ BOOL InitWndInstance(HINSTANCE hInstance, int nCmdShow, WndPara* lpsWndPara, LPC
 	int nScreenHeight = 0;//屏幕高度
 
 	SetRect(&Rect, 0, 0, lpsWndPara->nWndWidth, lpsWndPara->nWndHeight);//设置窗口区域矩形
-	AdjustWindowRect(&Rect, WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX, false);//窗口具有标题栏、菜单栏、最小化窗口
+	AdjustWindowRect(&Rect, WS_POPUP, false);//窗口具有标题栏、菜单栏、最小化窗口
 
-	hWnd = CreateWindow(L"WinClass", lpsWndPara->lpszTitle, WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX, CW_USEDEFAULT, 0, (Rect.right - Rect.left), (Rect.bottom - Rect.top), NULL, NULL, hInstance, NULL);//初始化窗口
+	hWnd = CreateWindow(L"WinClass", lpsWndPara->lpszTitle, WS_POPUP, CW_USEDEFAULT, 0, (Rect.right - Rect.left), (Rect.bottom - Rect.top), NULL, NULL, hInstance, NULL);//初始化窗口
 	if (!hWnd)
 	{
 		return FALSE;//初始化窗口失败(Exit)
@@ -79,6 +84,21 @@ BOOL InitWndInstance(HINSTANCE hInstance, int nCmdShow, WndPara* lpsWndPara, LPC
 
 	g_hWnd = hWnd;//存储窗口句柄
 	g_hInstance = hInstance;//存储窗口实例句柄
+
+	NOTIFYICONDATA nID = { 0 };
+
+	nID.cbSize = sizeof(NOTIFYICONDATA);
+	nID.hWnd = hWnd;//窗口句柄
+	nID.uID = lpsWndPara->wIcon;//图标的ID
+	nID.hIcon = ::LoadIcon(hInstance, MAKEINTRESOURCE(lpsWndPara->wIcon));//加载图标
+	nID.uCallbackMessage = WM_USER;//点击图标的事件消息(用户自定义消息)
+	nID.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;//图标样式
+	_tcscpy(nID.szTip, _T("LiveWallpaperCore"));//鼠标移动到图标显示
+	Shell_NotifyIcon(NIM_ADD, &nID);
+
+	g_hMenu = CreatePopupMenu();//创建菜单
+	AppendMenu(g_hMenu, MF_STRING, IDR_MENU_MAIN_RESTART, L"ReStart");
+	AppendMenu(g_hMenu, MF_STRING, IDR_MENU_MAIN_EXIT, L"Exit");
 
 	GetWindowInfo(hWnd, &WindowInfo);//获取窗口信息
 	nWindowWidth = Rect.right - Rect.left;//计算窗口宽度
@@ -120,7 +140,9 @@ BOOL InitWndInstance(HINSTANCE hInstance, int nCmdShow, WndPara* lpsWndPara, LPC
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	int wmId, wmEvent;
+	int nRet;
 	PAINTSTRUCT ps;
+	POINT pt;
 	HDC hdc;
 
 	switch (message)
@@ -138,6 +160,33 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		EndPaint(hWnd, &ps);
 		break;
 	case WM_TIMER:
+		break;
+	case WM_ACTIVATEAPP:
+		if (wParam == TRUE && g_bActive == false)
+		{
+			g_bActive = true;
+		}
+		else if (wParam == FALSE && g_bActive == true)
+		{
+			g_bActive = false;
+		}
+		break;
+	case WM_USER:
+		if (lParam == WM_RBUTTONDOWN)
+		{
+			GetCursorPos(&pt);
+			::SetForegroundWindow(g_hWnd);
+			nRet = TrackPopupMenu(g_hMenu, TPM_RETURNCMD, pt.x, pt.y, NULL, g_hWnd, NULL);
+			if (nRet == IDR_MENU_MAIN_RESTART)
+			{
+				//LiveCoreReStartProcess("LiveWallpaperCore.exe");
+				::PostMessage(g_hWnd, WM_CLOSE, wParam, lParam);
+			}
+			if (nRet == IDR_MENU_MAIN_EXIT)
+			{
+				::PostMessage(g_hWnd, WM_CLOSE, wParam, lParam);
+			}
+		}
 		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);

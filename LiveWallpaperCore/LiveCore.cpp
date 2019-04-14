@@ -14,7 +14,7 @@
 #pragma warning (disable:4996)
 
 // CLiveCore类
-CLiveCore* g_LiveCore = nullptr;						// LiveCore 实例
+CLiveCore* g_pLiveCore = nullptr;						// LiveCore 实例
 
 CRITICAL_SECTION g_csDecode;							// LiveCore 视频解码Cirtical
 volatile bool g_bDecodeFlag = false;					// LiveCore 视频解码标志
@@ -63,7 +63,7 @@ CLiveCore::CLiveCore() :
 	m_pPlumUnpack = nullptr;
 	g_pPlumMonitor = nullptr;
 
-	g_LiveCore = this;
+	g_pLiveCore = this;
 
 	memset(m_chLiveCoreVideoName, 0, MAX_PATH);
 	memset(m_chLiveCoreVideoAddress, 0, MAX_PATH);
@@ -281,6 +281,40 @@ BOOL CLiveCore::CLiveCoreInit()
 //----------------------------------------------
 void CLiveCore::CLiveCoreRelease()
 {
+	// delete critical section...
+	DeleteCriticalSection(&g_csWait);
+	DeleteCriticalSection(&g_csDecode);
+
+	SAFE_DELETE_ARRAY(g_pArrayY);
+	SAFE_DELETE_ARRAY(g_pArrayU);
+	SAFE_DELETE_ARRAY(g_pArrayV);
+
+	if (m_nLiveCoreWallpaperAudioMode != 0)
+	{
+		if (g_pPlumThread2)
+		{
+			g_pPlumThread2->PlumThreadExit();
+			SAFE_DELETE(g_pPlumThread2);
+		}
+		CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Decode Audio Thread Exit.");
+	}
+
+	if (g_pPlumThread)
+	{
+		g_pPlumThread->PlumThreadExit();
+		SAFE_DELETE(g_pPlumThread);
+	}
+	CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Decode Video Thread Exit.");
+
+	SAFE_DELETE(m_pMainfps);
+	SAFE_DELETE(m_pMainGraphics);
+
+	if (m_nLiveCoreVideoMode == 0)
+	{
+		//LiveCoreCleanUp(g_chDefaultVideoUnpack);
+	}
+
+	CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Process Exit.");
 }
 
 //----------------------------------------------
@@ -292,6 +326,75 @@ void CLiveCore::CLiveCoreRelease()
 //----------------------------------------------
 void CLiveCore::CLiveCoreUpdate()
 {
+	D3DLOCKED_RECT Rect;
+
+	if (g_bDecodeFlag)
+	{
+		HRESULT hr;
+
+		if (!g_bActive)
+		{
+			Sleep(50);
+		}
+
+		EnterCriticalSection(&g_csDecode);
+		hr = m_pMainGraphics->DirectGraphicsTestCooperativeLevel();
+		if (hr != S_OK)
+		{
+			CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Direct3D Lost Device!");
+			if (hr == D3DERR_DEVICELOST)
+			{
+				LeaveCriticalSection(&g_csDecode);
+				return;
+			}
+
+			if (hr == D3DERR_DEVICENOTRESET)
+			{
+				IDirect3DSurface9* pD3D9BackBuffer = NULL;
+
+				if (m_nLiveCoreShowGraphics != 0)
+				{
+					m_pMainGraphics->DirectGraphicsReset();
+					m_pMainfps->CCerasusfpsReset();
+				}
+
+				m_pD3D9Device->GetBackBuffer(NULL, NULL, D3DBACKBUFFER_TYPE_MONO, &pD3D9BackBuffer);
+				SAFE_RELEASE(pD3D9BackBuffer);
+				SAFE_RELEASE(m_pD3D9Surface);
+
+				m_pMainGraphics->DirectGraphicsResetDevice();
+
+				m_pD3D9Device->CreateOffscreenPlainSurface(m_nVideoWidth, m_nVideoHeight, (D3DFORMAT)MAKEFOURCC('Y', 'V', '1', '2'), D3DPOOL_DEFAULT, &m_pD3D9Surface, NULL);
+				CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Direct3D Reset Device!");
+			}
+		}
+
+		m_pD3D9Surface->LockRect(&Rect, 0, 0);
+		for (int i = 0; i < m_nVideoHeight; ++i)
+		{
+			memcpy((BYTE*)(Rect.pBits) + i * Rect.Pitch, (BYTE*)g_pArrayY + i * m_nVideoWidth, m_nVideoWidth);
+		}
+		for (int i = 0; i < m_nVideoHeight / 2; ++i)
+		{
+			memcpy((BYTE*)(Rect.pBits) + Rect.Pitch * m_nVideoHeight + (Rect.Pitch / 2) * i, (BYTE*)g_pArrayV + i * m_nVideoWidth / 2, m_nVideoWidth / 2);
+		}
+		for (int i = 0; i < m_nVideoHeight / 2; ++i)
+		{
+			memcpy((BYTE*)(Rect.pBits) + Rect.Pitch * m_nVideoHeight + Rect.Pitch * m_nVideoHeight / 4 + (Rect.Pitch / 2) * i, (BYTE*)g_pArrayU + i * m_nVideoWidth / 2, m_nVideoWidth / 2);
+		}
+		m_pD3D9Surface->UnlockRect();
+
+		g_bReStart = true;
+		g_bDecodeFlag = false;
+
+		if (m_nLiveCoreLogProcess)
+		{
+			CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Direct3D Update One frame.");
+		}
+
+		LeaveCriticalSection(&g_csDecode);
+	}
+
 }
 
 //----------------------------------------------
@@ -303,6 +406,112 @@ void CLiveCore::CLiveCoreUpdate()
 //----------------------------------------------
 void CLiveCore::CLiveCoreRender()
 {
+	IDirect3DSurface9* pD3D9BackBuffer = NULL;
+	RECT SrcRect;
+	RECT DestRect;
+
+	if (g_bReStart)
+	{
+		m_pMainGraphics->DirectGraphicsBegin();
+
+		SrcRect.left = 0;
+		SrcRect.top = 0;
+		SrcRect.right = m_nVideoWidth;
+		SrcRect.bottom = m_nVideoHeight;
+
+		if (m_nLiveCoreWallpaperMode == 0) // 填充模式
+		{
+			DestRect.left = 0;
+			DestRect.top = 0;
+			DestRect.right = m_nDeskTopWidth;
+			DestRect.bottom = m_nDeskTopHeight;
+		}
+		else if (m_nLiveCoreWallpaperMode == 1) // 适应模式
+		{
+			float fVideoRate = 0.0f;
+			float fScreenRate = 0.0f;
+
+			fVideoRate = (float)m_nVideoWidth / (float)m_nVideoHeight;
+			fScreenRate = (float)m_nDeskTopWidth / (float)m_nDeskTopHeight;
+
+			if (fVideoRate >= fScreenRate)
+			{
+				DestRect.left = 0;
+				DestRect.right = m_nDeskTopWidth;
+				DestRect.top = (int)(((float)m_nDeskTopHeight - (float)m_nDeskTopWidth / fVideoRate) / 2.0f);
+				DestRect.bottom = DestRect.top + (int)((float)m_nDeskTopWidth / fVideoRate);
+			}
+			else
+			{
+				DestRect.left = (int)(((float)m_nDeskTopWidth - (float)m_nDeskTopHeight * fVideoRate) / 2.0f);
+				DestRect.right = DestRect.left + (int)((float)m_nDeskTopHeight * fVideoRate);
+				DestRect.top = 0;
+				DestRect.bottom = m_nDeskTopHeight;
+			}
+		}
+		else if (m_nLiveCoreWallpaperMode == 2)	// 拉伸模式
+		{
+			float fVideoRate = 0.0f;
+			float fScreenRate = 0.0f;
+
+			fVideoRate = (float)m_nVideoWidth / (float)m_nVideoHeight;
+			fScreenRate = (float)m_nDeskTopWidth / (float)m_nDeskTopHeight;
+
+			if (fVideoRate >= fScreenRate)
+			{
+				DestRect.left = (int)(((float)m_nDeskTopWidth - (float)m_nDeskTopHeight * fVideoRate) / 2.0f);
+				DestRect.right = DestRect.left + (int)((float)m_nDeskTopHeight * fVideoRate);
+				DestRect.top = 0;
+				DestRect.bottom = m_nDeskTopHeight;
+			}
+			else
+			{
+				DestRect.left = 0;
+				DestRect.right = m_nDeskTopWidth;
+				DestRect.top = (int)(((float)m_nDeskTopHeight - (float)m_nDeskTopWidth / fVideoRate) / 2.0f);
+				DestRect.bottom = DestRect.top + (int)((float)m_nDeskTopWidth / fVideoRate);
+			}
+		}
+		else if (m_nLiveCoreWallpaperMode == 3)	// 平铺模式(暂未完成)
+		{
+			DestRect.left = 0;
+			DestRect.top = 0;
+			DestRect.right = m_nDeskTopWidth;
+			DestRect.bottom = m_nDeskTopHeight;
+		}
+		else if (m_nLiveCoreWallpaperMode == 4)	// 居中模式(原始尺寸)
+		{
+			if (m_nDeskTopWidth >= m_nVideoWidth && m_nDeskTopHeight >= m_nVideoHeight)
+			{
+				DestRect.left = (m_nDeskTopWidth - m_nVideoWidth) >> 1;
+				DestRect.top = (m_nDeskTopHeight - m_nVideoHeight) >> 1;
+				DestRect.right = DestRect.left + m_nVideoWidth;
+				DestRect.bottom = DestRect.top + m_nVideoHeight;
+			}
+		}
+
+		m_pD3D9Device->GetBackBuffer(NULL, NULL, D3DBACKBUFFER_TYPE_MONO, &pD3D9BackBuffer);
+		m_pD3D9Device->StretchRect(m_pD3D9Surface, &SrcRect, pD3D9BackBuffer, &DestRect, D3DTEXF_NONE);
+
+		if (m_nLiveCoreShowGraphics != 0)
+		{
+			m_pMainfps->CCerasusfpsGetfps();
+			m_pMainfps->CCerasusfpsDrawfps(g_hWnd, DIRECTFONT_FORMAT_TOPRIGHT, D3DXCOLOR(1.0f, 0.5f, 0.5f, 1.0f));
+			m_pMainGraphics->DirectGraphicsFontDrawText(g_hWnd);
+		}
+
+		m_pMainGraphics->DirectGraphicsEnd();
+		SAFE_RELEASE(pD3D9BackBuffer);
+
+		EnterCriticalSection(&g_csDecode);
+		if (m_nLiveCoreLogProcess)
+		{
+			CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Direct3D Render One frame.");
+		}
+		LeaveCriticalSection(&g_csDecode);
+
+	}
+
 }
 
 //----------------------------------------------

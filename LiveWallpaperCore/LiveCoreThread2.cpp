@@ -16,7 +16,7 @@
 
 #define MAX_AUDIO_FRAME_SIZE 192000
 
-extern CLiveCore* g_LiveCore;
+extern CLiveCore* g_pLiveCore;
 
 static  Uint8* audio_chunk;
 static  Uint32  audio_len;
@@ -70,7 +70,7 @@ void __stdcall CLiveCoreThread2::PlumThreadRun()
 	pFormatCtx = avformat_alloc_context();//初始化一个AVFormatContext
 
 	//打开输入的视频文件
-	if (avformat_open_input(&pFormatCtx, g_LiveCore->m_chLiveCoreVideoAddress, NULL, NULL) != 0)
+	if (avformat_open_input(&pFormatCtx, g_pLiveCore->m_chLiveCoreVideoAddress, NULL, NULL) != 0)
 	{
 		MessageBox(g_hWnd, L"打开文件失败!", L"错误", MB_OK | MB_ICONERROR);
 		return;

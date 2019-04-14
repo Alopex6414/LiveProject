@@ -14,7 +14,7 @@
 
 #pragma warning (disable:4996)
 
-extern CLiveCore* g_LiveCore;
+extern CLiveCore* g_pLiveCore;
 
 extern CRITICAL_SECTION g_csDecode;
 extern volatile bool g_bDecodeFlag;
@@ -60,7 +60,7 @@ void __stdcall CLiveCoreThread::PlumThreadRun()
 	pFormatCtx = avformat_alloc_context();//初始化一个AVFormatContext
 
 	//打开输入的视频文件
-	if (avformat_open_input(&pFormatCtx, g_LiveCore->m_chLiveCoreVideoAddress, NULL, NULL) != 0)
+	if (avformat_open_input(&pFormatCtx, g_pLiveCore->m_chLiveCoreVideoAddress, NULL, NULL) != 0)
 	{
 		MessageBox(g_hWnd, L"打开文件失败!", L"错误", MB_OK | MB_ICONERROR);
 		EnterCriticalSection(&g_csDecode);
@@ -154,8 +154,8 @@ void __stdcall CLiveCoreThread::PlumThreadRun()
 
 	int nSize = pCodecCtx->width * pCodecCtx->height;
 
-	g_LiveCore->m_nVideoWidth = pCodecCtx->width;
-	g_LiveCore->m_nVideoHeight = pCodecCtx->height;
+	g_pLiveCore->m_nVideoWidth = pCodecCtx->width;
+	g_pLiveCore->m_nVideoHeight = pCodecCtx->height;
 
 	g_pArrayY = new unsigned char[nSize];
 	g_pArrayU = new unsigned char[nSize];
@@ -164,7 +164,7 @@ void __stdcall CLiveCoreThread::PlumThreadRun()
 	memset(g_pArrayU, 0, nSize);
 	memset(g_pArrayV, 0, nSize);
 
-	av_dump_format(pFormatCtx, 0, g_LiveCore->m_chLiveCoreVideoAddress, 0);
+	av_dump_format(pFormatCtx, 0, g_pLiveCore->m_chLiveCoreVideoAddress, 0);
 
 	//读取一帧压缩数据
 	int ret;
@@ -202,7 +202,7 @@ void __stdcall CLiveCoreThread::PlumThreadRun()
 					memcpy_s(g_pArrayV, nSize, pFrameYUV->data[2], y_size / 4);
 					g_bDecodeFlag = true;
 
-					if (g_LiveCore->m_nLiveCoreLogProcess)
+					if (g_pLiveCore->m_nLiveCoreLogProcess)
 					{
 						CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Decode One frame.\n");
 					}
@@ -240,7 +240,7 @@ void __stdcall CLiveCoreThread::PlumThreadRun()
 			memcpy_s(g_pArrayV, nSize, pFrameYUV->data[2], y_size / 4);
 			g_bDecodeFlag = true;
 
-			if (g_LiveCore->m_nLiveCoreLogProcess)
+			if (g_pLiveCore->m_nLiveCoreLogProcess)
 			{
 				CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Decode One frame.");
 			}
