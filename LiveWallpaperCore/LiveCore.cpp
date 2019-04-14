@@ -20,6 +20,9 @@ volatile bool g_bDecodeFlag = false;					// LiveCore 视频解码标志
 CRITICAL_SECTION g_csWait;								// LiveCore 默认视频Cirtical
 volatile bool g_bWaitFlag = false;						// LiveCore 默认视频标志
 
+bool g_bReStart = false;								// LiveCore 重启标志
+bool g_bMonitorFlag = false;							// LiveCore 监视标志
+
 char g_chDefaultVideoAddress[MAX_PATH] = { 0 };			// LiveCore 默认视频地址
 char g_chDefaultVideoDirector[MAX_PATH] = { 0 };		// LiveCore 默认视频路径
 char g_chDefaultVideoUnpack[MAX_PATH] = { 0 };			// LiveCore 拆包视频路径
@@ -36,7 +39,7 @@ unsigned char* g_pArrayV = NULL;						// LiveCore YUV图像V帧指针
 // @Return: None
 //----------------------------------------------
 CLiveCore::CLiveCore() :
-	m_pDirectGraphicsMain(NULL),
+	m_pMainGraphics(NULL),
 	m_nDeskTopWidth(0),
 	m_nDeskTopHeight(0),
 	m_nLiveCoreMode(0),
@@ -49,6 +52,7 @@ CLiveCore::CLiveCore() :
 {
 	m_pPlumWait = nullptr;
 	m_pPlumUnpack = nullptr;
+	g_pPlumMonitor = nullptr;
 
 	memset(m_chLiveCoreVideoName, 0, MAX_PATH);
 	memset(m_chLiveCoreVideoAddress, 0, MAX_PATH);
@@ -63,7 +67,7 @@ CLiveCore::CLiveCore() :
 //----------------------------------------------
 CLiveCore::~CLiveCore()
 {
-	SAFE_DELETE(m_pDirectGraphicsMain);
+	SAFE_DELETE(m_pMainGraphics);
 }
 
 //----------------------------------------------
@@ -128,9 +132,67 @@ BOOL CLiveCore::CLiveCoreInit()
 		m_pPlumUnpack->PlumThreadInit();
 		CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Succeed Start Unpack Thread.");
 
+		// waiting for process execution...
+		m_pPlumUnpack->PlumThreadJoin();
+		if (m_pPlumUnpack)
+		{
+			m_pPlumUnpack->PlumThreadExit();
+			SAFE_DELETE(m_pPlumUnpack);
+			CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Unpack Thread Exit.");
+		}
 
+		ZeroMemory(g_chDefaultVideoAddress, MAX_PATH);
+		memcpy_s(g_chDefaultVideoAddress, MAX_PATH, g_chDefaultVideoUnpack, MAX_PATH);
 
+		EnterCriticalSection(&g_csWait);
+		g_bWaitFlag = false;
+		LeaveCriticalSection(&g_csWait);
+
+		// waiting for process execution...
+		m_pPlumWait->PlumThreadJoin();
+		if (m_pPlumWait)
+		{
+			m_pPlumWait->PlumThreadExit();
+			SAFE_DELETE(m_pPlumWait);
+			CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Wait Thread Exit.");
+		}
 	}
+
+	// turn on thread monitor...
+	g_pPlumMonitor = new CPlumThread(&g_cLiveCoreMonitor);
+	g_pPlumMonitor->PlumThreadInit();
+	CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Succeed Start Monitor Thread.");
+
+	// perform a separate desktop icon applet...
+	if (!CPlumProcess::PlumProcessStartProcessExA("LiveCorePre.dll"))
+	{
+		CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Fail Run Monitor PreProcess.");
+		return FALSE;
+	}
+
+	// waiting for process execution...
+	g_pPlumMonitor->PlumThreadJoin();
+	if (g_pPlumMonitor)
+	{
+		g_pPlumMonitor->PlumThreadExit();
+		SAFE_DELETE(g_pPlumMonitor);
+		CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Monitor Thread Exit.");
+	}
+
+	// set live wallpaper window...
+	SetChildWindow(g_hWnd);
+	CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Succeed Set Window Handle.");
+
+	// initialize Graphics
+	m_pMainGraphics = new DirectGraphics();
+	hr = m_pMainGraphics->DirectGraphicsInit(g_hWnd, true, m_nDeskTopWidth, m_nDeskTopHeight);
+	if (FAILED(hr))
+	{
+		MessageBox(g_hWnd, _T("Direct3D初始化失败!"), _T("错误"), MB_OK | MB_ICONERROR);
+		CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Fail Init Direct3D Graphics.");
+		return FALSE;
+	}
+	CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Succeed Init Direct3D Graphics.");
 
 	return TRUE;
 }
@@ -267,4 +329,37 @@ void CLiveCore::RecordConfigFile()
 
 	// safe delete object...
 	SAFE_DELETE(pFile);
+}
+
+//----------------------------------------------
+// @Function:	SetChildWindow()
+// @Purpose: CLiveCore设置桌面子窗口
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CLiveCore::SetChildWindow(HWND hChildWindow)
+{
+	HWND hDeskTop = NULL;
+	HWND hShellDefView = NULL;
+	HWND hSysListView32 = NULL;
+	HWND hTemp = NULL;
+	DWORD dwReturn = 0;
+
+	hDeskTop = FindWindowEx(GetDesktopWindow(), NULL, L"Progman", L"Program Manager");
+	hShellDefView = FindWindowEx(hDeskTop, NULL, L"SHELLDLL_DefView", 0);
+
+	if (hShellDefView == NULL)
+	{
+		hTemp = FindWindowEx(GetDesktopWindow(), NULL, L"WorkerW", 0);
+		while (hTemp != NULL)
+		{
+			hShellDefView = FindWindowEx(hTemp, NULL, L"SHELLDLL_DefView", 0);
+			if (hShellDefView != NULL) break;
+			hTemp = FindWindowEx(GetDesktopWindow(), hTemp, L"WorkerW", 0);
+		}
+	}
+
+	hSysListView32 = FindWindowEx(hShellDefView, NULL, L"SysListView32", L"FolderView");
+	SetParent(hChildWindow, hDeskTop);
 }

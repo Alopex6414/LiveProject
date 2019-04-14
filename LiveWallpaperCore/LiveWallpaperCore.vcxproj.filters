@@ -1128,6 +1128,9 @@
     <ClInclude Include="LiveCoreWait.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="LiveCoreThreadMonitor.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LiveWallpaperCore.rc">
@@ -1168,6 +1171,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="LiveCoreWait.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="LiveCoreThreadMonitor.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

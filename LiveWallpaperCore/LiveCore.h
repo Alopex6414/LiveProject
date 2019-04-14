@@ -21,12 +21,13 @@
 #include "LiveCoreLog.h"
 #include "LiveCoreThreadWait.h"
 #include "LiveCoreThreadUnpack.h"
+#include "LiveCoreThreadMonitor.h"
 
 // Class Definition
 class CLiveCore
 {
 private:
-	DirectGraphics* m_pDirectGraphicsMain;			// DirectX 渲染类实例
+	DirectGraphics* m_pMainGraphics;				// DirectX 渲染类实例
 
 private:
 	int	m_nDeskTopWidth;							// Desktop 宽度
@@ -50,6 +51,9 @@ protected:
 	CLiveCoreThreadUnpack m_LiveCoreUnpack;
 	CPlumThread* m_pPlumUnpack;
 
+	CLiveCoreThreadMonitor g_cLiveCoreMonitor;
+	CPlumThread* g_pPlumMonitor;
+
 public:
 	CLiveCore();						// CLiveCore 构造
 	~CLiveCore();						// CLiveCore 析构
@@ -63,6 +67,7 @@ public:
 protected:
 	void	AnalyzeConfigFile();		// CLiveCore 分析配置文件
 	void	RecordConfigFile();			// CLiveCore 记录配置文件
+	void	SetChildWindow(HWND);		// CLiveCore 设置桌面子窗口
 
 
 };
@@ -72,6 +77,9 @@ extern volatile bool g_bDecodeFlag;
 
 extern CRITICAL_SECTION g_csWait;
 extern volatile bool g_bWaitFlag;
+
+extern bool g_bReStart;
+extern bool g_bMonitorFlag;
 
 extern unsigned char* g_pArrayY;
 extern unsigned char* g_pArrayU;

@@ -472,6 +472,7 @@
     <ClInclude Include="LiveCoreLog.h" />
     <ClInclude Include="LiveCoreThread.h" />
     <ClInclude Include="LiveCoreThread2.h" />
+    <ClInclude Include="LiveCoreThreadMonitor.h" />
     <ClInclude Include="LiveCoreThreadUnpack.h" />
     <ClInclude Include="LiveCoreThreadWait.h" />
     <ClInclude Include="LiveCoreWait.h" />
@@ -491,6 +492,7 @@
     <ClCompile Include="LiveCoreLog.cpp" />
     <ClCompile Include="LiveCoreThread.cpp" />
     <ClCompile Include="LiveCoreThread2.cpp" />
+    <ClCompile Include="LiveCoreThreadMonitor.cpp" />
     <ClCompile Include="LiveCoreThreadUnpack.cpp" />
     <ClCompile Include="LiveCoreThreadWait.cpp" />
     <ClCompile Include="LiveCoreWait.cpp" />
