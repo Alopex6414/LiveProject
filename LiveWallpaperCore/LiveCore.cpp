@@ -14,6 +14,8 @@
 #pragma warning (disable:4996)
 
 // CLiveCore类
+CLiveCore* g_LiveCore = nullptr;						// LiveCore 实例
+
 CRITICAL_SECTION g_csDecode;							// LiveCore 视频解码Cirtical
 volatile bool g_bDecodeFlag = false;					// LiveCore 视频解码标志
 
@@ -55,9 +57,13 @@ CLiveCore::CLiveCore() :
 	m_nLiveCoreLogProcess(0),
 	m_nLiveCoreVideoMode(0)
 {
+	g_pPlumThread = nullptr;
+	g_pPlumThread2 = nullptr;
 	m_pPlumWait = nullptr;
 	m_pPlumUnpack = nullptr;
 	g_pPlumMonitor = nullptr;
+
+	g_LiveCore = this;
 
 	memset(m_chLiveCoreVideoName, 0, MAX_PATH);
 	memset(m_chLiveCoreVideoAddress, 0, MAX_PATH);
@@ -253,14 +259,14 @@ BOOL CLiveCore::CLiveCoreInit()
 
 	g_pPlumThread = new CPlumThread(&g_cLiveCoreThread);
 	g_pPlumThread->PlumThreadInit();
-	g_pPlumLogMain.PlumLogWriteExtend(__FILE__, __LINE__, "Succeed Init Decode Video Thread.\n");
+	CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Succeed Init Decode Video Thread.");
 
-	// 播放视频音频
-	if (g_nLiveCoreWallpaperAudioMode != 0)
+	// play video & audio...
+	if (m_nLiveCoreWallpaperAudioMode != 0)
 	{
 		g_pPlumThread2 = new CPlumThread(&g_cLiveCoreThread2);
 		g_pPlumThread2->PlumThreadInit();
-		g_pPlumLogMain.PlumLogWriteExtend(__FILE__, __LINE__, "Succeed Init Decode Audio Thread.\n");
+		CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Succeed Init Decode Audio Thread.");
 	}
 
 	return TRUE;

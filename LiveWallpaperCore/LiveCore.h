@@ -19,6 +19,8 @@
 
 // Include LiveCore Header File
 #include "LiveCoreLog.h"
+#include "LiveCoreThread.h"
+#include "LiveCoreThread2.h"
 #include "LiveCoreThreadWait.h"
 #include "LiveCoreThreadUnpack.h"
 #include "LiveCoreThreadMonitor.h"
@@ -38,11 +40,12 @@ private:
 	int	m_nDeskTopWidth;							// Desktop 宽度
 	int m_nDeskTopHeight;							// Desktop 高度
 
+public:
 	int m_nVideoWidth;								// Video 宽度
 	int m_nVideoHeight;								// Video 高度
 	int m_nVideoFreq;								// Video 频率
 
-private:
+public:
 	int m_nLiveCoreMode;							// LiveCore 模式: 0~组合模式 1~分离模式
 	int m_nLiveCoreShowGraphics;					// LiveCore 显示: 0~不显示显卡型号(fps) 1~显示显卡型号(fps)
 	int m_nLiveCoreShowGraphicsFont;				// LiveCore 显示字体大小
@@ -54,6 +57,12 @@ private:
 	char m_chLiveCoreVideoAddress[MAX_PATH];		// LiveCore 动态壁纸视频地址
 
 protected:
+	CLiveCoreThread g_cLiveCoreThread;
+	CPlumThread* g_pPlumThread;
+
+	CLiveCoreThread2 g_cLiveCoreThread2;
+	CPlumThread* g_pPlumThread2;
+
 	CLiveCoreThreadWait m_LiveCoreWait;
 	CPlumThread* m_pPlumWait;
 
@@ -81,6 +90,8 @@ protected:
 
 
 };
+
+extern CLiveCore* g_LiveCore;
 
 extern CRITICAL_SECTION g_csDecode;
 extern volatile bool g_bDecodeFlag;
