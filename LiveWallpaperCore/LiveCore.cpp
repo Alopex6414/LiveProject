@@ -224,6 +224,11 @@ BOOL CLiveCore::CLiveCoreInit()
 	CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Succeed Analyze Video Infomation.");
 	CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Para:VideoWidth=%d, Para:VideoHeight=%d, Para:VideoFreq=%d.", m_nVideoWidth, m_nVideoHeight, m_nVideoFreq);
 
+	if (m_nVideoFreq == 0)
+	{
+		m_nVideoFreq = 60;	// fps!=0
+	}
+
 	return TRUE;
 }
 
