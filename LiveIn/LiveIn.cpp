@@ -699,18 +699,18 @@ void CLiveIn::CLiveInStartUpdate(float fDeltaTime)
 		if (m_pDirectInput->KeyBoardIsDown(DIK_UP))		// 方向键上键"↑"按下
 		{
 			// Surface远离屏幕...
-			m_pSakuraDialog->GetDialogGraphics()->GetRotateZ() += 0.2f;
-			if (m_pSakuraDialog->GetDialogGraphics()->GetRotateZ() >= 0.0f)	// 不要离开摄像机视野
+			m_pSakuraDialog->GetDialogGraphics()->GetTranslateZ() += 0.2f;
+			if (m_pSakuraDialog->GetDialogGraphics()->GetTranslateZ() >= 0.0f)	// 不要离开摄像机视野
 			{
-				m_pSakuraDialog->GetDialogGraphics()->GetRotateZ() = 0.0f;
+				m_pSakuraDialog->GetDialogGraphics()->GetTranslateZ() = 0.0f;
 			}
 
 			for (auto iter = m_pSakuraDialog->GetControls().begin(); iter != m_pSakuraDialog->GetControls().end(); ++iter)
 			{
-				(*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetRotateZ() += 0.2f;
-				if ((*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetRotateZ() >= 0.0f)	// 不要离开摄像机视野
+				(*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetTranslateZ() += 0.2f;
+				if ((*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetTranslateZ() >= 0.0f)	// 不要离开摄像机视野
 				{
-					(*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetRotateZ() = 0.0f;
+					(*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetTranslateZ() = 0.0f;
 				}
 			}
 
@@ -718,11 +718,11 @@ void CLiveIn::CLiveInStartUpdate(float fDeltaTime)
 		if (m_pDirectInput->KeyBoardIsDown(DIK_DOWN))		// 方向键下键"↓"按下
 		{
 			// Surface靠近屏幕...
-			m_pSakuraDialog->GetDialogGraphics()->GetRotateZ() -= 0.2f;
+			m_pSakuraDialog->GetDialogGraphics()->GetTranslateZ() -= 0.2f;
 
 			for (auto iter = m_pSakuraDialog->GetControls().begin(); iter != m_pSakuraDialog->GetControls().end(); ++iter)
 			{
-				(*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetRotateZ() -= 0.2f;
+				(*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetTranslateZ() -= 0.2f;
 			}
 
 		}
