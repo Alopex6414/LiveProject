@@ -91,7 +91,7 @@ BOOL CLiveIn::CLiveInInit()
 
 	// DirectGraphics 初始化
 	m_pDirectGraphicsMain = new DirectGraphics();
-	hr = m_pDirectGraphicsMain->DirectGraphicsInit(g_hWnd, true, USER_WINDOWWIDTH, USER_WINDOWHEIGHT);
+	hr = m_pDirectGraphicsMain->Create(g_hWnd, true, USER_WINDOWWIDTH, USER_WINDOWHEIGHT);
 	if (FAILED(hr))
 	{
 		if (m_nIsUseLog != 0) CLiveInLog::LiveInLogExWriteLine(__FILE__, __LINE__, "Direct3D初始化失败!返回值hr=%l.", hr);
@@ -100,7 +100,7 @@ BOOL CLiveIn::CLiveInInit()
 	}
 	if (m_nIsUseLog != 0) CLiveInLog::LiveInLogExWriteLine(__FILE__, __LINE__, "Direct3D初始化成功!");
 
-	hr = m_pDirectGraphicsMain->DirectGraphicsFontInit(20);
+	hr = m_pDirectGraphicsMain->Create2(20);
 	if (FAILED(hr))
 	{
 		if (m_nIsUseLog != 0) CLiveInLog::LiveInLogExWriteLine(__FILE__, __LINE__, "DirectFont初始化失败!返回值hr=%l.", hr);
@@ -109,11 +109,11 @@ BOOL CLiveIn::CLiveInInit()
 	}
 	if (m_nIsUseLog != 0) CLiveInLog::LiveInLogExWriteLine(__FILE__, __LINE__, "DirectFont初始化成功!");
 
-	pD3D9Device = m_pDirectGraphicsMain->DirectGraphicsGetDevice();		// DirectX设备指针
+	pD3D9Device = m_pDirectGraphicsMain->GetDevice();		// DirectX设备指针
 
 	// DirectGraphics3D 初始化
 	m_pDirectGraphics3DMain = new DirectGraphics3D(pD3D9Device);
-	hr = m_pDirectGraphics3DMain->DirectGraphics3DInitVertex3DBase(6);
+	hr = m_pDirectGraphics3DMain->CreateBase(6);
 	if (FAILED(hr))
 	{
 		if (m_nIsUseLog != 0) CLiveInLog::LiveInLogExWriteLine(__FILE__, __LINE__, "DirectGraphics3D初始化失败!返回值hr=%l.", hr);
@@ -124,7 +124,7 @@ BOOL CLiveIn::CLiveInInit()
 
 	// DirectInput 初始化
 	m_pDirectInput = new DirectInput();
-	hr = m_pDirectInput->DirectInputInit(g_hWnd, g_hInstance, DirectInputDevice_KeyBoard, DirectInputCoopFlags_ForeGround_Exclusive);
+	hr = m_pDirectInput->Create(g_hWnd, g_hInstance, InputDevice_KeyBoard, InputCoopFlags_ForeGround_Exclusive);
 	if (FAILED(hr))
 	{
 		if (m_nIsUseLog != 0) CLiveInLog::LiveInLogExWriteLine(__FILE__, __LINE__, "DirectInput初始化失败!返回值hr=%l.", hr);
@@ -135,7 +135,7 @@ BOOL CLiveIn::CLiveInInit()
 
 	// Cerasusfps 初始化
 	m_pCerasusfpsMain = new CCerasusfps(pD3D9Device);
-	hr = m_pCerasusfpsMain->CCerasusfpsInit(20);
+	hr = m_pCerasusfpsMain->Create(20);
 	if (FAILED(hr))
 	{
 		if (m_nIsUseLog != 0) CLiveInLog::LiveInLogExWriteLine(__FILE__, __LINE__, "Cerasusfps初始化失败!返回值hr=%l.", hr);
@@ -149,7 +149,7 @@ BOOL CLiveIn::CLiveInInit()
 
 	// DirectSprite 初始化
 	m_pDirectSprite = new DirectSprite(pD3D9Device);
-	hr = m_pDirectSprite->DirectSpriteInit(m_chPacketRes_sprite_00, sizeof(m_chPacketRes_sprite_00), 32, 32);
+	hr = m_pDirectSprite->Create(m_chPacketRes_sprite_00, sizeof(m_chPacketRes_sprite_00), 32, 32);
 	if (FAILED(hr))
 	{
 		if (m_nIsUseLog != 0) CLiveInLog::LiveInLogExWriteLine(__FILE__, __LINE__, "DirectSprite初始化失败!返回值hr=%l.", hr);
@@ -165,7 +165,7 @@ BOOL CLiveIn::CLiveInInit()
 	m_pResourceManager = new CSakuraResourceManager();
 	m_pResourceManager->OnCreate(pD3D9Device);
 
-	CUUintEx sUnitEx_bk_00 = { 0 };
+	S_CS_UNIT_EX_PARA sUnitEx_bk_00 = { 0 };
 	CLiveInAddPacketResBK00(sUnitEx_bk_00);
 
 	// SakuraDialog 初始化
@@ -176,61 +176,61 @@ BOOL CLiveIn::CLiveInInit()
 	m_pSakuraDialog->SetCallback(CLiveInSakuraGUIEvent, this);
 
 	// SakuraResourceManager 资源载入
-	CUUintEx sUnitEx_title_00 = { 0 };
+	S_CS_UNIT_EX_PARA sUnitEx_title_00 = { 0 };
 	CLiveInAddPacketResTITLE00(sUnitEx_title_00);
 	m_pSakuraDialog->SetTextrueExRes(&sUnitEx_title_00);
 
-	CUUintEx sUnitEx_title_01 = { 0 };
+	S_CS_UNIT_EX_PARA sUnitEx_title_01 = { 0 };
 	CLiveInAddPacketResTITLE01(sUnitEx_title_01);
 	m_pSakuraDialog->SetTextrueExRes(&sUnitEx_title_01);
 
-	CUUintEx sUnitEx_title_02 = { 0 };
+	S_CS_UNIT_EX_PARA sUnitEx_title_02 = { 0 };
 	CLiveInAddPacketResTITLE02(sUnitEx_title_02);
 	m_pSakuraDialog->SetTextrueExRes(&sUnitEx_title_02);
 
-	CUUintEx sUnitEx_wait_010 = { 0 };
+	S_CS_UNIT_EX_PARA sUnitEx_wait_010 = { 0 };
 	CLiveInAddPacketResWAIT01_0(sUnitEx_wait_010);
 	m_pSakuraDialog->SetTextrueExRes(&sUnitEx_wait_010);
 
-	CUUintEx sUnitEx_wait_011 = { 0 };
+	S_CS_UNIT_EX_PARA sUnitEx_wait_011 = { 0 };
 	CLiveInAddPacketResWAIT01_1(sUnitEx_wait_011);
 	m_pSakuraDialog->SetTextrueExRes(&sUnitEx_wait_011);
 
-	CUUintEx sUnitEx_wait_012 = { 0 };
+	S_CS_UNIT_EX_PARA sUnitEx_wait_012 = { 0 };
 	CLiveInAddPacketResWAIT01_2(sUnitEx_wait_012);
 	m_pSakuraDialog->SetTextrueExRes(&sUnitEx_wait_012);
 
-	CUUintEx sUnitEx_wait_013 = { 0 };
+	S_CS_UNIT_EX_PARA sUnitEx_wait_013 = { 0 };
 	CLiveInAddPacketResWAIT01_3(sUnitEx_wait_013);
 	m_pSakuraDialog->SetTextrueExRes(&sUnitEx_wait_013);
 
-	CUUintEx sUnitEx_wait_000 = { 0 };
+	S_CS_UNIT_EX_PARA sUnitEx_wait_000 = { 0 };
 	CLiveInAddPacketResWAIT00_0(sUnitEx_wait_000);
 	m_pSakuraDialog->SetTextrueExRes(&sUnitEx_wait_000);
 
-	CUUintEx sUnitEx_wait_001 = { 0 };
+	S_CS_UNIT_EX_PARA sUnitEx_wait_001 = { 0 };
 	CLiveInAddPacketResWAIT00_1(sUnitEx_wait_001);
 	m_pSakuraDialog->SetTextrueExRes(&sUnitEx_wait_001);
 
-	CUUintEx sUnitEx_wait_002 = { 0 };
+	S_CS_UNIT_EX_PARA sUnitEx_wait_002 = { 0 };
 	CLiveInAddPacketResWAIT00_2(sUnitEx_wait_002);
 	m_pSakuraDialog->SetTextrueExRes(&sUnitEx_wait_002);
 
-	CUUintEx sUnitEx_wait_003 = { 0 };
+	S_CS_UNIT_EX_PARA sUnitEx_wait_003 = { 0 };
 	CLiveInAddPacketResWAIT00_3(sUnitEx_wait_003);
 	m_pSakuraDialog->SetTextrueExRes(&sUnitEx_wait_003);
 
-	CUUintEx sUnitEx_wait_004 = { 0 };
+	S_CS_UNIT_EX_PARA sUnitEx_wait_004 = { 0 };
 	CLiveInAddPacketResWAIT00_4(sUnitEx_wait_004);
 	m_pSakuraDialog->SetTextrueExRes(&sUnitEx_wait_004);
 
 	// 登陆按钮资源
-	CUUintEx sUnitEx_login_00 = { 0 };
+	S_CS_UNIT_EX_PARA sUnitEx_login_00 = { 0 };
 	CLiveInAddPacketResLOGIN00(sUnitEx_login_00);
 	m_pSakuraDialog->SetTextrueExRes(&sUnitEx_login_00);
 
 	// 账户背景资源
-	CUUintEx sUnitEx_account_00 = { 0 };
+	S_CS_UNIT_EX_PARA sUnitEx_account_00 = { 0 };
 	CLiveInAddPacketResACCOUNT00(sUnitEx_account_00);
 	m_pSakuraDialog->SetTextrueExRes(&sUnitEx_account_00);
 
@@ -309,7 +309,7 @@ void CLiveIn::CLiveInUpdate()
 	IDirect3DSurface9* pD3D9Surface = NULL;
 
 	// DirectGraphics 测试设备协作级别
-	hr = m_pDirectGraphicsMain->DirectGraphicsTestCooperativeLevel();
+	hr = m_pDirectGraphicsMain->TestCooperativeLevel();
 	if (hr != S_OK)
 	{
 		if (hr == D3DERR_DEVICELOST)	// DirectX 设备丢失
@@ -322,16 +322,16 @@ void CLiveIn::CLiveInUpdate()
 			HRESULT hr2;
 
 			// 丢失设备
-			hr2 = m_pCerasusfpsMain->CCerasusfpsReset();
-			hr2 = m_pDirectGraphics3DMain->DirectGraphics3DReset();
+			hr2 = m_pCerasusfpsMain->Reset();
+			hr2 = m_pDirectGraphics3DMain->Reset();
 			m_pSakuraDialog->OnLost();
-			m_pDirectSprite->DirectSpriteReset();
-			hr2 = m_pDirectGraphicsMain->DirectGraphicsReset();
+			m_pDirectSprite->Reset();
+			hr2 = m_pDirectGraphicsMain->Reset();
 
 			// 重置设备
 			m_pSakuraDialog->OnReset();
-			hr2 = m_pDirectGraphics3DMain->DirectGraphics3DInitVertex3DBase(6);
-			hr2 = m_pDirectSprite->DirectSpriteInit(m_chPacketRes_sprite_00, sizeof(m_chPacketRes_sprite_00), 32, 32);
+			hr2 = m_pDirectGraphics3DMain->CreateBase(6);
+			hr2 = m_pDirectSprite->Create(m_chPacketRes_sprite_00, sizeof(m_chPacketRes_sprite_00), 32, 32);
 		}
 
 	}
@@ -355,10 +355,10 @@ void CLiveIn::CLiveInRender()
 	RECT Rect;
 
 	GetClientRect(g_hWnd, &Rect);
-	pD3D9Device = m_pDirectGraphicsMain->DirectGraphicsGetDevice();
+	pD3D9Device = m_pDirectGraphicsMain->GetDevice();
 
 	// DirectX 开始绘制
-	m_pDirectGraphicsMain->DirectGraphicsBegin();
+	m_pDirectGraphicsMain->Begin();
 
 	// 渲染模式:Alpha混合设置
 	pD3D9Device->SetRenderState(D3DRS_ALPHABLENDENABLE, false);					// Alpha混合开启
@@ -366,9 +366,9 @@ void CLiveIn::CLiveInRender()
 	// 渲染模式:纹理混合设置
 	pD3D9Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_DISABLE);
 
-	m_pDirectGraphics3DMain->DirectGraphics3DRenderStateLightDisable();			// 渲染光源关闭
-	m_pDirectGraphics3DMain->DirectGraphics3DRenderStateSetting();				// 渲染状态设置
-	m_pDirectGraphics3DMain->DirectGraphics3DRenderStateAlphaDisable();			// Alpha混合关闭
+	m_pDirectGraphics3DMain->LightDisable();			// 渲染光源关闭
+	m_pDirectGraphics3DMain->Setting();					// 渲染状态设置
+	m_pDirectGraphics3DMain->AlphaDisable();			// Alpha混合关闭
 
 	m_pSakuraDialog->OnRender();	// 绘制Sakura
 
@@ -388,7 +388,7 @@ void CLiveIn::CLiveInRender()
 	}
 
 	// DirectX 结束绘制
-	m_pDirectGraphicsMain->DirectGraphicsEnd();
+	m_pDirectGraphicsMain->End();
 }
 
 //----------------------------------------------
@@ -406,45 +406,45 @@ void CLiveIn::CLiveInStartUpdate(float fDeltaTime)
 
 	if (fTimeSum < 0.5f)		// 开始时间0.0s~0.5s时保持黑色屏幕,Alpha通道值为0.0f
 	{
-		m_pSakuraDialog->GetDialogGraphics()->CCerasusUnitGetAlpha() = 0.0f;	// 背景Alpha通道值为0.0f
-		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_00)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;		// Logo Alpha通道值为0.0f
-		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_01)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;		// Logo2 Alpha通道值为0.0f
-		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_02)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;		// Coypright Alpha通道值为0.0f
-		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_010)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;		// Wait Alpha通道值为0.0f
-		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_011)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 1.0f;		// Wait Alpha通道值为1.0f
-		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_012)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 1.0f;		// Wait Alpha通道值为1.0f
-		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_013)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 1.0f;		// Wait Alpha通道值为1.0f
-		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_001)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;		// Wait Alpha通道值为0.0f
-		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_002)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;		// Wait Alpha通道值为0.0f
-		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_003)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;		// Wait Alpha通道值为0.0f
-		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_004)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;		// Wait Alpha通道值为0.0f
-		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_005)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;		// Wait Alpha通道值为0.0f
-		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_LOGIN_00)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;		// Login Alpha通道值为0.0f
-		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_ACCOUNT_00)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;	// Account Alpha通道值为0.0f
+		m_pSakuraDialog->GetDialogGraphics()->GetAlpha() = 0.0f;	// 背景Alpha通道值为0.0f
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_00)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha() = 0.0f;		// Logo Alpha通道值为0.0f
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_01)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha() = 0.0f;		// Logo2 Alpha通道值为0.0f
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_02)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha() = 0.0f;		// Coypright Alpha通道值为0.0f
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_010)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha() = 0.0f;		// Wait Alpha通道值为0.0f
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_011)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha() = 1.0f;		// Wait Alpha通道值为1.0f
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_012)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha() = 1.0f;		// Wait Alpha通道值为1.0f
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_013)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha() = 1.0f;		// Wait Alpha通道值为1.0f
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_001)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha() = 0.0f;		// Wait Alpha通道值为0.0f
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_002)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha() = 0.0f;		// Wait Alpha通道值为0.0f
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_003)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha() = 0.0f;		// Wait Alpha通道值为0.0f
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_004)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha() = 0.0f;		// Wait Alpha通道值为0.0f
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_005)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha() = 0.0f;		// Wait Alpha通道值为0.0f
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_LOGIN_00)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha() = 0.0f;		// Login Alpha通道值为0.0f
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_ACCOUNT_00)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha() = 0.0f;	// Account Alpha通道值为0.0f
 
-		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_00)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateZ() = -160.0f;	// Logo Z轴坐标为-120
-		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_01)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateZ() = -160.0f;	// Logo2 Z轴坐标为-120
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_00)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetTranslateZ() = -160.0f;	// Logo Z轴坐标为-120
+		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_01)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetTranslateZ() = -160.0f;	// Logo2 Z轴坐标为-120
 	}
 	else if (fTimeSum < 1.5f)	// 开始时间0.5s~1.5s时背景渐变,Alpha通道值增加
 	{
-		CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetDialogGraphics()->CCerasusUnitGetAlpha(), 1.0f, 0.02f);		// 背景Alpha通道值从0.0f递增到1.0f,递增速度0.02f,持续50帧
+		CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetDialogGraphics()->GetAlpha(), 1.0f, 0.02f);		// 背景Alpha通道值从0.0f递增到1.0f,递增速度0.02f,持续50帧
 	}
 	else if (fTimeSum < 2.5f)	// 开始时间1.5s~2.5s时背景不变,logo字体由远到近,版权信息出现
 	{
-		CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_00)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateZ(), -160.0f, 0.0f, -0.8f);
-		CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_00)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 1.0f, 0.05f);
-		CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_02)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 1.0f, 0.02f);
+		CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_00)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetTranslateZ(), -160.0f, 0.0f, -0.8f);
+		CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_00)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha(), 1.0f, 0.05f);
+		CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_02)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha(), 1.0f, 0.02f);
 
 		if (fTimeSum >= 2.0f)
 		{
-			CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_01)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateZ(), -160.0f, 0.0f, -0.8f);
-			CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_01)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 1.0f, 0.05f);
+			CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_01)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetTranslateZ(), -160.0f, 0.0f, -0.8f);
+			CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_TITLE_01)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha(), 1.0f, 0.05f);
 		}
 
 	}
 	else if (fTimeSum < 3.0f)	// 开始时间2.5s~3.0s时出现请稍候字样
 	{
-		CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_010)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 1.0f, 0.05f);
+		CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_010)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha(), 1.0f, 0.05f);
 	}
 	else if(fTimeSum < 12.0f)	// 开始时间3.0s~8.0s时等待加载资源
 	{
@@ -547,36 +547,36 @@ void CLiveIn::CLiveInStartUpdate(float fDeltaTime)
 		{
 			if (nStarCount >= 1)
 			{
-				CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_001)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX(), 0.0f, 179.0f, -0.4f);
-				CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_001)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 1.0f, 0.2f);
+				CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_001)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetTranslateX(), 0.0f, 179.0f, -0.4f);
+				CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_001)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha(), 1.0f, 0.2f);
 			}
 
 			if (nStarCount >= 2)
 			{
-				CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_002)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX(), 0.0f, 166.0f, -0.4f);
-				CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_002)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 1.0f, 0.2f);
+				CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_002)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetTranslateX(), 0.0f, 166.0f, -0.4f);
+				CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_002)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha(), 1.0f, 0.2f);
 			}
 
 			if (nStarCount >= 3)
 			{
-				CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_003)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX(), 0.0f, 153.0f, -0.4f);
-				CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_003)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 1.0f, 0.2f);
+				CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_003)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetTranslateX(), 0.0f, 153.0f, -0.4f);
+				CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_003)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha(), 1.0f, 0.2f);
 			}
 
 			if (nStarCount >= 4)
 			{
-				CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_004)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX(), 0.0f, 139.0f, -0.4f);
-				CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_004)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 1.0f, 0.2f);
+				CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_004)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetTranslateX(), 0.0f, 139.0f, -0.4f);
+				CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_004)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha(), 1.0f, 0.2f);
 			}
 
 			if (nStarCount >= 5)
 			{
-				CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_005)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX(), 0.0f, 126.0f, -0.4f);
-				CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_005)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 1.0f, 0.2f);
+				CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_005)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetTranslateX(), 0.0f, 126.0f, -0.4f);
+				CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_005)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha(), 1.0f, 0.2f);
 			}
 
 			// 判断五角星动画是否完成
-			if(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_005)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX() >= 126.0f)
+			if(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_005)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetTranslateX() >= 126.0f)
 			{
 				bStarFinish = true;
 			}
@@ -585,48 +585,48 @@ void CLiveIn::CLiveInStartUpdate(float fDeltaTime)
 		{
 			if (nStarCount <= 5)
 			{
-				CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_001)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX(), 179.0f, 320.0f, -0.4f);
-				CCerasusAlgorithm::Linear_Decrease(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_001)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 0.0f, 0.05f);
+				CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_001)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetTranslateX(), 179.0f, 320.0f, -0.4f);
+				CCerasusAlgorithm::Linear_Decrease(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_001)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha(), 0.0f, 0.05f);
 			}
 
 			if (nStarCount <= 4)
 			{
-				CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_002)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX(), 166.0f, 320.0f, -0.4f);
-				CCerasusAlgorithm::Linear_Decrease(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_002)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 0.0f, 0.05f);
+				CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_002)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetTranslateX(), 166.0f, 320.0f, -0.4f);
+				CCerasusAlgorithm::Linear_Decrease(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_002)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha(), 0.0f, 0.05f);
 			}
 
 			if (nStarCount <= 3)
 			{
-				CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_003)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX(), 153.0f, 320.0f, -0.4f);
-				CCerasusAlgorithm::Linear_Decrease(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_003)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 0.0f, 0.05f);
+				CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_003)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetTranslateX(), 153.0f, 320.0f, -0.4f);
+				CCerasusAlgorithm::Linear_Decrease(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_003)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha(), 0.0f, 0.05f);
 			}
 
 			if (nStarCount <= 2)
 			{
-				CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_004)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX(), 139.0f, 320.0f, -0.4f);
-				CCerasusAlgorithm::Linear_Decrease(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_004)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 0.0f, 0.05f);
+				CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_004)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetTranslateX(), 139.0f, 320.0f, -0.4f);
+				CCerasusAlgorithm::Linear_Decrease(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_004)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha(), 0.0f, 0.05f);
 			}
 
 			if (nStarCount <= 1)
 			{
-				CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_005)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX(), 126.0f, 320.0f, -0.4f);
-				CCerasusAlgorithm::Linear_Decrease(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_005)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 0.0f, 0.05f);
+				CCerasusAlgorithm::Quadratic_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_005)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetTranslateX(), 126.0f, 320.0f, -0.4f);
+				CCerasusAlgorithm::Linear_Decrease(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_005)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha(), 0.0f, 0.05f);
 			}
 
 			// 判断五角星动画是否完成
-			if (m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_005)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX() >= 320.0f)
+			if (m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_005)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetTranslateX() >= 320.0f)
 			{
-				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_001)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX() = 0.0f;
-				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_002)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX() = 0.0f;
-				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_003)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX() = 0.0f;
-				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_004)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX() = 0.0f;
-				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_005)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateX() = 0.0f;
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_001)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetTranslateX() = 0.0f;
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_002)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetTranslateX() = 0.0f;
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_003)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetTranslateX() = 0.0f;
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_004)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetTranslateX() = 0.0f;
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_005)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetTranslateX() = 0.0f;
 
-				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_001)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;
-				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_002)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;
-				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_003)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;
-				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_004)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;
-				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_005)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() = 0.0f;
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_001)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha() = 0.0f;
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_002)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha() = 0.0f;
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_003)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha() = 0.0f;
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_004)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha() = 0.0f;
+				m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_005)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha() = 0.0f;
 
 				bStarFinish = true;
 			}
@@ -649,14 +649,14 @@ void CLiveIn::CLiveInStartUpdate(float fDeltaTime)
 		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_004)->SetVisible(false);
 		m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_WAIT_005)->SetVisible(false);
 
-		CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_ACCOUNT_00)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 1.0f, 0.02f);
+		CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_ACCOUNT_00)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha(), 1.0f, 0.02f);
 
 		if (fTimeSum >= 13.0f)
 		{
-			CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_LOGIN_00)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha(), 0.6f, 0.02f);
+			CCerasusAlgorithm::Linear_Increase(m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_LOGIN_00)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha(), 0.6f, 0.02f);
 		}
 
-		if (m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_LOGIN_00)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetAlpha() >= 0.6f)
+		if (m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_LOGIN_00)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetAlpha() >= 0.6f)
 		{
 			m_pSakuraDialog->GetUnit(SID_SAKURAUNIT_LOGIN_00)->SetVisible(false);
 			m_pSakuraDialog->GetButton(SID_SAKURABUTTON_LOGIN_00)->SetVisible(true);
@@ -672,70 +672,70 @@ void CLiveIn::CLiveInStartUpdate(float fDeltaTime)
 		CLiveInUpdateSprite();
 
 		// 小彩蛋...
-		m_pDirectInput->DirectInputGetDeviceState(DirectInputDevice_KeyBoard);
+		m_pDirectInput->GetDeviceState(InputDevice_KeyBoard);
 		
-		if (m_pDirectInput->DIKeyBoardIsDown(DIK_LEFT))		// 方向键左键"←"按下
+		if (m_pDirectInput->KeyBoardIsDown(DIK_LEFT))		// 方向键左键"←"按下
 		{
 			// Surface向左旋转...
-			m_pSakuraDialog->GetDialogGraphics()->CCerasusUnitGetRotateZ() += D3DX_PI * 0.01f;
+			m_pSakuraDialog->GetDialogGraphics()->GetRotateZ() += D3DX_PI * 0.01f;
 
 			for (auto iter = m_pSakuraDialog->GetControls().begin(); iter != m_pSakuraDialog->GetControls().end(); ++iter)
 			{
-				(*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetRotateZ() += D3DX_PI * 0.01f;
+				(*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetRotateZ() += D3DX_PI * 0.01f;
 			}
 
 		}
-		if (m_pDirectInput->DIKeyBoardIsDown(DIK_RIGHT))	// 方向键右键"→"按下
+		if (m_pDirectInput->KeyBoardIsDown(DIK_RIGHT))	// 方向键右键"→"按下
 		{
 			// Surface向右旋转...
-			m_pSakuraDialog->GetDialogGraphics()->CCerasusUnitGetRotateZ() -= D3DX_PI * 0.01f;
+			m_pSakuraDialog->GetDialogGraphics()->GetRotateZ() -= D3DX_PI * 0.01f;
 
 			for (auto iter = m_pSakuraDialog->GetControls().begin(); iter != m_pSakuraDialog->GetControls().end(); ++iter)
 			{
-				(*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetRotateZ() -= D3DX_PI * 0.01f;
+				(*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetRotateZ() -= D3DX_PI * 0.01f;
 			}
 
 		}
-		if (m_pDirectInput->DIKeyBoardIsDown(DIK_UP))		// 方向键上键"↑"按下
+		if (m_pDirectInput->KeyBoardIsDown(DIK_UP))		// 方向键上键"↑"按下
 		{
 			// Surface远离屏幕...
-			m_pSakuraDialog->GetDialogGraphics()->CCerasusUnitGetTranslateZ() += 0.2f;
-			if (m_pSakuraDialog->GetDialogGraphics()->CCerasusUnitGetTranslateZ() >= 0.0f)	// 不要离开摄像机视野
+			m_pSakuraDialog->GetDialogGraphics()->GetRotateZ() += 0.2f;
+			if (m_pSakuraDialog->GetDialogGraphics()->GetRotateZ() >= 0.0f)	// 不要离开摄像机视野
 			{
-				m_pSakuraDialog->GetDialogGraphics()->CCerasusUnitGetTranslateZ() = 0.0f;
+				m_pSakuraDialog->GetDialogGraphics()->GetRotateZ() = 0.0f;
 			}
 
 			for (auto iter = m_pSakuraDialog->GetControls().begin(); iter != m_pSakuraDialog->GetControls().end(); ++iter)
 			{
-				(*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateZ() += 0.2f;
-				if ((*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateZ() >= 0.0f)	// 不要离开摄像机视野
+				(*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetRotateZ() += 0.2f;
+				if ((*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetRotateZ() >= 0.0f)	// 不要离开摄像机视野
 				{
-					(*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateZ() = 0.0f;
+					(*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetRotateZ() = 0.0f;
 				}
 			}
 
 		}
-		if (m_pDirectInput->DIKeyBoardIsDown(DIK_DOWN))		// 方向键下键"↓"按下
+		if (m_pDirectInput->KeyBoardIsDown(DIK_DOWN))		// 方向键下键"↓"按下
 		{
 			// Surface靠近屏幕...
-			m_pSakuraDialog->GetDialogGraphics()->CCerasusUnitGetTranslateZ() -= 0.2f;
+			m_pSakuraDialog->GetDialogGraphics()->GetRotateZ() -= 0.2f;
 
 			for (auto iter = m_pSakuraDialog->GetControls().begin(); iter != m_pSakuraDialog->GetControls().end(); ++iter)
 			{
-				(*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateZ() -= 0.2f;
+				(*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetRotateZ() -= 0.2f;
 			}
 
 		}
-		if (m_pDirectInput->DIKeyBoardIsDown(DIK_SPACE))		// 空格键Space按下
+		if (m_pDirectInput->KeyBoardIsDown(DIK_SPACE))		// 空格键Space按下
 		{
 			// Surface恢复正常...
-			m_pSakuraDialog->GetDialogGraphics()->CCerasusUnitGetRotateZ() = 0.0f;
-			m_pSakuraDialog->GetDialogGraphics()->CCerasusUnitGetTranslateZ() = 0.0f;
+			m_pSakuraDialog->GetDialogGraphics()->GetRotateZ() = 0.0f;
+			m_pSakuraDialog->GetDialogGraphics()->GetTranslateZ() = 0.0f;
 
 			for (auto iter = m_pSakuraDialog->GetControls().begin(); iter != m_pSakuraDialog->GetControls().end(); ++iter)
 			{
-				(*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetRotateZ() = 0.0f;
-				(*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->CCerasusUnitGetTranslateZ() = 0.0f;
+				(*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetRotateZ() = 0.0f;
+				(*iter)->GetElements().at(0)->GetTextureBlend().m_States[SAKURA_STATE_NORMAL]->GetTranslateZ() = 0.0f;
 			}
 
 		}
@@ -942,19 +942,19 @@ void CLiveIn::CLiveInUpdateSprite()
 //----------------------------------------------
 void CLiveIn::CLiveInRenderSprite()
 {
-	m_pDirectSprite->DirectSpriteBegin();
+	m_pDirectSprite->Begin();
 
 	for(auto iter = m_vecStarArray.begin(); iter != m_vecStarArray.end(); ++iter)
 	{
-		DirectSpriteDrawPara sDrawPara = { 0 };
+		S_DX_SPRITE_DRAW_PARA sDrawPara = { 0 };
 		SetRect(&sDrawPara.SpriteRect, 0, 0, 21, 20);
 		sDrawPara.SpriteCenter = D3DXVECTOR3(10.0f, 11.0f, 0.0f);
 		sDrawPara.SpritePosition = D3DXVECTOR3(iter->sTransformPara.sTranslatePara.fTranslateX, iter->sTransformPara.sTranslatePara.fTranslateY, 0.0f);
 		sDrawPara.SpriteColor = D3DXCOLOR(1.0f, 1.0f, 1.0f, iter->fAlpha);
-		m_pDirectSprite->DirectSpriteDrawTransform(&sDrawPara, iter->sTransformPara, iter->sTransformPara.sTranslatePara.fTranslateY, m_nStarPosY);
+		m_pDirectSprite->DrawTransform(&sDrawPara, iter->sTransformPara, iter->sTransformPara.sTranslatePara.fTranslateY, m_nStarPosY);
 	}
 
-	m_pDirectSprite->DirectSpriteEnd();
+	m_pDirectSprite->End();
 }
 
 //----------------------------------------------
@@ -972,15 +972,15 @@ void CLiveIn::CLiveDrawAdapter()
 
 	// Direct3D 绘制显卡信息
 	Rect.top += 0;
-	m_pDirectGraphicsMain->DirectGraphicsFontDrawTextAdapterType(&Rect, DT_TOP | DT_LEFT, D3DXCOLOR(1.0f, 0.5f, 0.5f, 1.0f));
+	m_pDirectGraphicsMain->DrawAdapterType(&Rect, DT_TOP | DT_LEFT, D3DXCOLOR(1.0f, 0.5f, 0.5f, 1.0f));
 
 	// Direct3D 绘制屏幕分辨率
 	Rect.top += 20;
-	m_pDirectGraphicsMain->DirectGraphicsFontDrawTextScreen(&Rect, DT_TOP | DT_LEFT, D3DXCOLOR(1.0f, 1.0f, 0.5f, 1.0f));
+	m_pDirectGraphicsMain->DrawScreenInfo(&Rect, DT_TOP | DT_LEFT, D3DXCOLOR(1.0f, 1.0f, 0.5f, 1.0f));
 
 	// Direct3D 绘制缓冲模板
 	Rect.top += 20;
-	m_pDirectGraphicsMain->DirectGraphicsFontDrawTextFormat(&Rect, DT_TOP | DT_LEFT, D3DXCOLOR(1.0f, 1.0f, 0.5f, 1.0f));
+	m_pDirectGraphicsMain->DrawFormatInfo(&Rect, DT_TOP | DT_LEFT, D3DXCOLOR(1.0f, 1.0f, 0.5f, 1.0f));
 }
 
 //----------------------------------------------
@@ -992,8 +992,8 @@ void CLiveIn::CLiveDrawAdapter()
 //----------------------------------------------
 void CLiveIn::CLiveDrawfps()
 {
-	m_pCerasusfpsMain->CCerasusfpsGetfps();				// Direct3D 绘制静态信息
-	m_pCerasusfpsMain->CCerasusfpsDrawfps(g_hWnd, DIRECTFONT_FORMAT_BOTTOMRIGHT, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));		// Direct3D 绘制fps
+	m_pCerasusfpsMain->GetFps();				// Direct3D 绘制静态信息
+	m_pCerasusfpsMain->DrawFps(g_hWnd, DX_FONT_FORMAT_BOTTOMRIGHT, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));		// Direct3D 绘制fps
 }
 
 //----------------------------------------------
@@ -1003,7 +1003,7 @@ void CLiveIn::CLiveDrawfps()
 // @Para: None
 // @Return: None
 //----------------------------------------------
-void CLiveIn::CLiveInAddPacketResBK00(CUUintEx & sUnitEx)
+void CLiveIn::CLiveInAddPacketResBK00(S_CS_UNIT_EX_PARA& sUnitEx)
 {
 	sUnitEx.nTextureWidth = 512;
 	sUnitEx.nTextureHeight = 512;
@@ -1055,7 +1055,7 @@ void CLiveIn::CLiveInAddPacketResBK00(CUUintEx & sUnitEx)
 // @Para: None
 // @Return: None
 //----------------------------------------------
-void CLiveIn::CLiveInAddPacketResTITLE00(CUUintEx & sUnitEx)
+void CLiveIn::CLiveInAddPacketResTITLE00(S_CS_UNIT_EX_PARA& sUnitEx)
 {
 	sUnitEx.nTextureWidth = 256;
 	sUnitEx.nTextureHeight = 64;
@@ -1107,7 +1107,7 @@ void CLiveIn::CLiveInAddPacketResTITLE00(CUUintEx & sUnitEx)
 // @Para: None
 // @Return: None
 //----------------------------------------------
-void CLiveIn::CLiveInAddPacketResTITLE01(CUUintEx & sUnitEx)
+void CLiveIn::CLiveInAddPacketResTITLE01(S_CS_UNIT_EX_PARA& sUnitEx)
 {
 	sUnitEx.nTextureWidth = 256;
 	sUnitEx.nTextureHeight = 32;
@@ -1159,7 +1159,7 @@ void CLiveIn::CLiveInAddPacketResTITLE01(CUUintEx & sUnitEx)
 // @Para: None
 // @Return: None
 //----------------------------------------------
-void CLiveIn::CLiveInAddPacketResTITLE02(CUUintEx & sUnitEx)
+void CLiveIn::CLiveInAddPacketResTITLE02(S_CS_UNIT_EX_PARA& sUnitEx)
 {
 	sUnitEx.nTextureWidth = 256;
 	sUnitEx.nTextureHeight = 32;
@@ -1211,7 +1211,7 @@ void CLiveIn::CLiveInAddPacketResTITLE02(CUUintEx & sUnitEx)
 // @Para: None
 // @Return: None
 //----------------------------------------------
-void CLiveIn::CLiveInAddPacketResWAIT01_0(CUUintEx & sUnitEx)
+void CLiveIn::CLiveInAddPacketResWAIT01_0(S_CS_UNIT_EX_PARA& sUnitEx)
 {
 	sUnitEx.nTextureWidth = 128;
 	sUnitEx.nTextureHeight = 128;
@@ -1263,7 +1263,7 @@ void CLiveIn::CLiveInAddPacketResWAIT01_0(CUUintEx & sUnitEx)
 // @Para: None
 // @Return: None
 //----------------------------------------------
-void CLiveIn::CLiveInAddPacketResWAIT01_1(CUUintEx & sUnitEx)
+void CLiveIn::CLiveInAddPacketResWAIT01_1(S_CS_UNIT_EX_PARA& sUnitEx)
 {
 	sUnitEx.nTextureWidth = 128;
 	sUnitEx.nTextureHeight = 128;
@@ -1315,7 +1315,7 @@ void CLiveIn::CLiveInAddPacketResWAIT01_1(CUUintEx & sUnitEx)
 // @Para: None
 // @Return: None
 //----------------------------------------------
-void CLiveIn::CLiveInAddPacketResWAIT01_2(CUUintEx & sUnitEx)
+void CLiveIn::CLiveInAddPacketResWAIT01_2(S_CS_UNIT_EX_PARA& sUnitEx)
 {
 	sUnitEx.nTextureWidth = 128;
 	sUnitEx.nTextureHeight = 128;
@@ -1367,7 +1367,7 @@ void CLiveIn::CLiveInAddPacketResWAIT01_2(CUUintEx & sUnitEx)
 // @Para: None
 // @Return: None
 //----------------------------------------------
-void CLiveIn::CLiveInAddPacketResWAIT01_3(CUUintEx & sUnitEx)
+void CLiveIn::CLiveInAddPacketResWAIT01_3(S_CS_UNIT_EX_PARA& sUnitEx)
 {
 	sUnitEx.nTextureWidth = 128;
 	sUnitEx.nTextureHeight = 128;
@@ -1419,7 +1419,7 @@ void CLiveIn::CLiveInAddPacketResWAIT01_3(CUUintEx & sUnitEx)
 // @Para: None
 // @Return: None
 //----------------------------------------------
-void CLiveIn::CLiveInAddPacketResWAIT00_0(CUUintEx & sUnitEx)
+void CLiveIn::CLiveInAddPacketResWAIT00_0(S_CS_UNIT_EX_PARA& sUnitEx)
 {
 	sUnitEx.nTextureWidth = 128;
 	sUnitEx.nTextureHeight = 32;
@@ -1471,7 +1471,7 @@ void CLiveIn::CLiveInAddPacketResWAIT00_0(CUUintEx & sUnitEx)
 // @Para: None
 // @Return: None
 //----------------------------------------------
-void CLiveIn::CLiveInAddPacketResWAIT00_1(CUUintEx & sUnitEx)
+void CLiveIn::CLiveInAddPacketResWAIT00_1(S_CS_UNIT_EX_PARA& sUnitEx)
 {
 	sUnitEx.nTextureWidth = 128;
 	sUnitEx.nTextureHeight = 32;
@@ -1523,7 +1523,7 @@ void CLiveIn::CLiveInAddPacketResWAIT00_1(CUUintEx & sUnitEx)
 // @Para: None
 // @Return: None
 //----------------------------------------------
-void CLiveIn::CLiveInAddPacketResWAIT00_2(CUUintEx & sUnitEx)
+void CLiveIn::CLiveInAddPacketResWAIT00_2(S_CS_UNIT_EX_PARA& sUnitEx)
 {
 	sUnitEx.nTextureWidth = 128;
 	sUnitEx.nTextureHeight = 32;
@@ -1575,7 +1575,7 @@ void CLiveIn::CLiveInAddPacketResWAIT00_2(CUUintEx & sUnitEx)
 // @Para: None
 // @Return: None
 //----------------------------------------------
-void CLiveIn::CLiveInAddPacketResWAIT00_3(CUUintEx & sUnitEx)
+void CLiveIn::CLiveInAddPacketResWAIT00_3(S_CS_UNIT_EX_PARA& sUnitEx)
 {
 	sUnitEx.nTextureWidth = 128;
 	sUnitEx.nTextureHeight = 32;
@@ -1627,7 +1627,7 @@ void CLiveIn::CLiveInAddPacketResWAIT00_3(CUUintEx & sUnitEx)
 // @Para: None
 // @Return: None
 //----------------------------------------------
-void CLiveIn::CLiveInAddPacketResWAIT00_4(CUUintEx & sUnitEx)
+void CLiveIn::CLiveInAddPacketResWAIT00_4(S_CS_UNIT_EX_PARA& sUnitEx)
 {
 	sUnitEx.nTextureWidth = 128;
 	sUnitEx.nTextureHeight = 32;
@@ -1679,7 +1679,7 @@ void CLiveIn::CLiveInAddPacketResWAIT00_4(CUUintEx & sUnitEx)
 // @Para: None
 // @Return: None
 //----------------------------------------------
-void CLiveIn::CLiveInAddPacketResLOGIN00(CUUintEx & sUnitEx)
+void CLiveIn::CLiveInAddPacketResLOGIN00(S_CS_UNIT_EX_PARA& sUnitEx)
 {
 	sUnitEx.nTextureWidth = 512;
 	sUnitEx.nTextureHeight = 512;
@@ -1731,7 +1731,7 @@ void CLiveIn::CLiveInAddPacketResLOGIN00(CUUintEx & sUnitEx)
 // @Para: None
 // @Return: None
 //----------------------------------------------
-void CLiveIn::CLiveInAddPacketResACCOUNT00(CUUintEx & sUnitEx)
+void CLiveIn::CLiveInAddPacketResACCOUNT00(S_CS_UNIT_EX_PARA& sUnitEx)
 {
 	sUnitEx.nTextureWidth = 512;
 	sUnitEx.nTextureHeight = 512;

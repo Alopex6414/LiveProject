@@ -1,20 +1,21 @@
 /*
 *     COPYRIGHT NOTICE
-*     Copyright(c) 2018, Team Shanghai Dream Equinox
+*     Copyright(c) 2017~2019, Team Gorgeous Bubble
 *     All rights reserved.
 *
 * @file		SakuraDialog.h
 * @brief	This File is SakuraGUI DLL Project.
-* @author	Alopex/Helium
-* @version	v1.00a
+* @author	Alopex/Alice
+* @version	v1.01a
 * @date		2018-10-16	v1.00a	alopex	Create Project.
+* @date		2019-04-20	v1.01a	alopex	Add Notes.
 */
 #pragma once
 
 #ifndef __SAKURADIALOG_H_
 #define __SAKURADIALOG_H_
 
-//Include SakuraGUI Common Header File
+// Include SakuraGUI Common Header File
 #include "SakuraUICommon.h"
 #include "SakuraResourceManager.h"
 #include "SakuraResource.h"
@@ -30,7 +31,7 @@
 
 #include "DirectGraphics.h"
 
-//Macro Definition
+// Macro Definition
 #ifdef	CERASUS_EXPORTS
 #define SAKURADIALOG_API	__declspec(dllexport)
 #else
@@ -39,7 +40,7 @@
 
 #define	SAKURADIALOG_CALLMETHOD	__stdcall
 
-//Class Definition
+// Class Definition
 class SAKURADIALOG_API CSakuraDialog
 {
 	friend class CSakuraDialog;
@@ -88,8 +89,8 @@ public:
 	~CSakuraDialog();
 
 	void	SAKURADIALOG_CALLMETHOD	OnCreate(CSakuraResourceManager* pManager);								// CSakuraDialog 窗口初始化响应
-	void	SAKURADIALOG_CALLMETHOD	OnCreate(CSakuraResourceManager* pManager, CUUint sUnit);				// CSakuraDialog 窗口初始化响应
-	void	SAKURADIALOG_CALLMETHOD	OnCreate(CSakuraResourceManager* pManager, CUUintEx sUnit);				// CSakuraDialog 窗口初始化响应
+	void	SAKURADIALOG_CALLMETHOD	OnCreate(CSakuraResourceManager* pManager, S_CS_UNIT_PARA sUnit);		// CSakuraDialog 窗口初始化响应
+	void	SAKURADIALOG_CALLMETHOD	OnCreate(CSakuraResourceManager* pManager, S_CS_UNIT_EX_PARA sUnit);	// CSakuraDialog 窗口初始化响应
 
 	void	SAKURADIALOG_CALLMETHOD	OnLost();																// CSakuraDialog 窗口丢失设备
 	void	SAKURADIALOG_CALLMETHOD	OnReset();																// CSakuraDialog 窗口重置设备
@@ -159,12 +160,12 @@ public:
 	int		SAKURADIALOG_CALLMETHOD	GetHeight();															// CSakuraDialog 获取窗口高度
 
 	int		SAKURADIALOG_CALLMETHOD	SetFontRes(CUFont* pFont);												// CSakuraDialog 窗口添加字体资源
-	int		SAKURADIALOG_CALLMETHOD	SetTextrueRes(CUUint* pTexture);										// CSakuraDialog 窗口添加纹理资源
-	int		SAKURADIALOG_CALLMETHOD	SetTextrueExRes(CUUintEx* pTexture);									// CSakuraDialog 窗口添加纹理资源(Ex)
+	int		SAKURADIALOG_CALLMETHOD	SetTextrueRes(S_CS_UNIT_PARA* pTexture);								// CSakuraDialog 窗口添加纹理资源
+	int		SAKURADIALOG_CALLMETHOD	SetTextrueExRes(S_CS_UNIT_EX_PARA* pTexture);							// CSakuraDialog 窗口添加纹理资源(Ex)
 
 	CUFont*	SAKURADIALOG_CALLMETHOD	GetFontRes(UINT Index);													// CSakuraDialog 窗口获取字体资源
-	CUUint*	SAKURADIALOG_CALLMETHOD	GetTextureRes(UINT Index);												// CSakuraDialog 窗口获取纹理资源
-	CUUintEx*	SAKURADIALOG_CALLMETHOD	GetTextureExRes(UINT Index);										// CSakuraDialog 窗口获取纹理资源(Ex)
+	S_CS_UNIT_PARA*	SAKURADIALOG_CALLMETHOD	GetTextureRes(UINT Index);										// CSakuraDialog 窗口获取纹理资源
+	S_CS_UNIT_EX_PARA*	SAKURADIALOG_CALLMETHOD	GetTextureExRes(UINT Index);								// CSakuraDialog 窗口获取纹理资源(Ex)
 
 	CSakuraResourceManager* SAKURADIALOG_CALLMETHOD	GetManager();											// CSakuraDialog 窗口获取资源管理类
 

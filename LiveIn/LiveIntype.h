@@ -26,7 +26,7 @@ typedef struct
 	float fFallSpeed;	//粒子下落速度
 	float fMoveSpeed;	//粒子移动速度
 	float fRotateSpeed;	//粒子旋转速度
-	DirectSpriteTransformPara sTransformPara;	//粒子变换参数
+	S_DX_SPRITE_TRANSFORM_PARA sTransformPara;	//粒子变换参数
 }TLIVEINSTAR, *LPTLIVEINSTAR;
 
 #endif // !__LIVEINTYPE_H_

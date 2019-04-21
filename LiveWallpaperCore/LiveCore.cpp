@@ -196,7 +196,7 @@ BOOL CLiveCore::CLiveCoreInit()
 
 	// initialize Graphics...
 	m_pMainGraphics = new DirectGraphics();
-	hr = m_pMainGraphics->DirectGraphicsInit(g_hWnd, true, m_nDeskTopWidth, m_nDeskTopHeight);
+	hr = m_pMainGraphics->Create(g_hWnd, true, m_nDeskTopWidth, m_nDeskTopHeight);
 	if (FAILED(hr))
 	{
 		MessageBox(g_hWnd, _T("Direct3D³õÊ¼»¯Ê§°Ü!"), _T("´íÎó"), MB_OK | MB_ICONERROR);
@@ -209,7 +209,7 @@ BOOL CLiveCore::CLiveCoreInit()
 	if (m_nLiveCoreShowGraphics != 0)
 	{
 		// initialize font...
-		hr = m_pMainGraphics->DirectGraphicsFontInit(m_nLiveCoreShowGraphicsFont);
+		hr = m_pMainGraphics->Create2(m_nLiveCoreShowGraphicsFont);
 		if (FAILED(hr))
 		{
 			MessageBox(g_hWnd, _T("Direct3DFont³õÊ¼»¯Ê§°Ü!"), _T("´íÎó"), MB_OK | MB_ICONERROR);
@@ -219,7 +219,7 @@ BOOL CLiveCore::CLiveCoreInit()
 		CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Succeed Init Direct3D Font.");
 	}
 
-	m_pD3D9Device = m_pMainGraphics->DirectGraphicsGetDevice();			// get D3D9 graphics device
+	m_pD3D9Device = m_pMainGraphics->GetDevice();			// get D3D9 graphics device
 
 	// analyze video information...
 	if (!AnalyzeVideoInfo(g_hWnd, m_chLiveCoreVideoAddress, &m_nVideoWidth, &m_nVideoHeight, &m_nVideoFreq))
@@ -249,7 +249,7 @@ BOOL CLiveCore::CLiveCoreInit()
 	if (m_nLiveCoreShowGraphics != 0)
 	{
 		m_pMainfps = new CCerasusfps(m_pD3D9Device);
-		m_pMainfps->CCerasusfpsInit(m_nLiveCoreShowGraphicsFont, (LPWSTR)_T("Consolas"));
+		m_pMainfps->Create(m_nLiveCoreShowGraphicsFont, (LPWSTR)_T("Consolas"));
 		CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Succeed Init Cerasus fps.");
 	}
 
@@ -338,7 +338,7 @@ void CLiveCore::CLiveCoreUpdate()
 		}
 
 		EnterCriticalSection(&g_csDecode);
-		hr = m_pMainGraphics->DirectGraphicsTestCooperativeLevel();
+		hr = m_pMainGraphics->TestCooperativeLevel();
 		if (hr != S_OK)
 		{
 			CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Direct3D Lost Device!");
@@ -354,15 +354,15 @@ void CLiveCore::CLiveCoreUpdate()
 
 				if (m_nLiveCoreShowGraphics != 0)
 				{
-					m_pMainGraphics->DirectGraphicsReset();
-					m_pMainfps->CCerasusfpsReset();
+					m_pMainGraphics->Reset();
+					m_pMainfps->Reset();
 				}
 
 				m_pD3D9Device->GetBackBuffer(NULL, NULL, D3DBACKBUFFER_TYPE_MONO, &pD3D9BackBuffer);
 				SAFE_RELEASE(pD3D9BackBuffer);
 				SAFE_RELEASE(m_pD3D9Surface);
 
-				m_pMainGraphics->DirectGraphicsResetDevice();
+				m_pMainGraphics->Reset();
 
 				m_pD3D9Device->CreateOffscreenPlainSurface(m_nVideoWidth, m_nVideoHeight, (D3DFORMAT)MAKEFOURCC('Y', 'V', '1', '2'), D3DPOOL_DEFAULT, &m_pD3D9Surface, NULL);
 				CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Direct3D Reset Device!");
@@ -412,7 +412,7 @@ void CLiveCore::CLiveCoreRender()
 
 	if (g_bReStart)
 	{
-		m_pMainGraphics->DirectGraphicsBegin();
+		m_pMainGraphics->Begin();
 
 		SrcRect.left = 0;
 		SrcRect.top = 0;
@@ -495,12 +495,12 @@ void CLiveCore::CLiveCoreRender()
 
 		if (m_nLiveCoreShowGraphics != 0)
 		{
-			m_pMainfps->CCerasusfpsGetfps();
-			m_pMainfps->CCerasusfpsDrawfps(g_hWnd, DIRECTFONT_FORMAT_TOPRIGHT, D3DXCOLOR(1.0f, 0.5f, 0.5f, 1.0f));
-			m_pMainGraphics->DirectGraphicsFontDrawText(g_hWnd);
+			m_pMainfps->GetFps();
+			m_pMainfps->DrawFps(g_hWnd, DX_FONT_FORMAT_TOPRIGHT, D3DXCOLOR(1.0f, 0.5f, 0.5f, 1.0f));
+			m_pMainGraphics->Draw(g_hWnd);
 		}
 
-		m_pMainGraphics->DirectGraphicsEnd();
+		m_pMainGraphics->End();
 		SAFE_RELEASE(pD3D9BackBuffer);
 
 		EnterCriticalSection(&g_csDecode);

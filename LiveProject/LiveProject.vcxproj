@@ -130,10 +130,12 @@
   <ItemGroup>
     <ClInclude Include="..\Cerasus\Inc\CerasusAlgorithm.h" />
     <ClInclude Include="..\Cerasus\Inc\Cerasusfps.h" />
+    <ClInclude Include="..\Cerasus\Inc\CerasusTypes.h" />
     <ClInclude Include="..\Cerasus\Inc\CerasusUnit.h" />
     <ClInclude Include="..\Cerasus\Inc\DirectCommon.h" />
     <ClInclude Include="..\Cerasus\Inc\DirectFont.h" />
     <ClInclude Include="..\Cerasus\Inc\DirectGraphics.h" />
+    <ClInclude Include="..\Cerasus\Inc\DirectGraphics11.h" />
     <ClInclude Include="..\Cerasus\Inc\DirectGraphics2D.h" />
     <ClInclude Include="..\Cerasus\Inc\DirectGraphics3D.h" />
     <ClInclude Include="..\Cerasus\Inc\DirectInput.h" />
@@ -143,8 +145,13 @@
     <ClInclude Include="..\Cerasus\Inc\DirectSound.h" />
     <ClInclude Include="..\Cerasus\Inc\DirectSprite.h" />
     <ClInclude Include="..\Cerasus\Inc\DirectSurface.h" />
+    <ClInclude Include="..\Cerasus\Inc\DirectTemplate.h" />
     <ClInclude Include="..\Cerasus\Inc\DirectTexture.h" />
     <ClInclude Include="..\Cerasus\Inc\DirectThreadSafe.h" />
+    <ClInclude Include="..\Cerasus\Inc\DirectTypes.h" />
+    <ClInclude Include="..\Cerasus\Inc\DXUICommon.h" />
+    <ClInclude Include="..\Cerasus\Inc\DXUIManager.h" />
+    <ClInclude Include="..\Cerasus\Inc\DXUIWindow.h" />
     <ClInclude Include="..\Cerasus\Inc\SakuraBlend.h" />
     <ClInclude Include="..\Cerasus\Inc\SakuraButton.h" />
     <ClInclude Include="..\Cerasus\Inc\SakuraCheckBox.h" />

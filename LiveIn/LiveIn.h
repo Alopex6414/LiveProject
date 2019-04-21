@@ -71,21 +71,21 @@ protected:
 	void CLiveDrawAdapter();	// CLiveIn 绘制显卡信息
 	void CLiveDrawfps();		// CLiveIn 绘制fps
 
-	void CLiveInAddPacketResBK00(CUUintEx& sUnitEx);			// CLiveIn 加载背景bk_00资源结构
-	void CLiveInAddPacketResTITLE00(CUUintEx& sUnitEx);			// CLiveIn 加载背景title_00资源结构
-	void CLiveInAddPacketResTITLE01(CUUintEx& sUnitEx);			// CLiveIn 加载背景title_01资源结构
-	void CLiveInAddPacketResTITLE02(CUUintEx& sUnitEx);			// CLiveIn 加载背景title_02资源结构
-	void CLiveInAddPacketResWAIT01_0(CUUintEx& sUnitEx);		// CLiveIn 加载背景wait_01资源结构(请稍候)
-	void CLiveInAddPacketResWAIT01_1(CUUintEx& sUnitEx);		// CLiveIn 加载背景wait_01资源结构(请稍候.)
-	void CLiveInAddPacketResWAIT01_2(CUUintEx& sUnitEx);		// CLiveIn 加载背景wait_01资源结构(请稍候..)
-	void CLiveInAddPacketResWAIT01_3(CUUintEx& sUnitEx);		// CLiveIn 加载背景wait_01资源结构(请稍候...)
-	void CLiveInAddPacketResWAIT00_0(CUUintEx& sUnitEx);		// CLiveIn 加载背景wait_00资源结构(★)
-	void CLiveInAddPacketResWAIT00_1(CUUintEx& sUnitEx);		// CLiveIn 加载背景wait_00资源结构(★)
-	void CLiveInAddPacketResWAIT00_2(CUUintEx& sUnitEx);		// CLiveIn 加载背景wait_00资源结构(★)
-	void CLiveInAddPacketResWAIT00_3(CUUintEx& sUnitEx);		// CLiveIn 加载背景wait_00资源结构(★)
-	void CLiveInAddPacketResWAIT00_4(CUUintEx& sUnitEx);		// CLiveIn 加载背景wait_00资源结构(★)
-	void CLiveInAddPacketResLOGIN00(CUUintEx& sUnitEx);			// CLiveIn 加载按钮login_00资源(登录)
-	void CLiveInAddPacketResACCOUNT00(CUUintEx& sUnitEx);		// CLiveIn 加载背景account_00资源(账户)
+	void CLiveInAddPacketResBK00(S_CS_UNIT_EX_PARA& sUnitEx);			// CLiveIn 加载背景bk_00资源结构
+	void CLiveInAddPacketResTITLE00(S_CS_UNIT_EX_PARA& sUnitEx);		// CLiveIn 加载背景title_00资源结构
+	void CLiveInAddPacketResTITLE01(S_CS_UNIT_EX_PARA& sUnitEx);		// CLiveIn 加载背景title_01资源结构
+	void CLiveInAddPacketResTITLE02(S_CS_UNIT_EX_PARA& sUnitEx);		// CLiveIn 加载背景title_02资源结构
+	void CLiveInAddPacketResWAIT01_0(S_CS_UNIT_EX_PARA& sUnitEx);		// CLiveIn 加载背景wait_01资源结构(请稍候)
+	void CLiveInAddPacketResWAIT01_1(S_CS_UNIT_EX_PARA& sUnitEx);		// CLiveIn 加载背景wait_01资源结构(请稍候.)
+	void CLiveInAddPacketResWAIT01_2(S_CS_UNIT_EX_PARA& sUnitEx);		// CLiveIn 加载背景wait_01资源结构(请稍候..)
+	void CLiveInAddPacketResWAIT01_3(S_CS_UNIT_EX_PARA& sUnitEx);		// CLiveIn 加载背景wait_01资源结构(请稍候...)
+	void CLiveInAddPacketResWAIT00_0(S_CS_UNIT_EX_PARA& sUnitEx);		// CLiveIn 加载背景wait_00资源结构(★)
+	void CLiveInAddPacketResWAIT00_1(S_CS_UNIT_EX_PARA& sUnitEx);		// CLiveIn 加载背景wait_00资源结构(★)
+	void CLiveInAddPacketResWAIT00_2(S_CS_UNIT_EX_PARA& sUnitEx);		// CLiveIn 加载背景wait_00资源结构(★)
+	void CLiveInAddPacketResWAIT00_3(S_CS_UNIT_EX_PARA& sUnitEx);		// CLiveIn 加载背景wait_00资源结构(★)
+	void CLiveInAddPacketResWAIT00_4(S_CS_UNIT_EX_PARA& sUnitEx);		// CLiveIn 加载背景wait_00资源结构(★)
+	void CLiveInAddPacketResLOGIN00(S_CS_UNIT_EX_PARA& sUnitEx);		// CLiveIn 加载按钮login_00资源(登录)
+	void CLiveInAddPacketResACCOUNT00(S_CS_UNIT_EX_PARA& sUnitEx);		// CLiveIn 加载背景account_00资源(账户)
 
 public:
 	CLiveIn();					// CLiveIn 构造

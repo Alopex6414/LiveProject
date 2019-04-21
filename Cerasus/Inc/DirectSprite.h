@@ -1,14 +1,14 @@
 /*
 *     COPYRIGHT NOTICE
-*     Copyright(c) 2017~2018, Team Shanghai Dream Equinox 
+*     Copyright(c) 2017~2019, Team Gorgeous Bubble
 *     All rights reserved.
 *
 * @file		DirectSprite.h
 * @brief	This File is DirectSprite DLL Project Header.
-* @author	Alopex/Helium
-* @version	v1.27a
+* @author	Alopex/Alice
+* @version	v1.28a
 * @date		2017-11-28	v1.00a	alopex	Create This Project.
-* @date		2017-12-8	v1.10a	alopex	Code Do Not Rely On MSVCR Library.
+* @date		2017-12-08	v1.10a	alopex	Code Do Not Rely On MSVCR Library.
 * @date		2018-01-10	v1.20a	alopex	Code Add dxerr & d3dcompiler Library and Modify Verify.
 * @date		2018-01-10	v1.21a	alopex	Add Thread Safe File & Variable(DirectThreadSafe).
 * @date		2018-04-12	v1.22a	alopex	Add Macro Call Mode.
@@ -17,13 +17,18 @@
 * @date		2018-11-23	v1.25a	alopex	Alter Call Method.
 * @date		2019-01-17	v1.26a	alopex	Add Init&ReInit Method.
 * @date		2019-01-17	v1.27a	alopex	Add Draw Method.
+* @date		2019-04-17	v1.28a	alopex	Add Notes.
 */
 #pragma once
 
 #ifndef __DIRECTSPRITE_H_
 #define __DIRECTSPRITE_H_
 
-//Macro Definition
+// Include DirectX Common Header File
+#include "DirectCommon.h"
+#include "DirectTypes.h"
+
+// Macro Definition
 #ifdef	CERASUS_EXPORTS
 #define DIRECTSPRITE_API __declspec(dllexport)
 #else
@@ -32,93 +37,63 @@
 
 #define DIRECTSPRITE_CALLMETHOD	__stdcall
 
-//Struct Definition
-typedef struct
-{
-	float fScaleX;	//Scale变换X轴比例	//拉伸
-	float fScaleY;	//Scale变换Y轴比例
-} DirectSpriteScale, *LPDirectSpriteScale;
-
-typedef struct
-{
-	float fRotateZ;	//Rotate变换Z轴比例	//旋转
-} DirectSpriteRotate, *LPDirectSpriteRotate;
-
-typedef struct
-{
-	float fTranslateX;	//Translate变换X轴比例	//平移
-	float fTranslateY;	//Translate变换Y轴比例
-} DirectSpriteTranslate, *LPDirectSpriteTranslate;
-
-//变换参数
-typedef struct
-{
-	DirectSpriteScale sScalePara;			//拉伸
-	DirectSpriteRotate sRotatePara;			//旋转
-	DirectSpriteTranslate sTranslatePara;	//平移
-} DirectSpriteTransformPara, *LPDirectSpriteTransformPara;
-
-//绘制参数
-typedef struct
-{
-	RECT SpriteRect;						//Sprite矩形区域
-	D3DXVECTOR3 SpriteCenter;				//Sprite中心向量
-	D3DXVECTOR3 SpritePosition;				//Sprite位置向量
-	D3DCOLOR SpriteColor;					//Sprite颜色
-} DirectSpriteDrawPara, *LPDirectSpriteDrawPara;
-
-//Class Definition
+// Class Definition
 class DIRECTSPRITE_API DirectSprite
 {
-protected:
-	LPDIRECT3DDEVICE9 m_pD3D9Device;		//The Direct3D 9 Render Device
-	LPDIRECT3DTEXTURE9 m_pSpriteTexture;	//The Direct3D 9 Sprite Texture
-	LPD3DXSPRITE m_pSprite;					//The Direct3D 9 Sprite
-
 private:
-	CRITICAL_SECTION m_cs;					//Thread Safe(CriticalSection)
-	bool m_bThreadSafe;						//Thread Safe Status
+	LPDIRECT3DDEVICE9 m_pD3D9Device;						// Direct3D 9 Device Object(~D3D9设备对象)
+	LPDIRECT3DTEXTURE9 m_pSpriteTexture;					// Direct3D 9 Sprite Texture(~D3D9精灵纹理)
+	LPD3DXSPRITE m_pSprite;									// Direct3D 9 Sprite(~D3D9精灵)
+
+protected:
+	CRITICAL_SECTION m_cs;									// Direct3D 9 Thread Safe(CriticalSection)(~D3D9临界区变量)
+	bool m_bThreadSafe;										// Direct3D 9 Thread Safe Status(~D3D9线程安全状态)
 
 public:
-	DirectSprite();				//DirectSprite Constructor Function(~DirectSprite构造函数)
-	virtual ~DirectSprite();	//DirectSprite Destructor Function(~DirectSprite析构函数)
+	DirectSprite();																	// DirectSprite Construction Function(~DirectSprite构造函数)
+	~DirectSprite();																// DirectSprite Destruction Function(~DirectSprite析构函数)
 
-	DirectSprite(LPDIRECT3DDEVICE9 pD3D9Device);													//DirectSprite Constructor Function(Use D3D Device)(~DirectSprite构造函数)(重载+1)
+	DirectSprite(IDirect3DDevice9* pD3D9Device, bool bSafe = true);					// DirectSprite Construction Function(~DirectSprite构造函数)(Overload + 1)
+	DirectSprite(const DirectSprite&);												// DirectSprite Construction Function(~DirectSprite拷贝构造函数)
 
-	//访问
-	virtual LPDIRECT3DDEVICE9 DIRECTSPRITE_CALLMETHOD DirectSpriteGetDevice(void) const;			//DirectSprite Get Device
-	virtual LPDIRECT3DTEXTURE9 DIRECTSPRITE_CALLMETHOD DirectSpriteGetTexture(void) const;			//DirectSprite Get Texture
-	virtual LPD3DXSPRITE DIRECTSPRITE_CALLMETHOD DirectSpriteGetSprite(void) const;					//DirectSprite Get Sprite
+public:
+	const DirectSprite& operator=(const DirectSprite&);								// DirectSprite Operator= Function(~DirectSprite运算符函数)
 
-	//控制
-	virtual void DIRECTSPRITE_CALLMETHOD DirectSpriteSetDevice(LPDIRECT3DDEVICE9 pD3D9Device);		//DirectSprite Set Device
-	virtual void DIRECTSPRITE_CALLMETHOD DirectSpriteSetTexture(LPDIRECT3DTEXTURE9 pSpriteTexture);	//DirectSprite Set Texture
-	virtual void DIRECTSPRITE_CALLMETHOD DirectSpriteSetSprite(LPD3DXSPRITE pSprite);				//DirectSprite Set Sprite
+public:
+	LPDIRECT3DDEVICE9					DIRECTSPRITE_CALLMETHOD		GetDevice() const;					// DirectSprite Get Device(~DirectSprite获取D3D9设备指针)
+	LPDIRECT3DTEXTURE9					DIRECTSPRITE_CALLMETHOD		GetTexture() const;					// DirectSprite Get Texture(~DirectSprite获取D3D9纹理指针)
+	LPD3DXSPRITE						DIRECTSPRITE_CALLMETHOD		GetSprite() const;					// DirectSprite Get Sprite(~DirectSprite获取D3D9精灵指针)
 
-	virtual HRESULT DIRECTSPRITE_CALLMETHOD DirectSpriteInit(LPCWSTR lpszStr);						//DirectSprite Initialize
-	virtual HRESULT DIRECTSPRITE_CALLMETHOD DirectSpriteReload(LPCWSTR lpszStr);					//DirectSprite Reload(Texture Changed)
+public:
+	HRESULT								DIRECTSPRITE_CALLMETHOD		Create(LPCWSTR lpszStr);														// DirectSprite Initialize Sprite(~DirectSprite初始化精灵)
+	HRESULT								DIRECTSPRITE_CALLMETHOD		Create(LPCVOID pData, UINT nSize, UINT nWidth, UINT nHeight);					// DirectSprite Initialize Sprite(~DirectSprite初始化精灵)(Overload + 1)
+	
+	HRESULT								DIRECTSPRITE_CALLMETHOD		ReCreate(LPCWSTR lpszStr);														// DirectSprite Re-Create Sprite(~DirectSprite初始化精灵)
+	HRESULT								DIRECTSPRITE_CALLMETHOD		ReCreate(LPCVOID pData, UINT nSize, UINT nWidth, UINT nHeight);					// DirectSprite Re-Create Sprite(~DirectSprite初始化精灵)(Overload + 1)
 
-	virtual HRESULT DIRECTSPRITE_CALLMETHOD DirectSpriteInit(LPCVOID pData, UINT nSize, UINT nWidth, UINT nHeight);		//DirectSprite Initialize
-	virtual HRESULT DIRECTSPRITE_CALLMETHOD DirectSpriteReload(LPCVOID pData, UINT nSize, UINT nWidth, UINT nHeight);	//DirectSprite Reload(Texture Changed)
+	void								DIRECTSPRITE_CALLMETHOD		Reset();																		// DirectSprite Reset(~DirectSprite丢失设备)(需要重新初始化)
 
-	virtual void DIRECTSPRITE_CALLMETHOD DirectSpriteReset(void);									//DirectSprite Reset(D3D9丢失设备)(需要重新初始化)
+	HRESULT								DIRECTSPRITE_CALLMETHOD		Begin();																		// DirectSprite Graphics Draw Begin(~DirectSprite开始绘制)
+	HRESULT								DIRECTSPRITE_CALLMETHOD		End();																			// DirectSprite Graphics Draw End(~DirectSprite结束绘制)
 
-	virtual HRESULT DIRECTSPRITE_CALLMETHOD DirectSpriteBegin(void);								//DirectSprite Begin Draw
-	virtual HRESULT DIRECTSPRITE_CALLMETHOD DirectSpriteEnd(void);									//DirectSprite End Draw
+	void								DIRECTSPRITE_CALLMETHOD		GetMatrix(D3DXMATRIX* pMatrix);													// DirectSprite Get Matrix(~DirectSprite获取变换矩阵)
+	void								DIRECTSPRITE_CALLMETHOD		SetMatrix(D3DXMATRIX* pMatrix);													// DirectSprite Set Matrix(~DirectSprite设置变换矩阵)
 
-	virtual void DIRECTSPRITE_CALLMETHOD DirectSpriteGetTransform(D3DXMATRIX* pMatrix);				//DirectSprite Get Transform
-	virtual void DIRECTSPRITE_CALLMETHOD DirectSpriteSetTransform(D3DXMATRIX* pMatrix);				//DirectSprite Set Transform
+	void								DIRECTSPRITE_CALLMETHOD		Draw(S_DX_SPRITE_DRAW_PARA* sSpriteDrawPara);																				// DirectSprite Graphics Draw(~DirectSprite绘制)
+	void								DIRECTSPRITE_CALLMETHOD		Draw(RECT* pSpriteRect, D3DXVECTOR3* pSpriteCenter, D3DXVECTOR3* pSpritePosition, D3DCOLOR SpriteColor);					// DirectSprite Graphics Draw(~DirectSprite绘制)
 
-	virtual void DIRECTSPRITE_CALLMETHOD DirectSpriteDraw(DirectSpriteDrawPara* sSpriteDrawPara);																//DirectSprite Draw
-	virtual void DIRECTSPRITE_CALLMETHOD DirectSpriteDraw(RECT* pSpriteRect, D3DXVECTOR3* pSpriteCenter, D3DXVECTOR3* pSpritePosition, D3DCOLOR SpriteColor);	//DirectSprite Draw(重载+1)
-	virtual void DIRECTSPRITE_CALLMETHOD DirectSpriteDrawScale(DirectSpriteDrawPara* sSpriteDrawPara, float fScaleX = 1.0f, float fScaleY = 1.0f);				//DirectSprite Draw Scale
-	virtual void DIRECTSPRITE_CALLMETHOD DirectSpriteDrawScale(DirectSpriteDrawPara* sSpriteDrawPara, DirectSpriteScale sScalePara); 							//DirectSprite Draw Scale(重载+1)
-	virtual void DIRECTSPRITE_CALLMETHOD DirectSpriteDrawRotate(DirectSpriteDrawPara* sSpriteDrawPara, float fRotateZ = 0.0f);									//DirectSprite Draw Rotate
-	virtual void DIRECTSPRITE_CALLMETHOD DirectSpriteDrawRotate(DirectSpriteDrawPara* sSpriteDrawPara, DirectSpriteRotate sRotatePara);							//DirectSprite Draw Rotate(重载+1)
-	virtual void DIRECTSPRITE_CALLMETHOD DirectSpriteDrawTranslate(DirectSpriteDrawPara* sSpriteDrawPara, float fTranslateX = 0.0f, float fTranslateY = 0.0f);	//DirectSprite Draw Translate
-	virtual void DIRECTSPRITE_CALLMETHOD DirectSpriteDrawTranslate(DirectSpriteDrawPara* sSpriteDrawPara, DirectSpriteTranslate sTranslatePara);				//DirectSprite Draw Translate(重载+1)
-	virtual void DIRECTSPRITE_CALLMETHOD DirectSpriteDrawTransform(DirectSpriteDrawPara* sSpriteDrawPara, DirectSpriteTransformPara sTransformPara);			//DirectSprite Draw Transform
-	virtual void DIRECTSPRITE_CALLMETHOD DirectSpriteDrawTransform(DirectSpriteDrawPara* sSpriteDrawPara, DirectSpriteTransformPara sTransformPara, int nNowY, int nPosY);//DirectSprite Draw Transform
+	void								DIRECTSPRITE_CALLMETHOD		DrawScale(S_DX_SPRITE_DRAW_PARA* sSpriteDrawPara, float fScaleX = 1.0f, float fScaleY = 1.0f);								// DirectSprite Graphics Draw Scale(~DirectSprite绘制)
+	void								DIRECTSPRITE_CALLMETHOD		DrawScale(S_DX_SPRITE_DRAW_PARA* sSpriteDrawPara, S_DX_SPRITE_SCALE_PARA sScalePara);										// DirectSprite Graphics Draw Scale(~DirectSprite绘制)
+
+	void								DIRECTSPRITE_CALLMETHOD		DrawRotate(S_DX_SPRITE_DRAW_PARA* sSpriteDrawPara, float fRotateZ = 0.0f);													// DirectSprite Graphics Draw Rotate(~DirectSprite绘制)
+	void								DIRECTSPRITE_CALLMETHOD		DrawRotate(S_DX_SPRITE_DRAW_PARA* sSpriteDrawPara, S_DX_SPRITE_ROTATE_PARA sRotatePara);									// DirectSprite Graphics Draw Rotate(~DirectSprite绘制)
+
+	void								DIRECTSPRITE_CALLMETHOD		DrawTranslate(S_DX_SPRITE_DRAW_PARA* sSpriteDrawPara, float fTranslateX = 0.0f, float fTranslateY = 0.0f);					// DirectSprite Graphics Draw Translate(~DirectSprite绘制)
+	void								DIRECTSPRITE_CALLMETHOD		DrawTranslate(S_DX_SPRITE_DRAW_PARA* sSpriteDrawPara, S_DX_SPRITE_TRANSLATE_PARA sTranslatePara);							// DirectSprite Graphics Draw Translate(~DirectSprite绘制)
+
+	void								DIRECTSPRITE_CALLMETHOD		DrawTransform(S_DX_SPRITE_DRAW_PARA* sSpriteDrawPara, S_DX_SPRITE_TRANSFORM_PARA sTransformPara);							// DirectSprite Graphics Draw Transform(~DirectSprite绘制)
+	void								DIRECTSPRITE_CALLMETHOD		DrawTransform(S_DX_SPRITE_DRAW_PARA* sSpriteDrawPara, S_DX_SPRITE_TRANSFORM_PARA sTransformPara, int nNowY, int nPosY);		// DirectSprite Graphics Draw Transform(~DirectSprite绘制)
+
 };
 
 #endif

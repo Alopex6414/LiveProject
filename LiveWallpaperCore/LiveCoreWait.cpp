@@ -185,31 +185,31 @@ BOOL LIVECOREWAIT_CALLMODE CLiveCoreWait::LiveCoreWaitInit()
 
 	// 初始化D3D
 	m_pLiveWaitGraphics = new DirectGraphics();
-	hr = m_pLiveWaitGraphics->DirectGraphicsInit(m_hWnd, true, LIVECOREWAIT_DLG_WIDTH, LIVECOREWAIT_DLG_HEIGHT);
+	hr = m_pLiveWaitGraphics->Create(m_hWnd, true, LIVECOREWAIT_DLG_WIDTH, LIVECOREWAIT_DLG_HEIGHT);
 	if (FAILED(hr))
 	{
 		return FALSE;
 	}
 
 	// 初始化D3D渲染2D图形
-	m_pLiveWaitGraphics2D = new DirectGraphics2D(m_pLiveWaitGraphics->DirectGraphicsGetDevice());
-	hr = m_pLiveWaitGraphics2D->DirectGraphics2DInit(Vertex2D_Type_Texture, 1);
+	m_pLiveWaitGraphics2D = new DirectGraphics2D(m_pLiveWaitGraphics->GetDevice());
+	hr = m_pLiveWaitGraphics2D->Create(Vertex2D_Type_Texture, 1);
 	if (FAILED(hr))
 	{
 		return FALSE;
 	}
 
 	// 初始化D3D纹理
-	m_pLiveWaitTexture = new DirectTexture(m_pLiveWaitGraphics->DirectGraphicsGetDevice());
-	hr = m_pLiveWaitTexture->DirectTextureLoadTextureEx(m_tcTexturePath, 1024, 256);
+	m_pLiveWaitTexture = new DirectTexture(m_pLiveWaitGraphics->GetDevice());
+	hr = m_pLiveWaitTexture->CreateEx(m_tcTexturePath, 1024, 256);
 	if (FAILED(hr))
 	{
 		return FALSE;
 	}
 
 	// 初始化Sakura樱花粒子
-	m_pLiveWaitSprite = new DirectSprite(m_pLiveWaitGraphics->DirectGraphicsGetDevice());
-	hr = m_pLiveWaitSprite->DirectSpriteInit(m_tcSpritePath);
+	m_pLiveWaitSprite = new DirectSprite(m_pLiveWaitGraphics->GetDevice());
+	hr = m_pLiveWaitSprite->Create(m_tcSpritePath);
 	if (FAILED(hr))
 	{
 		return FALSE;
@@ -234,12 +234,12 @@ void LIVECOREWAIT_CALLMODE CLiveCoreWait::LiveCoreWaitUpdate()
 {
 	static bool bAlpha = true;
 	static float fAlpha = 0.5f;
-	Vertex2DTexture pVertex2DTextureArray[] =
+	S_DX_VERTEX2D_TEXTURE pVertex2DTextureArray[] =
 	{
-		Vertex2DTexture(0.0f, 0.0f, 0.0f, 1.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, fAlpha), (0.0f / 1024.0f), (0.0f / 256.0f)),
-		Vertex2DTexture(640.0f, 0.0f, 0.0f, 1.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, fAlpha), (640.0f / 1024.0f), (0.0f / 256.0f)),
-		Vertex2DTexture(640.0f, 80.0f, 0.0f, 1.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, fAlpha), (640.0f / 1024.0f), (80.0f / 256.0f)),
-		Vertex2DTexture(0.0f, 80.0f, 0.0f, 1.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, fAlpha), (0.0f / 1024.0f), (80.0f / 256.0f)),
+		S_DX_VERTEX2D_TEXTURE(0.0f, 0.0f, 0.0f, 1.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, fAlpha), (0.0f / 1024.0f), (0.0f / 256.0f)),
+		S_DX_VERTEX2D_TEXTURE(640.0f, 0.0f, 0.0f, 1.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, fAlpha), (640.0f / 1024.0f), (0.0f / 256.0f)),
+		S_DX_VERTEX2D_TEXTURE(640.0f, 80.0f, 0.0f, 1.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, fAlpha), (640.0f / 1024.0f), (80.0f / 256.0f)),
+		S_DX_VERTEX2D_TEXTURE(0.0f, 80.0f, 0.0f, 1.0f, D3DXCOLOR(1.0f, 1.0f, 1.0f, fAlpha), (0.0f / 1024.0f), (80.0f / 256.0f)),
 	};
 
 	if (!bAlpha)
@@ -261,8 +261,8 @@ void LIVECOREWAIT_CALLMODE CLiveCoreWait::LiveCoreWaitUpdate()
 		}
 	}
 
-	m_pLiveWaitGraphics2D->DirectGraphics2DPaddingVertex(pVertex2DTextureArray, 4);
-	m_pLiveWaitGraphics2D->DirectGraphics2DPaddingIndex(1);
+	m_pLiveWaitGraphics2D->PaddingVertex(pVertex2DTextureArray, 4);
+	m_pLiveWaitGraphics2D->PaddingIndex(1);
 
 	LiveCoreWaitUpdateSakura();
 }
@@ -276,16 +276,16 @@ void LIVECOREWAIT_CALLMODE CLiveCoreWait::LiveCoreWaitUpdate()
 //------------------------------------------------------------------
 void LIVECOREWAIT_CALLMODE CLiveCoreWait::LiveCoreWaitRender()
 {
-	m_pLiveWaitGraphics->DirectGraphicsBegin();
-	m_pLiveWaitGraphics2D->DirectGraphics2DRenderStateSetting();
+	m_pLiveWaitGraphics->Begin();
+	m_pLiveWaitGraphics2D->Setting();
 
-	m_pLiveWaitGraphics2D->DirectGraphics2DRender(Vertex2D_Type_Texture, 0, 1, m_pLiveWaitTexture->DirectTextureGetTexture());
+	m_pLiveWaitGraphics2D->Render(Vertex2D_Type_Texture, 0, 1, m_pLiveWaitTexture->GetTexture());
 	::SetLayeredWindowAttributes(m_hWnd, RGB(0, 0, 0), 0, LWA_COLORKEY);
 
 	LiveCoreWaitRenderSakura();
 
-	m_pLiveWaitGraphics2D->DirectGraphics2DRenderStateAlphaDisable();
-	m_pLiveWaitGraphics->DirectGraphicsEnd();
+	m_pLiveWaitGraphics2D->AlphaDisable();
+	m_pLiveWaitGraphics->End();
 }
 
 //------------------------------------------------------------------
@@ -358,7 +358,7 @@ void LIVECOREWAIT_CALLMODE CLiveCoreWait::LiveCoreWaitUpdateSakura()
 {
 	HRESULT hr;
 
-	hr = m_pLiveWaitGraphics->DirectGraphicsTestCooperativeLevel();
+	hr = m_pLiveWaitGraphics->TestCooperativeLevel();
 	if (hr != S_OK)
 	{
 		if (hr == D3DERR_DEVICELOST)
@@ -371,19 +371,19 @@ void LIVECOREWAIT_CALLMODE CLiveCoreWait::LiveCoreWaitUpdateSakura()
 			IDirect3DDevice9* pD3D9Device = NULL;
 			IDirect3DSurface9* pD3D9BackBuffer = NULL;
 
-			pD3D9Device = m_pLiveWaitGraphics->DirectGraphicsGetDevice();
+			pD3D9Device = m_pLiveWaitGraphics->GetDevice();
 			pD3D9Device->GetBackBuffer(NULL, NULL, D3DBACKBUFFER_TYPE_MONO, &pD3D9BackBuffer);
 			SAFE_RELEASE(pD3D9BackBuffer);
 
-			m_pLiveWaitGraphics2D->DirectGraphics2DReset();
-			m_pLiveWaitTexture->DirectTextureReset();
-			m_pLiveWaitSprite->DirectSpriteReset();
+			m_pLiveWaitGraphics2D->Reset();
+			m_pLiveWaitTexture->Reset();
+			m_pLiveWaitSprite->Reset();
 
-			m_pLiveWaitGraphics->DirectGraphicsResetDevice();
+			m_pLiveWaitGraphics->Reset();
 
-			m_pLiveWaitGraphics2D->DirectGraphics2DInit(Vertex2D_Type_Texture, 1);
-			m_pLiveWaitTexture->DirectTextureLoadTextureEx(m_tcTexturePath, 1024, 256);
-			m_pLiveWaitSprite->DirectSpriteInit(m_tcSpritePath);
+			m_pLiveWaitGraphics2D->Create(Vertex2D_Type_Texture, 1);
+			m_pLiveWaitTexture->CreateEx(m_tcTexturePath, 1024, 256);
+			m_pLiveWaitSprite->Create(m_tcSpritePath);
 
 		}
 
@@ -473,20 +473,20 @@ void LIVECOREWAIT_CALLMODE CLiveCoreWait::LiveCoreWaitUpdateSakura()
 //------------------------------------------------------------------
 void LIVECOREWAIT_CALLMODE CLiveCoreWait::LiveCoreWaitRenderSakura()
 {
-	m_pLiveWaitSprite->DirectSpriteBegin();
+	m_pLiveWaitSprite->Begin();
 
 	for (int i = 0; i < LIVECOREWAIT_PARTICLE_NUMBER; ++i)
 	{
-		DirectSpriteDrawPara sDrawPara = { 0 };
+		S_DX_SPRITE_DRAW_PARA sDrawPara = { 0 };
 		SetRect(&sDrawPara.SpriteRect, 0, 0, 64, 64);
 		sDrawPara.SpriteCenter = D3DXVECTOR3(30.0f, 32.0f, 0.0f);
 		sDrawPara.SpritePosition = D3DXVECTOR3(m_arrSakura[i].sTransformPara.sTranslatePara.fTranslateX, m_arrSakura[i].sTransformPara.sTranslatePara.fTranslateY, 0.0f);
 		sDrawPara.SpriteColor = D3DXCOLOR(1.0f, 1.0f, 1.0f, m_arrSakura[i].fAlpha);
 
-		m_pLiveWaitSprite->DirectSpriteDrawTransform(&sDrawPara, m_arrSakura[i].sTransformPara, m_arrSakura[i].sTransformPara.sTranslatePara.fTranslateY, m_nSakuraPosY);
+		m_pLiveWaitSprite->DrawTransform(&sDrawPara, m_arrSakura[i].sTransformPara, m_arrSakura[i].sTransformPara.sTranslatePara.fTranslateY, m_nSakuraPosY);
 	}
 
-	m_pLiveWaitSprite->DirectSpriteEnd();
+	m_pLiveWaitSprite->End();
 }
 
 //------------------------------------------------------------------
