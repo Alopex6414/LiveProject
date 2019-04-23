@@ -88,6 +88,7 @@ protected:
 	void StopOnceVideoContext();								// LiveProject 停止一个墙纸内容
 	void GenerateGUID(char* chGUID, size_t nSize);				// LiveProject 生成GUID
 	BOOL ReStartProcess(const char* pStrArr);					// LiveProject 进程ReStart
+	void RecordVideoConfigFile(S_WALLVIDEO* pVideoInfo);		// LiveProject 记录墙纸配置文件
 
 public:
 	CPaintManagerUI & GetPaintManager();

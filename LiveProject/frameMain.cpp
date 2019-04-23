@@ -654,6 +654,33 @@ BOOL CFrameMain::ReStartProcess(const char * pStrArr)
 	return bResult;
 }
 
+//------------------------------------------------------------
+// @Function:	RecordVideoConfigFile(S_WALLVIDEO* pVideoInfo)
+// @Purpose: CFrameMain进程记录视频配置文件
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//------------------------------------------------------------
+void CFrameMain::RecordVideoConfigFile(S_WALLVIDEO* pVideoInfo)
+{
+	char chFile[MAX_PATH] = { 0 };
+	char* pTemp = NULL;
+
+	// record file path...
+	CPlumFile* pFile = new CPlumFile();
+	pFile->PlumFileGetModuleFileNameA(chFile, MAX_PATH);
+
+	pTemp = strrchr(chFile, '\\');
+	if (pTemp)* pTemp = '\0';
+	strcat_s(chFile, "\\config\\LiveCore.cfg");
+
+	// record config info...
+	WritePrivateProfileStringA("LIVECOREVIDEOADDRESS", "LiveCore_Video_Address", pVideoInfo->chVideoPath, chFile);
+
+	// safe delete object...
+	SAFE_DELETE(pFile);
+}
+
 //----------------------------------------------
 // @Function:	GetPaintManager()
 // @Purpose: CFrameMain获取绘制句柄
@@ -1357,7 +1384,9 @@ void CFrameMain::OnLButtonClickedOtherEvent(CControlUI* pSender)
 
 				if (pSender == pPlayBtn)
 				{
-					Sleep(1);
+					RecordVideoConfigFile(&m_vecWallVideoInfo.at(i));	// record video config file...
+					ReStartProcess("LiveWallpaperCore.exe");
+					//Sleep(1);
 				}
 			}
 		}
