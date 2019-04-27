@@ -354,17 +354,16 @@ void CLiveCore::CLiveCoreUpdate()
 
 				if (m_nLiveCoreShowGraphics != 0)
 				{
-					m_pMainGraphics->Reset();
-					m_pMainfps->Reset();
+					hr = m_pMainfps->Reset();
 				}
 
-				m_pD3D9Device->GetBackBuffer(NULL, NULL, D3DBACKBUFFER_TYPE_MONO, &pD3D9BackBuffer);
+				hr = m_pD3D9Device->GetBackBuffer(NULL, NULL, D3DBACKBUFFER_TYPE_MONO, &pD3D9BackBuffer);
 				SAFE_RELEASE(pD3D9BackBuffer);
 				SAFE_RELEASE(m_pD3D9Surface);
 
-				m_pMainGraphics->Reset();
+				hr = m_pMainGraphics->Reset();
 
-				m_pD3D9Device->CreateOffscreenPlainSurface(m_nVideoWidth, m_nVideoHeight, (D3DFORMAT)MAKEFOURCC('Y', 'V', '1', '2'), D3DPOOL_DEFAULT, &m_pD3D9Surface, NULL);
+				hr = m_pD3D9Device->CreateOffscreenPlainSurface(m_nVideoWidth, m_nVideoHeight, (D3DFORMAT)MAKEFOURCC('Y', 'V', '1', '2'), D3DPOOL_DEFAULT, &m_pD3D9Surface, NULL);
 				CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "Direct3D Reset Device!");
 			}
 		}
