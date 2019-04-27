@@ -495,7 +495,7 @@ void CLiveCore::CLiveCoreRender()
 
 		if (m_nLiveCoreShowGraphics != 0)
 		{
-			m_pMainfps->GetFps();
+			m_pMainfps->CalculateFps();
 			m_pMainfps->DrawFps(g_hWnd, DX_FONT_FORMAT_TOPRIGHT, D3DXCOLOR(1.0f, 0.5f, 0.5f, 1.0f));
 			m_pMainGraphics->Draw(g_hWnd);
 		}
