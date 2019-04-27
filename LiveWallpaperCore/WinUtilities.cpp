@@ -11,6 +11,8 @@
 * @date		2017-12-8	v1.10a	alopex	Code Do Not Rely On MSVCR Library.
 */
 #include "WinUtilities.h"
+#include "LiveCore.h"
+
 #include "resource.h"
 
 #pragma warning (disable:4996)
@@ -22,6 +24,8 @@ HINSTANCE g_hInstance;			//窗口实例句柄
 
 HMENU g_hMenu;					//窗口菜单句柄
 bool g_bActive = true;			//窗口当前是否激活
+
+extern CLiveCore g_LiveCore;
 
 //------------------------------------------------------------------
 // @Function:	 MyRegisterClass(HINSTANCE hInstance)
@@ -179,7 +183,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			nRet = TrackPopupMenu(g_hMenu, TPM_RETURNCMD, pt.x, pt.y, NULL, g_hWnd, NULL);
 			if (nRet == IDR_MENU_MAIN_RESTART)
 			{
-				//LiveCoreReStartProcess("LiveWallpaperCore.exe");
+				g_LiveCore.Restart("LiveWallpaperCore.exe");
 				::PostMessage(g_hWnd, WM_CLOSE, wParam, lParam);
 			}
 			if (nRet == IDR_MENU_MAIN_EXIT)
