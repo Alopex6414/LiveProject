@@ -137,6 +137,13 @@ void CFrameMain::Notify(TNotifyUI & msg)
 		}
 
 	}
+	else if (msg.sType == _T("textchanged"))
+	{
+		if (msg.pSender == m_pLiveWallSearchEdt)
+		{
+			OnLButtonClickedLiveWallSearchBtn();
+		}
+	}
 
 }
 
