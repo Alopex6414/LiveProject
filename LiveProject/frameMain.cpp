@@ -212,6 +212,9 @@ LRESULT CFrameMain::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_USER_MESSAGE_WALLVIDEO_ADDITEM:
 		lRes = OnUserMessageWallVideoAddItem(uMsg, wParam, lParam, bHandled);
 		break;
+	case WM_USER_MESSAGE_WALLVIDEO_ADDSHOT:
+		lRes = OnUserMessageWallVideoAddShot(uMsg, wParam, lParam, bHandled);
+		break;
 	default:
 		bHandled = FALSE;
 		break;
@@ -568,6 +571,42 @@ void CFrameMain::AddOnceVideoContext(S_WALLVIDEO* pVideoInfo)
 	pHorizontal->Add(pText);
 
 	m_pLiveWallContextLst->Add(pHorizontal);
+}
+
+//----------------------------------------------
+// @Function:	AddOnceVideoShotCut()
+// @Purpose: CFrameMain添加一个墙纸快照
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::AddOnceVideoShotCut(S_WALLVIDEO* pVideoInfo)
+{
+	char chVideoPath[256] = { 0 };
+
+	CPlumPath::PlumPathGetLocalPathA(chVideoPath, sizeof(chVideoPath));
+	strcat_s(chVideoPath, "\\data\\");
+	strcat_s(chVideoPath, pVideoInfo->chVideoName);
+	strcat_s(chVideoPath, ".jpg");
+
+	for (int i = 0; i < m_pLiveWallContextLst->GetCount(); ++i)
+	{
+		CHorizontalLayoutUI* pHorizontal = static_cast<CHorizontalLayoutUI*>(m_pLiveWallContextLst->GetItemAt(i));
+
+		if (pHorizontal != NULL)
+		{
+			CContainerUI* pContainer = static_cast<CContainerUI*>(pHorizontal->FindSubControl(_T("videobk")));		// find video back image...
+			CTextUI* pText = static_cast<CTextUI*>(pHorizontal->FindSubControl(_T("videoname")));					// find video name...
+
+			USES_CONVERSION;
+
+			if (!strcmp(T2A(pText->GetText().GetData()), pVideoInfo->chVideoName))
+			{
+				pContainer->SetBkImage(A2T(chVideoPath));
+			}
+		}
+	}
+
 }
 
 //----------------------------------------------
@@ -992,6 +1031,20 @@ LRESULT CFrameMain::OnUserMessageWallVideoAddItem(UINT uMsg, WPARAM wParam, LPAR
 }
 
 //----------------------------------------------
+// @Function:	OnUserMessageWallVideoAddShot()
+// @Purpose: CFrameMain列表添加一条视频快照
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+LRESULT CFrameMain::OnUserMessageWallVideoAddShot(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	S_WALLVIDEO* pMsg = reinterpret_cast<S_WALLVIDEO*>(wParam);
+	AddOnceVideoShotCut(pMsg);
+	return 0;
+}
+
+//----------------------------------------------
 // @Function:	OnGetWallVideoShotProcess()
 // @Purpose: CFrameMain获取视频壁纸快照进程
 // @Since: v1.00a
@@ -1115,7 +1168,6 @@ DWORD CFrameMain::OnGetWallVideoShotProcess(LPVOID lpParameter)
 	int ret2 = 0;
 
 	char chOutPath[256] = { 0 };
-	char* pTemp = NULL;
 
 	CPlumPath::PlumPathGetLocalPathA(chOutPath, sizeof(chOutPath));
 	strcat_s(chOutPath, "\\data\\");
@@ -1196,6 +1248,9 @@ DWORD CFrameMain::OnGetWallVideoShotProcess(LPVOID lpParameter)
 	}
 	avio_close(pFormatCtx2->pb);
 	avformat_free_context(pFormatCtx2);
+
+	// add once shotcut...
+	::PostMessageA(g_pFrameMain->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_ADDSHOT, (WPARAM)(lpParameter), (LPARAM)0);
 
 	// release resources...
 	sws_freeContext(img_convert_ctx);
