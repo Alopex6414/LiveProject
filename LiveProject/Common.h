@@ -107,6 +107,32 @@
 #include "dbWallpaperVideo.h"
 #include "dbWallpaperGraph.h"
 
+// Include ffmpeg Library Header File
+extern "C"
+{
+#include "libavcodec\avcodec.h"  
+#include "libavformat\avformat.h"  
+#include "libavutil\channel_layout.h"  
+#include "libavutil\common.h"  
+#include "libavutil\imgutils.h"  
+#include "libswscale\swscale.h"   
+#include "libavutil\imgutils.h"      
+#include "libavutil\opt.h"         
+#include "libavutil\mathematics.h"      
+#include "libavutil\samplefmt.h"   
+#include "libswresample/swresample.h"
+};
+
+// Include ffmpeg Dynamic Link Library
+#pragma comment(lib, "avcodec.lib")  
+#pragma comment(lib, "avformat.lib")  
+#pragma comment(lib, "avdevice.lib")  
+#pragma comment(lib, "avfilter.lib")  
+#pragma comment(lib, "avutil.lib")  
+#pragma comment(lib, "postproc.lib")  
+#pragma comment(lib, "swresample.lib")  
+#pragma comment(lib, "swscale.lib")
+
 // Include Sqlite3(Database) Header File
 #include "sqlite3.h"
 

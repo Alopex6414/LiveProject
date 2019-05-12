@@ -109,6 +109,9 @@ public:
 	LRESULT OnUserMessageWallVideoAddItem(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 
 public:
+	static DWORD CALLBACK OnGetWallVideoShotProcess(LPVOID lpParameter);							// LiveProject 获取视频壁纸快照进程(1st帧)
+
+public:
 	static DWORD CALLBACK OnSearchWallVideoProcess(LPVOID lpParameter);
 	static int OnSearchWallVideoCallback(void *data, int argc, char **argv, char **azColName);
 
