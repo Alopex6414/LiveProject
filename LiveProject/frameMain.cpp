@@ -1250,7 +1250,7 @@ DWORD CFrameMain::OnGetWallVideoShotProcess(LPVOID lpParameter)
 	avformat_free_context(pFormatCtx2);
 
 	// add once shotcut...
-	::PostMessageA(g_pFrameMain->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_ADDSHOT, (WPARAM)(lpParameter), (LPARAM)0);
+	//::PostMessageA(g_pFrameMain->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_ADDSHOT, (WPARAM)(lpParameter), (LPARAM)0);
 
 	// release resources...
 	sws_freeContext(img_convert_ctx);
