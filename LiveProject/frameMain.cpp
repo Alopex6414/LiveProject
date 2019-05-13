@@ -1414,7 +1414,7 @@ void CFrameMain::OnLButtonClickedLiveWallAddBtn()
 	ZeroMemory(&file, sizeof(OPENFILENAME));
 
 	file.lStructSize = sizeof(OPENFILENAME);
-	file.lpstrFilter = _T(	"所有文件\0*.mp4;*.mkv;*.wmv;*.mov;*.avi;*.asf;*.rmvb\0" \
+	file.lpstrFilter = _T(	"所有文件\0*.mp4;*.mkv;*.wmv;*.mov;*.avi;*.asf;*.rmvb;*.flv\0" \
 							"MP4\0*.mp4\0" \
 							"MKV\0*.mkv\0" \
 							"WMV\0*.wmv\0" \
@@ -1422,6 +1422,7 @@ void CFrameMain::OnLButtonClickedLiveWallAddBtn()
 							"AVI\0*.avi\0" \
 							"ASF\0*.asf\0" \
 							"RMVB\0*.rmvb\0" \
+							"FLV\0*.flv\0"\
 							"\0");
 	file.nFilterIndex = 1;
 	file.lpstrFile = strfile;
