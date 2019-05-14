@@ -84,10 +84,12 @@ public:
 
 protected:
 	void AddOnceVideoContext(S_WALLVIDEO* pVideoInfo);			// LiveProject 添加一个墙纸内容
+	void AddOnceVideoShotCut(S_WALLVIDEO* pVideoInfo);			// LiveProject 添加一个视频快照
 	void PlayOnceVideoContext(S_WALLVIDEO* pVideoInfo);			// LiveProject 播放一个墙纸内容
 	void StopOnceVideoContext();								// LiveProject 停止一个墙纸内容
 	void GenerateGUID(char* chGUID, size_t nSize);				// LiveProject 生成GUID
 	BOOL ReStartProcess(const char* pStrArr);					// LiveProject 进程ReStart
+	void RecordVideoConfigFile(S_WALLVIDEO* pVideoInfo);		// LiveProject 记录墙纸配置文件
 
 public:
 	CPaintManagerUI & GetPaintManager();
@@ -106,6 +108,10 @@ public:
 	LRESULT OnUserMessageWallVideoDelete(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 	LRESULT OnUserMessageWallVideoSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 	LRESULT OnUserMessageWallVideoAddItem(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+	LRESULT OnUserMessageWallVideoAddShot(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+
+public:
+	static DWORD CALLBACK OnGetWallVideoShotProcess(LPVOID lpParameter);							// LiveProject 获取视频壁纸快照进程(1st帧)
 
 public:
 	static DWORD CALLBACK OnSearchWallVideoProcess(LPVOID lpParameter);

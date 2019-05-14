@@ -86,8 +86,10 @@ protected:
 	void	AnalyzeConfigFile();																						// CLiveCore 分析配置文件
 	void	RecordConfigFile();																							// CLiveCore 记录配置文件
 	void	SetChildWindow(HWND);																						// CLiveCore 设置桌面子窗口
-	BOOL	AnalyzeVideoInfo(HWND hWnd, const char* pVideoPath, int* pWidth, int* pHeight, int* pFreq);					// CLiveCore 分析视频信息																		// CLiveCore 清理视频文件
+	BOOL	AnalyzeVideoInfo(HWND hWnd, const char* pVideoPath, int* pWidth, int* pHeight, int* pFreq);					// CLiveCore 分析视频信息
 
+public:
+	BOOL	Restart(const char* pStrArr);																				// CLiveCore Restart进程
 
 };
 

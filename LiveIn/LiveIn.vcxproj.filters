@@ -524,6 +524,27 @@
     <ClInclude Include="LiveIntype.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\CerasusTypes.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\DirectGraphics11.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\DirectTemplate.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\DirectTypes.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\DXUICommon.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\DXUIManager.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Cerasus\Inc\DXUIWindow.h">
+      <Filter>Cerasus</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LiveIn.rc">

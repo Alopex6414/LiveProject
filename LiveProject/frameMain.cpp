@@ -137,6 +137,13 @@ void CFrameMain::Notify(TNotifyUI & msg)
 		}
 
 	}
+	else if (msg.sType == _T("textchanged"))
+	{
+		if (msg.pSender == m_pLiveWallSearchEdt)
+		{
+			OnLButtonClickedLiveWallSearchBtn();
+		}
+	}
 
 }
 
@@ -204,6 +211,9 @@ LRESULT CFrameMain::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_USER_MESSAGE_WALLVIDEO_ADDITEM:
 		lRes = OnUserMessageWallVideoAddItem(uMsg, wParam, lParam, bHandled);
+		break;
+	case WM_USER_MESSAGE_WALLVIDEO_ADDSHOT:
+		lRes = OnUserMessageWallVideoAddShot(uMsg, wParam, lParam, bHandled);
 		break;
 	default:
 		bHandled = FALSE;
@@ -564,6 +574,42 @@ void CFrameMain::AddOnceVideoContext(S_WALLVIDEO* pVideoInfo)
 }
 
 //----------------------------------------------
+// @Function:	AddOnceVideoShotCut()
+// @Purpose: CFrameMain添加一个墙纸快照
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::AddOnceVideoShotCut(S_WALLVIDEO* pVideoInfo)
+{
+	char chVideoPath[256] = { 0 };
+
+	CPlumPath::PlumPathGetLocalPathA(chVideoPath, sizeof(chVideoPath));
+	strcat_s(chVideoPath, "\\data\\");
+	strcat_s(chVideoPath, pVideoInfo->chVideoName);
+	strcat_s(chVideoPath, ".jpg");
+
+	for (int i = 0; i < m_pLiveWallContextLst->GetCount(); ++i)
+	{
+		CHorizontalLayoutUI* pHorizontal = static_cast<CHorizontalLayoutUI*>(m_pLiveWallContextLst->GetItemAt(i));
+
+		if (pHorizontal != NULL)
+		{
+			CContainerUI* pContainer = static_cast<CContainerUI*>(pHorizontal->FindSubControl(_T("videobk")));		// find video back image...
+			CTextUI* pText = static_cast<CTextUI*>(pHorizontal->FindSubControl(_T("videoname")));					// find video name...
+
+			USES_CONVERSION;
+
+			if (!strcmp(T2A(pText->GetText().GetData()), pVideoInfo->chVideoName))
+			{
+				pContainer->SetBkImage(A2T(chVideoPath));
+			}
+		}
+	}
+
+}
+
+//----------------------------------------------
 // @Function:	PlayOnceVideoContext()
 // @Purpose: CFrameMain播放一个墙纸内容
 // @Since: v1.00a
@@ -652,6 +698,42 @@ BOOL CFrameMain::ReStartProcess(const char * pStrArr)
 	}
 
 	return bResult;
+}
+
+//------------------------------------------------------------
+// @Function:	RecordVideoConfigFile(S_WALLVIDEO* pVideoInfo)
+// @Purpose: CFrameMain进程记录视频配置文件
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//------------------------------------------------------------
+void CFrameMain::RecordVideoConfigFile(S_WALLVIDEO* pVideoInfo)
+{
+	char chFile[MAX_PATH] = { 0 };
+	char* pTemp = NULL;
+
+	// record file path...
+	CPlumFile* pFile = new CPlumFile();
+	pFile->PlumFileGetModuleFileNameA(chFile, MAX_PATH);
+
+	pTemp = strrchr(chFile, '\\');
+	if (pTemp)* pTemp = '\0';
+	strcat_s(chFile, "\\config\\LiveCore.cfg");
+
+	// analyze config info...
+	char chArray[MAX_PATH] = { 0 };
+	int nValue = 0;
+
+	memset(chArray, 0, MAX_PATH);
+	GetPrivateProfileStringA("LIVECOREWINDOW", "LiveCore_Window_Handle", 0, chArray, MAX_PATH, chFile);
+	nValue = atoi(chArray);
+	::PostMessageA((HWND)nValue, WM_CLOSE, (WPARAM)0, (LPARAM)0);
+
+	// record config info...
+	WritePrivateProfileStringA("LIVECOREVIDEOADDRESS", "LiveCore_Video_Address", pVideoInfo->chVideoPath, chFile);
+
+	// safe delete object...
+	SAFE_DELETE(pFile);
 }
 
 //----------------------------------------------
@@ -949,6 +1031,239 @@ LRESULT CFrameMain::OnUserMessageWallVideoAddItem(UINT uMsg, WPARAM wParam, LPAR
 }
 
 //----------------------------------------------
+// @Function:	OnUserMessageWallVideoAddShot()
+// @Purpose: CFrameMain列表添加一条视频快照
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+LRESULT CFrameMain::OnUserMessageWallVideoAddShot(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	S_WALLVIDEO* pMsg = reinterpret_cast<S_WALLVIDEO*>(wParam);
+	AddOnceVideoShotCut(pMsg);
+	return 0;
+}
+
+//----------------------------------------------
+// @Function:	OnGetWallVideoShotProcess()
+// @Purpose: CFrameMain获取视频壁纸快照进程
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+DWORD CFrameMain::OnGetWallVideoShotProcess(LPVOID lpParameter)
+{
+	S_WALLVIDEO* pVideoInfo = static_cast<S_WALLVIDEO*>(lpParameter);
+	char chVideoPath[256] = { 0 };
+
+	AVFormatContext* pFormatCtx;
+	AVCodecContext* pCodecCtx;
+	AVCodec* pCodec;
+	AVFrame* pFrame;
+	AVFrame* pFrameYUV;
+
+	// copy the video path, so that we can use it next...
+	memcpy_s(chVideoPath, sizeof(chVideoPath), pVideoInfo->chVideoPath, sizeof(pVideoInfo->chVideoPath));
+
+	// ffmpeg capture video shot...
+	av_register_all();//注册所有组件
+	pFormatCtx = avformat_alloc_context();//初始化一个AVFormatContext
+
+	// open input video file...
+	if (avformat_open_input(&pFormatCtx, chVideoPath, NULL, NULL) != 0)
+	{
+		return -1;
+	}
+
+	// get input video information...
+	if (avformat_find_stream_info(pFormatCtx, NULL) < 0)
+	{
+		return -2;
+	}
+
+	// check input video codec types...
+	int VideoIndex = -1;
+
+	for (int i = 0; i < pFormatCtx->nb_streams; i++)
+	{
+		if (pFormatCtx->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO)
+		{
+			VideoIndex = i;
+			break;
+		}
+	}
+
+	if (VideoIndex == -1)
+	{
+		return -3;
+	}
+
+	pCodecCtx = pFormatCtx->streams[VideoIndex]->codec;
+
+	// search for input video codec...
+	pCodec = avcodec_find_decoder(pCodecCtx->codec_id);
+	if (pCodec == NULL)
+	{
+		return -4;
+	}
+
+	// open the codec...
+	if (avcodec_open2(pCodecCtx, pCodec, NULL) < 0)
+	{
+		return -5;
+	}
+
+	// capture one frame...
+	uint8_t* OutBuffer;
+	AVPacket* Packet;
+
+	pFrame = av_frame_alloc();
+	pFrameYUV = av_frame_alloc();
+
+	OutBuffer = (uint8_t*)av_malloc(avpicture_get_size(AV_PIX_FMT_YUV420P, pCodecCtx->width, pCodecCtx->height));
+	avpicture_fill((AVPicture*)pFrameYUV, OutBuffer, AV_PIX_FMT_YUV420P, pCodecCtx->width, pCodecCtx->height);
+	Packet = (AVPacket*)av_malloc(sizeof(AVPacket));
+	av_dump_format(pFormatCtx, 0, chVideoPath, 0);
+
+	// read one frame...
+	int ret;
+	int got_picture;
+	int y_size;
+	struct SwsContext* img_convert_ctx;
+
+	img_convert_ctx = sws_getContext(pCodecCtx->width, pCodecCtx->height, pCodecCtx->pix_fmt, pCodecCtx->width, pCodecCtx->height, AV_PIX_FMT_YUV420P, SWS_BICUBIC, NULL, NULL, NULL);
+
+	while (av_read_frame(pFormatCtx, Packet) >= 0)
+	{
+		if (Packet->stream_index == VideoIndex)
+		{
+			ret = avcodec_decode_video2(pCodecCtx, pFrame, &got_picture, Packet);//解码一帧压缩数据
+			if (ret < 0)
+			{
+				return -6;
+			}
+			if (got_picture)
+			{
+				sws_scale(img_convert_ctx, (const uint8_t * const*)pFrame->data, pFrame->linesize, 0, pCodecCtx->height, pFrameYUV->data, pFrameYUV->linesize);
+				y_size = pCodecCtx->width * pCodecCtx->height;
+				av_free_packet(Packet);
+				break;
+			}
+		}
+		
+		av_free_packet(Packet);
+	}
+
+	// convert yuv to jpeg...
+	AVFormatContext* pFormatCtx2;
+	AVOutputFormat* fmt;
+	AVStream* video_st;
+	AVCodecContext* pCodecCtx2;
+	AVCodec* pCodec2;
+
+	AVPacket pkt;
+	int y_size2;
+	int got_picture2 = 0;
+
+	int ret2 = 0;
+
+	char chOutPath[256] = { 0 };
+
+	CPlumPath::PlumPathGetLocalPathA(chOutPath, sizeof(chOutPath));
+	strcat_s(chOutPath, "\\data\\");
+	strcat_s(chOutPath, pVideoInfo->chVideoName);
+	strcat_s(chOutPath, ".jpg");
+
+	// new a av format context...
+	pFormatCtx2 = avformat_alloc_context();//初始化一个AVFormatContext
+
+	// guess format...
+	fmt = av_guess_format("mjpeg", NULL, NULL);
+	pFormatCtx2->oformat = fmt;
+
+	if (avio_open(&pFormatCtx2->pb, chOutPath, AVIO_FLAG_READ_WRITE) < 0)
+	{
+		return -7;
+	}
+
+
+	video_st = avformat_new_stream(pFormatCtx2, 0);
+	if (video_st == NULL) 
+	{
+		return -8;
+	}
+
+	pCodecCtx2 = video_st->codec;
+	pCodecCtx2->codec_id = fmt->video_codec;
+	pCodecCtx2->codec_type = AVMEDIA_TYPE_VIDEO;
+	pCodecCtx2->pix_fmt = AV_PIX_FMT_YUVJ420P;
+
+	pCodecCtx2->width = pCodecCtx->width;
+	pCodecCtx2->height = pCodecCtx->height;
+
+	pCodecCtx2->time_base.num = 1;
+	pCodecCtx2->time_base.den = 25;
+
+	av_dump_format(pFormatCtx2, 0, chOutPath, 1);
+
+	pCodec2 = avcodec_find_encoder(pCodecCtx2->codec_id);
+
+	if (!pCodec2) 
+	{
+		return -9;
+	}
+
+	if (avcodec_open2(pCodecCtx2, pCodec2, NULL) < 0) 
+	{
+		return -10;
+	}
+
+	// write header...
+	avformat_write_header(pFormatCtx2, NULL);
+
+	y_size2 = pCodecCtx2->width * pCodecCtx2->height;
+	av_new_packet(&pkt, y_size2 * 3);
+
+	// encode...
+	ret2 = avcodec_encode_video2(pCodecCtx2, &pkt, pFrameYUV, &got_picture2);
+
+	if (ret2 < 0) 
+	{
+		return -11;
+	}
+
+	if (got_picture2 == 1) 
+	{
+		pkt.stream_index = video_st->index;
+		ret2 = av_write_frame(pFormatCtx2, &pkt);
+	}
+
+	av_free_packet(&pkt);
+	
+	av_write_trailer(pFormatCtx2);
+
+	if (video_st) 
+	{
+		avcodec_close(video_st->codec);
+	}
+	avio_close(pFormatCtx2->pb);
+	avformat_free_context(pFormatCtx2);
+
+	// add once shotcut...
+	//::PostMessageA(g_pFrameMain->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_ADDSHOT, (WPARAM)(lpParameter), (LPARAM)0);
+
+	// release resources...
+	sws_freeContext(img_convert_ctx);
+
+	av_frame_free(&pFrameYUV);
+	av_frame_free(&pFrame);
+	avcodec_close(pCodecCtx);
+	avformat_close_input(&pFormatCtx);
+
+	return 0;
+}
+
+//----------------------------------------------
 // @Function:	OnSearchWallVideoProcess()
 // @Purpose: CFrameMain查询视频数据线程
 // @Since: v1.00a
@@ -1099,7 +1414,7 @@ void CFrameMain::OnLButtonClickedLiveWallAddBtn()
 	ZeroMemory(&file, sizeof(OPENFILENAME));
 
 	file.lStructSize = sizeof(OPENFILENAME);
-	file.lpstrFilter = _T(	"所有文件\0*.mp4;*.mkv;*.wmv;*.mov;*.avi;*.asf;*.rmvb\0" \
+	file.lpstrFilter = _T(	"所有文件\0*.mp4;*.mkv;*.wmv;*.mov;*.avi;*.asf;*.rmvb;*.flv\0" \
 							"MP4\0*.mp4\0" \
 							"MKV\0*.mkv\0" \
 							"WMV\0*.wmv\0" \
@@ -1107,6 +1422,7 @@ void CFrameMain::OnLButtonClickedLiveWallAddBtn()
 							"AVI\0*.avi\0" \
 							"ASF\0*.asf\0" \
 							"RMVB\0*.rmvb\0" \
+							"FLV\0*.flv\0"\
 							"\0");
 	file.nFilterIndex = 1;
 	file.lpstrFile = strfile;
@@ -1187,6 +1503,13 @@ void CFrameMain::OnLButtonClickedLiveWallAddBtn()
 
 				// add video id...
 				GenerateGUID(sVideoInfo.chVideoID, sizeof(sVideoInfo.chVideoID));
+
+				// add video shot...
+				HANDLE hThread = NULL;
+				DWORD dwThreadID = 0;
+
+				hThread = ::CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)(&CFrameMain::OnGetWallVideoShotProcess), (LPVOID)(&sVideoInfo), 0, &dwThreadID);
+				::CloseHandle(hThread);
 
 				// insert data...
 				m_pDBWallpaperVideo.Insert(&sVideoInfo);
@@ -1357,7 +1680,9 @@ void CFrameMain::OnLButtonClickedOtherEvent(CControlUI* pSender)
 
 				if (pSender == pPlayBtn)
 				{
-					Sleep(1);
+					RecordVideoConfigFile(&m_vecWallVideoInfo.at(i));	// record video config file...
+					ReStartProcess("LiveWallpaperCore.exe");
+					//Sleep(1);
 				}
 			}
 		}

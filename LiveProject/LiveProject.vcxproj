@@ -70,12 +70,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)Cerasus\Inc;$(SolutionDir)Prunus\Inc;$(SolutionDir)Convallaria\Inc;$(SolutionDir)DirectX\Inc;$(SolutionDir)Lua\Inc;$(SolutionDir)DuiLib\DuiLib;$(SolutionDir)Sqlite3\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Cerasus\Lib;$(SolutionDir)Prunus\Lib;$(SolutionDir)Convallaria\Lib;$(SolutionDir)DirectX\Lib\x86;$(SolutionDir)Lua\Lib;$(SolutionDir)DuiLib\Lib;$(SolutionDir)Sqlite3\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Cerasus\Inc;$(SolutionDir)Prunus\Inc;$(SolutionDir)Convallaria\Inc;$(SolutionDir)DirectX\Inc;$(SolutionDir)Lua\Inc;$(SolutionDir)DuiLib\DuiLib;$(SolutionDir)Sqlite3\include;$(SolutionDir)FFMpeg\Inc;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Cerasus\Lib;$(SolutionDir)Prunus\Lib;$(SolutionDir)Convallaria\Lib;$(SolutionDir)DirectX\Lib\x86;$(SolutionDir)Lua\Lib;$(SolutionDir)DuiLib\Lib;$(SolutionDir)Sqlite3\lib\x86;$(SolutionDir)FFMpeg\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)Cerasus\Inc;$(SolutionDir)Prunus\Inc;$(SolutionDir)Convallaria\Inc;$(SolutionDir)DirectX\Inc;$(SolutionDir)Lua\Inc;$(SolutionDir)DuiLib\DuiLib;$(SolutionDir)Sqlite3\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Cerasus\Lib;$(SolutionDir)Prunus\Lib;$(SolutionDir)Convallaria\Lib;$(SolutionDir)DirectX\Lib\x86;$(SolutionDir)Lua\Lib;$(SolutionDir)DuiLib\Lib;$(SolutionDir)Sqlite3\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Cerasus\Inc;$(SolutionDir)Prunus\Inc;$(SolutionDir)Convallaria\Inc;$(SolutionDir)DirectX\Inc;$(SolutionDir)Lua\Inc;$(SolutionDir)DuiLib\DuiLib;$(SolutionDir)Sqlite3\include;$(SolutionDir)FFMpeg\Inc;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Cerasus\Lib;$(SolutionDir)Prunus\Lib;$(SolutionDir)Convallaria\Lib;$(SolutionDir)DirectX\Lib\x86;$(SolutionDir)Lua\Lib;$(SolutionDir)DuiLib\Lib;$(SolutionDir)Sqlite3\lib\x86;$(SolutionDir)FFMpeg\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -111,6 +111,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -130,10 +131,12 @@
   <ItemGroup>
     <ClInclude Include="..\Cerasus\Inc\CerasusAlgorithm.h" />
     <ClInclude Include="..\Cerasus\Inc\Cerasusfps.h" />
+    <ClInclude Include="..\Cerasus\Inc\CerasusTypes.h" />
     <ClInclude Include="..\Cerasus\Inc\CerasusUnit.h" />
     <ClInclude Include="..\Cerasus\Inc\DirectCommon.h" />
     <ClInclude Include="..\Cerasus\Inc\DirectFont.h" />
     <ClInclude Include="..\Cerasus\Inc\DirectGraphics.h" />
+    <ClInclude Include="..\Cerasus\Inc\DirectGraphics11.h" />
     <ClInclude Include="..\Cerasus\Inc\DirectGraphics2D.h" />
     <ClInclude Include="..\Cerasus\Inc\DirectGraphics3D.h" />
     <ClInclude Include="..\Cerasus\Inc\DirectInput.h" />
@@ -143,8 +146,13 @@
     <ClInclude Include="..\Cerasus\Inc\DirectSound.h" />
     <ClInclude Include="..\Cerasus\Inc\DirectSprite.h" />
     <ClInclude Include="..\Cerasus\Inc\DirectSurface.h" />
+    <ClInclude Include="..\Cerasus\Inc\DirectTemplate.h" />
     <ClInclude Include="..\Cerasus\Inc\DirectTexture.h" />
     <ClInclude Include="..\Cerasus\Inc\DirectThreadSafe.h" />
+    <ClInclude Include="..\Cerasus\Inc\DirectTypes.h" />
+    <ClInclude Include="..\Cerasus\Inc\DXUICommon.h" />
+    <ClInclude Include="..\Cerasus\Inc\DXUIManager.h" />
+    <ClInclude Include="..\Cerasus\Inc\DXUIWindow.h" />
     <ClInclude Include="..\Cerasus\Inc\SakuraBlend.h" />
     <ClInclude Include="..\Cerasus\Inc\SakuraButton.h" />
     <ClInclude Include="..\Cerasus\Inc\SakuraCheckBox.h" />
