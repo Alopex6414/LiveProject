@@ -89,6 +89,10 @@ protected:
 	void AddOnceVideoShotCut(S_WALLVIDEO* pVideoInfo);			// LiveProject 添加一个视频快照
 	void PlayOnceVideoContext(S_WALLVIDEO* pVideoInfo);			// LiveProject 播放一个墙纸内容
 	void StopOnceVideoContext();								// LiveProject 停止一个墙纸内容
+	void AddOnceGraphContext(S_WALLGRAPH* pGraphInfo);			// LiveProject 添加一个图形内容
+	void AddOnceGraphShotcut(S_WALLGRAPH* pGraphInfo);			// LiveProject 添加一个图形快照
+	void PlayOnceGraphContext(S_WALLGRAPH* pGraphInfo);			// LiveProject 播放一个图形内容
+	void StopOnceGraphContext();								// LiveProject 停止一个图形内容
 	void GenerateGUID(char* chGUID, size_t nSize);				// LiveProject 生成GUID
 	BOOL ReStartProcess(const char* pStrArr);					// LiveProject 进程ReStart
 	void RecordVideoConfigFile(S_WALLVIDEO* pVideoInfo);		// LiveProject 记录墙纸配置文件
@@ -122,7 +126,9 @@ public:
 
 public:
 	static DWORD CALLBACK OnSearchWallVideoProcess(LPVOID lpParameter);
+	static DWORD CALLBACK OnSearchWallGraphProcess(LPVOID lpParameter);
 	static int OnSearchWallVideoCallback(void *data, int argc, char **argv, char **azColName);
+	static int OnSearchWallGraphCallback(void* data, int argc, char** argv, char** azColName);
 
 public:
 	void OnLButtonClickedOverBtn();					// LiveProject 单击置顶按钮事件响应

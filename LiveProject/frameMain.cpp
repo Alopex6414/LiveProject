@@ -655,6 +655,124 @@ void CFrameMain::StopOnceVideoContext()
 }
 
 //----------------------------------------------
+// @Function:	AddOnceGraphContext()
+// @Purpose: CFrameMain添加一个图形内容
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::AddOnceGraphContext(S_WALLGRAPH* pGraphInfo)
+{
+	CHorizontalLayoutUI* pHorizontal = new CHorizontalLayoutUI();
+
+	// ContainerUI
+	CContainerUI* pContainer = new CContainerUI();
+
+	pContainer->SetName(_T("graphbk"));
+	pContainer->SetFloat(true);
+	pContainer->SetAttribute(_T("pos"), _T("0,0,0,0"));
+	pContainer->SetFixedWidth(192);
+	pContainer->SetFixedHeight(167);
+	pContainer->SetBkImage(_T("res\\imagebk.png"));
+	pHorizontal->Add(pContainer);
+
+	// ButtonUI -- Play
+	CButtonUI* pPlayBtn = new CButtonUI();
+
+	pPlayBtn->SetName(_T("play"));
+	pPlayBtn->SetFloat(true);
+	pPlayBtn->SetAttribute(_T("pos"), _T("81,61,0,0"));
+	pPlayBtn->SetFixedWidth(24);
+	pPlayBtn->SetFixedHeight(24);
+	pPlayBtn->SetVisible(true);
+	pPlayBtn->SetAttribute(_T("normalimage"), _T("file='res\\playbuttons.png' source='0,0,24,24'"));
+	pPlayBtn->SetAttribute(_T("hotimage"), _T("file='res\\playbuttons.png' source='0,24,24,48'"));
+	pPlayBtn->SetAttribute(_T("pushedimage"), _T("file='res\\playbuttons.png' source='0,48,24,72'"));
+	pHorizontal->Add(pPlayBtn);
+
+	// ButtonUI -- UnChecked
+	CButtonUI* pUnCheckedBtn = new CButtonUI();
+
+	pUnCheckedBtn->SetName(_T("unchecked"));
+	pUnCheckedBtn->SetFloat(true);
+	pUnCheckedBtn->SetAttribute(_T("pos"), _T("2,0,0,0"));
+	pUnCheckedBtn->SetFixedWidth(24);
+	pUnCheckedBtn->SetFixedHeight(24);
+	pUnCheckedBtn->SetVisible(false);
+	pUnCheckedBtn->SetAttribute(_T("normalimage"), _T("file='res\\uncheckedbuttons.png' source='0,0,24,24'"));
+	pUnCheckedBtn->SetAttribute(_T("hotimage"), _T("file='res\\uncheckedbuttons.png' source='0,24,24,48'"));
+	pUnCheckedBtn->SetAttribute(_T("pushedimage"), _T("file='res\\uncheckedbuttons.png' source='0,48,24,72'"));
+	pHorizontal->Add(pUnCheckedBtn);
+
+	// ButtonUI -- Checked
+	CButtonUI* pCheckedBtn = new CButtonUI();
+
+	pCheckedBtn->SetName(_T("checked"));
+	pCheckedBtn->SetFloat(true);
+	pCheckedBtn->SetAttribute(_T("pos"), _T("2,0,0,0"));
+	pCheckedBtn->SetFixedWidth(24);
+	pCheckedBtn->SetFixedHeight(24);
+	pCheckedBtn->SetVisible(false);
+	pCheckedBtn->SetAttribute(_T("normalimage"), _T("file='res\\checkedbuttons.png' source='0,0,24,24'"));
+	pCheckedBtn->SetAttribute(_T("hotimage"), _T("file='res\\checkedbuttons.png' source='0,24,24,48'"));
+	pCheckedBtn->SetAttribute(_T("pushedimage"), _T("file='res\\checkedbuttons.png' source='0,48,24,72'"));
+	pHorizontal->Add(pCheckedBtn);
+
+	// TextUI
+	CTextUI* pText = new CTextUI();
+	CDuiString strText = _T("");
+
+	USES_CONVERSION;
+	strText.Format(_T("%s"), A2T(pGraphInfo->chGraphName));
+
+	pText->SetName(_T("graphname"));
+	pText->SetFloat(true);
+	pText->SetAttribute(_T("pos"), _T("0,167,0,0"));
+	pText->SetFixedWidth(192);
+	pText->SetFixedHeight(24);
+	pText->SetFont(2);
+	pText->SetAttribute(_T("align"), _T("center"));
+	pText->SetTextColor(0xFF363636);
+	pText->SetText(strText.GetData());
+	pHorizontal->Add(pText);
+
+	m_pLiveWallContextLst->Add(pHorizontal);
+}
+
+//----------------------------------------------
+// @Function:	AddOnceGraphShotcut()
+// @Purpose: CFrameMain添加一个图形快照
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::AddOnceGraphShotcut(S_WALLGRAPH* pGraphInfo)
+{
+}
+
+//----------------------------------------------
+// @Function:	PlayOnceGraphContext()
+// @Purpose: CFrameMain播放一个图形内容
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::PlayOnceGraphContext(S_WALLGRAPH* pGraphInfo)
+{
+}
+
+//----------------------------------------------
+// @Function:	StopOnceGraphContext()
+// @Purpose: CFrameMain停止一个图形内容
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::StopOnceGraphContext()
+{
+}
+
+//----------------------------------------------
 // @Function:	GenerateGUID()
 // @Purpose: CFrameMain生成GUID
 // @Since: v1.00a
@@ -1131,7 +1249,15 @@ LRESULT CFrameMain::OnUserMessageWallGraphInsert(UINT uMsg, WPARAM wParam, LPARA
 //----------------------------------------------
 LRESULT CFrameMain::OnUserMessageWallGraphDelete(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
-	return LRESULT();
+	S_WALLGRAPH* pMsg = reinterpret_cast<S_WALLGRAPH*>(wParam);
+
+	// delete data...
+	m_pDBWallpaperGraph.Delete(pMsg->chGraphPath);
+
+	// search data...
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLGRAPH_SEARCH, (WPARAM)0, (LPARAM)0);
+
+	return 0;
 }
 
 //----------------------------------------------
@@ -1143,7 +1269,27 @@ LRESULT CFrameMain::OnUserMessageWallGraphDelete(UINT uMsg, WPARAM wParam, LPARA
 //----------------------------------------------
 LRESULT CFrameMain::OnUserMessageWallGraphSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
-	return LRESULT();
+	// clear vector...
+	m_vecWallGraphInfo.clear();
+
+	// select data...
+	CDuiString csSearch = _T("");
+
+	USES_CONVERSION;
+	csSearch = m_pLiveWallSearchEdt->GetText();
+	m_pDBWallpaperGraph.Select(OnSearchWallGraphCallback, T2A(csSearch.GetData()));
+
+	// clear context...
+	m_pLiveWallContextLst->RemoveAll();
+
+	// new thread show...
+	HANDLE hThread = NULL;
+	DWORD dwThreadID = 0;
+
+	hThread = ::CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)(&CFrameMain::OnSearchWallGraphProcess), NULL, 0, &dwThreadID);
+	::CloseHandle(hThread);
+
+	return 0;
 }
 
 //----------------------------------------------
@@ -1155,7 +1301,9 @@ LRESULT CFrameMain::OnUserMessageWallGraphSearch(UINT uMsg, WPARAM wParam, LPARA
 //----------------------------------------------
 LRESULT CFrameMain::OnUserMessageWallGraphAddItem(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
-	return LRESULT();
+	S_WALLGRAPH* pMsg = reinterpret_cast<S_WALLGRAPH*>(wParam);
+	AddOnceGraphContext(pMsg);
+	return 0;
 }
 
 //----------------------------------------------
@@ -1167,7 +1315,9 @@ LRESULT CFrameMain::OnUserMessageWallGraphAddItem(UINT uMsg, WPARAM wParam, LPAR
 //----------------------------------------------
 LRESULT CFrameMain::OnUserMessageWallGraphAddShot(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
-	return LRESULT();
+	S_WALLGRAPH* pMsg = reinterpret_cast<S_WALLGRAPH*>(wParam);
+	AddOnceGraphShotcut(pMsg);
+	return 0;
 }
 
 //----------------------------------------------
@@ -1407,6 +1557,23 @@ DWORD CFrameMain::OnSearchWallVideoProcess(LPVOID lpParameter)
 }
 
 //----------------------------------------------
+// @Function:	OnSearchWallGraphProcess()
+// @Purpose: CFrameMain查询图形数据线程
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+DWORD CFrameMain::OnSearchWallGraphProcess(LPVOID lpParameter)
+{
+	for (auto iter = g_pFrameMain->m_vecWallGraphInfo.begin(); iter != g_pFrameMain->m_vecWallGraphInfo.end(); ++iter)
+	{
+		::PostMessageA(g_pFrameMain->GetHWND(), WM_USER_MESSAGE_WALLGRAPH_ADDITEM, (WPARAM)((LPVOID)(&(*iter))), (LPARAM)0);
+	}
+
+	return 0;
+}
+
+//----------------------------------------------
 // @Function:	OnSearchWallVideoCallback()
 // @Purpose: CFrameMain查询视频数据回调函数
 // @Since: v1.00a
@@ -1429,6 +1596,32 @@ int CFrameMain::OnSearchWallVideoCallback(void * data, int argc, char ** argv, c
 	strcpy_s(sVideoInfo.chVideoShot, *(argv + 9));
 
 	g_pFrameMain->m_vecWallVideoInfo.push_back(sVideoInfo);
+
+	return 0;
+}
+
+//----------------------------------------------
+// @Function:	OnSearchWallGraphCallback()
+// @Purpose: CFrameMain查询图形数据回调函数
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+int CFrameMain::OnSearchWallGraphCallback(void* data, int argc, char** argv, char** azColName)
+{
+	S_WALLGRAPH sGraphInfo = { 0 };
+
+	sGraphInfo.nNumber = atoi(*argv);
+	sGraphInfo.nReserved = atoi(*(argv + 1));
+	strcpy_s(sGraphInfo.chGraphName, *(argv + 2));
+	strcpy_s(sGraphInfo.chGraphAuthor, *(argv + 3));
+	strcpy_s(sGraphInfo.chGraphID, *(argv + 4));
+	strcpy_s(sGraphInfo.chGraphPath, *(argv + 5));
+	strcpy_s(sGraphInfo.chReserved1, *(argv + 6));
+	strcpy_s(sGraphInfo.chReserved2, *(argv + 7));
+	strcpy_s(sGraphInfo.chGraphShot, *(argv + 8));
+
+	g_pFrameMain->m_vecWallGraphInfo.push_back(sGraphInfo);
 
 	return 0;
 }
