@@ -25,8 +25,18 @@ int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCm
 	CPaintManagerUI::SetInstance(hInstance);
 	CPaintManagerUI::SetResourcePath(CPaintManagerUI::GetInstancePath());
 
+	HANDLE hMutex;
+	hMutex = CreateMutex(NULL, TRUE, L"LiveProject");
+	if (hMutex)
+	{
+		if (ERROR_ALREADY_EXISTS == GetLastError())
+		{
+			return -1;
+		}
+	}
+
 	HRESULT Hr = ::CoInitialize(NULL);
-	if (FAILED(Hr)) return -1;
+	if (FAILED(Hr)) return -2;
 
 	CFrameMain cMainFrame;
 	cMainFrame.Create(NULL, _T("LiveProject"), UI_WNDSTYLE_FRAME, WS_EX_STATICEDGE | WS_EX_APPWINDOW);
