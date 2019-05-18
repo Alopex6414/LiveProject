@@ -1077,7 +1077,48 @@ LRESULT CFrameMain::OnUserMessageWallVideoAddShot(UINT uMsg, WPARAM wParam, LPAR
 //----------------------------------------------
 LRESULT CFrameMain::OnUserMessageWallGraphInsert(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
-	return LRESULT();
+	S_WALLGRAPH* pMsg = reinterpret_cast<S_WALLGRAPH*>(wParam);
+
+	// add graph name...
+	char* pTemp = NULL;
+	char* pTemp2 = NULL;
+
+	pTemp = strrchr(pMsg->chGraphPath, '\\');
+	if (pTemp != NULL)
+	{
+		pTemp2 = strrchr(pTemp, '.');
+		if (pTemp2 != NULL)
+		{
+			char* pArray = pMsg->chGraphName;
+
+			for (char* point = ++pTemp; point != pTemp2; )
+			{
+				*pArray++ = *point++;
+			}
+		}
+		else
+		{
+			strcpy_s(pMsg->chGraphName, ++pTemp);
+		}
+	}
+	else
+	{
+		strcpy_s(pMsg->chGraphName, pMsg->chGraphPath);
+	}
+
+	// add graph id...
+	GenerateGUID(pMsg->chGraphID, sizeof(pMsg->chGraphID));
+
+	// insert data...
+	//m_pDBWallpaperVideo.Insert(pMsg);
+
+	// search data...
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_SEARCH, (WPARAM)0, (LPARAM)0);
+
+	// delete resources...
+	SAFE_DELETE(pMsg);
+
+	return 0;
 }
 
 //----------------------------------------------

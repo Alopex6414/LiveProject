@@ -43,7 +43,7 @@ typedef struct
 	char chReserved1[256];	// 保留字段1(256)
 	char chReserved2[256];	// 保留字段2(256)
 	char chGraphShot[4096];	// 图形快照(4KB)
-};
+}S_WALLGRAPH, *LPS_WALLGRAPH;
 
 #endif // !__TYPES_H_
 
