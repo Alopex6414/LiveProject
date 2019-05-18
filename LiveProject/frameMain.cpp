@@ -224,14 +224,19 @@ LRESULT CFrameMain::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		lRes = OnUserMessageWallVideoAddShot(uMsg, wParam, lParam, bHandled);
 		break;
 	case WM_USER_MESSAGE_WALLGRAPH_INSERT:
+		lRes = OnUserMessageWallGraphInsert(uMsg, wParam, lParam, bHandled);
 		break;
 	case WM_USER_MESSAGE_WALLGRAPH_DELETE:
+		lRes = OnUserMessageWallGraphDelete(uMsg, wParam, lParam, bHandled);
 		break;
 	case WM_USER_MESSAGE_WALLGRAPH_SEARCH:
+		lRes = OnUserMessageWallGraphSearch(uMsg, wParam, lParam, bHandled);
 		break;
 	case WM_USER_MESSAGE_WALLGRAPH_ADDITEM:
+		lRes = OnUserMessageWallGraphAddItem(uMsg, wParam, lParam, bHandled);
 		break;
 	case WM_USER_MESSAGE_WALLGRAPH_ADDSHOT:
+		lRes = OnUserMessageWallGraphAddShot(uMsg, wParam, lParam, bHandled);
 		break;
 	default:
 		bHandled = FALSE;
@@ -1061,6 +1066,66 @@ LRESULT CFrameMain::OnUserMessageWallVideoAddShot(UINT uMsg, WPARAM wParam, LPAR
 	S_WALLVIDEO* pMsg = reinterpret_cast<S_WALLVIDEO*>(wParam);
 	AddOnceVideoShotCut(pMsg);
 	return 0;
+}
+
+//----------------------------------------------
+// @Function:	OnUserMessageWallGraphInsert()
+// @Purpose: CFrameMain添加图形数据信息
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+LRESULT CFrameMain::OnUserMessageWallGraphInsert(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	return LRESULT();
+}
+
+//----------------------------------------------
+// @Function:	OnUserMessageWallGraphDelete()
+// @Purpose: CFrameMain删除图形数据信息
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+LRESULT CFrameMain::OnUserMessageWallGraphDelete(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	return LRESULT();
+}
+
+//----------------------------------------------
+// @Function:	OnUserMessageWallGraphSearch()
+// @Purpose: CFrameMain查询图形数据信息
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+LRESULT CFrameMain::OnUserMessageWallGraphSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	return LRESULT();
+}
+
+//----------------------------------------------
+// @Function:	OnUserMessageWallGraphAddItem()
+// @Purpose: CFrameMain添加一条图形数据信息
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+LRESULT CFrameMain::OnUserMessageWallGraphAddItem(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	return LRESULT();
+}
+
+//----------------------------------------------
+// @Function:	OnUserMessageWallGraphAddShot()
+// @Purpose: CFrameMain添加图形快照
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+LRESULT CFrameMain::OnUserMessageWallGraphAddShot(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	return LRESULT();
 }
 
 //----------------------------------------------
