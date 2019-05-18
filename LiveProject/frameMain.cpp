@@ -876,6 +876,7 @@ void CFrameMain::InitControls()
 void CFrameMain::InitDataBase()
 {
 	m_pDBWallpaperVideo.Create();
+	m_pDBWallpaperGraph.Create();
 }
 
 //----------------------------------------------
@@ -1110,10 +1111,10 @@ LRESULT CFrameMain::OnUserMessageWallGraphInsert(UINT uMsg, WPARAM wParam, LPARA
 	GenerateGUID(pMsg->chGraphID, sizeof(pMsg->chGraphID));
 
 	// insert data...
-	//m_pDBWallpaperVideo.Insert(pMsg);
+	m_pDBWallpaperGraph.Insert(pMsg);
 
 	// search data...
-	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_SEARCH, (WPARAM)0, (LPARAM)0);
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLGRAPH_SEARCH, (WPARAM)0, (LPARAM)0);
 
 	// delete resources...
 	SAFE_DELETE(pMsg);

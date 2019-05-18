@@ -80,7 +80,9 @@ private:
 
 public:
 	CDBWallpaperVideo m_pDBWallpaperVideo;
+	CDBWallpaperGraph m_pDBWallpaperGraph;
 	vector<S_WALLVIDEO> m_vecWallVideoInfo;
+	vector<S_WALLGRAPH> m_vecWallGraphInfo;
 
 protected:
 	void AddOnceVideoContext(S_WALLVIDEO* pVideoInfo);			// LiveProject 添加一个墙纸内容
