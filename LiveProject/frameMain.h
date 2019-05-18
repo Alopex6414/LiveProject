@@ -71,6 +71,10 @@ public:
 	CEditUI * m_pLiveWallSearchEdt;			// LiveWall 查询栏
 	CButtonUI * m_pLiveWallSearchBtn;		// LiveWall 查询按钮
 	CTileLayoutUI * m_pLiveWallContextLst;	// LiveWall 内容列表
+	CButtonUI * m_pLiveWallPreBtn;			// LiveWall 上一次按钮
+	CButtonUI * m_pLiveWallNextBtn;			// LiveWall 下一次按钮
+	CButtonUI * m_pLiveWallPlayBtn;			// LiveWall 播放按钮
+	CButtonUI * m_pLiveWallPauseBtn;		// LiveWall 暂停按钮
 
 private:
 	HMENU m_hMenu;					// LiveProject 菜单栏小图标句柄
