@@ -223,6 +223,16 @@ LRESULT CFrameMain::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_USER_MESSAGE_WALLVIDEO_ADDSHOT:
 		lRes = OnUserMessageWallVideoAddShot(uMsg, wParam, lParam, bHandled);
 		break;
+	case WM_USER_MESSAGE_WALLGRAPH_INSERT:
+		break;
+	case WM_USER_MESSAGE_WALLGRAPH_DELETE:
+		break;
+	case WM_USER_MESSAGE_WALLGRAPH_SEARCH:
+		break;
+	case WM_USER_MESSAGE_WALLGRAPH_ADDITEM:
+		break;
+	case WM_USER_MESSAGE_WALLGRAPH_ADDSHOT:
+		break;
 	default:
 		bHandled = FALSE;
 		break;
@@ -873,6 +883,7 @@ void CFrameMain::InitDataBase()
 void CFrameMain::InitSearch()
 {
 	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_SEARCH, (WPARAM)0, (LPARAM)0);
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLGRAPH_SEARCH, (WPARAM)0, (LPARAM)0);
 }
 
 //----------------------------------------------
