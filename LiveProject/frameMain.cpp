@@ -135,6 +135,14 @@ void CFrameMain::Notify(TNotifyUI & msg)
 		{
 			m_pLiveMainTab->SelectItem(9);
 		}
+		else if (msg.pSender == m_pLiveWallVideoOpt)
+		{
+			OnLButtonClickedLiveWallVideoOption();
+		}
+		else if (msg.pSender == m_pLiveWallGraphOpt)
+		{
+			OnLButtonClickedLiveWallGraphOption();
+		}
 
 	}
 	else if (msg.sType == _T("textchanged"))
@@ -1386,6 +1394,28 @@ void CFrameMain::OnLButtonClickedCloseBtn()
 	::ShowWindow(this->GetHWND(), SW_HIDE);
 }
 
+//---------------------------------------------------
+// @Function:	OnLButtonClickedLiveWallVideoOption()
+// @Purpose: CFrameMain鼠标左键单击视频壁纸视频选项卡
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//---------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveWallVideoOption()
+{
+}
+
+//---------------------------------------------------
+// @Function:	OnLButtonClickedLiveWallGraphOption()
+// @Purpose: CFrameMain鼠标左键单击视频壁纸图形选项卡
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//---------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveWallGraphOption()
+{
+}
+
 //----------------------------------------------
 // @Function:	OnLButtonClickedLiveWallAddBtn()
 // @Purpose: CFrameMain鼠标左键单击添加视频按钮
@@ -1505,11 +1535,11 @@ void CFrameMain::OnLButtonClickedLiveWallAddBtn()
 				GenerateGUID(sVideoInfo.chVideoID, sizeof(sVideoInfo.chVideoID));
 
 				// add video shot...
-				HANDLE hThread = NULL;
-				DWORD dwThreadID = 0;
+				//HANDLE hThread = NULL;
+				//DWORD dwThreadID = 0;
 
-				hThread = ::CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)(&CFrameMain::OnGetWallVideoShotProcess), (LPVOID)(&sVideoInfo), 0, &dwThreadID);
-				::CloseHandle(hThread);
+				//hThread = ::CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)(&CFrameMain::OnGetWallVideoShotProcess), (LPVOID)(&sVideoInfo), 0, &dwThreadID);
+				//::CloseHandle(hThread);
 
 				// insert data...
 				m_pDBWallpaperVideo.Insert(&sVideoInfo);

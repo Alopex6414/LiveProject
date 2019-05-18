@@ -125,6 +125,9 @@ public:
 	void OnLButtonClickedRestoreBtn();				// LiveProject 单击还原按钮事件响应
 	void OnLButtonClickedCloseBtn();				// LiveProject 单击关闭按钮事件响应
 
+	void OnLButtonClickedLiveWallVideoOption();		// LiveProject 单机视频壁纸视频选项卡
+	void OnLButtonClickedLiveWallGraphOption();		// LiveProject 单击视频壁纸图形选项卡
+
 	void OnLButtonClickedLiveWallAddBtn();			// LiveWallpaper 单击添加视频壁纸按钮事件响应
 	void OnLButtonClickedLiveWallModBtn();			// LiveWallpaper 单击修改视频壁纸按钮事件响应
 	void OnLButtonClickedLiveWallDelBtn();			// LiveWallpaper 单击删除视频壁纸按钮事件响应
