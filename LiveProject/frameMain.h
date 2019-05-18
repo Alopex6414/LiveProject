@@ -76,7 +76,8 @@ private:
 	HMENU m_hMenu;					// LiveProject 菜单栏小图标句柄
 	NOTIFYICONDATA m_nid;			// LiveProject 菜单栏小图标参数
 
-	bool m_bWallVideoMod;			// LiveWall 修改按钮单击状态(默认false)
+	bool m_bWallVideoMod;			// LiveWall 修改按钮单击状态(视频)(默认false)
+	bool m_bWallGraphMod;			// LiveWall 修改按钮单击状态(图形)(默认false)
 
 public:
 	CDBWallpaperVideo m_pDBWallpaperVideo;

@@ -902,6 +902,7 @@ void CFrameMain::ConstructExtra()
 	memset(&m_nid, 0, sizeof(m_nid));
 
 	m_bWallVideoMod = false;
+	m_bWallGraphMod = false;
 }
 
 //----------------------------------------------
@@ -1007,7 +1008,6 @@ void CFrameMain::InitDataBase()
 void CFrameMain::InitSearch()
 {
 	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_SEARCH, (WPARAM)0, (LPARAM)0);
-	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLGRAPH_SEARCH, (WPARAM)0, (LPARAM)0);
 }
 
 //----------------------------------------------
@@ -1714,6 +1714,7 @@ void CFrameMain::OnLButtonClickedCloseBtn()
 //---------------------------------------------------
 void CFrameMain::OnLButtonClickedLiveWallVideoOption()
 {
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_SEARCH, (WPARAM)0, (LPARAM)0);
 }
 
 //---------------------------------------------------
@@ -1725,6 +1726,7 @@ void CFrameMain::OnLButtonClickedLiveWallVideoOption()
 //---------------------------------------------------
 void CFrameMain::OnLButtonClickedLiveWallGraphOption()
 {
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLGRAPH_SEARCH, (WPARAM)0, (LPARAM)0);
 }
 
 //----------------------------------------------
@@ -1736,131 +1738,252 @@ void CFrameMain::OnLButtonClickedLiveWallGraphOption()
 //----------------------------------------------
 void CFrameMain::OnLButtonClickedLiveWallAddBtn()
 {
-	// if mod now video file, then return...
-	if (m_bWallVideoMod)
+	// select option is video...
+	if (m_pLiveWallVideoOpt->IsSelected())
 	{
-		return;
-	}
-
-	// add new video file...
-	OPENFILENAME file;
-	WCHAR strfile[100 * MAX_PATH] = { 0 };	// support for max 100 files
-	WCHAR strpath[MAX_PATH] = { 0 };
-	WCHAR strname[MAX_PATH] = { 0 };
-	TCHAR* p = NULL;
-	int nLen = 0;
-
-	USES_CONVERSION;
-
-	ZeroMemory(&file, sizeof(OPENFILENAME));
-
-	file.lStructSize = sizeof(OPENFILENAME);
-	file.lpstrFilter = _T(	"所有文件\0*.mp4;*.mkv;*.wmv;*.mov;*.avi;*.asf;*.rmvb;*.flv\0" \
-							"MP4\0*.mp4\0" \
-							"MKV\0*.mkv\0" \
-							"WMV\0*.wmv\0" \
-							"MOV\0*.mov\0" \
-							"AVI\0*.avi\0" \
-							"ASF\0*.asf\0" \
-							"RMVB\0*.rmvb\0" \
-							"FLV\0*.flv\0"\
-							"\0");
-	file.nFilterIndex = 1;
-	file.lpstrFile = strfile;
-	file.nMaxFile = sizeof(strfile);
-	file.Flags = OFN_EXPLORER | OFN_ALLOWMULTISELECT | OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST;
-
-	if (GetOpenFileName(&file))
-	{
-		lstrcpyn(strpath, strfile, file.nFileOffset);
-		strpath[file.nFileOffset] = '\0';
-		nLen = lstrlen(strpath);
-
-		if (strpath[nLen - 1] != '\\')
+		// if mod now video file, then return...
+		if (m_bWallVideoMod)
 		{
-			lstrcat(strpath, _T("\\"));
+			return;
 		}
 
-		p = strfile + file.nFileOffset;
+		// add new video file...
+		OPENFILENAME file;
+		WCHAR strfile[100 * MAX_PATH] = { 0 };	// support for max 100 files
+		WCHAR strpath[MAX_PATH] = { 0 };
+		WCHAR strname[MAX_PATH] = { 0 };
+		TCHAR* p = NULL;
+		int nLen = 0;
 
-		while (*p)
+		USES_CONVERSION;
+
+		ZeroMemory(&file, sizeof(OPENFILENAME));
+
+		file.lStructSize = sizeof(OPENFILENAME);
+		file.lpstrFilter = _T("所有文件\0*.mp4;*.mkv;*.wmv;*.mov;*.avi;*.asf;*.rmvb;*.flv\0" \
+			"MP4\0*.mp4\0" \
+			"MKV\0*.mkv\0" \
+			"WMV\0*.wmv\0" \
+			"MOV\0*.mov\0" \
+			"AVI\0*.avi\0" \
+			"ASF\0*.asf\0" \
+			"RMVB\0*.rmvb\0" \
+			"FLV\0*.flv\0"\
+			"\0");
+		file.nFilterIndex = 1;
+		file.lpstrFile = strfile;
+		file.nMaxFile = sizeof(strfile);
+		file.Flags = OFN_EXPLORER | OFN_ALLOWMULTISELECT | OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST;
+
+		if (GetOpenFileName(&file))
 		{
-			ZeroMemory(strname, sizeof(strname));
-			lstrcat(strname, strpath);
-			lstrcat(strname, p);
+			lstrcpyn(strpath, strfile, file.nFileOffset);
+			strpath[file.nFileOffset] = '\0';
+			nLen = lstrlen(strpath);
 
-			char chOriginFile[MAX_PATH] = { 0 };
-			char chOriginName[MAX_PATH] = { 0 };
-			char* pTemp = NULL;
-
-			strcpy_s(chOriginFile, T2A(strname));
-			pTemp = strrchr(chOriginFile, '\\');
-			strcpy_s(chOriginName, ++pTemp);
-
-			bool bRepeat = false;
-
-			for (auto iter = m_vecWallVideoInfo.begin(); iter != m_vecWallVideoInfo.end(); ++iter)
+			if (strpath[nLen - 1] != '\\')
 			{
-				if (!strcmp(iter->chVideoPath, T2A(strname)))
-				{
-					bRepeat = true;
-					break;
-				}
+				lstrcat(strpath, _T("\\"));
 			}
 
-			if (!bRepeat)
+			p = strfile + file.nFileOffset;
+
+			while (*p)
 			{
-				S_WALLVIDEO sVideoInfo = { 0 };
+				ZeroMemory(strname, sizeof(strname));
+				lstrcat(strname, strpath);
+				lstrcat(strname, p);
 
-				memset(&sVideoInfo, 0, sizeof(sVideoInfo));
-				strcpy_s(sVideoInfo.chVideoPath, T2A(strname));
-
-				// add video name...
+				char chOriginFile[MAX_PATH] = { 0 };
+				char chOriginName[MAX_PATH] = { 0 };
 				char* pTemp = NULL;
-				char* pTemp2 = NULL;
 
-				pTemp = strrchr(sVideoInfo.chVideoPath, '\\');
-				if (pTemp != NULL)
+				strcpy_s(chOriginFile, T2A(strname));
+				pTemp = strrchr(chOriginFile, '\\');
+				strcpy_s(chOriginName, ++pTemp);
+
+				bool bRepeat = false;
+
+				for (auto iter = m_vecWallVideoInfo.begin(); iter != m_vecWallVideoInfo.end(); ++iter)
 				{
-					pTemp2 = strrchr(pTemp, '.');
-					if (pTemp2 != NULL)
+					if (!strcmp(iter->chVideoPath, T2A(strname)))
 					{
-						char* pArray = sVideoInfo.chVideoName;
+						bRepeat = true;
+						break;
+					}
+				}
 
-						for (char* point = ++pTemp; point != pTemp2; )
+				if (!bRepeat)
+				{
+					S_WALLVIDEO sVideoInfo = { 0 };
+
+					memset(&sVideoInfo, 0, sizeof(sVideoInfo));
+					strcpy_s(sVideoInfo.chVideoPath, T2A(strname));
+
+					// add video name...
+					char* pTemp = NULL;
+					char* pTemp2 = NULL;
+
+					pTemp = strrchr(sVideoInfo.chVideoPath, '\\');
+					if (pTemp != NULL)
+					{
+						pTemp2 = strrchr(pTemp, '.');
+						if (pTemp2 != NULL)
 						{
-							*pArray++ = *point++;
+							char* pArray = sVideoInfo.chVideoName;
+
+							for (char* point = ++pTemp; point != pTemp2; )
+							{
+								*pArray++ = *point++;
+							}
+						}
+						else
+						{
+							strcpy_s(sVideoInfo.chVideoName, ++pTemp);
 						}
 					}
 					else
 					{
-						strcpy_s(sVideoInfo.chVideoName, ++pTemp);
+						strcpy_s(sVideoInfo.chVideoName, sVideoInfo.chVideoPath);
 					}
+
+					// add video id...
+					GenerateGUID(sVideoInfo.chVideoID, sizeof(sVideoInfo.chVideoID));
+
+					// add video shot...
+					//HANDLE hThread = NULL;
+					//DWORD dwThreadID = 0;
+
+					//hThread = ::CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)(&CFrameMain::OnGetWallVideoShotProcess), (LPVOID)(&sVideoInfo), 0, &dwThreadID);
+					//::CloseHandle(hThread);
+
+					// insert data...
+					m_pDBWallpaperVideo.Insert(&sVideoInfo);
 				}
-				else
-				{
-					strcpy_s(sVideoInfo.chVideoName, sVideoInfo.chVideoPath);
-				}
 
-				// add video id...
-				GenerateGUID(sVideoInfo.chVideoID, sizeof(sVideoInfo.chVideoID));
-
-				// add video shot...
-				//HANDLE hThread = NULL;
-				//DWORD dwThreadID = 0;
-
-				//hThread = ::CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)(&CFrameMain::OnGetWallVideoShotProcess), (LPVOID)(&sVideoInfo), 0, &dwThreadID);
-				//::CloseHandle(hThread);
-
-				// insert data...
-				m_pDBWallpaperVideo.Insert(&sVideoInfo);
+				p += lstrlen(p) + 1;
 			}
 
-			p += lstrlen(p) + 1;
+			// search data...
+			::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_SEARCH, (WPARAM)0, (LPARAM)0);
+		}
+	}
+	else
+	{
+		// if mod now graph file, then return...
+		if (m_bWallGraphMod)
+		{
+			return;
 		}
 
-		// search data...
-		::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_SEARCH, (WPARAM)0, (LPARAM)0);
+		// add new graph file...
+		OPENFILENAME file;
+		WCHAR strfile[100 * MAX_PATH] = { 0 };	// support for max 100 files
+		WCHAR strpath[MAX_PATH] = { 0 };
+		WCHAR strname[MAX_PATH] = { 0 };
+		TCHAR* p = NULL;
+		int nLen = 0;
+
+		USES_CONVERSION;
+
+		ZeroMemory(&file, sizeof(OPENFILENAME));
+
+		file.lStructSize = sizeof(OPENFILENAME);
+		file.lpstrFilter = _T("所有文件\0*.png;*.jpg;*.bmp\0" \
+			"PNG\0*.png\0" \
+			"JPG\0*.jpg\0" \
+			"BMP\0*.bmp\0" \
+			"\0");
+		file.nFilterIndex = 1;
+		file.lpstrFile = strfile;
+		file.nMaxFile = sizeof(strfile);
+		file.Flags = OFN_EXPLORER | OFN_ALLOWMULTISELECT | OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST;
+
+		if (GetOpenFileName(&file))
+		{
+			lstrcpyn(strpath, strfile, file.nFileOffset);
+			strpath[file.nFileOffset] = '\0';
+			nLen = lstrlen(strpath);
+
+			if (strpath[nLen - 1] != '\\')
+			{
+				lstrcat(strpath, _T("\\"));
+			}
+
+			p = strfile + file.nFileOffset;
+
+			while (*p)
+			{
+				ZeroMemory(strname, sizeof(strname));
+				lstrcat(strname, strpath);
+				lstrcat(strname, p);
+
+				char chOriginFile[MAX_PATH] = { 0 };
+				char chOriginName[MAX_PATH] = { 0 };
+				char* pTemp = NULL;
+
+				strcpy_s(chOriginFile, T2A(strname));
+				pTemp = strrchr(chOriginFile, '\\');
+				strcpy_s(chOriginName, ++pTemp);
+
+				bool bRepeat = false;
+
+				for (auto iter = m_vecWallGraphInfo.begin(); iter != m_vecWallGraphInfo.end(); ++iter)
+				{
+					if (!strcmp(iter->chGraphPath, T2A(strname)))
+					{
+						bRepeat = true;
+						break;
+					}
+				}
+
+				if (!bRepeat)
+				{
+					S_WALLGRAPH sGraphInfo = { 0 };
+
+					memset(&sGraphInfo, 0, sizeof(sGraphInfo));
+					strcpy_s(sGraphInfo.chGraphPath, T2A(strname));
+
+					// add graph name...
+					char* pTemp = NULL;
+					char* pTemp2 = NULL;
+
+					pTemp = strrchr(sGraphInfo.chGraphPath, '\\');
+					if (pTemp != NULL)
+					{
+						pTemp2 = strrchr(pTemp, '.');
+						if (pTemp2 != NULL)
+						{
+							char* pArray = sGraphInfo.chGraphName;
+
+							for (char* point = ++pTemp; point != pTemp2; )
+							{
+								*pArray++ = *point++;
+							}
+						}
+						else
+						{
+							strcpy_s(sGraphInfo.chGraphName, ++pTemp);
+						}
+					}
+					else
+					{
+						strcpy_s(sGraphInfo.chGraphName, sGraphInfo.chGraphPath);
+					}
+
+					// add graph id...
+					GenerateGUID(sGraphInfo.chGraphID, sizeof(sGraphInfo.chGraphID));
+
+					// insert data...
+					m_pDBWallpaperGraph.Insert(&sGraphInfo);
+				}
+
+				p += lstrlen(p) + 1;
+			}
+
+			// search data...
+			::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLGRAPH_SEARCH, (WPARAM)0, (LPARAM)0);
+		}
 	}
 
 }
