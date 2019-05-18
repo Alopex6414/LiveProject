@@ -31,5 +31,19 @@ typedef struct
 	char chVideoShot[4096];	// 视频快照(4KB)
 }S_WALLVIDEO, *LPS_WALLVIDEO;
 
+// LiveWall -- Type of Graph...
+typedef struct
+{
+	int nNumber;			// 图形序号(4)
+	int nReserved;			// 保留字段(4)
+	char chGraphName[64];	// 图形名称(64)
+	char chGraphAuthor[64];	// 图形作者(64)
+	char chGraphID[128];	// 图形ID(128)
+	char chGraphPath[256];	// 图形路径(256)
+	char chReserved1[256];	// 保留字段1(256)
+	char chReserved2[256];	// 保留字段2(256)
+	char chGraphShot[4096];	// 图形快照(4KB)
+};
+
 #endif // !__TYPES_H_
 
