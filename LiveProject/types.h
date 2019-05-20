@@ -16,6 +16,22 @@
 
 // Struct & Enum Types Definitions.
 
+// LiveWall -- Type of PlayStates
+typedef enum
+{
+	Play = 0,
+	Pause = 1,
+}E_WALLPLAYSTATES;
+
+// LiveWall -- Type of PlayMode
+typedef enum
+{
+	Random	= 0,
+	Loop	= 1,
+	Repeat	= 2,
+	Order	= 3,
+}E_WALLPLAYMODE;
+
 // LiveWall -- Type of Video...
 typedef struct
 {

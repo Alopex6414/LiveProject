@@ -88,6 +88,9 @@ private:
 	bool m_bWallVideoMod;			// LiveWall 修改按钮单击状态(视频)(默认false)
 	bool m_bWallGraphMod;			// LiveWall 修改按钮单击状态(图形)(默认false)
 
+	//E_WALLPLAYSTATES	m_ePlayStates;							// LiveWall 播放状态
+	//E_WALLPLAYMODE		m_ePlayMode;							// LiveWall 播放模式
+
 public:
 	CDBWallpaperVideo m_pDBWallpaperVideo;
 	CDBWallpaperGraph m_pDBWallpaperGraph;
@@ -155,6 +158,15 @@ public:
 	void OnLButtonClickedLiveWallModBtn();			// LiveWallpaper 单击修改视频壁纸按钮事件响应
 	void OnLButtonClickedLiveWallDelBtn();			// LiveWallpaper 单击删除视频壁纸按钮事件响应
 	void OnLButtonClickedLiveWallSearchBtn();		// LiveWallpaper 单击查询视频壁纸按钮事件响应
+
+	void OnLButtonClickedLiveWallPreBtn();			// LiveWallpaper 单击播放上一次视频壁纸按钮事件响应
+	void OnLButtonClickedLiveWallNextBtn();			// LiveWallpaper 单击播放下一次视频壁纸按钮事件响应
+	void OnLButtonClickedLiveWallPlayBtn();			// LiveWallpaper 单击播放当前视频壁纸按钮事件响应
+	void OnLButtonClickedLiveWallPauseBtn();		// LiveWallpaper 单击暂停当前视频壁纸按钮事件响应
+	void OnLButtonClickedLiveWallRandomBtn();		// LiveWallpaper 单击随机播放模式按钮事件响应
+	void OnLButtonClickedLiveWallLoopBtn();			// LiveWallpaper 单击循环播放模式按钮事件响应
+	void OnLButtonClickedLiveWallRepeatBtn();		// LiveWallpaper 单击重复播放模式按钮事件响应
+	void OnLButtonClickedLiveWallOrderBtn();		// LiveWallpaper 单击顺序播放模式按钮事件响应
 
 	void OnLButtonClickedOtherEvent(CControlUI*);	// LiveProject 单击事件响应(其他事件)...
 };

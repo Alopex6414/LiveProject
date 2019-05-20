@@ -91,6 +91,38 @@ void CFrameMain::Notify(TNotifyUI & msg)
 		{
 			OnLButtonClickedLiveWallSearchBtn();
 		}
+		else if (msg.pSender == m_pLiveWallPreBtn)
+		{
+			OnLButtonClickedLiveWallPreBtn();
+		}
+		else if (msg.pSender == m_pLiveWallNextBtn)
+		{
+			OnLButtonClickedLiveWallNextBtn();
+		}
+		else if (msg.pSender == m_pLiveWallPlayBtn)
+		{
+			OnLButtonClickedLiveWallPlayBtn();
+		}
+		else if (msg.pSender == m_pLiveWallPauseBtn)
+		{
+			OnLButtonClickedLiveWallPauseBtn();
+		}
+		else if (msg.pSender == m_pLiveWallRandomBtn)
+		{
+			OnLButtonClickedLiveWallRandomBtn();
+		}
+		else if (msg.pSender == m_pLiveWallLoopBtn)
+		{
+			OnLButtonClickedLiveWallLoopBtn();
+		}
+		else if (msg.pSender == m_pLiveWallRepeatBtn)
+		{
+			OnLButtonClickedLiveWallRepeatBtn();
+		}
+		else if (msg.pSender == m_pLiveWallOrderBtn)
+		{
+			OnLButtonClickedLiveWallOrderBtn();
+		}
 		else
 		{
 			OnLButtonClickedOtherEvent(msg.pSender);
@@ -2204,6 +2236,95 @@ void CFrameMain::OnLButtonClickedLiveWallSearchBtn()
 		::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLGRAPH_SEARCH, (WPARAM)0, (LPARAM)0);
 	}
 	
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveWallPreBtn()
+// @Purpose: CFrameMain单击播放上一次视频壁纸按钮事件响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveWallPreBtn()
+{
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveWallNextBtn()
+// @Purpose: CFrameMain单击播放下一次视频壁纸按钮事件响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveWallNextBtn()
+{
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveWallPlayBtn()
+// @Purpose: CFrameMain单击播放当前视频壁纸按钮事件响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveWallPlayBtn()
+{
+	
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveWallPauseBtn()
+// @Purpose: CFrameMain单击暂停当前视频壁纸按钮事件响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveWallPauseBtn()
+{
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveWallRandomBtn()
+// @Purpose: CFrameMain单击随机播放模式按钮事件响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveWallRandomBtn()
+{
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveWallLoopBtn()
+// @Purpose: CFrameMain单击循环播放模式按钮事件响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveWallLoopBtn()
+{
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveWallRepeatBtn()
+// @Purpose: CFrameMain单击重复播放模式按钮事件响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveWallRepeatBtn()
+{
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveWallOrderBtn()
+// @Purpose: CFrameMain单击顺序播放模式按钮事件响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveWallOrderBtn()
+{
 }
 
 //----------------------------------------------
