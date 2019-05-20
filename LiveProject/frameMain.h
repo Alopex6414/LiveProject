@@ -75,6 +75,11 @@ public:
 	CButtonUI * m_pLiveWallNextBtn;			// LiveWall 下一次按钮
 	CButtonUI * m_pLiveWallPlayBtn;			// LiveWall 播放按钮
 	CButtonUI * m_pLiveWallPauseBtn;		// LiveWall 暂停按钮
+	//CButtonUI * m_pLiveWallStopBtn;			// LiveWall 停止按钮
+	CButtonUI * m_pLiveWallRandomBtn;		// LiveWall 随机播放按钮
+	CButtonUI * m_pLiveWallLoopBtn;			// LiveWall 循环播放按钮
+	CButtonUI * m_pLiveWallRepeatBtn;		// LiveWall 重复播放按钮
+	CButtonUI * m_pLiveWallOrderBtn;		// LiveWall 顺序播放按钮
 
 private:
 	HMENU m_hMenu;					// LiveProject 菜单栏小图标句柄
