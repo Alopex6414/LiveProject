@@ -910,6 +910,72 @@ void CFrameMain::RecordVideoConfigFile(S_WALLVIDEO* pVideoInfo)
 }
 
 //----------------------------------------------
+// @Function:	ShowLiveWallPlayStates()
+// @Purpose: CFrameMain播放状态按钮图形显示
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::ShowLiveWallPlayStates(E_WALLPLAYSTATES ePlayStates)
+{
+	switch (ePlayStates)
+	{
+	case Play:
+		m_pLiveWallPlayBtn->SetVisible(true);
+		m_pLiveWallPauseBtn->SetVisible(false);
+		break;
+	case Pause:
+		m_pLiveWallPlayBtn->SetVisible(false);
+		m_pLiveWallPauseBtn->SetVisible(true);
+		break;
+	default:
+		break;
+	}
+
+}
+
+//----------------------------------------------
+// @Function:	ShowLiveWallPlayMode()
+// @Purpose: CFrameMain播放模式按钮图形显示
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::ShowLiveWallPlayMode(E_WALLPLAYMODE ePlayMode)
+{
+	switch (ePlayMode)
+	{
+	case Random:
+		m_pLiveWallRandomBtn->SetVisible(true);
+		m_pLiveWallLoopBtn->SetVisible(false);
+		m_pLiveWallRepeatBtn->SetVisible(false);
+		m_pLiveWallOrderBtn->SetVisible(false);
+		break;
+	case Loop:
+		m_pLiveWallRandomBtn->SetVisible(false);
+		m_pLiveWallLoopBtn->SetVisible(true);
+		m_pLiveWallRepeatBtn->SetVisible(false);
+		m_pLiveWallOrderBtn->SetVisible(false);
+		break;
+	case Repeat:
+		m_pLiveWallRandomBtn->SetVisible(false);
+		m_pLiveWallLoopBtn->SetVisible(false);
+		m_pLiveWallRepeatBtn->SetVisible(true);
+		m_pLiveWallOrderBtn->SetVisible(false);
+		break;
+	case Order:
+		m_pLiveWallRandomBtn->SetVisible(false);
+		m_pLiveWallLoopBtn->SetVisible(false);
+		m_pLiveWallRepeatBtn->SetVisible(false);
+		m_pLiveWallOrderBtn->SetVisible(true);
+		break;
+	default:
+		break;
+	}
+
+}
+
+//----------------------------------------------
 // @Function:	GetPaintManager()
 // @Purpose: CFrameMain获取绘制句柄
 // @Since: v1.00a
@@ -935,6 +1001,9 @@ void CFrameMain::ConstructExtra()
 
 	m_bWallVideoMod = false;
 	m_bWallGraphMod = false;
+
+	m_ePlayStates = Play;
+	m_ePlayMode = Random;
 }
 
 //----------------------------------------------
@@ -2269,7 +2338,8 @@ void CFrameMain::OnLButtonClickedLiveWallNextBtn()
 //-----------------------------------------------------
 void CFrameMain::OnLButtonClickedLiveWallPlayBtn()
 {
-	
+	m_ePlayStates = Pause;
+	ShowLiveWallPlayStates(m_ePlayStates);
 }
 
 //-----------------------------------------------------
@@ -2281,6 +2351,8 @@ void CFrameMain::OnLButtonClickedLiveWallPlayBtn()
 //-----------------------------------------------------
 void CFrameMain::OnLButtonClickedLiveWallPauseBtn()
 {
+	m_ePlayStates = Play;
+	ShowLiveWallPlayStates(m_ePlayStates);
 }
 
 //-----------------------------------------------------
@@ -2292,6 +2364,8 @@ void CFrameMain::OnLButtonClickedLiveWallPauseBtn()
 //-----------------------------------------------------
 void CFrameMain::OnLButtonClickedLiveWallRandomBtn()
 {
+	m_ePlayMode = Loop;
+	ShowLiveWallPlayMode(m_ePlayMode);
 }
 
 //-----------------------------------------------------
@@ -2303,6 +2377,8 @@ void CFrameMain::OnLButtonClickedLiveWallRandomBtn()
 //-----------------------------------------------------
 void CFrameMain::OnLButtonClickedLiveWallLoopBtn()
 {
+	m_ePlayMode = Repeat;
+	ShowLiveWallPlayMode(m_ePlayMode);
 }
 
 //-----------------------------------------------------
@@ -2314,6 +2390,8 @@ void CFrameMain::OnLButtonClickedLiveWallLoopBtn()
 //-----------------------------------------------------
 void CFrameMain::OnLButtonClickedLiveWallRepeatBtn()
 {
+	m_ePlayMode = Order;
+	ShowLiveWallPlayMode(m_ePlayMode);
 }
 
 //-----------------------------------------------------
@@ -2325,6 +2403,8 @@ void CFrameMain::OnLButtonClickedLiveWallRepeatBtn()
 //-----------------------------------------------------
 void CFrameMain::OnLButtonClickedLiveWallOrderBtn()
 {
+	m_ePlayMode = Random;
+	ShowLiveWallPlayMode(m_ePlayMode);
 }
 
 //----------------------------------------------

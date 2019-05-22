@@ -88,8 +88,8 @@ private:
 	bool m_bWallVideoMod;			// LiveWall 修改按钮单击状态(视频)(默认false)
 	bool m_bWallGraphMod;			// LiveWall 修改按钮单击状态(图形)(默认false)
 
-	//E_WALLPLAYSTATES	m_ePlayStates;							// LiveWall 播放状态
-	//E_WALLPLAYMODE		m_ePlayMode;							// LiveWall 播放模式
+	E_WALLPLAYSTATES	m_ePlayStates;		// LiveWall 播放状态
+	E_WALLPLAYMODE		m_ePlayMode;		// LiveWall 播放模式
 
 public:
 	CDBWallpaperVideo m_pDBWallpaperVideo;
@@ -109,6 +109,8 @@ protected:
 	void GenerateGUID(char* chGUID, size_t nSize);				// LiveProject 生成GUID
 	BOOL ReStartProcess(const char* pStrArr);					// LiveProject 进程ReStart
 	void RecordVideoConfigFile(S_WALLVIDEO* pVideoInfo);		// LiveProject 记录墙纸配置文件
+	void ShowLiveWallPlayStates(E_WALLPLAYSTATES ePlayStates);	// LiveProject 播放状态按钮图形显示
+	void ShowLiveWallPlayMode(E_WALLPLAYMODE ePlayMode);		// LiveProject 播放模式按钮图形显示
 
 public:
 	CPaintManagerUI & GetPaintManager();
