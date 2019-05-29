@@ -48,7 +48,7 @@ CLiveCore::CLiveCore() :
 	m_nDeskTopHeight(0),
 	m_nVideoWidth(0),
 	m_nVideoHeight(0),
-	m_nVideoFreq(0),
+	m_nVideoFreq(60),
 	m_nLiveCoreMode(0),
 	m_nLiveCoreShowGraphics(0),
 	m_nLiveCoreShowGraphicsFont(0),
