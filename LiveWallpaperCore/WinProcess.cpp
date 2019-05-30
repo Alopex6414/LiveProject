@@ -70,6 +70,8 @@ void ReleaseWindowExtraCallBack(void)
 //------------------------------------------------------------------
 void Direct3DRenderCallBack(void)
 {
+	float fDeltaTime = 1.0f / g_LiveCore.m_nVideoFreq;
+
 	g_fLastTime = (float)timeGetTime()*0.001f;
 
 	g_LiveCore.CLiveCoreUpdate();
@@ -77,4 +79,9 @@ void Direct3DRenderCallBack(void)
 
 	g_fCurrentTime = (float)timeGetTime()*0.001f;
 	g_fDeltaTime = g_fCurrentTime - g_fLastTime;
+	
+	if (g_fDeltaTime < fDeltaTime)
+	{
+		Sleep((DWORD)((fDeltaTime - g_fDeltaTime) * 1000.0f));
+	}
 }

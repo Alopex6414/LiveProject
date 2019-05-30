@@ -992,7 +992,7 @@ void CLiveIn::CLiveDrawAdapter()
 //----------------------------------------------
 void CLiveIn::CLiveDrawfps()
 {
-	m_pCerasusfpsMain->GetFps();				// Direct3D 绘制静态信息
+	m_pCerasusfpsMain->CalculateFps();				// Direct3D 绘制静态信息
 	m_pCerasusfpsMain->DrawFps(g_hWnd, DX_FONT_FORMAT_BOTTOMRIGHT, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));		// Direct3D 绘制fps
 }
 

@@ -91,6 +91,38 @@ void CFrameMain::Notify(TNotifyUI & msg)
 		{
 			OnLButtonClickedLiveWallSearchBtn();
 		}
+		else if (msg.pSender == m_pLiveWallPreBtn)
+		{
+			OnLButtonClickedLiveWallPreBtn();
+		}
+		else if (msg.pSender == m_pLiveWallNextBtn)
+		{
+			OnLButtonClickedLiveWallNextBtn();
+		}
+		else if (msg.pSender == m_pLiveWallPlayBtn)
+		{
+			OnLButtonClickedLiveWallPlayBtn();
+		}
+		else if (msg.pSender == m_pLiveWallPauseBtn)
+		{
+			OnLButtonClickedLiveWallPauseBtn();
+		}
+		else if (msg.pSender == m_pLiveWallRandomBtn)
+		{
+			OnLButtonClickedLiveWallRandomBtn();
+		}
+		else if (msg.pSender == m_pLiveWallLoopBtn)
+		{
+			OnLButtonClickedLiveWallLoopBtn();
+		}
+		else if (msg.pSender == m_pLiveWallRepeatBtn)
+		{
+			OnLButtonClickedLiveWallRepeatBtn();
+		}
+		else if (msg.pSender == m_pLiveWallOrderBtn)
+		{
+			OnLButtonClickedLiveWallOrderBtn();
+		}
 		else
 		{
 			OnLButtonClickedOtherEvent(msg.pSender);
@@ -134,6 +166,14 @@ void CFrameMain::Notify(TNotifyUI & msg)
 		else if (msg.pSender == m_pAboutOpt)
 		{
 			m_pLiveMainTab->SelectItem(9);
+		}
+		else if (msg.pSender == m_pLiveWallVideoOpt)
+		{
+			OnLButtonClickedLiveWallVideoOption();
+		}
+		else if (msg.pSender == m_pLiveWallGraphOpt)
+		{
+			OnLButtonClickedLiveWallGraphOption();
 		}
 
 	}
@@ -214,6 +254,21 @@ LRESULT CFrameMain::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_USER_MESSAGE_WALLVIDEO_ADDSHOT:
 		lRes = OnUserMessageWallVideoAddShot(uMsg, wParam, lParam, bHandled);
+		break;
+	case WM_USER_MESSAGE_WALLGRAPH_INSERT:
+		lRes = OnUserMessageWallGraphInsert(uMsg, wParam, lParam, bHandled);
+		break;
+	case WM_USER_MESSAGE_WALLGRAPH_DELETE:
+		lRes = OnUserMessageWallGraphDelete(uMsg, wParam, lParam, bHandled);
+		break;
+	case WM_USER_MESSAGE_WALLGRAPH_SEARCH:
+		lRes = OnUserMessageWallGraphSearch(uMsg, wParam, lParam, bHandled);
+		break;
+	case WM_USER_MESSAGE_WALLGRAPH_ADDITEM:
+		lRes = OnUserMessageWallGraphAddItem(uMsg, wParam, lParam, bHandled);
+		break;
+	case WM_USER_MESSAGE_WALLGRAPH_ADDSHOT:
+		lRes = OnUserMessageWallGraphAddShot(uMsg, wParam, lParam, bHandled);
 		break;
 	default:
 		bHandled = FALSE;
@@ -632,6 +687,124 @@ void CFrameMain::StopOnceVideoContext()
 }
 
 //----------------------------------------------
+// @Function:	AddOnceGraphContext()
+// @Purpose: CFrameMain添加一个图形内容
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::AddOnceGraphContext(S_WALLGRAPH* pGraphInfo)
+{
+	CHorizontalLayoutUI* pHorizontal = new CHorizontalLayoutUI();
+
+	// ContainerUI
+	CContainerUI* pContainer = new CContainerUI();
+
+	pContainer->SetName(_T("graphbk"));
+	pContainer->SetFloat(true);
+	pContainer->SetAttribute(_T("pos"), _T("0,0,0,0"));
+	pContainer->SetFixedWidth(192);
+	pContainer->SetFixedHeight(167);
+	pContainer->SetBkImage(_T("res\\imagebk.png"));
+	pHorizontal->Add(pContainer);
+
+	// ButtonUI -- Play
+	CButtonUI* pPlayBtn = new CButtonUI();
+
+	pPlayBtn->SetName(_T("play"));
+	pPlayBtn->SetFloat(true);
+	pPlayBtn->SetAttribute(_T("pos"), _T("81,61,0,0"));
+	pPlayBtn->SetFixedWidth(24);
+	pPlayBtn->SetFixedHeight(24);
+	pPlayBtn->SetVisible(true);
+	pPlayBtn->SetAttribute(_T("normalimage"), _T("file='res\\playbuttons.png' source='0,0,24,24'"));
+	pPlayBtn->SetAttribute(_T("hotimage"), _T("file='res\\playbuttons.png' source='0,24,24,48'"));
+	pPlayBtn->SetAttribute(_T("pushedimage"), _T("file='res\\playbuttons.png' source='0,48,24,72'"));
+	pHorizontal->Add(pPlayBtn);
+
+	// ButtonUI -- UnChecked
+	CButtonUI* pUnCheckedBtn = new CButtonUI();
+
+	pUnCheckedBtn->SetName(_T("unchecked"));
+	pUnCheckedBtn->SetFloat(true);
+	pUnCheckedBtn->SetAttribute(_T("pos"), _T("2,0,0,0"));
+	pUnCheckedBtn->SetFixedWidth(24);
+	pUnCheckedBtn->SetFixedHeight(24);
+	pUnCheckedBtn->SetVisible(false);
+	pUnCheckedBtn->SetAttribute(_T("normalimage"), _T("file='res\\uncheckedbuttons.png' source='0,0,24,24'"));
+	pUnCheckedBtn->SetAttribute(_T("hotimage"), _T("file='res\\uncheckedbuttons.png' source='0,24,24,48'"));
+	pUnCheckedBtn->SetAttribute(_T("pushedimage"), _T("file='res\\uncheckedbuttons.png' source='0,48,24,72'"));
+	pHorizontal->Add(pUnCheckedBtn);
+
+	// ButtonUI -- Checked
+	CButtonUI* pCheckedBtn = new CButtonUI();
+
+	pCheckedBtn->SetName(_T("checked"));
+	pCheckedBtn->SetFloat(true);
+	pCheckedBtn->SetAttribute(_T("pos"), _T("2,0,0,0"));
+	pCheckedBtn->SetFixedWidth(24);
+	pCheckedBtn->SetFixedHeight(24);
+	pCheckedBtn->SetVisible(false);
+	pCheckedBtn->SetAttribute(_T("normalimage"), _T("file='res\\checkedbuttons.png' source='0,0,24,24'"));
+	pCheckedBtn->SetAttribute(_T("hotimage"), _T("file='res\\checkedbuttons.png' source='0,24,24,48'"));
+	pCheckedBtn->SetAttribute(_T("pushedimage"), _T("file='res\\checkedbuttons.png' source='0,48,24,72'"));
+	pHorizontal->Add(pCheckedBtn);
+
+	// TextUI
+	CTextUI* pText = new CTextUI();
+	CDuiString strText = _T("");
+
+	USES_CONVERSION;
+	strText.Format(_T("%s"), A2T(pGraphInfo->chGraphName));
+
+	pText->SetName(_T("graphname"));
+	pText->SetFloat(true);
+	pText->SetAttribute(_T("pos"), _T("0,167,0,0"));
+	pText->SetFixedWidth(192);
+	pText->SetFixedHeight(24);
+	pText->SetFont(2);
+	pText->SetAttribute(_T("align"), _T("center"));
+	pText->SetTextColor(0xFF363636);
+	pText->SetText(strText.GetData());
+	pHorizontal->Add(pText);
+
+	m_pLiveWallContextLst->Add(pHorizontal);
+}
+
+//----------------------------------------------
+// @Function:	AddOnceGraphShotcut()
+// @Purpose: CFrameMain添加一个图形快照
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::AddOnceGraphShotcut(S_WALLGRAPH* pGraphInfo)
+{
+}
+
+//----------------------------------------------
+// @Function:	PlayOnceGraphContext()
+// @Purpose: CFrameMain播放一个图形内容
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::PlayOnceGraphContext(S_WALLGRAPH* pGraphInfo)
+{
+}
+
+//----------------------------------------------
+// @Function:	StopOnceGraphContext()
+// @Purpose: CFrameMain停止一个图形内容
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::StopOnceGraphContext()
+{
+}
+
+//----------------------------------------------
 // @Function:	GenerateGUID()
 // @Purpose: CFrameMain生成GUID
 // @Since: v1.00a
@@ -737,6 +910,72 @@ void CFrameMain::RecordVideoConfigFile(S_WALLVIDEO* pVideoInfo)
 }
 
 //----------------------------------------------
+// @Function:	ShowLiveWallPlayStates()
+// @Purpose: CFrameMain播放状态按钮图形显示
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::ShowLiveWallPlayStates(E_WALLPLAYSTATES ePlayStates)
+{
+	switch (ePlayStates)
+	{
+	case Play:
+		m_pLiveWallPlayBtn->SetVisible(true);
+		m_pLiveWallPauseBtn->SetVisible(false);
+		break;
+	case Pause:
+		m_pLiveWallPlayBtn->SetVisible(false);
+		m_pLiveWallPauseBtn->SetVisible(true);
+		break;
+	default:
+		break;
+	}
+
+}
+
+//----------------------------------------------
+// @Function:	ShowLiveWallPlayMode()
+// @Purpose: CFrameMain播放模式按钮图形显示
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::ShowLiveWallPlayMode(E_WALLPLAYMODE ePlayMode)
+{
+	switch (ePlayMode)
+	{
+	case Random:
+		m_pLiveWallRandomBtn->SetVisible(true);
+		m_pLiveWallLoopBtn->SetVisible(false);
+		m_pLiveWallRepeatBtn->SetVisible(false);
+		m_pLiveWallOrderBtn->SetVisible(false);
+		break;
+	case Loop:
+		m_pLiveWallRandomBtn->SetVisible(false);
+		m_pLiveWallLoopBtn->SetVisible(true);
+		m_pLiveWallRepeatBtn->SetVisible(false);
+		m_pLiveWallOrderBtn->SetVisible(false);
+		break;
+	case Repeat:
+		m_pLiveWallRandomBtn->SetVisible(false);
+		m_pLiveWallLoopBtn->SetVisible(false);
+		m_pLiveWallRepeatBtn->SetVisible(true);
+		m_pLiveWallOrderBtn->SetVisible(false);
+		break;
+	case Order:
+		m_pLiveWallRandomBtn->SetVisible(false);
+		m_pLiveWallLoopBtn->SetVisible(false);
+		m_pLiveWallRepeatBtn->SetVisible(false);
+		m_pLiveWallOrderBtn->SetVisible(true);
+		break;
+	default:
+		break;
+	}
+
+}
+
+//----------------------------------------------
 // @Function:	GetPaintManager()
 // @Purpose: CFrameMain获取绘制句柄
 // @Since: v1.00a
@@ -761,6 +1000,10 @@ void CFrameMain::ConstructExtra()
 	memset(&m_nid, 0, sizeof(m_nid));
 
 	m_bWallVideoMod = false;
+	m_bWallGraphMod = false;
+
+	m_ePlayStates = Play;
+	m_ePlayMode = Random;
 }
 
 //----------------------------------------------
@@ -841,6 +1084,16 @@ void CFrameMain::InitControls()
 	// livewall context...
 	m_pLiveWallContextLst = static_cast<CTileLayoutUI*>(m_PaintManager.FindControl(_T("livewallcontextlst")));
 
+	// livewall control...
+	m_pLiveWallPreBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallprebtn")));
+	m_pLiveWallNextBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallnextbtn")));
+	m_pLiveWallPlayBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallplaybtn")));
+	m_pLiveWallPauseBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallpausebtn")));
+	m_pLiveWallRandomBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallrandombtn")));
+	m_pLiveWallLoopBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallloopbtn")));
+	m_pLiveWallRepeatBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallrepeatbtn")));
+	m_pLiveWallOrderBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallorderbtn")));
+
 }
 
 //----------------------------------------------
@@ -853,6 +1106,7 @@ void CFrameMain::InitControls()
 void CFrameMain::InitDataBase()
 {
 	m_pDBWallpaperVideo.Create();
+	m_pDBWallpaperGraph.Create();
 }
 
 //----------------------------------------------
@@ -1041,6 +1295,139 @@ LRESULT CFrameMain::OnUserMessageWallVideoAddShot(UINT uMsg, WPARAM wParam, LPAR
 {
 	S_WALLVIDEO* pMsg = reinterpret_cast<S_WALLVIDEO*>(wParam);
 	AddOnceVideoShotCut(pMsg);
+	return 0;
+}
+
+//----------------------------------------------
+// @Function:	OnUserMessageWallGraphInsert()
+// @Purpose: CFrameMain添加图形数据信息
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+LRESULT CFrameMain::OnUserMessageWallGraphInsert(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	S_WALLGRAPH* pMsg = reinterpret_cast<S_WALLGRAPH*>(wParam);
+
+	// add graph name...
+	char* pTemp = NULL;
+	char* pTemp2 = NULL;
+
+	pTemp = strrchr(pMsg->chGraphPath, '\\');
+	if (pTemp != NULL)
+	{
+		pTemp2 = strrchr(pTemp, '.');
+		if (pTemp2 != NULL)
+		{
+			char* pArray = pMsg->chGraphName;
+
+			for (char* point = ++pTemp; point != pTemp2; )
+			{
+				*pArray++ = *point++;
+			}
+		}
+		else
+		{
+			strcpy_s(pMsg->chGraphName, ++pTemp);
+		}
+	}
+	else
+	{
+		strcpy_s(pMsg->chGraphName, pMsg->chGraphPath);
+	}
+
+	// add graph id...
+	GenerateGUID(pMsg->chGraphID, sizeof(pMsg->chGraphID));
+
+	// insert data...
+	m_pDBWallpaperGraph.Insert(pMsg);
+
+	// search data...
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLGRAPH_SEARCH, (WPARAM)0, (LPARAM)0);
+
+	// delete resources...
+	SAFE_DELETE(pMsg);
+
+	return 0;
+}
+
+//----------------------------------------------
+// @Function:	OnUserMessageWallGraphDelete()
+// @Purpose: CFrameMain删除图形数据信息
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+LRESULT CFrameMain::OnUserMessageWallGraphDelete(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	S_WALLGRAPH* pMsg = reinterpret_cast<S_WALLGRAPH*>(wParam);
+
+	// delete data...
+	m_pDBWallpaperGraph.Delete(pMsg->chGraphPath);
+
+	// search data...
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLGRAPH_SEARCH, (WPARAM)0, (LPARAM)0);
+
+	return 0;
+}
+
+//----------------------------------------------
+// @Function:	OnUserMessageWallGraphSearch()
+// @Purpose: CFrameMain查询图形数据信息
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+LRESULT CFrameMain::OnUserMessageWallGraphSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	// clear vector...
+	m_vecWallGraphInfo.clear();
+
+	// select data...
+	CDuiString csSearch = _T("");
+
+	USES_CONVERSION;
+	csSearch = m_pLiveWallSearchEdt->GetText();
+	m_pDBWallpaperGraph.Select(OnSearchWallGraphCallback, T2A(csSearch.GetData()));
+
+	// clear context...
+	m_pLiveWallContextLst->RemoveAll();
+
+	// new thread show...
+	HANDLE hThread = NULL;
+	DWORD dwThreadID = 0;
+
+	hThread = ::CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)(&CFrameMain::OnSearchWallGraphProcess), NULL, 0, &dwThreadID);
+	::CloseHandle(hThread);
+
+	return 0;
+}
+
+//----------------------------------------------
+// @Function:	OnUserMessageWallGraphAddItem()
+// @Purpose: CFrameMain添加一条图形数据信息
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+LRESULT CFrameMain::OnUserMessageWallGraphAddItem(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	S_WALLGRAPH* pMsg = reinterpret_cast<S_WALLGRAPH*>(wParam);
+	AddOnceGraphContext(pMsg);
+	return 0;
+}
+
+//----------------------------------------------
+// @Function:	OnUserMessageWallGraphAddShot()
+// @Purpose: CFrameMain添加图形快照
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+LRESULT CFrameMain::OnUserMessageWallGraphAddShot(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	S_WALLGRAPH* pMsg = reinterpret_cast<S_WALLGRAPH*>(wParam);
+	AddOnceGraphShotcut(pMsg);
 	return 0;
 }
 
@@ -1281,6 +1668,23 @@ DWORD CFrameMain::OnSearchWallVideoProcess(LPVOID lpParameter)
 }
 
 //----------------------------------------------
+// @Function:	OnSearchWallGraphProcess()
+// @Purpose: CFrameMain查询图形数据线程
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+DWORD CFrameMain::OnSearchWallGraphProcess(LPVOID lpParameter)
+{
+	for (auto iter = g_pFrameMain->m_vecWallGraphInfo.begin(); iter != g_pFrameMain->m_vecWallGraphInfo.end(); ++iter)
+	{
+		::PostMessageA(g_pFrameMain->GetHWND(), WM_USER_MESSAGE_WALLGRAPH_ADDITEM, (WPARAM)((LPVOID)(&(*iter))), (LPARAM)0);
+	}
+
+	return 0;
+}
+
+//----------------------------------------------
 // @Function:	OnSearchWallVideoCallback()
 // @Purpose: CFrameMain查询视频数据回调函数
 // @Since: v1.00a
@@ -1303,6 +1707,32 @@ int CFrameMain::OnSearchWallVideoCallback(void * data, int argc, char ** argv, c
 	strcpy_s(sVideoInfo.chVideoShot, *(argv + 9));
 
 	g_pFrameMain->m_vecWallVideoInfo.push_back(sVideoInfo);
+
+	return 0;
+}
+
+//----------------------------------------------
+// @Function:	OnSearchWallGraphCallback()
+// @Purpose: CFrameMain查询图形数据回调函数
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+int CFrameMain::OnSearchWallGraphCallback(void* data, int argc, char** argv, char** azColName)
+{
+	S_WALLGRAPH sGraphInfo = { 0 };
+
+	sGraphInfo.nNumber = atoi(*argv);
+	sGraphInfo.nReserved = atoi(*(argv + 1));
+	strcpy_s(sGraphInfo.chGraphName, *(argv + 2));
+	strcpy_s(sGraphInfo.chGraphAuthor, *(argv + 3));
+	strcpy_s(sGraphInfo.chGraphID, *(argv + 4));
+	strcpy_s(sGraphInfo.chGraphPath, *(argv + 5));
+	strcpy_s(sGraphInfo.chReserved1, *(argv + 6));
+	strcpy_s(sGraphInfo.chReserved2, *(argv + 7));
+	strcpy_s(sGraphInfo.chGraphShot, *(argv + 8));
+
+	g_pFrameMain->m_vecWallGraphInfo.push_back(sGraphInfo);
 
 	return 0;
 }
@@ -1386,6 +1816,30 @@ void CFrameMain::OnLButtonClickedCloseBtn()
 	::ShowWindow(this->GetHWND(), SW_HIDE);
 }
 
+//---------------------------------------------------
+// @Function:	OnLButtonClickedLiveWallVideoOption()
+// @Purpose: CFrameMain鼠标左键单击视频壁纸视频选项卡
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//---------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveWallVideoOption()
+{
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_SEARCH, (WPARAM)0, (LPARAM)0);
+}
+
+//---------------------------------------------------
+// @Function:	OnLButtonClickedLiveWallGraphOption()
+// @Purpose: CFrameMain鼠标左键单击视频壁纸图形选项卡
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//---------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveWallGraphOption()
+{
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLGRAPH_SEARCH, (WPARAM)0, (LPARAM)0);
+}
+
 //----------------------------------------------
 // @Function:	OnLButtonClickedLiveWallAddBtn()
 // @Purpose: CFrameMain鼠标左键单击添加视频按钮
@@ -1395,131 +1849,252 @@ void CFrameMain::OnLButtonClickedCloseBtn()
 //----------------------------------------------
 void CFrameMain::OnLButtonClickedLiveWallAddBtn()
 {
-	// if mod now video file, then return...
-	if (m_bWallVideoMod)
+	// select option is video...
+	if (m_pLiveWallVideoOpt->IsSelected())
 	{
-		return;
-	}
-
-	// add new video file...
-	OPENFILENAME file;
-	WCHAR strfile[100 * MAX_PATH] = { 0 };	// support for max 100 files
-	WCHAR strpath[MAX_PATH] = { 0 };
-	WCHAR strname[MAX_PATH] = { 0 };
-	TCHAR* p = NULL;
-	int nLen = 0;
-
-	USES_CONVERSION;
-
-	ZeroMemory(&file, sizeof(OPENFILENAME));
-
-	file.lStructSize = sizeof(OPENFILENAME);
-	file.lpstrFilter = _T(	"所有文件\0*.mp4;*.mkv;*.wmv;*.mov;*.avi;*.asf;*.rmvb;*.flv\0" \
-							"MP4\0*.mp4\0" \
-							"MKV\0*.mkv\0" \
-							"WMV\0*.wmv\0" \
-							"MOV\0*.mov\0" \
-							"AVI\0*.avi\0" \
-							"ASF\0*.asf\0" \
-							"RMVB\0*.rmvb\0" \
-							"FLV\0*.flv\0"\
-							"\0");
-	file.nFilterIndex = 1;
-	file.lpstrFile = strfile;
-	file.nMaxFile = sizeof(strfile);
-	file.Flags = OFN_EXPLORER | OFN_ALLOWMULTISELECT | OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST;
-
-	if (GetOpenFileName(&file))
-	{
-		lstrcpyn(strpath, strfile, file.nFileOffset);
-		strpath[file.nFileOffset] = '\0';
-		nLen = lstrlen(strpath);
-
-		if (strpath[nLen - 1] != '\\')
+		// if mod now video file, then return...
+		if (m_bWallVideoMod)
 		{
-			lstrcat(strpath, _T("\\"));
+			return;
 		}
 
-		p = strfile + file.nFileOffset;
+		// add new video file...
+		OPENFILENAME file;
+		WCHAR strfile[100 * MAX_PATH] = { 0 };	// support for max 100 files
+		WCHAR strpath[MAX_PATH] = { 0 };
+		WCHAR strname[MAX_PATH] = { 0 };
+		TCHAR* p = NULL;
+		int nLen = 0;
 
-		while (*p)
+		USES_CONVERSION;
+
+		ZeroMemory(&file, sizeof(OPENFILENAME));
+
+		file.lStructSize = sizeof(OPENFILENAME);
+		file.lpstrFilter = _T("所有文件\0*.mp4;*.mkv;*.wmv;*.mov;*.avi;*.asf;*.rmvb;*.flv\0" \
+			"MP4\0*.mp4\0" \
+			"MKV\0*.mkv\0" \
+			"WMV\0*.wmv\0" \
+			"MOV\0*.mov\0" \
+			"AVI\0*.avi\0" \
+			"ASF\0*.asf\0" \
+			"RMVB\0*.rmvb\0" \
+			"FLV\0*.flv\0"\
+			"\0");
+		file.nFilterIndex = 1;
+		file.lpstrFile = strfile;
+		file.nMaxFile = sizeof(strfile);
+		file.Flags = OFN_EXPLORER | OFN_ALLOWMULTISELECT | OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST;
+
+		if (GetOpenFileName(&file))
 		{
-			ZeroMemory(strname, sizeof(strname));
-			lstrcat(strname, strpath);
-			lstrcat(strname, p);
+			lstrcpyn(strpath, strfile, file.nFileOffset);
+			strpath[file.nFileOffset] = '\0';
+			nLen = lstrlen(strpath);
 
-			char chOriginFile[MAX_PATH] = { 0 };
-			char chOriginName[MAX_PATH] = { 0 };
-			char* pTemp = NULL;
-
-			strcpy_s(chOriginFile, T2A(strname));
-			pTemp = strrchr(chOriginFile, '\\');
-			strcpy_s(chOriginName, ++pTemp);
-
-			bool bRepeat = false;
-
-			for (auto iter = m_vecWallVideoInfo.begin(); iter != m_vecWallVideoInfo.end(); ++iter)
+			if (strpath[nLen - 1] != '\\')
 			{
-				if (!strcmp(iter->chVideoPath, T2A(strname)))
-				{
-					bRepeat = true;
-					break;
-				}
+				lstrcat(strpath, _T("\\"));
 			}
 
-			if (!bRepeat)
+			p = strfile + file.nFileOffset;
+
+			while (*p)
 			{
-				S_WALLVIDEO sVideoInfo = { 0 };
+				ZeroMemory(strname, sizeof(strname));
+				lstrcat(strname, strpath);
+				lstrcat(strname, p);
 
-				memset(&sVideoInfo, 0, sizeof(sVideoInfo));
-				strcpy_s(sVideoInfo.chVideoPath, T2A(strname));
-
-				// add video name...
+				char chOriginFile[MAX_PATH] = { 0 };
+				char chOriginName[MAX_PATH] = { 0 };
 				char* pTemp = NULL;
-				char* pTemp2 = NULL;
 
-				pTemp = strrchr(sVideoInfo.chVideoPath, '\\');
-				if (pTemp != NULL)
+				strcpy_s(chOriginFile, T2A(strname));
+				pTemp = strrchr(chOriginFile, '\\');
+				strcpy_s(chOriginName, ++pTemp);
+
+				bool bRepeat = false;
+
+				for (auto iter = m_vecWallVideoInfo.begin(); iter != m_vecWallVideoInfo.end(); ++iter)
 				{
-					pTemp2 = strrchr(pTemp, '.');
-					if (pTemp2 != NULL)
+					if (!strcmp(iter->chVideoPath, T2A(strname)))
 					{
-						char* pArray = sVideoInfo.chVideoName;
+						bRepeat = true;
+						break;
+					}
+				}
 
-						for (char* point = ++pTemp; point != pTemp2; )
+				if (!bRepeat)
+				{
+					S_WALLVIDEO sVideoInfo = { 0 };
+
+					memset(&sVideoInfo, 0, sizeof(sVideoInfo));
+					strcpy_s(sVideoInfo.chVideoPath, T2A(strname));
+
+					// add video name...
+					char* pTemp = NULL;
+					char* pTemp2 = NULL;
+
+					pTemp = strrchr(sVideoInfo.chVideoPath, '\\');
+					if (pTemp != NULL)
+					{
+						pTemp2 = strrchr(pTemp, '.');
+						if (pTemp2 != NULL)
 						{
-							*pArray++ = *point++;
+							char* pArray = sVideoInfo.chVideoName;
+
+							for (char* point = ++pTemp; point != pTemp2; )
+							{
+								*pArray++ = *point++;
+							}
+						}
+						else
+						{
+							strcpy_s(sVideoInfo.chVideoName, ++pTemp);
 						}
 					}
 					else
 					{
-						strcpy_s(sVideoInfo.chVideoName, ++pTemp);
+						strcpy_s(sVideoInfo.chVideoName, sVideoInfo.chVideoPath);
 					}
+
+					// add video id...
+					GenerateGUID(sVideoInfo.chVideoID, sizeof(sVideoInfo.chVideoID));
+
+					// add video shot...
+					//HANDLE hThread = NULL;
+					//DWORD dwThreadID = 0;
+
+					//hThread = ::CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)(&CFrameMain::OnGetWallVideoShotProcess), (LPVOID)(&sVideoInfo), 0, &dwThreadID);
+					//::CloseHandle(hThread);
+
+					// insert data...
+					m_pDBWallpaperVideo.Insert(&sVideoInfo);
 				}
-				else
-				{
-					strcpy_s(sVideoInfo.chVideoName, sVideoInfo.chVideoPath);
-				}
 
-				// add video id...
-				GenerateGUID(sVideoInfo.chVideoID, sizeof(sVideoInfo.chVideoID));
-
-				// add video shot...
-				HANDLE hThread = NULL;
-				DWORD dwThreadID = 0;
-
-				hThread = ::CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)(&CFrameMain::OnGetWallVideoShotProcess), (LPVOID)(&sVideoInfo), 0, &dwThreadID);
-				::CloseHandle(hThread);
-
-				// insert data...
-				m_pDBWallpaperVideo.Insert(&sVideoInfo);
+				p += lstrlen(p) + 1;
 			}
 
-			p += lstrlen(p) + 1;
+			// search data...
+			::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_SEARCH, (WPARAM)0, (LPARAM)0);
+		}
+	}
+	else
+	{
+		// if mod now graph file, then return...
+		if (m_bWallGraphMod)
+		{
+			return;
 		}
 
-		// search data...
-		::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_SEARCH, (WPARAM)0, (LPARAM)0);
+		// add new graph file...
+		OPENFILENAME file;
+		WCHAR strfile[100 * MAX_PATH] = { 0 };	// support for max 100 files
+		WCHAR strpath[MAX_PATH] = { 0 };
+		WCHAR strname[MAX_PATH] = { 0 };
+		TCHAR* p = NULL;
+		int nLen = 0;
+
+		USES_CONVERSION;
+
+		ZeroMemory(&file, sizeof(OPENFILENAME));
+
+		file.lStructSize = sizeof(OPENFILENAME);
+		file.lpstrFilter = _T("所有文件\0*.png;*.jpg;*.bmp\0" \
+			"PNG\0*.png\0" \
+			"JPG\0*.jpg\0" \
+			"BMP\0*.bmp\0" \
+			"\0");
+		file.nFilterIndex = 1;
+		file.lpstrFile = strfile;
+		file.nMaxFile = sizeof(strfile);
+		file.Flags = OFN_EXPLORER | OFN_ALLOWMULTISELECT | OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST;
+
+		if (GetOpenFileName(&file))
+		{
+			lstrcpyn(strpath, strfile, file.nFileOffset);
+			strpath[file.nFileOffset] = '\0';
+			nLen = lstrlen(strpath);
+
+			if (strpath[nLen - 1] != '\\')
+			{
+				lstrcat(strpath, _T("\\"));
+			}
+
+			p = strfile + file.nFileOffset;
+
+			while (*p)
+			{
+				ZeroMemory(strname, sizeof(strname));
+				lstrcat(strname, strpath);
+				lstrcat(strname, p);
+
+				char chOriginFile[MAX_PATH] = { 0 };
+				char chOriginName[MAX_PATH] = { 0 };
+				char* pTemp = NULL;
+
+				strcpy_s(chOriginFile, T2A(strname));
+				pTemp = strrchr(chOriginFile, '\\');
+				strcpy_s(chOriginName, ++pTemp);
+
+				bool bRepeat = false;
+
+				for (auto iter = m_vecWallGraphInfo.begin(); iter != m_vecWallGraphInfo.end(); ++iter)
+				{
+					if (!strcmp(iter->chGraphPath, T2A(strname)))
+					{
+						bRepeat = true;
+						break;
+					}
+				}
+
+				if (!bRepeat)
+				{
+					S_WALLGRAPH sGraphInfo = { 0 };
+
+					memset(&sGraphInfo, 0, sizeof(sGraphInfo));
+					strcpy_s(sGraphInfo.chGraphPath, T2A(strname));
+
+					// add graph name...
+					char* pTemp = NULL;
+					char* pTemp2 = NULL;
+
+					pTemp = strrchr(sGraphInfo.chGraphPath, '\\');
+					if (pTemp != NULL)
+					{
+						pTemp2 = strrchr(pTemp, '.');
+						if (pTemp2 != NULL)
+						{
+							char* pArray = sGraphInfo.chGraphName;
+
+							for (char* point = ++pTemp; point != pTemp2; )
+							{
+								*pArray++ = *point++;
+							}
+						}
+						else
+						{
+							strcpy_s(sGraphInfo.chGraphName, ++pTemp);
+						}
+					}
+					else
+					{
+						strcpy_s(sGraphInfo.chGraphName, sGraphInfo.chGraphPath);
+					}
+
+					// add graph id...
+					GenerateGUID(sGraphInfo.chGraphID, sizeof(sGraphInfo.chGraphID));
+
+					// insert data...
+					m_pDBWallpaperGraph.Insert(&sGraphInfo);
+				}
+
+				p += lstrlen(p) + 1;
+			}
+
+			// search data...
+			::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLGRAPH_SEARCH, (WPARAM)0, (LPARAM)0);
+		}
 	}
 
 }
@@ -1533,39 +2108,83 @@ void CFrameMain::OnLButtonClickedLiveWallAddBtn()
 //----------------------------------------------
 void CFrameMain::OnLButtonClickedLiveWallModBtn()
 {
-	// search for all checkbox...
-	if (!m_bWallVideoMod)
+	// select option is video...
+	if (m_pLiveWallVideoOpt->IsSelected())
 	{
-		m_bWallVideoMod = true;
+		// search for all checkbox...
+		if (!m_bWallVideoMod)
+		{
+			m_bWallVideoMod = true;
+		}
+		else
+		{
+			m_bWallVideoMod = false;
+		}
+
+		for (int i = 0; i < m_pLiveWallContextLst->GetCount(); ++i)
+		{
+			CHorizontalLayoutUI* pHorizontal = static_cast<CHorizontalLayoutUI*>(m_pLiveWallContextLst->GetItemAt(i));
+
+			if (pHorizontal != NULL)
+			{
+				CButtonUI* pPlayBtn = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("play")));
+				CButtonUI* pUnChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("unchecked")));
+				CButtonUI* pChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("checked")));
+
+				if (m_bWallVideoMod == true)
+				{
+					pPlayBtn->SetVisible(false);	// do not show play
+					pUnChecked->SetVisible(true);	// show mod checkbox
+					pChecked->SetVisible(false);
+				}
+				else
+				{
+					pPlayBtn->SetVisible(true);		// show play button
+					pUnChecked->SetVisible(false);	// do not show checkbox
+					pChecked->SetVisible(false);
+				}
+			}
+		}
+
 	}
 	else
 	{
-		m_bWallVideoMod = false;
-	}
-
-	for (int i = 0; i < m_pLiveWallContextLst->GetCount(); ++i)
-	{
-		CHorizontalLayoutUI* pHorizontal = static_cast<CHorizontalLayoutUI*>(m_pLiveWallContextLst->GetItemAt(i));
-
-		if (pHorizontal != NULL)
+		// search for all checkbox...
+		if (!m_bWallGraphMod)
 		{
-			CButtonUI* pPlayBtn = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("play")));
-			CButtonUI* pUnChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("unchecked")));
-			CButtonUI* pChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("checked")));
-
-			if (m_bWallVideoMod == true)
-			{
-				pPlayBtn->SetVisible(false);	// do not show play
-				pUnChecked->SetVisible(true);	// show mod checkbox
-				pChecked->SetVisible(false);
-			}
-			else
-			{
-				pPlayBtn->SetVisible(true);		// show play button
-				pUnChecked->SetVisible(false);	// do not show checkbox
-				pChecked->SetVisible(false);
-			}
+			m_bWallGraphMod = true;
 		}
+		else
+		{
+			m_bWallGraphMod = false;
+		}
+
+		for (int i = 0; i < m_pLiveWallContextLst->GetCount(); ++i)
+		{
+			CHorizontalLayoutUI* pHorizontal = static_cast<CHorizontalLayoutUI*>(m_pLiveWallContextLst->GetItemAt(i));
+
+			if (pHorizontal != NULL)
+			{
+				CButtonUI* pPlayBtn = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("play")));
+				CButtonUI* pUnChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("unchecked")));
+				CButtonUI* pChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("checked")));
+
+				if (m_bWallGraphMod == true)
+				{
+					pPlayBtn->SetVisible(false);	// do not show play
+					pUnChecked->SetVisible(true);	// show mod checkbox
+					pChecked->SetVisible(false);
+				}
+				else
+				{
+					pPlayBtn->SetVisible(true);		// show play button
+					pUnChecked->SetVisible(false);	// do not show checkbox
+					pChecked->SetVisible(false);
+				}
+			}
+
+		}
+
 	}
 
 }
@@ -1579,45 +2198,91 @@ void CFrameMain::OnLButtonClickedLiveWallModBtn()
 //----------------------------------------------
 void CFrameMain::OnLButtonClickedLiveWallDelBtn()
 {
-	// if mod now video file, then return...
-	if (!m_bWallVideoMod)
+	// select option is video...
+	if (m_pLiveWallVideoOpt->IsSelected())
 	{
-		return;
-	}
-
-	// delete now video file...
-	for (int i = 0; i < m_pLiveWallContextLst->GetCount(); ++i)
-	{
-		CHorizontalLayoutUI* pHorizontal = static_cast<CHorizontalLayoutUI*>(m_pLiveWallContextLst->GetItemAt(i));
-
-		if (pHorizontal != NULL)
+		// if mod now video file, then return...
+		if (!m_bWallVideoMod)
 		{
-			CButtonUI* pChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("checked")));
-			CTextUI* pVideoName = static_cast<CTextUI*>(pHorizontal->FindSubControl(_T("videoname")));
+			return;
+		}
 
-			if (pChecked->IsVisible() == true)
+		// delete now video file...
+		for (int i = 0; i < m_pLiveWallContextLst->GetCount(); ++i)
+		{
+			CHorizontalLayoutUI* pHorizontal = static_cast<CHorizontalLayoutUI*>(m_pLiveWallContextLst->GetItemAt(i));
+
+			if (pHorizontal != NULL)
 			{
-				CDuiString csText = pVideoName->GetText();
+				CButtonUI* pChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("checked")));
+				CTextUI* pVideoName = static_cast<CTextUI*>(pHorizontal->FindSubControl(_T("videoname")));
 
-				USES_CONVERSION;
-
-				for (auto iter = m_vecWallVideoInfo.begin(); iter != m_vecWallVideoInfo.end(); ++iter)
+				if (pChecked->IsVisible() == true)
 				{
-					if (!strcmp(T2A(csText.GetData()), iter->chVideoName))
+					CDuiString csText = pVideoName->GetText();
+
+					USES_CONVERSION;
+
+					for (auto iter = m_vecWallVideoInfo.begin(); iter != m_vecWallVideoInfo.end(); ++iter)
 					{
-						m_pDBWallpaperVideo.Delete(iter->chVideoPath);
-						break;
+						if (!strcmp(T2A(csText.GetData()), iter->chVideoName))
+						{
+							m_pDBWallpaperVideo.Delete(iter->chVideoPath);
+							break;
+						}
 					}
 				}
 			}
 		}
+
+		// recover flag...
+		m_bWallVideoMod = false;
+
+		// search data...
+		::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_SEARCH, (WPARAM)0, (LPARAM)0);
 	}
+	else
+	{
+		// if mod now graph file, then return...
+		if (!m_bWallGraphMod)
+		{
+			return;
+		}
 
-	// recover flag...
-	m_bWallVideoMod = false;
+		// delete now graph file...
+		for (int i = 0; i < m_pLiveWallContextLst->GetCount(); ++i)
+		{
+			CHorizontalLayoutUI* pHorizontal = static_cast<CHorizontalLayoutUI*>(m_pLiveWallContextLst->GetItemAt(i));
 
-	// search data...
-	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_SEARCH, (WPARAM)0, (LPARAM)0);
+			if (pHorizontal != NULL)
+			{
+				CButtonUI* pChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("checked")));
+				CTextUI* pGraphName = static_cast<CTextUI*>(pHorizontal->FindSubControl(_T("graphname")));
+
+				if (pChecked->IsVisible() == true)
+				{
+					CDuiString csText = pGraphName->GetText();
+
+					USES_CONVERSION;
+
+					for (auto iter = m_vecWallGraphInfo.begin(); iter != m_vecWallGraphInfo.end(); ++iter)
+					{
+						if (!strcmp(T2A(csText.GetData()), iter->chGraphName))
+						{
+							m_pDBWallpaperGraph.Delete(iter->chGraphPath);
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		// recover flag...
+		m_bWallGraphMod = false;
+
+		// search data...
+		::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLGRAPH_SEARCH, (WPARAM)0, (LPARAM)0);
+	}
 
 }
 
@@ -1630,7 +2295,116 @@ void CFrameMain::OnLButtonClickedLiveWallDelBtn()
 //----------------------------------------------
 void CFrameMain::OnLButtonClickedLiveWallSearchBtn()
 {
-	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_SEARCH, (WPARAM)0, (LPARAM)0);
+	// select option is video...
+	if (m_pLiveWallVideoOpt->IsSelected())
+	{
+		::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_SEARCH, (WPARAM)0, (LPARAM)0);
+	}
+	else
+	{
+		::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLGRAPH_SEARCH, (WPARAM)0, (LPARAM)0);
+	}
+	
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveWallPreBtn()
+// @Purpose: CFrameMain单击播放上一次视频壁纸按钮事件响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveWallPreBtn()
+{
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveWallNextBtn()
+// @Purpose: CFrameMain单击播放下一次视频壁纸按钮事件响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveWallNextBtn()
+{
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveWallPlayBtn()
+// @Purpose: CFrameMain单击播放当前视频壁纸按钮事件响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveWallPlayBtn()
+{
+	m_ePlayStates = Pause;
+	ShowLiveWallPlayStates(m_ePlayStates);
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveWallPauseBtn()
+// @Purpose: CFrameMain单击暂停当前视频壁纸按钮事件响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveWallPauseBtn()
+{
+	m_ePlayStates = Play;
+	ShowLiveWallPlayStates(m_ePlayStates);
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveWallRandomBtn()
+// @Purpose: CFrameMain单击随机播放模式按钮事件响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveWallRandomBtn()
+{
+	m_ePlayMode = Loop;
+	ShowLiveWallPlayMode(m_ePlayMode);
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveWallLoopBtn()
+// @Purpose: CFrameMain单击循环播放模式按钮事件响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveWallLoopBtn()
+{
+	m_ePlayMode = Repeat;
+	ShowLiveWallPlayMode(m_ePlayMode);
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveWallRepeatBtn()
+// @Purpose: CFrameMain单击重复播放模式按钮事件响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveWallRepeatBtn()
+{
+	m_ePlayMode = Order;
+	ShowLiveWallPlayMode(m_ePlayMode);
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveWallOrderBtn()
+// @Purpose: CFrameMain单击顺序播放模式按钮事件响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveWallOrderBtn()
+{
+	m_ePlayMode = Random;
+	ShowLiveWallPlayMode(m_ePlayMode);
 }
 
 //----------------------------------------------
@@ -1642,51 +2416,102 @@ void CFrameMain::OnLButtonClickedLiveWallSearchBtn()
 //----------------------------------------------
 void CFrameMain::OnLButtonClickedOtherEvent(CControlUI* pSender)
 {
-	// 查找是否是单击LiveWall视频列表中控件(Mod)...
-	if (m_bWallVideoMod == true)
+	// select option is video...
+	if (m_pLiveWallVideoOpt->IsSelected())
 	{
-		for (int i = 0; i < m_pLiveWallContextLst->GetCount(); ++i)
+		// 查找是否是单击LiveWall视频列表中控件(Mod)...
+		if (m_bWallVideoMod == true)
 		{
-			CHorizontalLayoutUI* pHorizontal = static_cast<CHorizontalLayoutUI*>(m_pLiveWallContextLst->GetItemAt(i));
-
-			if (pHorizontal != NULL)
+			for (int i = 0; i < m_pLiveWallContextLst->GetCount(); ++i)
 			{
-				CButtonUI* pUnChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("unchecked")));
-				CButtonUI* pChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("checked")));
+				CHorizontalLayoutUI* pHorizontal = static_cast<CHorizontalLayoutUI*>(m_pLiveWallContextLst->GetItemAt(i));
 
-				if (pSender == pUnChecked)
+				if (pHorizontal != NULL)
 				{
-					pUnChecked->SetVisible(false);
-					pChecked->SetVisible(true);
+					CButtonUI* pUnChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("unchecked")));
+					CButtonUI* pChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("checked")));
+
+					if (pSender == pUnChecked)
+					{
+						pUnChecked->SetVisible(false);
+						pChecked->SetVisible(true);
+					}
+
+					if (pSender == pChecked)
+					{
+						pUnChecked->SetVisible(true);
+						pChecked->SetVisible(false);
+					}
 				}
+			}
+		}
+		else
+		{
+			for (int i = 0; i < m_pLiveWallContextLst->GetCount(); ++i)
+			{
+				CHorizontalLayoutUI* pHorizontal = static_cast<CHorizontalLayoutUI*>(m_pLiveWallContextLst->GetItemAt(i));
 
-				if (pSender == pChecked)
+				if (pHorizontal != NULL)
 				{
-					pUnChecked->SetVisible(true);
-					pChecked->SetVisible(false);
+					CButtonUI* pPlayBtn = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("play")));		// play buttons for playing video wallpapaer...
+
+					if (pSender == pPlayBtn)
+					{
+						RecordVideoConfigFile(&m_vecWallVideoInfo.at(i));	// record video config file...
+						ReStartProcess("LiveWallpaperCore.exe");
+						//Sleep(1);
+					}
 				}
 			}
 		}
 	}
 	else
 	{
-		for (int i = 0; i < m_pLiveWallContextLst->GetCount(); ++i)
+		// 查找是否是单击LiveWall视频列表中控件(Mod)...
+		if (m_bWallGraphMod == true)
 		{
-			CHorizontalLayoutUI* pHorizontal = static_cast<CHorizontalLayoutUI*>(m_pLiveWallContextLst->GetItemAt(i));
-
-			if (pHorizontal != NULL)
+			for (int i = 0; i < m_pLiveWallContextLst->GetCount(); ++i)
 			{
-				CButtonUI* pPlayBtn = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("play")));		// play buttons for playing video wallpapaer...
+				CHorizontalLayoutUI* pHorizontal = static_cast<CHorizontalLayoutUI*>(m_pLiveWallContextLst->GetItemAt(i));
 
-				if (pSender == pPlayBtn)
+				if (pHorizontal != NULL)
 				{
-					RecordVideoConfigFile(&m_vecWallVideoInfo.at(i));	// record video config file...
-					ReStartProcess("LiveWallpaperCore.exe");
-					//Sleep(1);
+					CButtonUI* pUnChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("unchecked")));
+					CButtonUI* pChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("checked")));
+
+					if (pSender == pUnChecked)
+					{
+						pUnChecked->SetVisible(false);
+						pChecked->SetVisible(true);
+					}
+
+					if (pSender == pChecked)
+					{
+						pUnChecked->SetVisible(true);
+						pChecked->SetVisible(false);
+					}
+				}
+			}
+		}
+		else
+		{
+			for (int i = 0; i < m_pLiveWallContextLst->GetCount(); ++i)
+			{
+				CHorizontalLayoutUI* pHorizontal = static_cast<CHorizontalLayoutUI*>(m_pLiveWallContextLst->GetItemAt(i));
+
+				if (pHorizontal != NULL)
+				{
+					CButtonUI* pPlayBtn = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("play")));		// play buttons for playing video wallpapaer...
+
+					if (pSender == pPlayBtn)
+					{
+						//RecordVideoConfigFile(&m_vecWallVideoInfo.at(i));	// record video config file...
+						//ReStartProcess("LiveWallpaperCore.exe");
+						//Sleep(1);
+					}
 				}
 			}
 		}
 	}
-
 
 }

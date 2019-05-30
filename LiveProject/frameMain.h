@@ -71,25 +71,46 @@ public:
 	CEditUI * m_pLiveWallSearchEdt;			// LiveWall 查询栏
 	CButtonUI * m_pLiveWallSearchBtn;		// LiveWall 查询按钮
 	CTileLayoutUI * m_pLiveWallContextLst;	// LiveWall 内容列表
+	CButtonUI * m_pLiveWallPreBtn;			// LiveWall 上一次按钮
+	CButtonUI * m_pLiveWallNextBtn;			// LiveWall 下一次按钮
+	CButtonUI * m_pLiveWallPlayBtn;			// LiveWall 播放按钮
+	CButtonUI * m_pLiveWallPauseBtn;		// LiveWall 暂停按钮
+	//CButtonUI * m_pLiveWallStopBtn;			// LiveWall 停止按钮
+	CButtonUI * m_pLiveWallRandomBtn;		// LiveWall 随机播放按钮
+	CButtonUI * m_pLiveWallLoopBtn;			// LiveWall 循环播放按钮
+	CButtonUI * m_pLiveWallRepeatBtn;		// LiveWall 重复播放按钮
+	CButtonUI * m_pLiveWallOrderBtn;		// LiveWall 顺序播放按钮
 
 private:
 	HMENU m_hMenu;					// LiveProject 菜单栏小图标句柄
 	NOTIFYICONDATA m_nid;			// LiveProject 菜单栏小图标参数
 
-	bool m_bWallVideoMod;			// LiveWall 修改按钮单击状态(默认false)
+	bool m_bWallVideoMod;			// LiveWall 修改按钮单击状态(视频)(默认false)
+	bool m_bWallGraphMod;			// LiveWall 修改按钮单击状态(图形)(默认false)
+
+	E_WALLPLAYSTATES	m_ePlayStates;		// LiveWall 播放状态
+	E_WALLPLAYMODE		m_ePlayMode;		// LiveWall 播放模式
 
 public:
 	CDBWallpaperVideo m_pDBWallpaperVideo;
+	CDBWallpaperGraph m_pDBWallpaperGraph;
 	vector<S_WALLVIDEO> m_vecWallVideoInfo;
+	vector<S_WALLGRAPH> m_vecWallGraphInfo;
 
 protected:
 	void AddOnceVideoContext(S_WALLVIDEO* pVideoInfo);			// LiveProject 添加一个墙纸内容
 	void AddOnceVideoShotCut(S_WALLVIDEO* pVideoInfo);			// LiveProject 添加一个视频快照
 	void PlayOnceVideoContext(S_WALLVIDEO* pVideoInfo);			// LiveProject 播放一个墙纸内容
 	void StopOnceVideoContext();								// LiveProject 停止一个墙纸内容
+	void AddOnceGraphContext(S_WALLGRAPH* pGraphInfo);			// LiveProject 添加一个图形内容
+	void AddOnceGraphShotcut(S_WALLGRAPH* pGraphInfo);			// LiveProject 添加一个图形快照
+	void PlayOnceGraphContext(S_WALLGRAPH* pGraphInfo);			// LiveProject 播放一个图形内容
+	void StopOnceGraphContext();								// LiveProject 停止一个图形内容
 	void GenerateGUID(char* chGUID, size_t nSize);				// LiveProject 生成GUID
 	BOOL ReStartProcess(const char* pStrArr);					// LiveProject 进程ReStart
 	void RecordVideoConfigFile(S_WALLVIDEO* pVideoInfo);		// LiveProject 记录墙纸配置文件
+	void ShowLiveWallPlayStates(E_WALLPLAYSTATES ePlayStates);	// LiveProject 播放状态按钮图形显示
+	void ShowLiveWallPlayMode(E_WALLPLAYMODE ePlayMode);		// LiveProject 播放模式按钮图形显示
 
 public:
 	CPaintManagerUI & GetPaintManager();
@@ -109,13 +130,20 @@ public:
 	LRESULT OnUserMessageWallVideoSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 	LRESULT OnUserMessageWallVideoAddItem(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 	LRESULT OnUserMessageWallVideoAddShot(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+	LRESULT	OnUserMessageWallGraphInsert(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+	LRESULT OnUserMessageWallGraphDelete(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+	LRESULT OnUserMessageWallGraphSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+	LRESULT OnUserMessageWallGraphAddItem(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+	LRESULT OnUserMessageWallGraphAddShot(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 
 public:
 	static DWORD CALLBACK OnGetWallVideoShotProcess(LPVOID lpParameter);							// LiveProject 获取视频壁纸快照进程(1st帧)
 
 public:
 	static DWORD CALLBACK OnSearchWallVideoProcess(LPVOID lpParameter);
+	static DWORD CALLBACK OnSearchWallGraphProcess(LPVOID lpParameter);
 	static int OnSearchWallVideoCallback(void *data, int argc, char **argv, char **azColName);
+	static int OnSearchWallGraphCallback(void* data, int argc, char** argv, char** azColName);
 
 public:
 	void OnLButtonClickedOverBtn();					// LiveProject 单击置顶按钮事件响应
@@ -125,10 +153,22 @@ public:
 	void OnLButtonClickedRestoreBtn();				// LiveProject 单击还原按钮事件响应
 	void OnLButtonClickedCloseBtn();				// LiveProject 单击关闭按钮事件响应
 
+	void OnLButtonClickedLiveWallVideoOption();		// LiveProject 单机视频壁纸视频选项卡
+	void OnLButtonClickedLiveWallGraphOption();		// LiveProject 单击视频壁纸图形选项卡
+
 	void OnLButtonClickedLiveWallAddBtn();			// LiveWallpaper 单击添加视频壁纸按钮事件响应
 	void OnLButtonClickedLiveWallModBtn();			// LiveWallpaper 单击修改视频壁纸按钮事件响应
 	void OnLButtonClickedLiveWallDelBtn();			// LiveWallpaper 单击删除视频壁纸按钮事件响应
 	void OnLButtonClickedLiveWallSearchBtn();		// LiveWallpaper 单击查询视频壁纸按钮事件响应
+
+	void OnLButtonClickedLiveWallPreBtn();			// LiveWallpaper 单击播放上一次视频壁纸按钮事件响应
+	void OnLButtonClickedLiveWallNextBtn();			// LiveWallpaper 单击播放下一次视频壁纸按钮事件响应
+	void OnLButtonClickedLiveWallPlayBtn();			// LiveWallpaper 单击播放当前视频壁纸按钮事件响应
+	void OnLButtonClickedLiveWallPauseBtn();		// LiveWallpaper 单击暂停当前视频壁纸按钮事件响应
+	void OnLButtonClickedLiveWallRandomBtn();		// LiveWallpaper 单击随机播放模式按钮事件响应
+	void OnLButtonClickedLiveWallLoopBtn();			// LiveWallpaper 单击循环播放模式按钮事件响应
+	void OnLButtonClickedLiveWallRepeatBtn();		// LiveWallpaper 单击重复播放模式按钮事件响应
+	void OnLButtonClickedLiveWallOrderBtn();		// LiveWallpaper 单击顺序播放模式按钮事件响应
 
 	void OnLButtonClickedOtherEvent(CControlUI*);	// LiveProject 单击事件响应(其他事件)...
 };
