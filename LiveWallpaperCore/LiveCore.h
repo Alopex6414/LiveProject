@@ -57,6 +57,8 @@ public:
 	char m_chLiveCoreVideoName[MAX_PATH];			// LiveCore 动态壁纸默认视频名称
 	char m_chLiveCoreVideoAddress[MAX_PATH];		// LiveCore 动态壁纸视频地址
 
+	int m_nLiveProjectWindowHandle;					// LiveCore LiveProject窗口句柄
+
 protected:
 	CLiveCoreThread g_cLiveCoreThread;
 	CPlumThread* g_pPlumThread;
@@ -85,6 +87,7 @@ public:
 
 protected:
 	void	AnalyzeConfigFile();																						// CLiveCore 分析配置文件
+	void	AnalyzeConfigFile2();																						// CLiveCore 分析配置文件2
 	void	RecordConfigFile();																							// CLiveCore 记录配置文件
 	void	SetChildWindow(HWND);																						// CLiveCore 设置桌面子窗口
 	BOOL	AnalyzeVideoInfo(HWND hWnd, const char* pVideoPath, int* pWidth, int* pHeight, int* pFreq);					// CLiveCore 分析视频信息

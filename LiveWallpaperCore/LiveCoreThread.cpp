@@ -255,6 +255,8 @@ void __stdcall CLiveCoreThread::PlumThreadRun()
 			break;
 		}
 
+		::PostMessageA((HWND)(g_pLiveCore->m_nLiveProjectWindowHandle), WM_USER + 2, (WPARAM)0, (LPARAM)0);
+
 		avcodec_flush_buffers(pFormatCtx->streams[VideoIndex]->codec);
 	}
 

@@ -240,6 +240,9 @@ LRESULT CFrameMain::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_USER_MESSAGE_MENU:
 		lRes = OnUserMessageMenu(uMsg, wParam, lParam, bHandled);
 		break;
+	case WM_USER_MESSAGE_WALLVIDEO_RESTART:
+		lRes = OnUserMessageWallVideoReStart(uMsg, wParam, lParam, bHandled);
+		break;
 	case WM_USER_MESSAGE_WALLVIDEO_INSERT:
 		lRes = OnUserMessageWallVideoInsert(uMsg, wParam, lParam, bHandled);
 		break;
@@ -1005,6 +1008,9 @@ void CFrameMain::ConstructExtra()
 
 	m_ePlayStates = Play;
 	m_ePlayMode = Random;
+	m_nPlayNo = 0;
+
+	::srand((unsigned int)time(NULL));
 }
 
 //----------------------------------------------
@@ -1204,6 +1210,61 @@ LRESULT CFrameMain::OnUserMessageMenu(UINT uMsg, WPARAM wParam, LPARAM lParam, B
 		break;
 	}
 
+	return 0;
+}
+
+//-----------------------------------------------------------------------
+// @Function:	OnUserMessageWallVideoReStart()
+// @Purpose: CFrameMain¹Ø±ÕWallVideoÏûÏ¢(LiveWallpaperCore -> LiveProjec)
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------------------------
+LRESULT CFrameMain::OnUserMessageWallVideoReStart(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	int nSize = 0;
+	int number = 0;
+
+	nSize = m_vecWallVideoInfo.size();
+	if (nSize == 0)
+	{
+		return -1;
+	}
+
+	switch (m_ePlayMode)
+	{
+	case Random:
+	{
+		number = rand() % nSize;
+		RecordVideoConfigFile(&m_vecWallVideoInfo.at(number));
+		break;
+	}
+	case Loop:
+	{
+		number = m_nPlayNo + 1;
+		if (number >= nSize)
+		{
+			number = 0;
+		}
+		m_nPlayNo = number;
+		RecordVideoConfigFile(&m_vecWallVideoInfo.at(number));
+		break;
+	}
+	case Repeat:
+	{
+		number = m_nPlayNo;
+		RecordVideoConfigFile(&m_vecWallVideoInfo.at(number));
+		break;
+	}
+	case Order:
+	{
+		break;
+	}
+	default:
+		break;
+	}
+
+	ReStartProcess("LiveWallpaperCore.exe");
 	return 0;
 }
 
@@ -2499,6 +2560,7 @@ void CFrameMain::OnLButtonClickedOtherEvent(CControlUI* pSender)
 
 					if (pSender == pPlayBtn)
 					{
+						m_nPlayNo = i;
 						RecordVideoConfigFile(&m_vecWallVideoInfo.at(i));	// record video config file...
 						ReStartProcess("LiveWallpaperCore.exe");
 						//Sleep(1);
