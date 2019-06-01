@@ -310,6 +310,7 @@ LRESULT CFrameMain::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHa
 	m_PaintManager.AddNotifier(this);   // 添加控件等消息响应，这样消息就会传达到duilib的消息循环，我们可以在Notify函数里做消息处理
 
 	ConstructExtra();
+	RecordConfigFile();
 	InitMenuShow();
 	InitWindowSharp();
 	InitControls();
@@ -1119,6 +1120,47 @@ void CFrameMain::InitDataBase()
 void CFrameMain::InitSearch()
 {
 	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_SEARCH, (WPARAM)0, (LPARAM)0);
+}
+
+//----------------------------------------------
+// @Function:	AnalyzeConfigFile()
+// @Purpose: CFrameMain分析配置文件
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::AnalyzeConfigFile()
+{
+}
+
+//----------------------------------------------
+// @Function:	RecordConfigFile()
+// @Purpose: CFrameMain记录配置文件
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::RecordConfigFile()
+{
+	char chFile[MAX_PATH] = { 0 };
+	char* pTemp = NULL;
+
+	// analyze file path...
+	CPlumFile* pFile = new CPlumFile();
+	pFile->PlumFileGetModuleFileNameA(chFile, MAX_PATH);
+
+	pTemp = strrchr(chFile, '\\');
+	if (pTemp)* pTemp = '\0';
+	strcat_s(chFile, "\\config\\LiveProject.cfg");
+
+	// record window handle...
+	char chArrValue[MAX_PATH] = { 0 };
+	memset(chArrValue, 0, MAX_PATH);
+	itoa((int)(this->GetHWND()), chArrValue, 10);
+	WritePrivateProfileStringA("LIVEPROJECTWINDOW", "LiveProject_Window_Handle", chArrValue, chFile);
+
+	// safe delete object...
+	SAFE_DELETE(pFile);
 }
 
 //----------------------------------------------

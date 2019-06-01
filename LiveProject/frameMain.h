@@ -123,6 +123,9 @@ public:
 	void InitDataBase();			// LiveProject 初始化数据库(sqlite3)
 	void InitSearch();				// LiveProject 初始化查询
 
+	void AnalyzeConfigFile();		// LiveProject 分析配置文件
+	void RecordConfigFile();		// LiveProject 记录配置文件
+
 public:
 	LRESULT OnUserMessageMenu(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 	LRESULT OnUserMessageWallVideoInsert(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
