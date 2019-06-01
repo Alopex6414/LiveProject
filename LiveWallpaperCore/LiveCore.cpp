@@ -55,6 +55,7 @@ CLiveCore::CLiveCore() :
 	m_nLiveCoreWallpaperMode(0),
 	m_nLiveCoreWallpaperAudioMode(0),
 	m_nLiveCoreLogProcess(0),
+	m_nLiveCorePlayMode(0),
 	m_nLiveCoreVideoMode(0)
 {
 	g_pPlumThread = nullptr;
