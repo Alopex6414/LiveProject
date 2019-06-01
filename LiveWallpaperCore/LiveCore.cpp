@@ -569,6 +569,11 @@ void CLiveCore::AnalyzeConfigFile()
 	m_nLiveCoreLogProcess = nValue;																						// LiveCore日志记录: 0~不记录过程 1~记录过程
 
 	memset(chArray, 0, MAX_PATH);
+	GetPrivateProfileStringA("LIVECOREPLAYMODE", "LiveCore_Play_Mode", 0, chArray, MAX_PATH, chFile);
+	nValue = atoi(chArray);
+	m_nLiveCorePlayMode = nValue;																						// LiveCore播放模式: 0~随机播放 1~列表循环 2~单曲循环 3~顺序播放
+
+	memset(chArray, 0, MAX_PATH);
 	GetPrivateProfileStringA("LIVECOREVIDEOADDRESS", "LiveCore_Video_Mode", 0, chArray, MAX_PATH, chFile);
 	nValue = atoi(chArray);
 	m_nLiveCoreVideoMode = nValue;																						// LiveCore动态壁纸视频模式: 0~启用默认视频 1~启用选择视频
