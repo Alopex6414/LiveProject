@@ -1241,13 +1241,26 @@ LRESULT CFrameMain::OnUserMessageWallVideoReStart(UINT uMsg, WPARAM wParam, LPAR
 	}
 	case Loop:
 	{
-		number = m_nPlayNo + 1;
-		if (number >= nSize)
+		if (wParam == 1)
 		{
-			number = 0;
+			number = m_nPlayNo - 1;
+			if (number < 0)
+			{
+				number = nSize - 1;
+			}
+			m_nPlayNo = number;
+			RecordVideoConfigFile(&m_vecWallVideoInfo.at(number));
 		}
-		m_nPlayNo = number;
-		RecordVideoConfigFile(&m_vecWallVideoInfo.at(number));
+		else
+		{
+			number = m_nPlayNo + 1;
+			if (number >= nSize)
+			{
+				number = 0;
+			}
+			m_nPlayNo = number;
+			RecordVideoConfigFile(&m_vecWallVideoInfo.at(number));
+		}
 		break;
 	}
 	case Repeat:
@@ -1258,6 +1271,32 @@ LRESULT CFrameMain::OnUserMessageWallVideoReStart(UINT uMsg, WPARAM wParam, LPAR
 	}
 	case Order:
 	{
+		if (wParam == 1)
+		{
+			number = m_nPlayNo - 1;
+			if (number < 0)
+			{
+				number = 0;
+				m_nPlayNo = number;
+				RecordVideoConfigFile(&m_vecWallVideoInfo.at(number));
+				goto EXIT;
+			}
+			m_nPlayNo = number;
+			RecordVideoConfigFile(&m_vecWallVideoInfo.at(number));
+		}
+		else
+		{
+			number = m_nPlayNo + 1;
+			if (number >= nSize)
+			{
+				number = nSize - 1;
+				m_nPlayNo = number;
+				RecordVideoConfigFile(&m_vecWallVideoInfo.at(number));
+				goto EXIT;
+			}
+			m_nPlayNo = number;
+			RecordVideoConfigFile(&m_vecWallVideoInfo.at(number));
+		}
 		break;
 	}
 	default:
@@ -1265,6 +1304,8 @@ LRESULT CFrameMain::OnUserMessageWallVideoReStart(UINT uMsg, WPARAM wParam, LPAR
 	}
 
 	ReStartProcess("LiveWallpaperCore.exe");
+
+EXIT:
 	return 0;
 }
 
@@ -2419,6 +2460,8 @@ void CFrameMain::OnLButtonClickedLiveWallSearchBtn()
 //-----------------------------------------------------
 void CFrameMain::OnLButtonClickedLiveWallPreBtn()
 {
+	// the last frame...
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_RESTART, (WPARAM)1, (LPARAM)0);
 }
 
 //-----------------------------------------------------
@@ -2430,6 +2473,8 @@ void CFrameMain::OnLButtonClickedLiveWallPreBtn()
 //-----------------------------------------------------
 void CFrameMain::OnLButtonClickedLiveWallNextBtn()
 {
+	// the next frame...
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_RESTART, (WPARAM)0, (LPARAM)0);
 }
 
 //-----------------------------------------------------
@@ -2441,6 +2486,13 @@ void CFrameMain::OnLButtonClickedLiveWallNextBtn()
 //-----------------------------------------------------
 void CFrameMain::OnLButtonClickedLiveWallPlayBtn()
 {
+	if (m_vecWallVideoInfo.size() > 0)
+	{
+		m_nPlayNo = 0;
+		RecordVideoConfigFile(&m_vecWallVideoInfo.at(0));	// record video config file...
+		ReStartProcess("LiveWallpaperCore.exe");
+	}
+
 	m_ePlayStates = Pause;
 	ShowLiveWallPlayStates(m_ePlayStates);
 }
@@ -2454,6 +2506,12 @@ void CFrameMain::OnLButtonClickedLiveWallPlayBtn()
 //-----------------------------------------------------
 void CFrameMain::OnLButtonClickedLiveWallPauseBtn()
 {
+	if (m_vecWallVideoInfo.size() > 0)
+	{
+		m_nPlayNo = 0;
+		RecordVideoConfigFile(&m_vecWallVideoInfo.at(0));	// record video config file...
+	}
+
 	m_ePlayStates = Play;
 	ShowLiveWallPlayStates(m_ePlayStates);
 }
