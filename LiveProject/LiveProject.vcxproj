@@ -426,6 +426,7 @@
     <ClInclude Include="frameSpace.h" />
     <ClInclude Include="frameVideo.h" />
     <ClInclude Include="frameWallpaper.h" />
+    <ClInclude Include="func.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="types.h" />
     <ClInclude Include="WinMain.h" />
@@ -448,6 +449,7 @@
     <ClCompile Include="frameSpace.cpp" />
     <ClCompile Include="frameVideo.cpp" />
     <ClCompile Include="frameWallpaper.cpp" />
+    <ClCompile Include="func.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>

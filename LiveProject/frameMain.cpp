@@ -240,6 +240,9 @@ LRESULT CFrameMain::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_USER_MESSAGE_MENU:
 		lRes = OnUserMessageMenu(uMsg, wParam, lParam, bHandled);
 		break;
+	case WM_USER_MESSAGE_WALLVIDEO_RESTART:
+		lRes = OnUserMessageWallVideoReStart(uMsg, wParam, lParam, bHandled);
+		break;
 	case WM_USER_MESSAGE_WALLVIDEO_INSERT:
 		lRes = OnUserMessageWallVideoInsert(uMsg, wParam, lParam, bHandled);
 		break;
@@ -310,6 +313,7 @@ LRESULT CFrameMain::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHa
 	m_PaintManager.AddNotifier(this);   // 添加控件等消息响应，这样消息就会传达到duilib的消息循环，我们可以在Notify函数里做消息处理
 
 	ConstructExtra();
+	RecordConfigFile();
 	InitMenuShow();
 	InitWindowSharp();
 	InitControls();
@@ -1004,6 +1008,9 @@ void CFrameMain::ConstructExtra()
 
 	m_ePlayStates = Play;
 	m_ePlayMode = Random;
+	m_nPlayNo = 0;
+
+	::srand((unsigned int)time(NULL));
 }
 
 //----------------------------------------------
@@ -1122,6 +1129,47 @@ void CFrameMain::InitSearch()
 }
 
 //----------------------------------------------
+// @Function:	AnalyzeConfigFile()
+// @Purpose: CFrameMain分析配置文件
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::AnalyzeConfigFile()
+{
+}
+
+//----------------------------------------------
+// @Function:	RecordConfigFile()
+// @Purpose: CFrameMain记录配置文件
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+void CFrameMain::RecordConfigFile()
+{
+	char chFile[MAX_PATH] = { 0 };
+	char* pTemp = NULL;
+
+	// analyze file path...
+	CPlumFile* pFile = new CPlumFile();
+	pFile->PlumFileGetModuleFileNameA(chFile, MAX_PATH);
+
+	pTemp = strrchr(chFile, '\\');
+	if (pTemp)* pTemp = '\0';
+	strcat_s(chFile, "\\config\\LiveProject.cfg");
+
+	// record window handle...
+	char chArrValue[MAX_PATH] = { 0 };
+	memset(chArrValue, 0, MAX_PATH);
+	itoa((int)(this->GetHWND()), chArrValue, 10);
+	WritePrivateProfileStringA("LIVEPROJECTWINDOW", "LiveProject_Window_Handle", chArrValue, chFile);
+
+	// safe delete object...
+	SAFE_DELETE(pFile);
+}
+
+//----------------------------------------------
 // @Function:	OnUserMessageMenu()
 // @Purpose: CFrameMain菜单栏用户消息
 // @Since: v1.00a
@@ -1162,6 +1210,102 @@ LRESULT CFrameMain::OnUserMessageMenu(UINT uMsg, WPARAM wParam, LPARAM lParam, B
 		break;
 	}
 
+	return 0;
+}
+
+//-----------------------------------------------------------------------
+// @Function:	OnUserMessageWallVideoReStart()
+// @Purpose: CFrameMain关闭WallVideo消息(LiveWallpaperCore -> LiveProjec)
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------------------------
+LRESULT CFrameMain::OnUserMessageWallVideoReStart(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	int nSize = 0;
+	int number = 0;
+
+	nSize = m_vecWallVideoInfo.size();
+	if (nSize == 0)
+	{
+		return -1;
+	}
+
+	switch (m_ePlayMode)
+	{
+	case Random:
+	{
+		number = rand() % nSize;
+		RecordVideoConfigFile(&m_vecWallVideoInfo.at(number));
+		break;
+	}
+	case Loop:
+	{
+		if (wParam == 1)
+		{
+			number = m_nPlayNo - 1;
+			if (number < 0)
+			{
+				number = nSize - 1;
+			}
+			m_nPlayNo = number;
+			RecordVideoConfigFile(&m_vecWallVideoInfo.at(number));
+		}
+		else
+		{
+			number = m_nPlayNo + 1;
+			if (number >= nSize)
+			{
+				number = 0;
+			}
+			m_nPlayNo = number;
+			RecordVideoConfigFile(&m_vecWallVideoInfo.at(number));
+		}
+		break;
+	}
+	case Repeat:
+	{
+		number = m_nPlayNo;
+		RecordVideoConfigFile(&m_vecWallVideoInfo.at(number));
+		break;
+	}
+	case Order:
+	{
+		if (wParam == 1)
+		{
+			number = m_nPlayNo - 1;
+			if (number < 0)
+			{
+				number = 0;
+				m_nPlayNo = number;
+				RecordVideoConfigFile(&m_vecWallVideoInfo.at(number));
+				goto EXIT;
+			}
+			m_nPlayNo = number;
+			RecordVideoConfigFile(&m_vecWallVideoInfo.at(number));
+		}
+		else
+		{
+			number = m_nPlayNo + 1;
+			if (number >= nSize)
+			{
+				number = nSize - 1;
+				m_nPlayNo = number;
+				RecordVideoConfigFile(&m_vecWallVideoInfo.at(number));
+				goto EXIT;
+			}
+			m_nPlayNo = number;
+			RecordVideoConfigFile(&m_vecWallVideoInfo.at(number));
+		}
+		break;
+	}
+	default:
+		break;
+	}
+
+	ReStartProcess("LiveWallpaperCore.exe");
+
+EXIT:
 	return 0;
 }
 
@@ -2316,6 +2460,8 @@ void CFrameMain::OnLButtonClickedLiveWallSearchBtn()
 //-----------------------------------------------------
 void CFrameMain::OnLButtonClickedLiveWallPreBtn()
 {
+	// the last frame...
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_RESTART, (WPARAM)1, (LPARAM)0);
 }
 
 //-----------------------------------------------------
@@ -2327,6 +2473,8 @@ void CFrameMain::OnLButtonClickedLiveWallPreBtn()
 //-----------------------------------------------------
 void CFrameMain::OnLButtonClickedLiveWallNextBtn()
 {
+	// the next frame...
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_WALLVIDEO_RESTART, (WPARAM)0, (LPARAM)0);
 }
 
 //-----------------------------------------------------
@@ -2338,6 +2486,13 @@ void CFrameMain::OnLButtonClickedLiveWallNextBtn()
 //-----------------------------------------------------
 void CFrameMain::OnLButtonClickedLiveWallPlayBtn()
 {
+	if (m_vecWallVideoInfo.size() > 0)
+	{
+		m_nPlayNo = 0;
+		RecordVideoConfigFile(&m_vecWallVideoInfo.at(0));	// record video config file...
+		ReStartProcess("LiveWallpaperCore.exe");
+	}
+
 	m_ePlayStates = Pause;
 	ShowLiveWallPlayStates(m_ePlayStates);
 }
@@ -2351,6 +2506,12 @@ void CFrameMain::OnLButtonClickedLiveWallPlayBtn()
 //-----------------------------------------------------
 void CFrameMain::OnLButtonClickedLiveWallPauseBtn()
 {
+	if (m_vecWallVideoInfo.size() > 0)
+	{
+		m_nPlayNo = 0;
+		RecordVideoConfigFile(&m_vecWallVideoInfo.at(0));	// record video config file...
+	}
+
 	m_ePlayStates = Play;
 	ShowLiveWallPlayStates(m_ePlayStates);
 }
@@ -2457,6 +2618,7 @@ void CFrameMain::OnLButtonClickedOtherEvent(CControlUI* pSender)
 
 					if (pSender == pPlayBtn)
 					{
+						m_nPlayNo = i;
 						RecordVideoConfigFile(&m_vecWallVideoInfo.at(i));	// record video config file...
 						ReStartProcess("LiveWallpaperCore.exe");
 						//Sleep(1);

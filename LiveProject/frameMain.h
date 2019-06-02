@@ -90,6 +90,7 @@ private:
 
 	E_WALLPLAYSTATES	m_ePlayStates;		// LiveWall 播放状态
 	E_WALLPLAYMODE		m_ePlayMode;		// LiveWall 播放模式
+	int	m_nPlayNo;							// LiveWall 播放序号
 
 public:
 	CDBWallpaperVideo m_pDBWallpaperVideo;
@@ -123,8 +124,12 @@ public:
 	void InitDataBase();			// LiveProject 初始化数据库(sqlite3)
 	void InitSearch();				// LiveProject 初始化查询
 
+	void AnalyzeConfigFile();		// LiveProject 分析配置文件
+	void RecordConfigFile();		// LiveProject 记录配置文件
+
 public:
 	LRESULT OnUserMessageMenu(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+	LRESULT OnUserMessageWallVideoReStart(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 	LRESULT OnUserMessageWallVideoInsert(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 	LRESULT OnUserMessageWallVideoDelete(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 	LRESULT OnUserMessageWallVideoSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);

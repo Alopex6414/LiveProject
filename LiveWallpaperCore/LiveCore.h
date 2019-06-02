@@ -52,9 +52,12 @@ public:
 	int m_nLiveCoreWallpaperMode;					// LiveCore 屏幕分辨率模式: 0~填充 1~适应 2~拉伸 3~平铺 4~居中
 	int m_nLiveCoreWallpaperAudioMode;				// LiveCore 音频播放模式: 0~不播放音频 1~播放音频
 	int m_nLiveCoreLogProcess;						// LiveCore 日志记录: 0~不记录过程 1~记录过程
+	int m_nLiveCorePlayMode;						// LiveCore 播放模式: 0~随机播放 1~列表循环 2~单曲循环 3~顺序播放
 	int m_nLiveCoreVideoMode;						// LiveCore 动态壁纸视频模式: 0~启用默认视频 1~启用选择视频
 	char m_chLiveCoreVideoName[MAX_PATH];			// LiveCore 动态壁纸默认视频名称
 	char m_chLiveCoreVideoAddress[MAX_PATH];		// LiveCore 动态壁纸视频地址
+
+	int m_nLiveProjectWindowHandle;					// LiveCore LiveProject窗口句柄
 
 protected:
 	CLiveCoreThread g_cLiveCoreThread;
@@ -84,6 +87,7 @@ public:
 
 protected:
 	void	AnalyzeConfigFile();																						// CLiveCore 分析配置文件
+	void	AnalyzeConfigFile2();																						// CLiveCore 分析配置文件2
 	void	RecordConfigFile();																							// CLiveCore 记录配置文件
 	void	SetChildWindow(HWND);																						// CLiveCore 设置桌面子窗口
 	BOOL	AnalyzeVideoInfo(HWND hWnd, const char* pVideoPath, int* pWidth, int* pHeight, int* pFreq);					// CLiveCore 分析视频信息

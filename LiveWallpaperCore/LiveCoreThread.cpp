@@ -57,6 +57,7 @@ void __stdcall CLiveCoreThread::PlumThreadRun()
 	AVFrame* pFrameYUV;
 
 	av_register_all();//注册所有组件
+	avformat_network_init();//初始化网络播放
 	pFormatCtx = avformat_alloc_context();//初始化一个AVFormatContext
 
 	//打开输入的视频文件
@@ -253,6 +254,8 @@ void __stdcall CLiveCoreThread::PlumThreadRun()
 		{
 			break;
 		}
+
+		::PostMessageA((HWND)(g_pLiveCore->m_nLiveProjectWindowHandle), WM_USER + 2, (WPARAM)0, (LPARAM)0);
 
 		avcodec_flush_buffers(pFormatCtx->streams[VideoIndex]->codec);
 	}

@@ -963,6 +963,9 @@
     <ClInclude Include="..\Cerasus\Inc\DXUIWindow.h">
       <Filter>Cerasus</Filter>
     </ClInclude>
+    <ClInclude Include="func.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LiveProject.rc">
@@ -1013,6 +1016,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="dbWallpaperGraph.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="func.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

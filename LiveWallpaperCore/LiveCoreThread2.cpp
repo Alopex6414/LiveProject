@@ -67,6 +67,7 @@ void __stdcall CLiveCoreThread2::PlumThreadRun()
 	int				index = 0;
 
 	av_register_all();//注册所有组件
+	avformat_network_init();//初始化网络播放
 	pFormatCtx = avformat_alloc_context();//初始化一个AVFormatContext
 
 	//打开输入的视频文件

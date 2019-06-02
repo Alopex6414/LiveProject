@@ -10,6 +10,7 @@
 * @date		2019-01-19
 */
 #include "WinMain.h"
+#include "func.h"
 
 /*
 ** WinMain(IN HINSTANCE hInstance, IN HINSTANCE hPrevInstance, IN LPSTR lpCmdLine, IN int nCmdShow)
@@ -31,6 +32,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCm
 	{
 		if (ERROR_ALREADY_EXISTS == GetLastError())
 		{
+			LiveProjectShowWindow();
 			return -1;
 		}
 	}
