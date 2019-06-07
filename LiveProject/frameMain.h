@@ -80,6 +80,7 @@ public:
 	CButtonUI * m_pLiveWallLoopBtn;			// LiveWall 循环播放按钮
 	CButtonUI * m_pLiveWallRepeatBtn;		// LiveWall 重复播放按钮
 	CButtonUI * m_pLiveWallOrderBtn;		// LiveWall 顺序播放按钮
+	CButtonUI * m_pLiveWallControlBtn;		// LiveWall 控制选项按钮
 
 private:
 	HMENU m_hMenu;					// LiveProject 菜单栏小图标句柄
@@ -87,6 +88,7 @@ private:
 
 	bool m_bWallVideoMod;			// LiveWall 修改按钮单击状态(视频)(默认false)
 	bool m_bWallGraphMod;			// LiveWall 修改按钮单击状态(图形)(默认false)
+	bool m_bWallShowControl;		// LiveWall 是否显示控制选项按钮(默认false)
 
 	E_WALLPLAYSTATES	m_ePlayStates;		// LiveWall 播放状态
 	E_WALLPLAYMODE		m_ePlayMode;		// LiveWall 播放模式
@@ -174,6 +176,7 @@ public:
 	void OnLButtonClickedLiveWallLoopBtn();			// LiveWallpaper 单击循环播放模式按钮事件响应
 	void OnLButtonClickedLiveWallRepeatBtn();		// LiveWallpaper 单击重复播放模式按钮事件响应
 	void OnLButtonClickedLiveWallOrderBtn();		// LiveWallpaper 单击顺序播放模式按钮事件响应
+	void OnLButtonClickedLiveWallControlBtn();		// LiveWallpaper 单击控制按钮模式按钮事件响应
 
 	void OnLButtonClickedOtherEvent(CControlUI*);	// LiveProject 单击事件响应(其他事件)...
 };

@@ -123,6 +123,10 @@ void CFrameMain::Notify(TNotifyUI & msg)
 		{
 			OnLButtonClickedLiveWallOrderBtn();
 		}
+		else if (msg.pSender == m_pLiveWallControlBtn)
+		{
+			OnLButtonClickedLiveWallControlBtn();
+		}
 		else
 		{
 			OnLButtonClickedOtherEvent(msg.pSender);
@@ -1005,6 +1009,7 @@ void CFrameMain::ConstructExtra()
 
 	m_bWallVideoMod = false;
 	m_bWallGraphMod = false;
+	m_bWallShowControl = false;
 
 	m_ePlayStates = Play;
 	m_ePlayMode = Random;
@@ -1100,6 +1105,7 @@ void CFrameMain::InitControls()
 	m_pLiveWallLoopBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallloopbtn")));
 	m_pLiveWallRepeatBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallrepeatbtn")));
 	m_pLiveWallOrderBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallorderbtn")));
+	m_pLiveWallControlBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallcontrolbtn")));
 
 }
 
@@ -2566,6 +2572,31 @@ void CFrameMain::OnLButtonClickedLiveWallOrderBtn()
 {
 	m_ePlayMode = Random;
 	ShowLiveWallPlayMode(m_ePlayMode);
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveWallControlBtn()
+// @Purpose: CFrameMain单击控制模式按钮事件响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveWallControlBtn()
+{
+	if (!m_bWallShowControl)
+	{
+		m_bWallShowControl = true;
+		m_pLiveWallAddBtn->SetVisible(true);
+		m_pLiveWallDelBtn->SetVisible(true);
+		m_pLiveWallModBtn->SetVisible(true);
+	}
+	else
+	{
+		m_bWallShowControl = false;
+		m_pLiveWallAddBtn->SetVisible(false);
+		m_pLiveWallDelBtn->SetVisible(false);
+		m_pLiveWallModBtn->SetVisible(false);
+	}
 }
 
 //----------------------------------------------
