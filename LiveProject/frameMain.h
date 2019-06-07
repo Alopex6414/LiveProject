@@ -75,7 +75,7 @@ public:
 	CButtonUI * m_pLiveWallNextBtn;			// LiveWall 下一次按钮
 	CButtonUI * m_pLiveWallPlayBtn;			// LiveWall 播放按钮
 	CButtonUI * m_pLiveWallPauseBtn;		// LiveWall 暂停按钮
-	//CButtonUI * m_pLiveWallStopBtn;			// LiveWall 停止按钮
+	CButtonUI * m_pLiveWallStopBtn;			// LiveWall 停止按钮
 	CButtonUI * m_pLiveWallRandomBtn;		// LiveWall 随机播放按钮
 	CButtonUI * m_pLiveWallLoopBtn;			// LiveWall 循环播放按钮
 	CButtonUI * m_pLiveWallRepeatBtn;		// LiveWall 重复播放按钮
@@ -172,6 +172,7 @@ public:
 	void OnLButtonClickedLiveWallNextBtn();			// LiveWallpaper 单击播放下一次视频壁纸按钮事件响应
 	void OnLButtonClickedLiveWallPlayBtn();			// LiveWallpaper 单击播放当前视频壁纸按钮事件响应
 	void OnLButtonClickedLiveWallPauseBtn();		// LiveWallpaper 单击暂停当前视频壁纸按钮事件响应
+	void OnLButtonClickedLiveWallStopBtn();			// LiveWallpaper 单击停止当前视频壁纸按钮事件响应
 	void OnLButtonClickedLiveWallRandomBtn();		// LiveWallpaper 单击随机播放模式按钮事件响应
 	void OnLButtonClickedLiveWallLoopBtn();			// LiveWallpaper 单击循环播放模式按钮事件响应
 	void OnLButtonClickedLiveWallRepeatBtn();		// LiveWallpaper 单击重复播放模式按钮事件响应

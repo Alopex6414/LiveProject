@@ -107,6 +107,10 @@ void CFrameMain::Notify(TNotifyUI & msg)
 		{
 			OnLButtonClickedLiveWallPauseBtn();
 		}
+		else if (msg.pSender == m_pLiveWallStopBtn)
+		{
+			OnLButtonClickedLiveWallStopBtn();
+		}
 		else if (msg.pSender == m_pLiveWallRandomBtn)
 		{
 			OnLButtonClickedLiveWallRandomBtn();
@@ -911,7 +915,10 @@ void CFrameMain::RecordVideoConfigFile(S_WALLVIDEO* pVideoInfo)
 	::PostMessageA((HWND)nValue, WM_CLOSE, (WPARAM)0, (LPARAM)0);
 
 	// record config info...
-	WritePrivateProfileStringA("LIVECOREVIDEOADDRESS", "LiveCore_Video_Address", pVideoInfo->chVideoPath, chFile);
+	if (pVideoInfo != nullptr)
+	{
+		WritePrivateProfileStringA("LIVECOREVIDEOADDRESS", "LiveCore_Video_Address", pVideoInfo->chVideoPath, chFile);
+	}
 
 	// safe delete object...
 	SAFE_DELETE(pFile);
@@ -1101,6 +1108,7 @@ void CFrameMain::InitControls()
 	m_pLiveWallNextBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallnextbtn")));
 	m_pLiveWallPlayBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallplaybtn")));
 	m_pLiveWallPauseBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallpausebtn")));
+	m_pLiveWallStopBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallstopbtn")));
 	m_pLiveWallRandomBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallrandombtn")));
 	m_pLiveWallLoopBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallloopbtn")));
 	m_pLiveWallRepeatBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallrepeatbtn")));
@@ -2520,6 +2528,18 @@ void CFrameMain::OnLButtonClickedLiveWallPauseBtn()
 
 	m_ePlayStates = Play;
 	ShowLiveWallPlayStates(m_ePlayStates);
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveWallPauseBtn()
+// @Purpose: CFrameMain单击暂停当前视频壁纸按钮事件响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveWallStopBtn()
+{
+	RecordVideoConfigFile(nullptr);
 }
 
 //-----------------------------------------------------
