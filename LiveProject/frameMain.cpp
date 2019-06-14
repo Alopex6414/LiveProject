@@ -1656,7 +1656,12 @@ LRESULT CFrameMain::OnUserMessageWallGraphAddShot(UINT uMsg, WPARAM wParam, LPAR
 //----------------------------------------------
 LRESULT CFrameMain::OnUserMessageSettingHomeSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
-	return LRESULT();
+	CVerticalLayoutUI* pVertical = static_cast<CVerticalLayoutUI*>(m_PaintManager.FindControl(_T("livesettingcontent")));
+	if (pVertical != NULL)
+	{
+		pVertical->RemoveAll();
+	}
+	return 0;
 }
 
 //----------------------------------------------
@@ -1668,7 +1673,25 @@ LRESULT CFrameMain::OnUserMessageSettingHomeSearch(UINT uMsg, WPARAM wParam, LPA
 //----------------------------------------------
 LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
-	return LRESULT();
+	CVerticalLayoutUI* pVertical = static_cast<CVerticalLayoutUI*>(m_PaintManager.FindControl(_T("livesettingcontent")));
+	if (pVertical != NULL)
+	{
+		pVertical->RemoveAll();
+
+		// ContainerUI -- Title
+		CContainerUI* pContainer = new CContainerUI();
+
+		pContainer->SetName(_T("title"));
+		pContainer->SetFloat(true);
+		pContainer->SetAttribute(_T("pos"), _T("50,20,0,0"));
+		pContainer->SetFixedWidth(200);
+		pContainer->SetFixedHeight(24);
+		pContainer->SetBkImage(_T("res\\livewallcfgtitle.png"));
+		pVertical->Add(pContainer);
+
+
+	}
+	return 0;
 }
 
 //----------------------------------------------
@@ -1680,7 +1703,12 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 //----------------------------------------------
 LRESULT CFrameMain::OnUserMessageSettingVideoSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
-	return LRESULT();
+	CVerticalLayoutUI* pVertical = static_cast<CVerticalLayoutUI*>(m_PaintManager.FindControl(_T("livesettingcontent")));
+	if (pVertical != NULL)
+	{
+		pVertical->RemoveAll();
+	}
+	return 0;
 }
 
 //----------------------------------------------
@@ -1692,7 +1720,12 @@ LRESULT CFrameMain::OnUserMessageSettingVideoSearch(UINT uMsg, WPARAM wParam, LP
 //----------------------------------------------
 LRESULT CFrameMain::OnUserMessageSettingAudioSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
-	return LRESULT();
+	CVerticalLayoutUI* pVertical = static_cast<CVerticalLayoutUI*>(m_PaintManager.FindControl(_T("livesettingcontent")));
+	if (pVertical != NULL)
+	{
+		pVertical->RemoveAll();
+	}
+	return 0;
 }
 
 //----------------------------------------------
@@ -1704,7 +1737,12 @@ LRESULT CFrameMain::OnUserMessageSettingAudioSearch(UINT uMsg, WPARAM wParam, LP
 //----------------------------------------------
 LRESULT CFrameMain::OnUserMessageSettingAlbumSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
-	return LRESULT();
+	CVerticalLayoutUI* pVertical = static_cast<CVerticalLayoutUI*>(m_PaintManager.FindControl(_T("livesettingcontent")));
+	if (pVertical != NULL)
+	{
+		pVertical->RemoveAll();
+	}
+	return 0;
 }
 
 //----------------------------------------------
@@ -1716,7 +1754,12 @@ LRESULT CFrameMain::OnUserMessageSettingAlbumSearch(UINT uMsg, WPARAM wParam, LP
 //----------------------------------------------
 LRESULT CFrameMain::OnUserMessageSettingShotSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
-	return LRESULT();
+	CVerticalLayoutUI* pVertical = static_cast<CVerticalLayoutUI*>(m_PaintManager.FindControl(_T("livesettingcontent")));
+	if (pVertical != NULL)
+	{
+		pVertical->RemoveAll();
+	}
+	return 0;
 }
 
 //----------------------------------------------
@@ -1728,7 +1771,12 @@ LRESULT CFrameMain::OnUserMessageSettingShotSearch(UINT uMsg, WPARAM wParam, LPA
 //----------------------------------------------
 LRESULT CFrameMain::OnUserMessageSettingAISearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
-	return LRESULT();
+	CVerticalLayoutUI* pVertical = static_cast<CVerticalLayoutUI*>(m_PaintManager.FindControl(_T("livesettingcontent")));
+	if (pVertical != NULL)
+	{
+		pVertical->RemoveAll();
+	}
+	return 0;
 }
 
 //----------------------------------------------
