@@ -190,6 +190,14 @@ public:
 	void OnLButtonClickedLiveWallOrderBtn();		// LiveWallpaper 单击顺序播放模式按钮事件响应
 	void OnLButtonClickedLiveWallControlBtn();		// LiveWallpaper 单击控制按钮模式按钮事件响应
 
+	void OnLButtonClickedLiveSettingHomeOption();	// LiveSetting 单击主页选项卡
+	void OnLButtonClickedLiveSettingWallOption();	// LiveSetting 单击壁纸选项卡
+	void OnLButtonClickedLiveSettingVideoOption();	// LiveSetting 单击视频选项卡
+	void OnLButtonClickedLiveSettingAudioOption();	// LiveSetting 单击音频选项卡
+	void OnLButtonClickedLiveSettingAlbumOption();	// LiveSetting 单击相簿选项卡
+	void OnLButtonClickedLiveSettingShotOption();	// LiveSetting 单击快照选项卡
+	void OnLButtonClickedLiveSettingAIOption();		// LiveSetting 单击AI选项卡
+
 	void OnLButtonClickedOtherEvent(CControlUI*);	// LiveProject 单击事件响应(其他事件)...
 };
 

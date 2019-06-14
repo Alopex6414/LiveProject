@@ -183,6 +183,34 @@ void CFrameMain::Notify(TNotifyUI & msg)
 		{
 			OnLButtonClickedLiveWallGraphOption();
 		}
+		else if (msg.pSender == m_pLiveSettingHomeOpt)
+		{
+			OnLButtonClickedLiveSettingHomeOption();
+		}
+		else if (msg.pSender == m_pLiveSettingWallOpt)
+		{
+			OnLButtonClickedLiveSettingWallOption();
+		}
+		else if (msg.pSender == m_pLiveSettingVideoOpt)
+		{
+			OnLButtonClickedLiveSettingVideoOption();
+		}
+		else if (msg.pSender == m_pLiveSettingAudioOpt)
+		{
+			OnLButtonClickedLiveSettingAudioOption();
+		}
+		else if (msg.pSender == m_pLiveSettingAlbumOpt)
+		{
+			OnLButtonClickedLiveSettingAlbumOption();
+		}
+		else if (msg.pSender == m_pLiveSettingShotOpt)
+		{
+			OnLButtonClickedLiveSettingShotOption();
+		}
+		else if (msg.pSender == m_pLiveSettingAIOpt)
+		{
+			OnLButtonClickedLiveSettingAIOption();
+		}
 
 	}
 	else if (msg.sType == _T("textchanged"))
@@ -1114,6 +1142,15 @@ void CFrameMain::InitControls()
 	m_pLiveWallRepeatBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallrepeatbtn")));
 	m_pLiveWallOrderBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallorderbtn")));
 	m_pLiveWallControlBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallcontrolbtn")));
+
+	// livesetting menu...
+	m_pLiveSettingHomeOpt = static_cast<COptionUI*>(m_PaintManager.FindControl(_T("livesettinghomeopt")));
+	m_pLiveSettingWallOpt = static_cast<COptionUI*>(m_PaintManager.FindControl(_T("livesettingwallpaperopt")));
+	m_pLiveSettingVideoOpt = static_cast<COptionUI*>(m_PaintManager.FindControl(_T("livesettingvideoopt")));
+	m_pLiveSettingAudioOpt = static_cast<COptionUI*>(m_PaintManager.FindControl(_T("livesettingaudioopt")));
+	m_pLiveSettingAlbumOpt = static_cast<COptionUI*>(m_PaintManager.FindControl(_T("livesettingalbumopt")));
+	m_pLiveSettingShotOpt = static_cast<COptionUI*>(m_PaintManager.FindControl(_T("livesettingshotopt")));
+	m_pLiveSettingAIOpt = static_cast<COptionUI*>(m_PaintManager.FindControl(_T("livesettingaiopt")));
 
 }
 
@@ -2617,6 +2654,83 @@ void CFrameMain::OnLButtonClickedLiveWallControlBtn()
 		m_pLiveWallDelBtn->SetVisible(false);
 		m_pLiveWallModBtn->SetVisible(false);
 	}
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveSettingHomeOption()
+// @Purpose: CFrameMain单击设置主页选项卡
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveSettingHomeOption()
+{
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveSettingWallOption()
+// @Purpose: CFrameMain单击设置壁纸选项卡
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveSettingWallOption()
+{
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveSettingVideoOption()
+// @Purpose: CFrameMain单击设置视频选项卡
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveSettingVideoOption()
+{
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveSettingAudioOption()
+// @Purpose: CFrameMain单击设置音频选项卡
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveSettingAudioOption()
+{
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveSettingAlbumOption()
+// @Purpose: CFrameMain单击设置相簿选项卡
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveSettingAlbumOption()
+{
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveSettingShotOption()
+// @Purpose: CFrameMain单击设置快照选项卡
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveSettingShotOption()
+{
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveSettingAIOption()
+// @Purpose: CFrameMain单击设置AI选项卡
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveSettingAIOption()
+{
 }
 
 //----------------------------------------------
