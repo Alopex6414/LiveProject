@@ -52,6 +52,7 @@ public:
 	CButtonUI * m_pOverBtn;			// LiveProject 置顶按钮
 	CButtonUI * m_pCancelOverBtn;	// LiveProject 取消置顶按钮
 
+	//---LiveProjec---
 	CTabLayoutUI * m_pLiveMainTab;			// LiveProject LiveMain容器
 	COptionUI * m_pLiveHomeOpt;				// LiveProject LiveHome选项卡
 	COptionUI * m_pLiveWallpaperOpt;		// LiveProject LiveWallpaper选项卡
@@ -63,6 +64,7 @@ public:
 	COptionUI * m_pSettingsOpt;				// LiveProject Settings选项卡
 	COptionUI * m_pAboutOpt;				// LiveProject About选项卡
 
+	//---LiveWallpaper---
 	COptionUI * m_pLiveWallVideoOpt;		// LiveWall 视频选项卡
 	COptionUI * m_pLiveWallGraphOpt;		// LiveWall 图形选项卡
 	CButtonUI * m_pLiveWallAddBtn;			// LiveWall 添加按钮
@@ -75,11 +77,21 @@ public:
 	CButtonUI * m_pLiveWallNextBtn;			// LiveWall 下一次按钮
 	CButtonUI * m_pLiveWallPlayBtn;			// LiveWall 播放按钮
 	CButtonUI * m_pLiveWallPauseBtn;		// LiveWall 暂停按钮
-	//CButtonUI * m_pLiveWallStopBtn;			// LiveWall 停止按钮
+	CButtonUI * m_pLiveWallStopBtn;			// LiveWall 停止按钮
 	CButtonUI * m_pLiveWallRandomBtn;		// LiveWall 随机播放按钮
 	CButtonUI * m_pLiveWallLoopBtn;			// LiveWall 循环播放按钮
 	CButtonUI * m_pLiveWallRepeatBtn;		// LiveWall 重复播放按钮
 	CButtonUI * m_pLiveWallOrderBtn;		// LiveWall 顺序播放按钮
+	CButtonUI * m_pLiveWallControlBtn;		// LiveWall 控制选项按钮
+
+	//---LiveSetting---
+	COptionUI * m_pLiveSettingHomeOpt;		// LiveSetting 主页选项卡
+	COptionUI * m_pLiveSettingWallOpt;		// LiveSetting 壁纸选项卡
+	COptionUI * m_pLiveSettingVideoOpt;		// LiveSetting 视频选项卡
+	COptionUI * m_pLiveSettingAudioOpt;		// LiveSetting 音频选项卡
+	COptionUI * m_pLiveSettingAlbumOpt;		// LiveSetting 相簿选项卡
+	COptionUI * m_pLiveSettingShotOpt;		// LiveSetting 快照选项卡
+	COptionUI * m_pLiveSettingAIOpt;		// LiveSetting AI选项卡
 
 private:
 	HMENU m_hMenu;					// LiveProject 菜单栏小图标句柄
@@ -87,6 +99,7 @@ private:
 
 	bool m_bWallVideoMod;			// LiveWall 修改按钮单击状态(视频)(默认false)
 	bool m_bWallGraphMod;			// LiveWall 修改按钮单击状态(图形)(默认false)
+	bool m_bWallShowControl;		// LiveWall 是否显示控制选项按钮(默认false)
 
 	E_WALLPLAYSTATES	m_ePlayStates;		// LiveWall 播放状态
 	E_WALLPLAYMODE		m_ePlayMode;		// LiveWall 播放模式
@@ -140,6 +153,13 @@ public:
 	LRESULT OnUserMessageWallGraphSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 	LRESULT OnUserMessageWallGraphAddItem(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 	LRESULT OnUserMessageWallGraphAddShot(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+	LRESULT OnUserMessageSettingHomeSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+	LRESULT OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+	LRESULT OnUserMessageSettingVideoSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+	LRESULT OnUserMessageSettingAudioSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+	LRESULT OnUserMessageSettingAlbumSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+	LRESULT OnUserMessageSettingShotSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+	LRESULT OnUserMessageSettingAISearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 
 public:
 	static DWORD CALLBACK OnGetWallVideoShotProcess(LPVOID lpParameter);							// LiveProject 获取视频壁纸快照进程(1st帧)
@@ -170,10 +190,20 @@ public:
 	void OnLButtonClickedLiveWallNextBtn();			// LiveWallpaper 单击播放下一次视频壁纸按钮事件响应
 	void OnLButtonClickedLiveWallPlayBtn();			// LiveWallpaper 单击播放当前视频壁纸按钮事件响应
 	void OnLButtonClickedLiveWallPauseBtn();		// LiveWallpaper 单击暂停当前视频壁纸按钮事件响应
+	void OnLButtonClickedLiveWallStopBtn();			// LiveWallpaper 单击停止当前视频壁纸按钮事件响应
 	void OnLButtonClickedLiveWallRandomBtn();		// LiveWallpaper 单击随机播放模式按钮事件响应
 	void OnLButtonClickedLiveWallLoopBtn();			// LiveWallpaper 单击循环播放模式按钮事件响应
 	void OnLButtonClickedLiveWallRepeatBtn();		// LiveWallpaper 单击重复播放模式按钮事件响应
 	void OnLButtonClickedLiveWallOrderBtn();		// LiveWallpaper 单击顺序播放模式按钮事件响应
+	void OnLButtonClickedLiveWallControlBtn();		// LiveWallpaper 单击控制按钮模式按钮事件响应
+
+	void OnLButtonClickedLiveSettingHomeOption();	// LiveSetting 单击主页选项卡
+	void OnLButtonClickedLiveSettingWallOption();	// LiveSetting 单击壁纸选项卡
+	void OnLButtonClickedLiveSettingVideoOption();	// LiveSetting 单击视频选项卡
+	void OnLButtonClickedLiveSettingAudioOption();	// LiveSetting 单击音频选项卡
+	void OnLButtonClickedLiveSettingAlbumOption();	// LiveSetting 单击相簿选项卡
+	void OnLButtonClickedLiveSettingShotOption();	// LiveSetting 单击快照选项卡
+	void OnLButtonClickedLiveSettingAIOption();		// LiveSetting 单击AI选项卡
 
 	void OnLButtonClickedOtherEvent(CControlUI*);	// LiveProject 单击事件响应(其他事件)...
 };

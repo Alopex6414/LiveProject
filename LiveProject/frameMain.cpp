@@ -107,6 +107,10 @@ void CFrameMain::Notify(TNotifyUI & msg)
 		{
 			OnLButtonClickedLiveWallPauseBtn();
 		}
+		else if (msg.pSender == m_pLiveWallStopBtn)
+		{
+			OnLButtonClickedLiveWallStopBtn();
+		}
 		else if (msg.pSender == m_pLiveWallRandomBtn)
 		{
 			OnLButtonClickedLiveWallRandomBtn();
@@ -122,6 +126,10 @@ void CFrameMain::Notify(TNotifyUI & msg)
 		else if (msg.pSender == m_pLiveWallOrderBtn)
 		{
 			OnLButtonClickedLiveWallOrderBtn();
+		}
+		else if (msg.pSender == m_pLiveWallControlBtn)
+		{
+			OnLButtonClickedLiveWallControlBtn();
 		}
 		else
 		{
@@ -174,6 +182,34 @@ void CFrameMain::Notify(TNotifyUI & msg)
 		else if (msg.pSender == m_pLiveWallGraphOpt)
 		{
 			OnLButtonClickedLiveWallGraphOption();
+		}
+		else if (msg.pSender == m_pLiveSettingHomeOpt)
+		{
+			OnLButtonClickedLiveSettingHomeOption();
+		}
+		else if (msg.pSender == m_pLiveSettingWallOpt)
+		{
+			OnLButtonClickedLiveSettingWallOption();
+		}
+		else if (msg.pSender == m_pLiveSettingVideoOpt)
+		{
+			OnLButtonClickedLiveSettingVideoOption();
+		}
+		else if (msg.pSender == m_pLiveSettingAudioOpt)
+		{
+			OnLButtonClickedLiveSettingAudioOption();
+		}
+		else if (msg.pSender == m_pLiveSettingAlbumOpt)
+		{
+			OnLButtonClickedLiveSettingAlbumOption();
+		}
+		else if (msg.pSender == m_pLiveSettingShotOpt)
+		{
+			OnLButtonClickedLiveSettingShotOption();
+		}
+		else if (msg.pSender == m_pLiveSettingAIOpt)
+		{
+			OnLButtonClickedLiveSettingAIOption();
 		}
 
 	}
@@ -272,6 +308,27 @@ LRESULT CFrameMain::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_USER_MESSAGE_WALLGRAPH_ADDSHOT:
 		lRes = OnUserMessageWallGraphAddShot(uMsg, wParam, lParam, bHandled);
+		break;
+	case WM_USER_MESSAGE_SETTINGHOME_SEARCH:
+		lRes = OnUserMessageSettingHomeSearch(uMsg, wParam, lParam, bHandled);
+		break;
+	case WM_USER_MESSAGE_SETTINGWALL_SEARCH:
+		lRes = OnUserMessageSettingWallSearch(uMsg, wParam, lParam, bHandled);
+		break;
+	case WM_USER_MESSAGE_SETTINGVIDEO_SEARCH:
+		lRes = OnUserMessageSettingVideoSearch(uMsg, wParam, lParam, bHandled);
+		break;
+	case WM_USER_MESSAGE_SETTINGAUDIO_SEARCH:
+		lRes = OnUserMessageSettingAudioSearch(uMsg, wParam, lParam, bHandled);
+		break;
+	case WM_USER_MESSAGE_SETTINGALBUM_SEARCH:
+		lRes = OnUserMessageSettingAlbumSearch(uMsg, wParam, lParam, bHandled);
+		break;
+	case WM_USER_MESSAGE_SETTINGSHOT_SEARCH:
+		lRes = OnUserMessageSettingShotSearch(uMsg, wParam, lParam, bHandled);
+		break;
+	case WM_USER_MESSAGE_SETTINGAI_SEARCH:
+		lRes = OnUserMessageSettingAISearch(uMsg, wParam, lParam, bHandled);
 		break;
 	default:
 		bHandled = FALSE;
@@ -907,7 +964,10 @@ void CFrameMain::RecordVideoConfigFile(S_WALLVIDEO* pVideoInfo)
 	::PostMessageA((HWND)nValue, WM_CLOSE, (WPARAM)0, (LPARAM)0);
 
 	// record config info...
-	WritePrivateProfileStringA("LIVECOREVIDEOADDRESS", "LiveCore_Video_Address", pVideoInfo->chVideoPath, chFile);
+	if (pVideoInfo != nullptr)
+	{
+		WritePrivateProfileStringA("LIVECOREVIDEOADDRESS", "LiveCore_Video_Address", pVideoInfo->chVideoPath, chFile);
+	}
 
 	// safe delete object...
 	SAFE_DELETE(pFile);
@@ -1005,6 +1065,7 @@ void CFrameMain::ConstructExtra()
 
 	m_bWallVideoMod = false;
 	m_bWallGraphMod = false;
+	m_bWallShowControl = false;
 
 	m_ePlayStates = Play;
 	m_ePlayMode = Random;
@@ -1096,10 +1157,21 @@ void CFrameMain::InitControls()
 	m_pLiveWallNextBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallnextbtn")));
 	m_pLiveWallPlayBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallplaybtn")));
 	m_pLiveWallPauseBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallpausebtn")));
+	m_pLiveWallStopBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallstopbtn")));
 	m_pLiveWallRandomBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallrandombtn")));
 	m_pLiveWallLoopBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallloopbtn")));
 	m_pLiveWallRepeatBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallrepeatbtn")));
 	m_pLiveWallOrderBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallorderbtn")));
+	m_pLiveWallControlBtn = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("livewallcontrolbtn")));
+
+	// livesetting menu...
+	m_pLiveSettingHomeOpt = static_cast<COptionUI*>(m_PaintManager.FindControl(_T("livesettinghomeopt")));
+	m_pLiveSettingWallOpt = static_cast<COptionUI*>(m_PaintManager.FindControl(_T("livesettingwallpaperopt")));
+	m_pLiveSettingVideoOpt = static_cast<COptionUI*>(m_PaintManager.FindControl(_T("livesettingvideoopt")));
+	m_pLiveSettingAudioOpt = static_cast<COptionUI*>(m_PaintManager.FindControl(_T("livesettingaudioopt")));
+	m_pLiveSettingAlbumOpt = static_cast<COptionUI*>(m_PaintManager.FindControl(_T("livesettingalbumopt")));
+	m_pLiveSettingShotOpt = static_cast<COptionUI*>(m_PaintManager.FindControl(_T("livesettingshotopt")));
+	m_pLiveSettingAIOpt = static_cast<COptionUI*>(m_PaintManager.FindControl(_T("livesettingaiopt")));
 
 }
 
@@ -1572,6 +1644,224 @@ LRESULT CFrameMain::OnUserMessageWallGraphAddShot(UINT uMsg, WPARAM wParam, LPAR
 {
 	S_WALLGRAPH* pMsg = reinterpret_cast<S_WALLGRAPH*>(wParam);
 	AddOnceGraphShotcut(pMsg);
+	return 0;
+}
+
+//----------------------------------------------
+// @Function:	OnUserMessageSettingHomeSearch()
+// @Purpose: CFrameMain设置主页响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+LRESULT CFrameMain::OnUserMessageSettingHomeSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	CVerticalLayoutUI* pVertical = static_cast<CVerticalLayoutUI*>(m_PaintManager.FindControl(_T("livesettingcontent")));
+	if (pVertical != NULL)
+	{
+		pVertical->RemoveAll();
+	}
+	return 0;
+}
+
+//----------------------------------------------
+// @Function:	OnUserMessageSettingWallSearch()
+// @Purpose: CFrameMain设置壁纸响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	CVerticalLayoutUI* pVertical = static_cast<CVerticalLayoutUI*>(m_PaintManager.FindControl(_T("livesettingcontent")));
+	if (pVertical != NULL)
+	{
+		pVertical->RemoveAll();
+
+		// ContainerUI -- Title
+		CContainerUI* pContainer = new CContainerUI();
+
+		pContainer->SetName(_T("title"));
+		pContainer->SetFloat(true);
+		pContainer->SetAttribute(_T("pos"), _T("50,20,0,0"));
+		pContainer->SetFixedWidth(200);
+		pContainer->SetFixedHeight(24);
+		pContainer->SetBkImage(_T("res\\livewallcfgtitle.png"));
+		pVertical->Add(pContainer);
+
+		// ContainerUI -- Mode
+		CContainerUI* pMode = new CContainerUI();
+
+		pMode->SetName(_T("mode"));
+		pMode->SetFloat(true);
+		pMode->SetAttribute(_T("pos"), _T("80,60,0,0"));
+		pMode->SetFixedWidth(142);
+		pMode->SetFixedHeight(16);
+		pMode->SetBkImage(_T("res\\livewallcfgmode.png"));
+		pVertical->Add(pMode);
+
+		// ButtonUI -- Combine
+		CButtonUI* pCombineB_uc = new CButtonUI();
+
+		pCombineB_uc->SetName(_T("btncombine_uc"));
+		pCombineB_uc->SetFloat(true);
+		pCombineB_uc->SetAttribute(_T("pos"), _T("120,98,0,0"));
+		pCombineB_uc->SetFixedWidth(16);
+		pCombineB_uc->SetFixedHeight(16);
+		pCombineB_uc->SetVisible(false);
+		pCombineB_uc->SetAttribute(_T("normalimage"), _T("file='res\\radiobutton_unchecked.png' source='0,0,16,16'"));
+		pCombineB_uc->SetAttribute(_T("hotimage"), _T("file='res\\radiobutton_unchecked.png' source='0,16,16,32'"));
+		pCombineB_uc->SetAttribute(_T("pushedimage"), _T("file='res\\radiobutton_unchecked.png' source='0,32,16,48'"));
+		pVertical->Add(pCombineB_uc);
+
+		CButtonUI* pCombineB_c = new CButtonUI();
+
+		pCombineB_c->SetName(_T("btncombine_c"));
+		pCombineB_c->SetFloat(true);
+		pCombineB_c->SetAttribute(_T("pos"), _T("120,98,0,0"));
+		pCombineB_c->SetFixedWidth(16);
+		pCombineB_c->SetFixedHeight(16);
+		pCombineB_c->SetVisible(true);
+		pCombineB_c->SetAttribute(_T("normalimage"), _T("file='res\\radiobutton_checked.png' source='0,0,16,16'"));
+		pCombineB_c->SetAttribute(_T("hotimage"), _T("file='res\\radiobutton_checked.png' source='0,16,16,32'"));
+		pCombineB_c->SetAttribute(_T("pushedimage"), _T("file='res\\radiobutton_checked.png' source='0,32,16,48'"));
+		pVertical->Add(pCombineB_c);
+
+		// ContainerUI -- Combine
+		CContainerUI* pCombineC = new CContainerUI();
+
+		pCombineC->SetName(_T("txtcombine"));
+		pCombineC->SetFloat(true);
+		pCombineC->SetAttribute(_T("pos"), _T("140,100,0,0"));
+		pCombineC->SetFixedWidth(71);
+		pCombineC->SetFixedHeight(13);
+		pCombineC->SetBkImage(_T("res\\livewallcfgtxtcombine.png"));
+		pVertical->Add(pCombineC);
+
+		// ButtonUI -- Alone
+		CButtonUI* pAloneB_uc = new CButtonUI();
+
+		pAloneB_uc->SetName(_T("btnalone_uc"));
+		pAloneB_uc->SetFloat(true);
+		pAloneB_uc->SetAttribute(_T("pos"), _T("320,98,0,0"));
+		pAloneB_uc->SetFixedWidth(16);
+		pAloneB_uc->SetFixedHeight(16);
+		pAloneB_uc->SetVisible(true);
+		pAloneB_uc->SetAttribute(_T("normalimage"), _T("file='res\\radiobutton_unchecked.png' source='0,0,16,16'"));
+		pAloneB_uc->SetAttribute(_T("hotimage"), _T("file='res\\radiobutton_unchecked.png' source='0,16,16,32'"));
+		pAloneB_uc->SetAttribute(_T("pushedimage"), _T("file='res\\radiobutton_unchecked.png' source='0,32,16,48'"));
+		pVertical->Add(pAloneB_uc);
+
+		CButtonUI* pAloneB_c = new CButtonUI();
+
+		pAloneB_c->SetName(_T("btnalone_c"));
+		pAloneB_c->SetFloat(true);
+		pAloneB_c->SetAttribute(_T("pos"), _T("320,98,0,0"));
+		pAloneB_c->SetFixedWidth(16);
+		pAloneB_c->SetFixedHeight(16);
+		pAloneB_c->SetVisible(false);
+		pAloneB_c->SetAttribute(_T("normalimage"), _T("file='res\\radiobutton_checked.png' source='0,0,16,16'"));
+		pAloneB_c->SetAttribute(_T("hotimage"), _T("file='res\\radiobutton_checked.png' source='0,16,16,32'"));
+		pAloneB_c->SetAttribute(_T("pushedimage"), _T("file='res\\radiobutton_checked.png' source='0,32,16,48'"));
+		pVertical->Add(pAloneB_c);
+
+		// ContainerUI -- Alone
+		CContainerUI* pAlone = new CContainerUI();
+
+		pAlone->SetName(_T("txtalone"));
+		pAlone->SetFloat(true);
+		pAlone->SetAttribute(_T("pos"), _T("340,100,0,0"));
+		pAlone->SetFixedWidth(45);
+		pAlone->SetFixedHeight(13);
+		pAlone->SetBkImage(_T("res\\livewallcfgtxtalone.png"));
+		pVertical->Add(pAlone);
+
+	}
+	return 0;
+}
+
+//----------------------------------------------
+// @Function:	OnUserMessageSettingVideoSearch()
+// @Purpose: CFrameMain设置视频响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+LRESULT CFrameMain::OnUserMessageSettingVideoSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	CVerticalLayoutUI* pVertical = static_cast<CVerticalLayoutUI*>(m_PaintManager.FindControl(_T("livesettingcontent")));
+	if (pVertical != NULL)
+	{
+		pVertical->RemoveAll();
+	}
+	return 0;
+}
+
+//----------------------------------------------
+// @Function:	OnUserMessageSettingAudioSearch()
+// @Purpose: CFrameMain设置音频响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+LRESULT CFrameMain::OnUserMessageSettingAudioSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	CVerticalLayoutUI* pVertical = static_cast<CVerticalLayoutUI*>(m_PaintManager.FindControl(_T("livesettingcontent")));
+	if (pVertical != NULL)
+	{
+		pVertical->RemoveAll();
+	}
+	return 0;
+}
+
+//----------------------------------------------
+// @Function:	OnUserMessageSettingAlbumSearch()
+// @Purpose: CFrameMain设置相簿响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+LRESULT CFrameMain::OnUserMessageSettingAlbumSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	CVerticalLayoutUI* pVertical = static_cast<CVerticalLayoutUI*>(m_PaintManager.FindControl(_T("livesettingcontent")));
+	if (pVertical != NULL)
+	{
+		pVertical->RemoveAll();
+	}
+	return 0;
+}
+
+//----------------------------------------------
+// @Function:	OnUserMessageSettingShotSearch()
+// @Purpose: CFrameMain设置快照响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+LRESULT CFrameMain::OnUserMessageSettingShotSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	CVerticalLayoutUI* pVertical = static_cast<CVerticalLayoutUI*>(m_PaintManager.FindControl(_T("livesettingcontent")));
+	if (pVertical != NULL)
+	{
+		pVertical->RemoveAll();
+	}
+	return 0;
+}
+
+//----------------------------------------------
+// @Function:	OnUserMessageSettingAISearch()
+// @Purpose: CFrameMain设置AI响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+LRESULT CFrameMain::OnUserMessageSettingAISearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	CVerticalLayoutUI* pVertical = static_cast<CVerticalLayoutUI*>(m_PaintManager.FindControl(_T("livesettingcontent")));
+	if (pVertical != NULL)
+	{
+		pVertical->RemoveAll();
+	}
 	return 0;
 }
 
@@ -2517,6 +2807,18 @@ void CFrameMain::OnLButtonClickedLiveWallPauseBtn()
 }
 
 //-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveWallPauseBtn()
+// @Purpose: CFrameMain单击暂停当前视频壁纸按钮事件响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveWallStopBtn()
+{
+	RecordVideoConfigFile(nullptr);
+}
+
+//-----------------------------------------------------
 // @Function:	OnLButtonClickedLiveWallRandomBtn()
 // @Purpose: CFrameMain单击随机播放模式按钮事件响应
 // @Since: v1.00a
@@ -2566,6 +2868,115 @@ void CFrameMain::OnLButtonClickedLiveWallOrderBtn()
 {
 	m_ePlayMode = Random;
 	ShowLiveWallPlayMode(m_ePlayMode);
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveWallControlBtn()
+// @Purpose: CFrameMain单击控制模式按钮事件响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveWallControlBtn()
+{
+	if (!m_bWallShowControl)
+	{
+		m_bWallShowControl = true;
+		m_pLiveWallAddBtn->SetVisible(true);
+		m_pLiveWallDelBtn->SetVisible(true);
+		m_pLiveWallModBtn->SetVisible(true);
+	}
+	else
+	{
+		m_bWallShowControl = false;
+		m_pLiveWallAddBtn->SetVisible(false);
+		m_pLiveWallDelBtn->SetVisible(false);
+		m_pLiveWallModBtn->SetVisible(false);
+	}
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveSettingHomeOption()
+// @Purpose: CFrameMain单击设置主页选项卡
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveSettingHomeOption()
+{
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_SETTINGHOME_SEARCH, (WPARAM)0, (LPARAM)0);
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveSettingWallOption()
+// @Purpose: CFrameMain单击设置壁纸选项卡
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveSettingWallOption()
+{
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_SETTINGWALL_SEARCH, (WPARAM)0, (LPARAM)0);
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveSettingVideoOption()
+// @Purpose: CFrameMain单击设置视频选项卡
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveSettingVideoOption()
+{
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_SETTINGVIDEO_SEARCH, (WPARAM)0, (LPARAM)0);
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveSettingAudioOption()
+// @Purpose: CFrameMain单击设置音频选项卡
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveSettingAudioOption()
+{
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_SETTINGAUDIO_SEARCH, (WPARAM)0, (LPARAM)0);
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveSettingAlbumOption()
+// @Purpose: CFrameMain单击设置相簿选项卡
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveSettingAlbumOption()
+{
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_SETTINGALBUM_SEARCH, (WPARAM)0, (LPARAM)0);
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveSettingShotOption()
+// @Purpose: CFrameMain单击设置快照选项卡
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveSettingShotOption()
+{
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_SETTINGSHOT_SEARCH, (WPARAM)0, (LPARAM)0);
+}
+
+//-----------------------------------------------------
+// @Function:	OnLButtonClickedLiveSettingAIOption()
+// @Purpose: CFrameMain单击设置AI选项卡
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-----------------------------------------------------
+void CFrameMain::OnLButtonClickedLiveSettingAIOption()
+{
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_SETTINGAI_SEARCH, (WPARAM)0, (LPARAM)0);
 }
 
 //----------------------------------------------
