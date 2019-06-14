@@ -84,6 +84,8 @@ public:
 	CButtonUI * m_pLiveWallOrderBtn;		// LiveWall 顺序播放按钮
 	CButtonUI * m_pLiveWallControlBtn;		// LiveWall 控制选项按钮
 
+	//---LiveSetting---
+
 private:
 	HMENU m_hMenu;					// LiveProject 菜单栏小图标句柄
 	NOTIFYICONDATA m_nid;			// LiveProject 菜单栏小图标参数
