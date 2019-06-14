@@ -85,6 +85,13 @@ public:
 	CButtonUI * m_pLiveWallControlBtn;		// LiveWall 控制选项按钮
 
 	//---LiveSetting---
+	COptionUI * m_pLiveSettingHomeOpt;		// LiveSetting 主页选项卡
+	COptionUI * m_pLiveSettingWallOpt;		// LiveSetting 壁纸选项卡
+	COptionUI * m_pLiveSettingVideoOpt;		// LiveSetting 视频选项卡
+	COptionUI * m_pLiveSettingAudioOpt;		// LiveSetting 音频选项卡
+	COptionUI * m_pLiveSettingAlbumOpt;		// LiveSetting 相簿选项卡
+	COptionUI * m_pLiveSettingShotOpt;		// LiveSetting 快照选项卡
+	COptionUI * m_pLiveSettingAIOpt;		// LiveSetting AI选项卡
 
 private:
 	HMENU m_hMenu;					// LiveProject 菜单栏小图标句柄
