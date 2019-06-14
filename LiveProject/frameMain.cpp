@@ -2665,6 +2665,7 @@ void CFrameMain::OnLButtonClickedLiveWallControlBtn()
 //-----------------------------------------------------
 void CFrameMain::OnLButtonClickedLiveSettingHomeOption()
 {
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_SETTINGHOME_SEARCH, (WPARAM)0, (LPARAM)0);
 }
 
 //-----------------------------------------------------
@@ -2676,6 +2677,7 @@ void CFrameMain::OnLButtonClickedLiveSettingHomeOption()
 //-----------------------------------------------------
 void CFrameMain::OnLButtonClickedLiveSettingWallOption()
 {
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_SETTINGWALL_SEARCH, (WPARAM)0, (LPARAM)0);
 }
 
 //-----------------------------------------------------
@@ -2687,6 +2689,7 @@ void CFrameMain::OnLButtonClickedLiveSettingWallOption()
 //-----------------------------------------------------
 void CFrameMain::OnLButtonClickedLiveSettingVideoOption()
 {
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_SETTINGVIDEO_SEARCH, (WPARAM)0, (LPARAM)0);
 }
 
 //-----------------------------------------------------
@@ -2698,6 +2701,7 @@ void CFrameMain::OnLButtonClickedLiveSettingVideoOption()
 //-----------------------------------------------------
 void CFrameMain::OnLButtonClickedLiveSettingAudioOption()
 {
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_SETTINGAUDIO_SEARCH, (WPARAM)0, (LPARAM)0);
 }
 
 //-----------------------------------------------------
@@ -2709,6 +2713,7 @@ void CFrameMain::OnLButtonClickedLiveSettingAudioOption()
 //-----------------------------------------------------
 void CFrameMain::OnLButtonClickedLiveSettingAlbumOption()
 {
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_SETTINGALBUM_SEARCH, (WPARAM)0, (LPARAM)0);
 }
 
 //-----------------------------------------------------
@@ -2720,6 +2725,7 @@ void CFrameMain::OnLButtonClickedLiveSettingAlbumOption()
 //-----------------------------------------------------
 void CFrameMain::OnLButtonClickedLiveSettingShotOption()
 {
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_SETTINGSHOT_SEARCH, (WPARAM)0, (LPARAM)0);
 }
 
 //-----------------------------------------------------
@@ -2731,6 +2737,7 @@ void CFrameMain::OnLButtonClickedLiveSettingShotOption()
 //-----------------------------------------------------
 void CFrameMain::OnLButtonClickedLiveSettingAIOption()
 {
+	::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_SETTINGAI_SEARCH, (WPARAM)0, (LPARAM)0);
 }
 
 //----------------------------------------------
