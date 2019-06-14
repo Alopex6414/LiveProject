@@ -1689,6 +1689,92 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 		pContainer->SetBkImage(_T("res\\livewallcfgtitle.png"));
 		pVertical->Add(pContainer);
 
+		// ContainerUI -- Mode
+		CContainerUI* pMode = new CContainerUI();
+
+		pMode->SetName(_T("mode"));
+		pMode->SetFloat(true);
+		pMode->SetAttribute(_T("pos"), _T("80,60,0,0"));
+		pMode->SetFixedWidth(142);
+		pMode->SetFixedHeight(16);
+		pMode->SetBkImage(_T("res\\livewallcfgmode.png"));
+		pVertical->Add(pMode);
+
+		// ButtonUI -- Combine
+		CButtonUI* pCombineB_uc = new CButtonUI();
+
+		pCombineB_uc->SetName(_T("btncombine_uc"));
+		pCombineB_uc->SetFloat(true);
+		pCombineB_uc->SetAttribute(_T("pos"), _T("120,98,0,0"));
+		pCombineB_uc->SetFixedWidth(16);
+		pCombineB_uc->SetFixedHeight(16);
+		pCombineB_uc->SetVisible(false);
+		pCombineB_uc->SetAttribute(_T("normalimage"), _T("file='res\\radiobutton_unchecked.png' source='0,0,16,16'"));
+		pCombineB_uc->SetAttribute(_T("hotimage"), _T("file='res\\radiobutton_unchecked.png' source='0,16,16,32'"));
+		pCombineB_uc->SetAttribute(_T("pushedimage"), _T("file='res\\radiobutton_unchecked.png' source='0,32,16,48'"));
+		pVertical->Add(pCombineB_uc);
+
+		CButtonUI* pCombineB_c = new CButtonUI();
+
+		pCombineB_c->SetName(_T("btncombine_c"));
+		pCombineB_c->SetFloat(true);
+		pCombineB_c->SetAttribute(_T("pos"), _T("120,98,0,0"));
+		pCombineB_c->SetFixedWidth(16);
+		pCombineB_c->SetFixedHeight(16);
+		pCombineB_c->SetVisible(true);
+		pCombineB_c->SetAttribute(_T("normalimage"), _T("file='res\\radiobutton_checked.png' source='0,0,16,16'"));
+		pCombineB_c->SetAttribute(_T("hotimage"), _T("file='res\\radiobutton_checked.png' source='0,16,16,32'"));
+		pCombineB_c->SetAttribute(_T("pushedimage"), _T("file='res\\radiobutton_checked.png' source='0,32,16,48'"));
+		pVertical->Add(pCombineB_c);
+
+		// ContainerUI -- Combine
+		CContainerUI* pCombineC = new CContainerUI();
+
+		pCombineC->SetName(_T("txtcombine"));
+		pCombineC->SetFloat(true);
+		pCombineC->SetAttribute(_T("pos"), _T("140,100,0,0"));
+		pCombineC->SetFixedWidth(71);
+		pCombineC->SetFixedHeight(13);
+		pCombineC->SetBkImage(_T("res\\livewallcfgtxtcombine.png"));
+		pVertical->Add(pCombineC);
+
+		// ButtonUI -- Alone
+		CButtonUI* pAloneB_uc = new CButtonUI();
+
+		pAloneB_uc->SetName(_T("btnalone_uc"));
+		pAloneB_uc->SetFloat(true);
+		pAloneB_uc->SetAttribute(_T("pos"), _T("320,98,0,0"));
+		pAloneB_uc->SetFixedWidth(16);
+		pAloneB_uc->SetFixedHeight(16);
+		pAloneB_uc->SetVisible(true);
+		pAloneB_uc->SetAttribute(_T("normalimage"), _T("file='res\\radiobutton_unchecked.png' source='0,0,16,16'"));
+		pAloneB_uc->SetAttribute(_T("hotimage"), _T("file='res\\radiobutton_unchecked.png' source='0,16,16,32'"));
+		pAloneB_uc->SetAttribute(_T("pushedimage"), _T("file='res\\radiobutton_unchecked.png' source='0,32,16,48'"));
+		pVertical->Add(pAloneB_uc);
+
+		CButtonUI* pAloneB_c = new CButtonUI();
+
+		pAloneB_c->SetName(_T("btnalone_c"));
+		pAloneB_c->SetFloat(true);
+		pAloneB_c->SetAttribute(_T("pos"), _T("320,98,0,0"));
+		pAloneB_c->SetFixedWidth(16);
+		pAloneB_c->SetFixedHeight(16);
+		pAloneB_c->SetVisible(false);
+		pAloneB_c->SetAttribute(_T("normalimage"), _T("file='res\\radiobutton_checked.png' source='0,0,16,16'"));
+		pAloneB_c->SetAttribute(_T("hotimage"), _T("file='res\\radiobutton_checked.png' source='0,16,16,32'"));
+		pAloneB_c->SetAttribute(_T("pushedimage"), _T("file='res\\radiobutton_checked.png' source='0,32,16,48'"));
+		pVertical->Add(pAloneB_c);
+
+		// ContainerUI -- Alone
+		CContainerUI* pAlone = new CContainerUI();
+
+		pAlone->SetName(_T("txtalone"));
+		pAlone->SetFloat(true);
+		pAlone->SetAttribute(_T("pos"), _T("340,100,0,0"));
+		pAlone->SetFixedWidth(45);
+		pAlone->SetFixedHeight(13);
+		pAlone->SetBkImage(_T("res\\livewallcfgtxtalone.png"));
+		pVertical->Add(pAlone);
 
 	}
 	return 0;
