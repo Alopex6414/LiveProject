@@ -309,6 +309,27 @@ LRESULT CFrameMain::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_USER_MESSAGE_WALLGRAPH_ADDSHOT:
 		lRes = OnUserMessageWallGraphAddShot(uMsg, wParam, lParam, bHandled);
 		break;
+	case WM_USER_MESSAGE_SETTINGHOME_SEARCH:
+		lRes = OnUserMessageSettingHomeSearch(uMsg, wParam, lParam, bHandled);
+		break;
+	case WM_USER_MESSAGE_SETTINGWALL_SEARCH:
+		lRes = OnUserMessageSettingWallSearch(uMsg, wParam, lParam, bHandled);
+		break;
+	case WM_USER_MESSAGE_SETTINGVIDEO_SEARCH:
+		lRes = OnUserMessageSettingVideoSearch(uMsg, wParam, lParam, bHandled);
+		break;
+	case WM_USER_MESSAGE_SETTINGAUDIO_SEARCH:
+		lRes = OnUserMessageSettingAudioSearch(uMsg, wParam, lParam, bHandled);
+		break;
+	case WM_USER_MESSAGE_SETTINGALBUM_SEARCH:
+		lRes = OnUserMessageSettingAlbumSearch(uMsg, wParam, lParam, bHandled);
+		break;
+	case WM_USER_MESSAGE_SETTINGSHOT_SEARCH:
+		lRes = OnUserMessageSettingShotSearch(uMsg, wParam, lParam, bHandled);
+		break;
+	case WM_USER_MESSAGE_SETTINGAI_SEARCH:
+		lRes = OnUserMessageSettingAISearch(uMsg, wParam, lParam, bHandled);
+		break;
 	default:
 		bHandled = FALSE;
 		break;
@@ -1624,6 +1645,90 @@ LRESULT CFrameMain::OnUserMessageWallGraphAddShot(UINT uMsg, WPARAM wParam, LPAR
 	S_WALLGRAPH* pMsg = reinterpret_cast<S_WALLGRAPH*>(wParam);
 	AddOnceGraphShotcut(pMsg);
 	return 0;
+}
+
+//----------------------------------------------
+// @Function:	OnUserMessageSettingHomeSearch()
+// @Purpose: CFrameMain设置主页响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+LRESULT CFrameMain::OnUserMessageSettingHomeSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	return LRESULT();
+}
+
+//----------------------------------------------
+// @Function:	OnUserMessageSettingWallSearch()
+// @Purpose: CFrameMain设置壁纸响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	return LRESULT();
+}
+
+//----------------------------------------------
+// @Function:	OnUserMessageSettingVideoSearch()
+// @Purpose: CFrameMain设置视频响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+LRESULT CFrameMain::OnUserMessageSettingVideoSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	return LRESULT();
+}
+
+//----------------------------------------------
+// @Function:	OnUserMessageSettingAudioSearch()
+// @Purpose: CFrameMain设置音频响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+LRESULT CFrameMain::OnUserMessageSettingAudioSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	return LRESULT();
+}
+
+//----------------------------------------------
+// @Function:	OnUserMessageSettingAlbumSearch()
+// @Purpose: CFrameMain设置相簿响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+LRESULT CFrameMain::OnUserMessageSettingAlbumSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	return LRESULT();
+}
+
+//----------------------------------------------
+// @Function:	OnUserMessageSettingShotSearch()
+// @Purpose: CFrameMain设置快照响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+LRESULT CFrameMain::OnUserMessageSettingShotSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	return LRESULT();
+}
+
+//----------------------------------------------
+// @Function:	OnUserMessageSettingAISearch()
+// @Purpose: CFrameMain设置AI响应
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+LRESULT CFrameMain::OnUserMessageSettingAISearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	return LRESULT();
 }
 
 //----------------------------------------------
