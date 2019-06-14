@@ -52,6 +52,7 @@ public:
 	CButtonUI * m_pOverBtn;			// LiveProject 置顶按钮
 	CButtonUI * m_pCancelOverBtn;	// LiveProject 取消置顶按钮
 
+	//---LiveProjec---
 	CTabLayoutUI * m_pLiveMainTab;			// LiveProject LiveMain容器
 	COptionUI * m_pLiveHomeOpt;				// LiveProject LiveHome选项卡
 	COptionUI * m_pLiveWallpaperOpt;		// LiveProject LiveWallpaper选项卡
@@ -63,6 +64,7 @@ public:
 	COptionUI * m_pSettingsOpt;				// LiveProject Settings选项卡
 	COptionUI * m_pAboutOpt;				// LiveProject About选项卡
 
+	//---LiveWallpaper---
 	COptionUI * m_pLiveWallVideoOpt;		// LiveWall 视频选项卡
 	COptionUI * m_pLiveWallGraphOpt;		// LiveWall 图形选项卡
 	CButtonUI * m_pLiveWallAddBtn;			// LiveWall 添加按钮
