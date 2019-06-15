@@ -1689,6 +1689,21 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 		pContainer->SetBkImage(_T("res\\livewallcfgtitle.png"));
 		pVertical->Add(pContainer);
 
+		// ButtonUI -- Save
+		CButtonUI* pSaveB = new CButtonUI();
+
+		pSaveB->SetName(_T("save"));
+		pSaveB->SetFloat(true);
+		pSaveB->SetAttribute(_T("pos"), _T("270,20,0,0"));
+		pSaveB->SetFixedWidth(24);
+		pSaveB->SetFixedHeight(24);
+		pSaveB->SetVisible(true);
+		pSaveB->SetToolTip(_T("Save"));
+		pSaveB->SetAttribute(_T("normalimage"), _T("file='res\\modbuttons.png' source='0,0,24,24'"));
+		pSaveB->SetAttribute(_T("hotimage"), _T("file='res\\modbuttons.png' source='0,24,24,48'"));
+		pSaveB->SetAttribute(_T("pushedimage"), _T("file='res\\modbuttons.png' source='0,48,24,72'"));
+		pVertical->Add(pSaveB);
+
 		// ContainerUI -- Mode
 		CContainerUI* pMode = new CContainerUI();
 
