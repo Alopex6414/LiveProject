@@ -1677,6 +1677,7 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 	if (pVertical != NULL)
 	{
 		pVertical->RemoveAll();
+		pVertical->EnableScrollBar();
 
 		// ContainerUI -- Title
 		CContainerUI* pContainer = new CContainerUI();
@@ -2096,6 +2097,17 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 		pLine3->SetFixedHeight(1);
 		pLine3->SetBkImage(_T("res\\line.png"));
 		pVertical->Add(pLine3);
+
+		// ContainerUI -- Audio
+		CContainerUI* pAudio = new CContainerUI();
+
+		pAudio->SetName(_T("audio"));
+		pAudio->SetFloat(true);
+		pAudio->SetAttribute(_T("pos"), _T("80,570,0,0"));
+		pAudio->SetFixedWidth(133);
+		pAudio->SetFixedHeight(19);
+		pAudio->SetBkImage(_T("res\\livewallcfgaudio.png"));
+		pVertical->Add(pAudio);
 
 	}
 	return 0;
