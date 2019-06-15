@@ -3092,7 +3092,34 @@ void CFrameMain::OnLButtonClickedOtherEvent(CControlUI* pSender)
 	}
 	else if (m_pSettingsOpt->IsSelected())	// LiveSetting Selected...
 	{
+		if (m_pLiveSettingWallOpt->IsSelected())
+		{
+			CVerticalLayoutUI* pVertical = static_cast<CVerticalLayoutUI*>(m_PaintManager.FindControl(_T("livesettingcontent")));
+			
+			if (pVertical != NULL)
+			{
+				CButtonUI* pCombineB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btncombine_uc")));
+				CButtonUI* pCombineB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btncombine_c")));
+				CButtonUI* pAloneB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnalone_uc")));
+				CButtonUI* pAloneB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnalone_c")));
 
+				if (pSender == pCombineB_uc)
+				{
+					pCombineB_uc->SetVisible(false);
+					pCombineB_c->SetVisible(true);
+					pAloneB_uc->SetVisible(true);
+					pAloneB_c->SetVisible(false);
+				}
+
+				if (pSender == pAloneB_uc)
+				{
+					pCombineB_uc->SetVisible(true);
+					pCombineB_c->SetVisible(false);
+					pAloneB_uc->SetVisible(false);
+					pAloneB_c->SetVisible(true);
+				}
+			}
+		}
 	}
 
 }
