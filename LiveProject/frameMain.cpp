@@ -1825,7 +1825,7 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 		pGraphicsB_c->SetAttribute(_T("pushedimage"), _T("file='res\\checkedbuttons_s.png' source='0,32,16,48'"));
 		pVertical->Add(pGraphicsB_c);
 
-		// ContainerUI -- Combine
+		// ContainerUI -- Graphics
 		CContainerUI* pGraphicsC = new CContainerUI();
 
 		pGraphicsC->SetName(_T("txtgraphics"));
@@ -1835,6 +1835,44 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 		pGraphicsC->SetFixedHeight(16);
 		pGraphicsC->SetBkImage(_T("res\\livewallcfgtxtgraphics.png"));
 		pVertical->Add(pGraphicsC);
+
+		// ButtonUI -- Font
+		CButtonUI* pFontB_uc = new CButtonUI();
+
+		pFontB_uc->SetName(_T("btnfont_uc"));
+		pFontB_uc->SetFloat(true);
+		pFontB_uc->SetAttribute(_T("pos"), _T("120,248,0,0"));
+		pFontB_uc->SetFixedWidth(16);
+		pFontB_uc->SetFixedHeight(16);
+		pFontB_uc->SetVisible(true);
+		pFontB_uc->SetAttribute(_T("normalimage"), _T("file='res\\uncheckedbuttons_s.png' source='0,0,16,16'"));
+		pFontB_uc->SetAttribute(_T("hotimage"), _T("file='res\\uncheckedbuttons_s.png' source='0,16,16,32'"));
+		pFontB_uc->SetAttribute(_T("pushedimage"), _T("file='res\\uncheckedbuttons_s.png' source='0,32,16,48'"));
+		pVertical->Add(pFontB_uc);
+
+		CButtonUI* pFontB_c = new CButtonUI();
+
+		pFontB_c->SetName(_T("btnfont_c"));
+		pFontB_c->SetFloat(true);
+		pFontB_c->SetAttribute(_T("pos"), _T("120,248,0,0"));
+		pFontB_c->SetFixedWidth(16);
+		pFontB_c->SetFixedHeight(16);
+		pFontB_c->SetVisible(false);
+		pFontB_c->SetAttribute(_T("normalimage"), _T("file='res\\checkedbuttons_s.png' source='0,0,16,16'"));
+		pFontB_c->SetAttribute(_T("hotimage"), _T("file='res\\checkedbuttons_s.png' source='0,16,16,32'"));
+		pFontB_c->SetAttribute(_T("pushedimage"), _T("file='res\\checkedbuttons_s.png' source='0,32,16,48'"));
+		pVertical->Add(pFontB_c);
+
+		// ContainerUI -- Font
+		CContainerUI* pFontC = new CContainerUI();
+
+		pFontC->SetName(_T("txtfont"));
+		pFontC->SetFloat(true);
+		pFontC->SetAttribute(_T("pos"), _T("140,250,0,0"));
+		pFontC->SetFixedWidth(186);
+		pFontC->SetFixedHeight(15);
+		pFontC->SetBkImage(_T("res\\livewallcfgtxtfont.png"));
+		pVertical->Add(pFontC);
 
 	}
 	return 0;
@@ -3162,6 +3200,10 @@ void CFrameMain::OnLButtonClickedOtherEvent(CControlUI* pSender)
 				CButtonUI* pCombineB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btncombine_c")));
 				CButtonUI* pAloneB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnalone_uc")));
 				CButtonUI* pAloneB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnalone_c")));
+				CButtonUI* pGraphicsB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btngraphics_uc")));
+				CButtonUI* pGraphicsB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btngraphics_c")));
+				CButtonUI* pFontB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnfont_uc")));
+				CButtonUI* pFontB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnfont_c")));
 
 				if (pSender == pCombineB_uc)
 				{
@@ -3178,6 +3220,31 @@ void CFrameMain::OnLButtonClickedOtherEvent(CControlUI* pSender)
 					pAloneB_uc->SetVisible(false);
 					pAloneB_c->SetVisible(true);
 				}
+
+				if (pSender == pGraphicsB_uc)
+				{
+					pGraphicsB_uc->SetVisible(false);
+					pGraphicsB_c->SetVisible(true);
+				}
+
+				if (pSender == pGraphicsB_c)
+				{
+					pGraphicsB_uc->SetVisible(true);
+					pGraphicsB_c->SetVisible(false);
+				}
+
+				if (pSender == pFontB_uc)
+				{
+					pFontB_uc->SetVisible(false);
+					pFontB_c->SetVisible(true);
+				}
+
+				if (pSender == pFontB_c)
+				{
+					pFontB_uc->SetVisible(true);
+					pFontB_c->SetVisible(false);
+				}
+
 			}
 		}
 	}
