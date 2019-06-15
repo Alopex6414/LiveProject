@@ -1694,15 +1694,30 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 
 		pSaveB->SetName(_T("save"));
 		pSaveB->SetFloat(true);
-		pSaveB->SetAttribute(_T("pos"), _T("270,20,0,0"));
+		pSaveB->SetAttribute(_T("pos"), _T("280,20,0,0"));
 		pSaveB->SetFixedWidth(24);
 		pSaveB->SetFixedHeight(24);
 		pSaveB->SetVisible(true);
 		pSaveB->SetToolTip(_T("Save"));
-		pSaveB->SetAttribute(_T("normalimage"), _T("file='res\\modbuttons.png' source='0,0,24,24'"));
-		pSaveB->SetAttribute(_T("hotimage"), _T("file='res\\modbuttons.png' source='0,24,24,48'"));
-		pSaveB->SetAttribute(_T("pushedimage"), _T("file='res\\modbuttons.png' source='0,48,24,72'"));
+		pSaveB->SetAttribute(_T("normalimage"), _T("file='res\\savebuttons.png' source='0,0,24,24'"));
+		pSaveB->SetAttribute(_T("hotimage"), _T("file='res\\savebuttons.png' source='0,24,24,48'"));
+		pSaveB->SetAttribute(_T("pushedimage"), _T("file='res\\savebuttons.png' source='0,48,24,72'"));
 		pVertical->Add(pSaveB);
+
+		// ButtonUI -- Refresh
+		CButtonUI* pRefreshB = new CButtonUI();
+
+		pRefreshB->SetName(_T("refresh"));
+		pRefreshB->SetFloat(true);
+		pRefreshB->SetAttribute(_T("pos"), _T("310,20,0,0"));
+		pRefreshB->SetFixedWidth(24);
+		pRefreshB->SetFixedHeight(24);
+		pRefreshB->SetVisible(true);
+		pRefreshB->SetToolTip(_T("Refresh"));
+		pRefreshB->SetAttribute(_T("normalimage"), _T("file='res\\refreshbuttons.png' source='0,0,24,24'"));
+		pRefreshB->SetAttribute(_T("hotimage"), _T("file='res\\refreshbuttons.png' source='0,24,24,48'"));
+		pRefreshB->SetAttribute(_T("pushedimage"), _T("file='res\\refreshbuttons.png' source='0,48,24,72'"));
+		pVertical->Add(pRefreshB);
 
 		// ContainerUI -- Mode
 		CContainerUI* pMode = new CContainerUI();
