@@ -1874,6 +1874,229 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 		pFontC->SetBkImage(_T("res\\livewallcfgtxtfont.png"));
 		pVertical->Add(pFontC);
 
+		// ContainerUI -- Line2
+		CContainerUI* pLine2 = new CContainerUI();
+
+		pLine2->SetName(_T("line2"));
+		pLine2->SetFloat(true);
+		pLine2->SetAttribute(_T("pos"), _T("84,300,0,0"));
+		pLine2->SetFixedWidth(600);
+		pLine2->SetFixedHeight(1);
+		pLine2->SetBkImage(_T("res\\line.png"));
+		pVertical->Add(pLine2);
+
+		// ContainerUI -- Display
+		CContainerUI* pDisplay = new CContainerUI();
+
+		pDisplay->SetName(_T("display"));
+		pDisplay->SetFloat(true);
+		pDisplay->SetAttribute(_T("pos"), _T("80,320,0,0"));
+		pDisplay->SetFixedWidth(136);
+		pDisplay->SetFixedHeight(19);
+		pDisplay->SetBkImage(_T("res\\livewallcfgdisplay.png"));
+		pVertical->Add(pDisplay);
+
+		// ButtonUI -- Fill
+		CButtonUI* pFillB_uc = new CButtonUI();
+
+		pFillB_uc->SetName(_T("btnfill_uc"));
+		pFillB_uc->SetFloat(true);
+		pFillB_uc->SetAttribute(_T("pos"), _T("120,358,0,0"));
+		pFillB_uc->SetFixedWidth(16);
+		pFillB_uc->SetFixedHeight(16);
+		pFillB_uc->SetVisible(false);
+		pFillB_uc->SetAttribute(_T("normalimage"), _T("file='res\\uncheckedbuttons_s.png' source='0,0,16,16'"));
+		pFillB_uc->SetAttribute(_T("hotimage"), _T("file='res\\uncheckedbuttons_s.png' source='0,16,16,32'"));
+		pFillB_uc->SetAttribute(_T("pushedimage"), _T("file='res\\uncheckedbuttons_s.png' source='0,32,16,48'"));
+		pVertical->Add(pFillB_uc);
+
+		CButtonUI* pFillB_c = new CButtonUI();
+
+		pFillB_c->SetName(_T("btnfill_c"));
+		pFillB_c->SetFloat(true);
+		pFillB_c->SetAttribute(_T("pos"), _T("120,358,0,0"));
+		pFillB_c->SetFixedWidth(16);
+		pFillB_c->SetFixedHeight(16);
+		pFillB_c->SetVisible(true);
+		pFillB_c->SetAttribute(_T("normalimage"), _T("file='res\\checkedbuttons_s.png' source='0,0,16,16'"));
+		pFillB_c->SetAttribute(_T("hotimage"), _T("file='res\\checkedbuttons_s.png' source='0,16,16,32'"));
+		pFillB_c->SetAttribute(_T("pushedimage"), _T("file='res\\checkedbuttons_s.png' source='0,32,16,48'"));
+		pVertical->Add(pFillB_c);
+
+		// ContainerUI -- Fill
+		CContainerUI* pFillC = new CContainerUI();
+
+		pFillC->SetName(_T("txtfill"));
+		pFillC->SetFloat(true);
+		pFillC->SetAttribute(_T("pos"), _T("140,360,0,0"));
+		pFillC->SetFixedWidth(16);
+		pFillC->SetFixedHeight(12);
+		pFillC->SetBkImage(_T("res\\livewallcfgtxtfill.png"));
+		pVertical->Add(pFillC);
+
+		// ButtonUI -- Adapt
+		CButtonUI* pAdaptB_uc = new CButtonUI();
+
+		pAdaptB_uc->SetName(_T("btnadapt_uc"));
+		pAdaptB_uc->SetFloat(true);
+		pAdaptB_uc->SetAttribute(_T("pos"), _T("120,398,0,0"));
+		pAdaptB_uc->SetFixedWidth(16);
+		pAdaptB_uc->SetFixedHeight(16);
+		pAdaptB_uc->SetVisible(true);
+		pAdaptB_uc->SetAttribute(_T("normalimage"), _T("file='res\\uncheckedbuttons_s.png' source='0,0,16,16'"));
+		pAdaptB_uc->SetAttribute(_T("hotimage"), _T("file='res\\uncheckedbuttons_s.png' source='0,16,16,32'"));
+		pAdaptB_uc->SetAttribute(_T("pushedimage"), _T("file='res\\uncheckedbuttons_s.png' source='0,32,16,48'"));
+		pVertical->Add(pAdaptB_uc);
+
+		CButtonUI* pAdaptB_c = new CButtonUI();
+
+		pAdaptB_c->SetName(_T("btnadapt_c"));
+		pAdaptB_c->SetFloat(true);
+		pAdaptB_c->SetAttribute(_T("pos"), _T("120,398,0,0"));
+		pAdaptB_c->SetFixedWidth(16);
+		pAdaptB_c->SetFixedHeight(16);
+		pAdaptB_c->SetVisible(false);
+		pAdaptB_c->SetAttribute(_T("normalimage"), _T("file='res\\checkedbuttons_s.png' source='0,0,16,16'"));
+		pAdaptB_c->SetAttribute(_T("hotimage"), _T("file='res\\checkedbuttons_s.png' source='0,16,16,32'"));
+		pAdaptB_c->SetAttribute(_T("pushedimage"), _T("file='res\\checkedbuttons_s.png' source='0,32,16,48'"));
+		pVertical->Add(pAdaptB_c);
+
+		// ContainerUI -- Adapt
+		CContainerUI* pAdaptC = new CContainerUI();
+
+		pAdaptC->SetName(_T("txtadapt"));
+		pAdaptC->SetFloat(true);
+		pAdaptC->SetAttribute(_T("pos"), _T("140,400,0,0"));
+		pAdaptC->SetFixedWidth(50);
+		pAdaptC->SetFixedHeight(15);
+		pAdaptC->SetBkImage(_T("res\\livewallcfgtxtadapt.png"));
+		pVertical->Add(pAdaptC);
+
+		// ButtonUI -- Stretch
+		CButtonUI* pStretchB_uc = new CButtonUI();
+
+		pStretchB_uc->SetName(_T("btnstretch_uc"));
+		pStretchB_uc->SetFloat(true);
+		pStretchB_uc->SetAttribute(_T("pos"), _T("120,438,0,0"));
+		pStretchB_uc->SetFixedWidth(16);
+		pStretchB_uc->SetFixedHeight(16);
+		pStretchB_uc->SetVisible(true);
+		pStretchB_uc->SetAttribute(_T("normalimage"), _T("file='res\\uncheckedbuttons_s.png' source='0,0,16,16'"));
+		pStretchB_uc->SetAttribute(_T("hotimage"), _T("file='res\\uncheckedbuttons_s.png' source='0,16,16,32'"));
+		pStretchB_uc->SetAttribute(_T("pushedimage"), _T("file='res\\uncheckedbuttons_s.png' source='0,32,16,48'"));
+		pVertical->Add(pStretchB_uc);
+
+		CButtonUI* pStretchB_c = new CButtonUI();
+
+		pStretchB_c->SetName(_T("btnstretch_c"));
+		pStretchB_c->SetFloat(true);
+		pStretchB_c->SetAttribute(_T("pos"), _T("120,438,0,0"));
+		pStretchB_c->SetFixedWidth(16);
+		pStretchB_c->SetFixedHeight(16);
+		pStretchB_c->SetVisible(false);
+		pStretchB_c->SetAttribute(_T("normalimage"), _T("file='res\\checkedbuttons_s.png' source='0,0,16,16'"));
+		pStretchB_c->SetAttribute(_T("hotimage"), _T("file='res\\checkedbuttons_s.png' source='0,16,16,32'"));
+		pStretchB_c->SetAttribute(_T("pushedimage"), _T("file='res\\checkedbuttons_s.png' source='0,32,16,48'"));
+		pVertical->Add(pStretchB_c);
+
+		// ContainerUI -- Stretch
+		CContainerUI* pStretchC = new CContainerUI();
+
+		pStretchC->SetName(_T("txtstretch"));
+		pStretchC->SetFloat(true);
+		pStretchC->SetAttribute(_T("pos"), _T("140,440,0,0"));
+		pStretchC->SetFixedWidth(53);
+		pStretchC->SetFixedHeight(13);
+		pStretchC->SetBkImage(_T("res\\livewallcfgtxtstretch.png"));
+		pVertical->Add(pStretchC);
+
+		// ButtonUI -- Tile
+		CButtonUI* pTileB_uc = new CButtonUI();
+
+		pTileB_uc->SetName(_T("btntile_uc"));
+		pTileB_uc->SetFloat(true);
+		pTileB_uc->SetAttribute(_T("pos"), _T("120,478,0,0"));
+		pTileB_uc->SetFixedWidth(16);
+		pTileB_uc->SetFixedHeight(16);
+		pTileB_uc->SetVisible(true);
+		pTileB_uc->SetAttribute(_T("normalimage"), _T("file='res\\uncheckedbuttons_s.png' source='0,0,16,16'"));
+		pTileB_uc->SetAttribute(_T("hotimage"), _T("file='res\\uncheckedbuttons_s.png' source='0,16,16,32'"));
+		pTileB_uc->SetAttribute(_T("pushedimage"), _T("file='res\\uncheckedbuttons_s.png' source='0,32,16,48'"));
+		pVertical->Add(pTileB_uc);
+
+		CButtonUI* pTileB_c = new CButtonUI();
+
+		pTileB_c->SetName(_T("btntile_c"));
+		pTileB_c->SetFloat(true);
+		pTileB_c->SetAttribute(_T("pos"), _T("120,478,0,0"));
+		pTileB_c->SetFixedWidth(16);
+		pTileB_c->SetFixedHeight(16);
+		pTileB_c->SetVisible(false);
+		pTileB_c->SetAttribute(_T("normalimage"), _T("file='res\\checkedbuttons_s.png' source='0,0,16,16'"));
+		pTileB_c->SetAttribute(_T("hotimage"), _T("file='res\\checkedbuttons_s.png' source='0,16,16,32'"));
+		pTileB_c->SetAttribute(_T("pushedimage"), _T("file='res\\checkedbuttons_s.png' source='0,32,16,48'"));
+		pVertical->Add(pTileB_c);
+
+		// ContainerUI -- Tile
+		CContainerUI* pTileC = new CContainerUI();
+
+		pTileC->SetName(_T("txttile"));
+		pTileC->SetFloat(true);
+		pTileC->SetAttribute(_T("pos"), _T("140,480,0,0"));
+		pTileC->SetFixedWidth(23);
+		pTileC->SetFixedHeight(13);
+		pTileC->SetBkImage(_T("res\\livewallcfgtxttile.png"));
+		pVertical->Add(pTileC);
+
+		// ButtonUI -- Center
+		CButtonUI* pCenterB_uc = new CButtonUI();
+
+		pCenterB_uc->SetName(_T("btncenter_uc"));
+		pCenterB_uc->SetFloat(true);
+		pCenterB_uc->SetAttribute(_T("pos"), _T("120,518,0,0"));
+		pCenterB_uc->SetFixedWidth(16);
+		pCenterB_uc->SetFixedHeight(16);
+		pCenterB_uc->SetVisible(true);
+		pCenterB_uc->SetAttribute(_T("normalimage"), _T("file='res\\uncheckedbuttons_s.png' source='0,0,16,16'"));
+		pCenterB_uc->SetAttribute(_T("hotimage"), _T("file='res\\uncheckedbuttons_s.png' source='0,16,16,32'"));
+		pCenterB_uc->SetAttribute(_T("pushedimage"), _T("file='res\\uncheckedbuttons_s.png' source='0,32,16,48'"));
+		pVertical->Add(pCenterB_uc);
+
+		CButtonUI* pCenterB_c = new CButtonUI();
+
+		pCenterB_c->SetName(_T("btncenter_c"));
+		pCenterB_c->SetFloat(true);
+		pCenterB_c->SetAttribute(_T("pos"), _T("120,518,0,0"));
+		pCenterB_c->SetFixedWidth(16);
+		pCenterB_c->SetFixedHeight(16);
+		pCenterB_c->SetVisible(false);
+		pCenterB_c->SetAttribute(_T("normalimage"), _T("file='res\\checkedbuttons_s.png' source='0,0,16,16'"));
+		pCenterB_c->SetAttribute(_T("hotimage"), _T("file='res\\checkedbuttons_s.png' source='0,16,16,32'"));
+		pCenterB_c->SetAttribute(_T("pushedimage"), _T("file='res\\checkedbuttons_s.png' source='0,32,16,48'"));
+		pVertical->Add(pCenterB_c);
+
+		// ContainerUI -- Center
+		CContainerUI* pCenterC = new CContainerUI();
+
+		pCenterC->SetName(_T("txtcenter"));
+		pCenterC->SetFloat(true);
+		pCenterC->SetAttribute(_T("pos"), _T("140,520,0,0"));
+		pCenterC->SetFixedWidth(53);
+		pCenterC->SetFixedHeight(13);
+		pCenterC->SetBkImage(_T("res\\livewallcfgtxtcenter.png"));
+		pVertical->Add(pCenterC);
+
+		// ContainerUI -- Line3
+		CContainerUI* pLine3 = new CContainerUI();
+
+		pLine3->SetName(_T("line3"));
+		pLine3->SetFloat(true);
+		pLine3->SetAttribute(_T("pos"), _T("84,550,0,0"));
+		pLine3->SetFixedWidth(600);
+		pLine3->SetFixedHeight(1);
+		pLine3->SetBkImage(_T("res\\line.png"));
+		pVertical->Add(pLine3);
+
 	}
 	return 0;
 }
@@ -3204,6 +3427,16 @@ void CFrameMain::OnLButtonClickedOtherEvent(CControlUI* pSender)
 				CButtonUI* pGraphicsB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btngraphics_c")));
 				CButtonUI* pFontB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnfont_uc")));
 				CButtonUI* pFontB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnfont_c")));
+				CButtonUI* pFillB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnfill_uc")));
+				CButtonUI* pFillB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnfill_c")));
+				CButtonUI* pAdaptB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnadapt_uc")));
+				CButtonUI* pAdaptB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnadapt_c")));
+				CButtonUI* pStretchB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnstretch_uc")));
+				CButtonUI* pStretchB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnstretch_c")));
+				CButtonUI* pTileB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btntile_uc")));
+				CButtonUI* pTileB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btntile_c")));
+				CButtonUI* pCenterB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btncenter_uc")));
+				CButtonUI* pCenterB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btncenter_c")));
 
 				if (pSender == pCombineB_uc)
 				{
@@ -3243,6 +3476,76 @@ void CFrameMain::OnLButtonClickedOtherEvent(CControlUI* pSender)
 				{
 					pFontB_uc->SetVisible(true);
 					pFontB_c->SetVisible(false);
+				}
+
+				if (pSender == pFillB_uc)
+				{
+					pFillB_uc->SetVisible(false);
+					pFillB_c->SetVisible(true);
+					pAdaptB_uc->SetVisible(true);
+					pAdaptB_c->SetVisible(false);
+					pStretchB_uc->SetVisible(true);
+					pStretchB_c->SetVisible(false);
+					pTileB_uc->SetVisible(true);
+					pTileB_c->SetVisible(false);
+					pCenterB_uc->SetVisible(true);
+					pCenterB_c->SetVisible(false);
+				}
+
+				if (pSender == pAdaptB_uc)
+				{
+					pFillB_uc->SetVisible(true);
+					pFillB_c->SetVisible(false);
+					pAdaptB_uc->SetVisible(false);
+					pAdaptB_c->SetVisible(true);
+					pStretchB_uc->SetVisible(true);
+					pStretchB_c->SetVisible(false);
+					pTileB_uc->SetVisible(true);
+					pTileB_c->SetVisible(false);
+					pCenterB_uc->SetVisible(true);
+					pCenterB_c->SetVisible(false);
+				}
+
+				if (pSender == pStretchB_uc)
+				{
+					pFillB_uc->SetVisible(true);
+					pFillB_c->SetVisible(false);
+					pAdaptB_uc->SetVisible(true);
+					pAdaptB_c->SetVisible(false);
+					pStretchB_uc->SetVisible(false);
+					pStretchB_c->SetVisible(true);
+					pTileB_uc->SetVisible(true);
+					pTileB_c->SetVisible(false);
+					pCenterB_uc->SetVisible(true);
+					pCenterB_c->SetVisible(false);
+				}
+
+				if (pSender == pTileB_uc)
+				{
+					pFillB_uc->SetVisible(true);
+					pFillB_c->SetVisible(false);
+					pAdaptB_uc->SetVisible(true);
+					pAdaptB_c->SetVisible(false);
+					pStretchB_uc->SetVisible(true);
+					pStretchB_c->SetVisible(false);
+					pTileB_uc->SetVisible(false);
+					pTileB_c->SetVisible(true);
+					pCenterB_uc->SetVisible(true);
+					pCenterB_c->SetVisible(false);
+				}
+
+				if (pSender == pCenterB_uc)
+				{
+					pFillB_uc->SetVisible(true);
+					pFillB_c->SetVisible(false);
+					pAdaptB_uc->SetVisible(true);
+					pAdaptB_c->SetVisible(false);
+					pStretchB_uc->SetVisible(true);
+					pStretchB_c->SetVisible(false);
+					pTileB_uc->SetVisible(true);
+					pTileB_c->SetVisible(false);
+					pCenterB_uc->SetVisible(false);
+					pCenterB_c->SetVisible(true);
 				}
 
 			}
