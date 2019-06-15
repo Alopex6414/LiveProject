@@ -1787,6 +1787,55 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 		pLine1->SetBkImage(_T("res\\line.png"));
 		pVertical->Add(pLine1);
 
+		// ContainerUI -- Show
+		CContainerUI* pShow = new CContainerUI();
+
+		pShow->SetName(_T("show"));
+		pShow->SetFloat(true);
+		pShow->SetAttribute(_T("pos"), _T("80,170,0,0"));
+		pShow->SetFixedWidth(127);
+		pShow->SetFixedHeight(19);
+		pShow->SetBkImage(_T("res\\livewallcfgshow.png"));
+		pVertical->Add(pShow);
+
+		// ButtonUI -- Graphics
+		CButtonUI* pGraphicsB_uc = new CButtonUI();
+
+		pGraphicsB_uc->SetName(_T("btngraphics_uc"));
+		pGraphicsB_uc->SetFloat(true);
+		pGraphicsB_uc->SetAttribute(_T("pos"), _T("120,208,0,0"));
+		pGraphicsB_uc->SetFixedWidth(16);
+		pGraphicsB_uc->SetFixedHeight(16);
+		pGraphicsB_uc->SetVisible(true);
+		pGraphicsB_uc->SetAttribute(_T("normalimage"), _T("file='res\\uncheckedbuttons_s.png' source='0,0,16,16'"));
+		pGraphicsB_uc->SetAttribute(_T("hotimage"), _T("file='res\\uncheckedbuttons_s.png' source='0,16,16,32'"));
+		pGraphicsB_uc->SetAttribute(_T("pushedimage"), _T("file='res\\uncheckedbuttons_s.png' source='0,32,16,48'"));
+		pVertical->Add(pGraphicsB_uc);
+
+		CButtonUI* pGraphicsB_c = new CButtonUI();
+
+		pGraphicsB_c->SetName(_T("btngraphics_c"));
+		pGraphicsB_c->SetFloat(true);
+		pGraphicsB_c->SetAttribute(_T("pos"), _T("120,208,0,0"));
+		pGraphicsB_c->SetFixedWidth(16);
+		pGraphicsB_c->SetFixedHeight(16);
+		pGraphicsB_c->SetVisible(false);
+		pGraphicsB_c->SetAttribute(_T("normalimage"), _T("file='res\\checkedbuttons_s.png' source='0,0,16,16'"));
+		pGraphicsB_c->SetAttribute(_T("hotimage"), _T("file='res\\checkedbuttons_s.png' source='0,16,16,32'"));
+		pGraphicsB_c->SetAttribute(_T("pushedimage"), _T("file='res\\checkedbuttons_s.png' source='0,32,16,48'"));
+		pVertical->Add(pGraphicsB_c);
+
+		// ContainerUI -- Combine
+		CContainerUI* pGraphicsC = new CContainerUI();
+
+		pGraphicsC->SetName(_T("txtgraphics"));
+		pGraphicsC->SetFloat(true);
+		pGraphicsC->SetAttribute(_T("pos"), _T("140,210,0,0"));
+		pGraphicsC->SetFixedWidth(298);
+		pGraphicsC->SetFixedHeight(16);
+		pGraphicsC->SetBkImage(_T("res\\livewallcfgtxtgraphics.png"));
+		pVertical->Add(pGraphicsC);
+
 	}
 	return 0;
 }
