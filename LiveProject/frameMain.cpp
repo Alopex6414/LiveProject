@@ -2988,103 +2988,111 @@ void CFrameMain::OnLButtonClickedLiveSettingAIOption()
 //----------------------------------------------
 void CFrameMain::OnLButtonClickedOtherEvent(CControlUI* pSender)
 {
-	// select option is video...
-	if (m_pLiveWallVideoOpt->IsSelected())
+	// LiveWallpaper Selected...
+	if (m_pLiveWallpaperOpt->IsSelected())
 	{
-		// 查找是否是单击LiveWall视频列表中控件(Mod)...
-		if (m_bWallVideoMod == true)
+		// select option is video...
+		if (m_pLiveWallVideoOpt->IsSelected())
 		{
-			for (int i = 0; i < m_pLiveWallContextLst->GetCount(); ++i)
+			// 查找是否是单击LiveWall视频列表中控件(Mod)...
+			if (m_bWallVideoMod == true)
 			{
-				CHorizontalLayoutUI* pHorizontal = static_cast<CHorizontalLayoutUI*>(m_pLiveWallContextLst->GetItemAt(i));
-
-				if (pHorizontal != NULL)
+				for (int i = 0; i < m_pLiveWallContextLst->GetCount(); ++i)
 				{
-					CButtonUI* pUnChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("unchecked")));
-					CButtonUI* pChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("checked")));
+					CHorizontalLayoutUI* pHorizontal = static_cast<CHorizontalLayoutUI*>(m_pLiveWallContextLst->GetItemAt(i));
 
-					if (pSender == pUnChecked)
+					if (pHorizontal != NULL)
 					{
-						pUnChecked->SetVisible(false);
-						pChecked->SetVisible(true);
+						CButtonUI* pUnChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("unchecked")));
+						CButtonUI* pChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("checked")));
+
+						if (pSender == pUnChecked)
+						{
+							pUnChecked->SetVisible(false);
+							pChecked->SetVisible(true);
+						}
+
+						if (pSender == pChecked)
+						{
+							pUnChecked->SetVisible(true);
+							pChecked->SetVisible(false);
+						}
 					}
+				}
+			}
+			else
+			{
+				for (int i = 0; i < m_pLiveWallContextLst->GetCount(); ++i)
+				{
+					CHorizontalLayoutUI* pHorizontal = static_cast<CHorizontalLayoutUI*>(m_pLiveWallContextLst->GetItemAt(i));
 
-					if (pSender == pChecked)
+					if (pHorizontal != NULL)
 					{
-						pUnChecked->SetVisible(true);
-						pChecked->SetVisible(false);
+						CButtonUI* pPlayBtn = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("play")));		// play buttons for playing video wallpapaer...
+
+						if (pSender == pPlayBtn)
+						{
+							m_nPlayNo = i;
+							RecordVideoConfigFile(&m_vecWallVideoInfo.at(i));	// record video config file...
+							ReStartProcess("LiveWallpaperCore.exe");
+							//Sleep(1);
+						}
 					}
 				}
 			}
 		}
 		else
 		{
-			for (int i = 0; i < m_pLiveWallContextLst->GetCount(); ++i)
+			// 查找是否是单击LiveWall视频列表中控件(Mod)...
+			if (m_bWallGraphMod == true)
 			{
-				CHorizontalLayoutUI* pHorizontal = static_cast<CHorizontalLayoutUI*>(m_pLiveWallContextLst->GetItemAt(i));
-
-				if (pHorizontal != NULL)
+				for (int i = 0; i < m_pLiveWallContextLst->GetCount(); ++i)
 				{
-					CButtonUI* pPlayBtn = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("play")));		// play buttons for playing video wallpapaer...
+					CHorizontalLayoutUI* pHorizontal = static_cast<CHorizontalLayoutUI*>(m_pLiveWallContextLst->GetItemAt(i));
 
-					if (pSender == pPlayBtn)
+					if (pHorizontal != NULL)
 					{
-						m_nPlayNo = i;
-						RecordVideoConfigFile(&m_vecWallVideoInfo.at(i));	// record video config file...
-						ReStartProcess("LiveWallpaperCore.exe");
-						//Sleep(1);
+						CButtonUI* pUnChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("unchecked")));
+						CButtonUI* pChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("checked")));
+
+						if (pSender == pUnChecked)
+						{
+							pUnChecked->SetVisible(false);
+							pChecked->SetVisible(true);
+						}
+
+						if (pSender == pChecked)
+						{
+							pUnChecked->SetVisible(true);
+							pChecked->SetVisible(false);
+						}
+					}
+				}
+			}
+			else
+			{
+				for (int i = 0; i < m_pLiveWallContextLst->GetCount(); ++i)
+				{
+					CHorizontalLayoutUI* pHorizontal = static_cast<CHorizontalLayoutUI*>(m_pLiveWallContextLst->GetItemAt(i));
+
+					if (pHorizontal != NULL)
+					{
+						CButtonUI* pPlayBtn = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("play")));		// play buttons for playing video wallpapaer...
+
+						if (pSender == pPlayBtn)
+						{
+							//RecordVideoConfigFile(&m_vecWallVideoInfo.at(i));	// record video config file...
+							//ReStartProcess("LiveWallpaperCore.exe");
+							//Sleep(1);
+						}
 					}
 				}
 			}
 		}
 	}
-	else
+	else if (m_pSettingsOpt->IsSelected())	// LiveSetting Selected...
 	{
-		// 查找是否是单击LiveWall视频列表中控件(Mod)...
-		if (m_bWallGraphMod == true)
-		{
-			for (int i = 0; i < m_pLiveWallContextLst->GetCount(); ++i)
-			{
-				CHorizontalLayoutUI* pHorizontal = static_cast<CHorizontalLayoutUI*>(m_pLiveWallContextLst->GetItemAt(i));
 
-				if (pHorizontal != NULL)
-				{
-					CButtonUI* pUnChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("unchecked")));
-					CButtonUI* pChecked = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("checked")));
-
-					if (pSender == pUnChecked)
-					{
-						pUnChecked->SetVisible(false);
-						pChecked->SetVisible(true);
-					}
-
-					if (pSender == pChecked)
-					{
-						pUnChecked->SetVisible(true);
-						pChecked->SetVisible(false);
-					}
-				}
-			}
-		}
-		else
-		{
-			for (int i = 0; i < m_pLiveWallContextLst->GetCount(); ++i)
-			{
-				CHorizontalLayoutUI* pHorizontal = static_cast<CHorizontalLayoutUI*>(m_pLiveWallContextLst->GetItemAt(i));
-
-				if (pHorizontal != NULL)
-				{
-					CButtonUI* pPlayBtn = static_cast<CButtonUI*>(pHorizontal->FindSubControl(_T("play")));		// play buttons for playing video wallpapaer...
-
-					if (pSender == pPlayBtn)
-					{
-						//RecordVideoConfigFile(&m_vecWallVideoInfo.at(i));	// record video config file...
-						//ReStartProcess("LiveWallpaperCore.exe");
-						//Sleep(1);
-					}
-				}
-			}
-		}
 	}
 
 }
