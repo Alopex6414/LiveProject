@@ -1776,6 +1776,17 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 		pAlone->SetBkImage(_T("res\\livewallcfgtxtalone.png"));
 		pVertical->Add(pAlone);
 
+		// ContainerUI -- Line1
+		CContainerUI* pLine1 = new CContainerUI();
+
+		pLine1->SetName(_T("line1"));
+		pLine1->SetFloat(true);
+		pLine1->SetAttribute(_T("pos"), _T("84,150,0,0"));
+		pLine1->SetFixedWidth(600);
+		pLine1->SetFixedHeight(1);
+		pLine1->SetBkImage(_T("res\\line.png"));
+		pVertical->Add(pLine1);
+
 	}
 	return 0;
 }
