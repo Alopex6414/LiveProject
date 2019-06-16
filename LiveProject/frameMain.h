@@ -160,6 +160,8 @@ public:
 	LRESULT OnUserMessageSettingAlbumSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 	LRESULT OnUserMessageSettingShotSearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 	LRESULT OnUserMessageSettingAISearch(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+	LRESULT OnUserMessageSettingWallGetConfig(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+	LRESULT OnUserMessageSettingWallSetConfig(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 
 public:
 	static DWORD CALLBACK OnGetWallVideoShotProcess(LPVOID lpParameter);							// LiveProject 获取视频壁纸快照进程(1st帧)
@@ -204,6 +206,7 @@ public:
 	void OnLButtonClickedLiveSettingAlbumOption();	// LiveSetting 单击相簿选项卡
 	void OnLButtonClickedLiveSettingShotOption();	// LiveSetting 单击快照选项卡
 	void OnLButtonClickedLiveSettingAIOption();		// LiveSetting 单击AI选项卡
+
 
 	void OnLButtonClickedOtherEvent(CControlUI*);	// LiveProject 单击事件响应(其他事件)...
 };

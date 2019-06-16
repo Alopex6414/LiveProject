@@ -330,6 +330,12 @@ LRESULT CFrameMain::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_USER_MESSAGE_SETTINGAI_SEARCH:
 		lRes = OnUserMessageSettingAISearch(uMsg, wParam, lParam, bHandled);
 		break;
+	case WM_USER_MESSAGE_SETTINGWALL_GETCONFIG:
+		lRes = OnUserMessageSettingWallGetConfig(uMsg, wParam, lParam, bHandled);
+		break;
+	case WM_USER_MESSAGE_SETTINGWALL_SETCONFIG:
+		lRes = OnUserMessageSettingWallSetConfig(uMsg, wParam, lParam, bHandled);
+		break;
 	default:
 		bHandled = FALSE;
 		break;
@@ -2244,6 +2250,8 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 		pLogsC->SetBkImage(_T("res\\livewallcfgtxtlogs.png"));
 		pVertical->Add(pLogsC);
 
+		// Send Message Update...
+		::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_SETTINGWALL_GETCONFIG, (WPARAM)0, (LPARAM)0);
 	}
 	return 0;
 }
@@ -2330,6 +2338,250 @@ LRESULT CFrameMain::OnUserMessageSettingAISearch(UINT uMsg, WPARAM wParam, LPARA
 	{
 		pVertical->RemoveAll();
 	}
+	return 0;
+}
+
+//-------------------------------------------------
+// @Function:	OnUserMessageSettingWallGetConfig()
+// @Purpose: CFrameMain获取配置文件信息
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-------------------------------------------------
+LRESULT CFrameMain::OnUserMessageSettingWallGetConfig(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	char chFile[MAX_PATH] = { 0 };
+	char* pTemp = NULL;
+
+	int nLiveCoreMode = 0;
+	int nLiveCoreShowGraphics = 0;
+	int nLiveCoreShowGraphicsFont = 0;
+	int nLiveCoreWallpaperMode = 0;
+	int nLiveCoreWallpaperAudioMode = 0;
+	int nLiveCoreLogProcess = 0;
+
+	// analyze file path...
+	CPlumFile* pFile = new CPlumFile();
+	pFile->PlumFileGetModuleFileNameA(chFile, MAX_PATH);
+
+	pTemp = strrchr(chFile, '\\');
+	if (pTemp)* pTemp = '\0';
+	strcat_s(chFile, "\\config\\LiveCore.cfg");
+
+	// analyze config info...
+	char chArray[MAX_PATH] = { 0 };
+	int nValue = 0;
+
+	memset(chArray, 0, MAX_PATH);
+	GetPrivateProfileStringA("LIVECOREMODE", "LiveCore_Mode", 0, chArray, MAX_PATH, chFile);
+	nValue = atoi(chArray);
+	nLiveCoreMode = nValue;																							// LiveCore模式: 0~组合模式 1~分离模式
+
+	memset(chArray, 0, MAX_PATH);
+	GetPrivateProfileStringA("LIVECORESHOW", "LiveCore_Show_Graphics", 0, chArray, MAX_PATH, chFile);
+	nValue = atoi(chArray);
+	nLiveCoreShowGraphics = nValue;																					// LiveCore显示: 0~不显示显卡型号(fps) 1~显示显卡型号(fps)
+
+	memset(chArray, 0, MAX_PATH);
+	GetPrivateProfileStringA("LIVECORESHOW", "LiveCore_Show_GraphicsFont", 0, chArray, MAX_PATH, chFile);
+	nValue = atoi(chArray);
+	nLiveCoreShowGraphicsFont = nValue;																				// LiveCore显示字体大小
+
+	memset(chArray, 0, MAX_PATH);
+	GetPrivateProfileStringA("LIVECOREWALLPAPERMODE", "LiveCore_Wallpaper_Mode", 0, chArray, MAX_PATH, chFile);
+	nValue = atoi(chArray);
+	nLiveCoreWallpaperMode = nValue;																					// LiveCore屏幕分辨率模式: 0~填充 1~适应 2~拉伸 3~平铺 4~居中
+
+	memset(chArray, 0, MAX_PATH);
+	GetPrivateProfileStringA("LIVECOREWALLPAPERMODE", "LiveCore_Wallpaper_Audio", 0, chArray, MAX_PATH, chFile);
+	nValue = atoi(chArray);
+	nLiveCoreWallpaperAudioMode = nValue;																				// LiveCore音频播放模式: 0~不播放音频 1~播放音频
+
+	memset(chArray, 0, MAX_PATH);
+	GetPrivateProfileStringA("LIVECORELOGMODE", "LiveCore_Log_Process", 0, chArray, MAX_PATH, chFile);
+	nValue = atoi(chArray);
+	nLiveCoreLogProcess = nValue;																						// LiveCore日志记录: 0~不记录过程 1~记录过程
+
+	// safe delete object...
+	SAFE_DELETE(pFile);
+
+	// show configure...
+	if (m_pSettingsOpt->IsSelected())
+	{
+		if (m_pLiveSettingWallOpt->IsSelected())
+		{
+			CVerticalLayoutUI* pVertical = static_cast<CVerticalLayoutUI*>(m_PaintManager.FindControl(_T("livesettingcontent")));
+			if (pVertical != NULL)
+			{
+				CButtonUI* pCombineB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btncombine_uc")));
+				CButtonUI* pCombineB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btncombine_c")));
+				CButtonUI* pAloneB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnalone_uc")));
+				CButtonUI* pAloneB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnalone_c")));
+				CButtonUI* pGraphicsB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btngraphics_uc")));
+				CButtonUI* pGraphicsB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btngraphics_c")));
+				CButtonUI* pFontB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnfont_uc")));
+				CButtonUI* pFontB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnfont_c")));
+				CButtonUI* pFillB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnfill_uc")));
+				CButtonUI* pFillB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnfill_c")));
+				CButtonUI* pAdaptB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnadapt_uc")));
+				CButtonUI* pAdaptB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnadapt_c")));
+				CButtonUI* pStretchB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnstretch_uc")));
+				CButtonUI* pStretchB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnstretch_c")));
+				CButtonUI* pTileB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btntile_uc")));
+				CButtonUI* pTileB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btntile_c")));
+				CButtonUI* pCenterB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btncenter_uc")));
+				CButtonUI* pCenterB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btncenter_c")));
+				CButtonUI* pAudioB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnaudio_uc")));
+				CButtonUI* pAudioB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnaudio_c")));
+				CButtonUI* pLogsB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnlogs_uc")));
+				CButtonUI* pLogsB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnlogs_c")));
+				CEditUI* pFontE = static_cast<CEditUI*>(pVertical->FindSubControl(_T("edtfont")));
+
+				// switch mode...
+				if (nLiveCoreMode == 0)
+				{
+					pCombineB_uc->SetVisible(false);
+					pCombineB_c->SetVisible(true);
+					pAloneB_uc->SetVisible(true);
+					pAloneB_c->SetVisible(false);
+				}
+				else if (nLiveCoreMode == 1)
+				{
+					pCombineB_uc->SetVisible(true);
+					pCombineB_c->SetVisible(false);
+					pAloneB_uc->SetVisible(false);
+					pAloneB_c->SetVisible(true);
+				}
+
+				// switch graphics...
+				if (nLiveCoreShowGraphics == 0)
+				{
+					pGraphicsB_uc->SetVisible(true);
+					pGraphicsB_c->SetVisible(false);
+					pFontB_uc->SetVisible(true);
+					pFontB_c->SetVisible(false);
+					pFontE->SetEnabled(false);
+				}
+				else if (nLiveCoreShowGraphics == 1)
+				{
+					pGraphicsB_uc->SetVisible(false);
+					pGraphicsB_c->SetVisible(true);
+					pFontB_uc->SetVisible(false);
+					pFontB_c->SetVisible(true);
+					pFontE->SetEnabled(true);
+				}
+
+				CDuiString strFont;
+				strFont.Format(_T("%d"), nLiveCoreShowGraphicsFont);
+				pFontE->SetText(strFont);
+
+				// switch display...
+				if (nLiveCoreWallpaperMode == 0)
+				{
+					pFillB_uc->SetVisible(false);
+					pFillB_c->SetVisible(true);
+					pAdaptB_uc->SetVisible(true);
+					pAdaptB_c->SetVisible(false);
+					pStretchB_uc->SetVisible(true);
+					pStretchB_c->SetVisible(false);
+					pTileB_uc->SetVisible(true);
+					pTileB_c->SetVisible(false);
+					pCenterB_uc->SetVisible(true);
+					pCenterB_c->SetVisible(false);
+				}
+				else if (nLiveCoreWallpaperMode == 1)
+				{
+					pFillB_uc->SetVisible(true);
+					pFillB_c->SetVisible(false);
+					pAdaptB_uc->SetVisible(false);
+					pAdaptB_c->SetVisible(true);
+					pStretchB_uc->SetVisible(true);
+					pStretchB_c->SetVisible(false);
+					pTileB_uc->SetVisible(true);
+					pTileB_c->SetVisible(false);
+					pCenterB_uc->SetVisible(true);
+					pCenterB_c->SetVisible(false);
+				}
+				else if (nLiveCoreWallpaperMode == 2)
+				{
+					pFillB_uc->SetVisible(true);
+					pFillB_c->SetVisible(false);
+					pAdaptB_uc->SetVisible(true);
+					pAdaptB_c->SetVisible(false);
+					pStretchB_uc->SetVisible(false);
+					pStretchB_c->SetVisible(true);
+					pTileB_uc->SetVisible(true);
+					pTileB_c->SetVisible(false);
+					pCenterB_uc->SetVisible(true);
+					pCenterB_c->SetVisible(false);
+				}
+				else if (nLiveCoreWallpaperMode == 3)
+				{
+					pFillB_uc->SetVisible(true);
+					pFillB_c->SetVisible(false);
+					pAdaptB_uc->SetVisible(true);
+					pAdaptB_c->SetVisible(false);
+					pStretchB_uc->SetVisible(true);
+					pStretchB_c->SetVisible(false);
+					pTileB_uc->SetVisible(false);
+					pTileB_c->SetVisible(true);
+					pCenterB_uc->SetVisible(true);
+					pCenterB_c->SetVisible(false);
+				}
+				else if (nLiveCoreWallpaperMode == 4)
+				{
+					pFillB_uc->SetVisible(true);
+					pFillB_c->SetVisible(false);
+					pAdaptB_uc->SetVisible(true);
+					pAdaptB_c->SetVisible(false);
+					pStretchB_uc->SetVisible(true);
+					pStretchB_c->SetVisible(false);
+					pTileB_uc->SetVisible(true);
+					pTileB_c->SetVisible(false);
+					pCenterB_uc->SetVisible(false);
+					pCenterB_c->SetVisible(true);
+				}
+
+				// switch audio...
+				if (nLiveCoreWallpaperAudioMode == 0)
+				{
+					pAudioB_uc->SetVisible(true);
+					pAudioB_c->SetVisible(false);
+				}
+				else if (nLiveCoreWallpaperAudioMode == 1)
+				{
+					pAudioB_uc->SetVisible(false);
+					pAudioB_c->SetVisible(true);
+				}
+
+				// switch logs...
+				if (nLiveCoreLogProcess == 0)
+				{
+					pLogsB_uc->SetVisible(true);
+					pLogsB_c->SetVisible(false);
+				}
+				else if (nLiveCoreLogProcess == 1)
+				{
+					pLogsB_uc->SetVisible(false);
+					pLogsB_c->SetVisible(true);
+				}
+
+			}
+		}
+	}
+
+	return 0;
+}
+
+//-------------------------------------------------
+// @Function:	OnUserMessageSettingWallSetConfig()
+// @Purpose: CFrameMain设置配置文件信息
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-------------------------------------------------
+LRESULT CFrameMain::OnUserMessageSettingWallSetConfig(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
 	return 0;
 }
 
