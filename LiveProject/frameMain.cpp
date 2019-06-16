@@ -1904,6 +1904,25 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 		pFontC->SetBkImage(_T("res\\livewallcfgtxtfont.png"));
 		pVertical->Add(pFontC);
 
+		// EditUI -- Font
+		CEditUI* pFontE = new CEditUI();
+
+		pFontE->SetName(_T("edtfont"));
+		pFontE->SetFloat(true);
+		pFontE->SetAttribute(_T("pos"), _T("340,276,0,0"));
+		pFontE->SetAttribute(_T("textpadding"), _T("5,1,5,1"));
+		pFontE->SetFixedWidth(50);
+		pFontE->SetFixedHeight(24);
+		pFontE->SetMaxChar(2);
+		pFontE->SetTextColor(0xFF000000);
+		pFontE->SetNativeEditBkColor(0xFFF5F5F5);
+		pFontE->SetFont(0);
+		pFontE->SetReadOnly(false);
+		pFontE->SetAttribute(_T("normalimage"), _T("file='res\\shortedits.png' source='0,0,50,24'"));
+		pFontE->SetAttribute(_T("hotimage"), _T("file='res\\shortedits.png' source='0,24,50,48'"));
+		pFontE->SetAttribute(_T("pushedimage"), _T("file='res\\shortedits.png' source='0,24,50,48'"));
+		pVertical->Add(pFontE);
+
 		// ContainerUI -- Line2
 		CContainerUI* pLine2 = new CContainerUI();
 
