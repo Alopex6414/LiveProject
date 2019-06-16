@@ -2582,6 +2582,171 @@ LRESULT CFrameMain::OnUserMessageSettingWallGetConfig(UINT uMsg, WPARAM wParam, 
 //-------------------------------------------------
 LRESULT CFrameMain::OnUserMessageSettingWallSetConfig(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
+	char chFile[MAX_PATH] = { 0 };
+	char* pTemp = NULL;
+
+	// record configure...
+	if (m_pSettingsOpt->IsSelected())
+	{
+		if (m_pLiveSettingWallOpt->IsSelected())
+		{
+			CVerticalLayoutUI* pVertical = static_cast<CVerticalLayoutUI*>(m_PaintManager.FindControl(_T("livesettingcontent")));
+			if (pVertical != NULL)
+			{
+				CButtonUI* pCombineB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btncombine_uc")));
+				CButtonUI* pCombineB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btncombine_c")));
+				CButtonUI* pAloneB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnalone_uc")));
+				CButtonUI* pAloneB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnalone_c")));
+				CButtonUI* pGraphicsB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btngraphics_uc")));
+				CButtonUI* pGraphicsB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btngraphics_c")));
+				CButtonUI* pFontB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnfont_uc")));
+				CButtonUI* pFontB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnfont_c")));
+				CButtonUI* pFillB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnfill_uc")));
+				CButtonUI* pFillB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnfill_c")));
+				CButtonUI* pAdaptB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnadapt_uc")));
+				CButtonUI* pAdaptB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnadapt_c")));
+				CButtonUI* pStretchB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnstretch_uc")));
+				CButtonUI* pStretchB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnstretch_c")));
+				CButtonUI* pTileB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btntile_uc")));
+				CButtonUI* pTileB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btntile_c")));
+				CButtonUI* pCenterB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btncenter_uc")));
+				CButtonUI* pCenterB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btncenter_c")));
+				CButtonUI* pAudioB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnaudio_uc")));
+				CButtonUI* pAudioB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnaudio_c")));
+				CButtonUI* pLogsB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnlogs_uc")));
+				CButtonUI* pLogsB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnlogs_c")));
+				CEditUI* pFontE = static_cast<CEditUI*>(pVertical->FindSubControl(_T("edtfont")));
+
+				// analyze file path...
+				CPlumFile* pFile = new CPlumFile();
+				pFile->PlumFileGetModuleFileNameA(chFile, MAX_PATH);
+
+				pTemp = strrchr(chFile, '\\');
+				if (pTemp)* pTemp = '\0';
+				strcat_s(chFile, "\\config\\LiveCore.cfg");
+
+				// record mode...
+				if (pCombineB_c->IsVisible())
+				{
+					char chArrValue[MAX_PATH] = { 0 };
+					memset(chArrValue, 0, MAX_PATH);
+					strcpy_s(chArrValue, "0");
+					WritePrivateProfileStringA("LIVECOREMODE", "LiveCore_Mode", chArrValue, chFile);
+				}
+				else
+				{
+					char chArrValue[MAX_PATH] = { 0 };
+					memset(chArrValue, 0, MAX_PATH);
+					strcpy_s(chArrValue, "1");
+					WritePrivateProfileStringA("LIVECOREMODE", "LiveCore_Mode", chArrValue, chFile);
+				}
+
+				// record graphics...
+				if (pGraphicsB_c->IsVisible())
+				{
+					char chArrValue[MAX_PATH] = { 0 };
+					memset(chArrValue, 0, MAX_PATH);
+					strcpy_s(chArrValue, "1");
+					WritePrivateProfileStringA("LIVECORESHOW", "LiveCore_Show_Graphics", chArrValue, chFile);
+				}
+				else
+				{
+					char chArrValue[MAX_PATH] = { 0 };
+					memset(chArrValue, 0, MAX_PATH);
+					strcpy_s(chArrValue, "0");
+					WritePrivateProfileStringA("LIVECORESHOW", "LiveCore_Show_Graphics", chArrValue, chFile);
+				}
+
+				// record font...
+				if (pFontB_c->IsVisible())
+				{
+					CDuiString strfont = pFontE->GetText();
+					int nfont = _ttoi(strfont.GetData());
+					if (nfont > 0 && nfont < 100)
+					{
+						char chArrValue[MAX_PATH] = { 0 };
+						memset(chArrValue, 0, MAX_PATH);
+						sprintf_s(chArrValue, "%d", nfont);
+						WritePrivateProfileStringA("LIVECORESHOW", "LiveCore_Show_GraphicsFont", chArrValue, chFile);
+					}
+				}
+
+				// record display...
+				if (pFillB_c->IsVisible())
+				{
+					char chArrValue[MAX_PATH] = { 0 };
+					memset(chArrValue, 0, MAX_PATH);
+					strcpy_s(chArrValue, "0");
+					WritePrivateProfileStringA("LIVECOREWALLPAPERMODE", "LiveCore_Wallpaper_Mode", chArrValue, chFile);
+				}
+				else if (pAdaptB_c->IsVisible())
+				{
+					char chArrValue[MAX_PATH] = { 0 };
+					memset(chArrValue, 0, MAX_PATH);
+					strcpy_s(chArrValue, "1");
+					WritePrivateProfileStringA("LIVECOREWALLPAPERMODE", "LiveCore_Wallpaper_Mode", chArrValue, chFile);
+				}
+				else if (pStretchB_c->IsVisible())
+				{
+					char chArrValue[MAX_PATH] = { 0 };
+					memset(chArrValue, 0, MAX_PATH);
+					strcpy_s(chArrValue, "2");
+					WritePrivateProfileStringA("LIVECOREWALLPAPERMODE", "LiveCore_Wallpaper_Mode", chArrValue, chFile);
+				}
+				else if (pTileB_c->IsVisible())
+				{
+					char chArrValue[MAX_PATH] = { 0 };
+					memset(chArrValue, 0, MAX_PATH);
+					strcpy_s(chArrValue, "3");
+					WritePrivateProfileStringA("LIVECOREWALLPAPERMODE", "LiveCore_Wallpaper_Mode", chArrValue, chFile);
+				}
+				else if (pCenterB_c->IsVisible())
+				{
+					char chArrValue[MAX_PATH] = { 0 };
+					memset(chArrValue, 0, MAX_PATH);
+					strcpy_s(chArrValue, "4");
+					WritePrivateProfileStringA("LIVECOREWALLPAPERMODE", "LiveCore_Wallpaper_Mode", chArrValue, chFile);
+				}
+
+				// record audio...
+				if (pAudioB_c->IsVisible())
+				{
+					char chArrValue[MAX_PATH] = { 0 };
+					memset(chArrValue, 0, MAX_PATH);
+					strcpy_s(chArrValue, "1");
+					WritePrivateProfileStringA("LIVECOREWALLPAPERMODE", "LiveCore_Wallpaper_Audio", chArrValue, chFile);
+				}
+				else
+				{
+					char chArrValue[MAX_PATH] = { 0 };
+					memset(chArrValue, 0, MAX_PATH);
+					strcpy_s(chArrValue, "0");
+					WritePrivateProfileStringA("LIVECOREWALLPAPERMODE", "LiveCore_Wallpaper_Audio", chArrValue, chFile);
+				}
+
+				// record logs...
+				if (pLogsB_c->IsVisible())
+				{
+					char chArrValue[MAX_PATH] = { 0 };
+					memset(chArrValue, 0, MAX_PATH);
+					strcpy_s(chArrValue, "1");
+					WritePrivateProfileStringA("LIVECORELOGMODE", "LiveCore_Log_Process", chArrValue, chFile);
+				}
+				else
+				{
+					char chArrValue[MAX_PATH] = { 0 };
+					memset(chArrValue, 0, MAX_PATH);
+					strcpy_s(chArrValue, "0");
+					WritePrivateProfileStringA("LIVECORELOGMODE", "LiveCore_Log_Process", chArrValue, chFile);
+				}
+
+				// safe delete object...
+				SAFE_DELETE(pFile);
+
+			}
+		}
+	}
+
 	return 0;
 }
 
