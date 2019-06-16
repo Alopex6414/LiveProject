@@ -1704,7 +1704,7 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 		pSaveB->SetFixedWidth(24);
 		pSaveB->SetFixedHeight(24);
 		pSaveB->SetVisible(true);
-		pSaveB->SetToolTip(_T("Save"));
+		pSaveB->SetToolTip(_T("save"));
 		pSaveB->SetAttribute(_T("normalimage"), _T("file='res\\savebuttons.png' source='0,0,24,24'"));
 		pSaveB->SetAttribute(_T("hotimage"), _T("file='res\\savebuttons.png' source='0,24,24,48'"));
 		pSaveB->SetAttribute(_T("pushedimage"), _T("file='res\\savebuttons.png' source='0,48,24,72'"));
@@ -1719,7 +1719,7 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 		pRefreshB->SetFixedWidth(24);
 		pRefreshB->SetFixedHeight(24);
 		pRefreshB->SetVisible(true);
-		pRefreshB->SetToolTip(_T("Refresh"));
+		pRefreshB->SetToolTip(_T("refresh"));
 		pRefreshB->SetAttribute(_T("normalimage"), _T("file='res\\refreshbuttons.png' source='0,0,24,24'"));
 		pRefreshB->SetAttribute(_T("hotimage"), _T("file='res\\refreshbuttons.png' source='0,24,24,48'"));
 		pRefreshB->SetAttribute(_T("pushedimage"), _T("file='res\\refreshbuttons.png' source='0,48,24,72'"));
@@ -3840,6 +3840,8 @@ void CFrameMain::OnLButtonClickedOtherEvent(CControlUI* pSender)
 				CButtonUI* pAudioB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnaudio_c")));
 				CButtonUI* pLogsB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnlogs_uc")));
 				CButtonUI* pLogsB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnlogs_c")));
+				CButtonUI* pSaveB = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("save")));
+				CButtonUI* pRefreshB = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("refresh")));
 
 				if (pSender == pCombineB_uc)
 				{
@@ -3973,6 +3975,16 @@ void CFrameMain::OnLButtonClickedOtherEvent(CControlUI* pSender)
 				{
 					pLogsB_uc->SetVisible(true);
 					pLogsB_c->SetVisible(false);
+				}
+
+				if (pSender == pSaveB)
+				{
+					::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_SETTINGWALL_SETCONFIG, (WPARAM)0, (LPARAM)0);
+				}
+
+				if (pSender == pRefreshB)
+				{
+					::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_SETTINGWALL_GETCONFIG, (WPARAM)0, (LPARAM)0);
 				}
 
 			}

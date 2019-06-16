@@ -207,7 +207,6 @@ public:
 	void OnLButtonClickedLiveSettingShotOption();	// LiveSetting 单击快照选项卡
 	void OnLButtonClickedLiveSettingAIOption();		// LiveSetting 单击AI选项卡
 
-
 	void OnLButtonClickedOtherEvent(CControlUI*);	// LiveProject 单击事件响应(其他事件)...
 };
 
