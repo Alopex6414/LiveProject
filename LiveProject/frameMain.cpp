@@ -330,6 +330,12 @@ LRESULT CFrameMain::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_USER_MESSAGE_SETTINGAI_SEARCH:
 		lRes = OnUserMessageSettingAISearch(uMsg, wParam, lParam, bHandled);
 		break;
+	case WM_USER_MESSAGE_SETTINGWALL_GETCONFIG:
+		lRes = OnUserMessageSettingWallGetConfig(uMsg, wParam, lParam, bHandled);
+		break;
+	case WM_USER_MESSAGE_SETTINGWALL_SETCONFIG:
+		lRes = OnUserMessageSettingWallSetConfig(uMsg, wParam, lParam, bHandled);
+		break;
 	default:
 		bHandled = FALSE;
 		break;
@@ -1677,7 +1683,6 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 	if (pVertical != NULL)
 	{
 		pVertical->RemoveAll();
-		pVertical->EnableScrollBar();
 
 		// ContainerUI -- Title
 		CContainerUI* pContainer = new CContainerUI();
@@ -1689,6 +1694,36 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 		pContainer->SetFixedHeight(24);
 		pContainer->SetBkImage(_T("res\\livewallcfgtitle.png"));
 		pVertical->Add(pContainer);
+
+		// ButtonUI -- Save
+		CButtonUI* pSaveB = new CButtonUI();
+
+		pSaveB->SetName(_T("save"));
+		pSaveB->SetFloat(true);
+		pSaveB->SetAttribute(_T("pos"), _T("280,20,0,0"));
+		pSaveB->SetFixedWidth(24);
+		pSaveB->SetFixedHeight(24);
+		pSaveB->SetVisible(true);
+		pSaveB->SetToolTip(_T("save"));
+		pSaveB->SetAttribute(_T("normalimage"), _T("file='res\\savebuttons.png' source='0,0,24,24'"));
+		pSaveB->SetAttribute(_T("hotimage"), _T("file='res\\savebuttons.png' source='0,24,24,48'"));
+		pSaveB->SetAttribute(_T("pushedimage"), _T("file='res\\savebuttons.png' source='0,48,24,72'"));
+		pVertical->Add(pSaveB);
+
+		// ButtonUI -- Refresh
+		CButtonUI* pRefreshB = new CButtonUI();
+
+		pRefreshB->SetName(_T("refresh"));
+		pRefreshB->SetFloat(true);
+		pRefreshB->SetAttribute(_T("pos"), _T("310,20,0,0"));
+		pRefreshB->SetFixedWidth(24);
+		pRefreshB->SetFixedHeight(24);
+		pRefreshB->SetVisible(true);
+		pRefreshB->SetToolTip(_T("refresh"));
+		pRefreshB->SetAttribute(_T("normalimage"), _T("file='res\\refreshbuttons.png' source='0,0,24,24'"));
+		pRefreshB->SetAttribute(_T("hotimage"), _T("file='res\\refreshbuttons.png' source='0,24,24,48'"));
+		pRefreshB->SetAttribute(_T("pushedimage"), _T("file='res\\refreshbuttons.png' source='0,48,24,72'"));
+		pVertical->Add(pRefreshB);
 
 		// ContainerUI -- Mode
 		CContainerUI* pMode = new CContainerUI();
@@ -1744,7 +1779,7 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 
 		pAloneB_uc->SetName(_T("btnalone_uc"));
 		pAloneB_uc->SetFloat(true);
-		pAloneB_uc->SetAttribute(_T("pos"), _T("320,98,0,0"));
+		pAloneB_uc->SetAttribute(_T("pos"), _T("120,138,0,0"));
 		pAloneB_uc->SetFixedWidth(16);
 		pAloneB_uc->SetFixedHeight(16);
 		pAloneB_uc->SetVisible(true);
@@ -1757,7 +1792,7 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 
 		pAloneB_c->SetName(_T("btnalone_c"));
 		pAloneB_c->SetFloat(true);
-		pAloneB_c->SetAttribute(_T("pos"), _T("320,98,0,0"));
+		pAloneB_c->SetAttribute(_T("pos"), _T("120,138,0,0"));
 		pAloneB_c->SetFixedWidth(16);
 		pAloneB_c->SetFixedHeight(16);
 		pAloneB_c->SetVisible(false);
@@ -1771,7 +1806,7 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 
 		pAlone->SetName(_T("txtalone"));
 		pAlone->SetFloat(true);
-		pAlone->SetAttribute(_T("pos"), _T("340,100,0,0"));
+		pAlone->SetAttribute(_T("pos"), _T("140,140,0,0"));
 		pAlone->SetFixedWidth(45);
 		pAlone->SetFixedHeight(13);
 		pAlone->SetBkImage(_T("res\\livewallcfgtxtalone.png"));
@@ -1782,7 +1817,7 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 
 		pLine1->SetName(_T("line1"));
 		pLine1->SetFloat(true);
-		pLine1->SetAttribute(_T("pos"), _T("84,150,0,0"));
+		pLine1->SetAttribute(_T("pos"), _T("84,190,0,0"));
 		pLine1->SetFixedWidth(600);
 		pLine1->SetFixedHeight(1);
 		pLine1->SetBkImage(_T("res\\line.png"));
@@ -1793,7 +1828,7 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 
 		pShow->SetName(_T("show"));
 		pShow->SetFloat(true);
-		pShow->SetAttribute(_T("pos"), _T("80,170,0,0"));
+		pShow->SetAttribute(_T("pos"), _T("80,210,0,0"));
 		pShow->SetFixedWidth(127);
 		pShow->SetFixedHeight(19);
 		pShow->SetBkImage(_T("res\\livewallcfgshow.png"));
@@ -1804,7 +1839,7 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 
 		pGraphicsB_uc->SetName(_T("btngraphics_uc"));
 		pGraphicsB_uc->SetFloat(true);
-		pGraphicsB_uc->SetAttribute(_T("pos"), _T("120,208,0,0"));
+		pGraphicsB_uc->SetAttribute(_T("pos"), _T("120,248,0,0"));
 		pGraphicsB_uc->SetFixedWidth(16);
 		pGraphicsB_uc->SetFixedHeight(16);
 		pGraphicsB_uc->SetVisible(true);
@@ -1817,7 +1852,7 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 
 		pGraphicsB_c->SetName(_T("btngraphics_c"));
 		pGraphicsB_c->SetFloat(true);
-		pGraphicsB_c->SetAttribute(_T("pos"), _T("120,208,0,0"));
+		pGraphicsB_c->SetAttribute(_T("pos"), _T("120,248,0,0"));
 		pGraphicsB_c->SetFixedWidth(16);
 		pGraphicsB_c->SetFixedHeight(16);
 		pGraphicsB_c->SetVisible(false);
@@ -1831,7 +1866,7 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 
 		pGraphicsC->SetName(_T("txtgraphics"));
 		pGraphicsC->SetFloat(true);
-		pGraphicsC->SetAttribute(_T("pos"), _T("140,210,0,0"));
+		pGraphicsC->SetAttribute(_T("pos"), _T("140,250,0,0"));
 		pGraphicsC->SetFixedWidth(298);
 		pGraphicsC->SetFixedHeight(16);
 		pGraphicsC->SetBkImage(_T("res\\livewallcfgtxtgraphics.png"));
@@ -1842,7 +1877,7 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 
 		pFontB_uc->SetName(_T("btnfont_uc"));
 		pFontB_uc->SetFloat(true);
-		pFontB_uc->SetAttribute(_T("pos"), _T("120,248,0,0"));
+		pFontB_uc->SetAttribute(_T("pos"), _T("120,278,0,0"));
 		pFontB_uc->SetFixedWidth(16);
 		pFontB_uc->SetFixedHeight(16);
 		pFontB_uc->SetVisible(true);
@@ -1855,7 +1890,7 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 
 		pFontB_c->SetName(_T("btnfont_c"));
 		pFontB_c->SetFloat(true);
-		pFontB_c->SetAttribute(_T("pos"), _T("120,248,0,0"));
+		pFontB_c->SetAttribute(_T("pos"), _T("120,278,0,0"));
 		pFontB_c->SetFixedWidth(16);
 		pFontB_c->SetFixedHeight(16);
 		pFontB_c->SetVisible(false);
@@ -1869,18 +1904,37 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 
 		pFontC->SetName(_T("txtfont"));
 		pFontC->SetFloat(true);
-		pFontC->SetAttribute(_T("pos"), _T("140,250,0,0"));
+		pFontC->SetAttribute(_T("pos"), _T("140,280,0,0"));
 		pFontC->SetFixedWidth(186);
 		pFontC->SetFixedHeight(15);
 		pFontC->SetBkImage(_T("res\\livewallcfgtxtfont.png"));
 		pVertical->Add(pFontC);
+
+		// EditUI -- Font
+		CEditUI* pFontE = new CEditUI();
+
+		pFontE->SetName(_T("edtfont"));
+		pFontE->SetFloat(true);
+		pFontE->SetAttribute(_T("pos"), _T("340,276,0,0"));
+		pFontE->SetAttribute(_T("textpadding"), _T("5,1,5,1"));
+		pFontE->SetFixedWidth(50);
+		pFontE->SetFixedHeight(24);
+		pFontE->SetMaxChar(2);
+		pFontE->SetTextColor(0xFF000000);
+		pFontE->SetNativeEditBkColor(0xFFF5F5F5);
+		pFontE->SetFont(0);
+		pFontE->SetReadOnly(false);
+		pFontE->SetAttribute(_T("normalimage"), _T("file='res\\shortedits.png' source='0,0,50,24'"));
+		pFontE->SetAttribute(_T("hotimage"), _T("file='res\\shortedits.png' source='0,24,50,48'"));
+		pFontE->SetAttribute(_T("pushedimage"), _T("file='res\\shortedits.png' source='0,24,50,48'"));
+		pVertical->Add(pFontE);
 
 		// ContainerUI -- Line2
 		CContainerUI* pLine2 = new CContainerUI();
 
 		pLine2->SetName(_T("line2"));
 		pLine2->SetFloat(true);
-		pLine2->SetAttribute(_T("pos"), _T("84,300,0,0"));
+		pLine2->SetAttribute(_T("pos"), _T("84,330,0,0"));
 		pLine2->SetFixedWidth(600);
 		pLine2->SetFixedHeight(1);
 		pLine2->SetBkImage(_T("res\\line.png"));
@@ -1891,7 +1945,7 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 
 		pDisplay->SetName(_T("display"));
 		pDisplay->SetFloat(true);
-		pDisplay->SetAttribute(_T("pos"), _T("80,320,0,0"));
+		pDisplay->SetAttribute(_T("pos"), _T("80,350,0,0"));
 		pDisplay->SetFixedWidth(136);
 		pDisplay->SetFixedHeight(19);
 		pDisplay->SetBkImage(_T("res\\livewallcfgdisplay.png"));
@@ -1902,7 +1956,7 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 
 		pFillB_uc->SetName(_T("btnfill_uc"));
 		pFillB_uc->SetFloat(true);
-		pFillB_uc->SetAttribute(_T("pos"), _T("120,358,0,0"));
+		pFillB_uc->SetAttribute(_T("pos"), _T("120,388,0,0"));
 		pFillB_uc->SetFixedWidth(16);
 		pFillB_uc->SetFixedHeight(16);
 		pFillB_uc->SetVisible(false);
@@ -1915,7 +1969,7 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 
 		pFillB_c->SetName(_T("btnfill_c"));
 		pFillB_c->SetFloat(true);
-		pFillB_c->SetAttribute(_T("pos"), _T("120,358,0,0"));
+		pFillB_c->SetAttribute(_T("pos"), _T("120,388,0,0"));
 		pFillB_c->SetFixedWidth(16);
 		pFillB_c->SetFixedHeight(16);
 		pFillB_c->SetVisible(true);
@@ -1929,7 +1983,7 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 
 		pFillC->SetName(_T("txtfill"));
 		pFillC->SetFloat(true);
-		pFillC->SetAttribute(_T("pos"), _T("140,360,0,0"));
+		pFillC->SetAttribute(_T("pos"), _T("140,390,0,0"));
 		pFillC->SetFixedWidth(16);
 		pFillC->SetFixedHeight(12);
 		pFillC->SetBkImage(_T("res\\livewallcfgtxtfill.png"));
@@ -1940,7 +1994,7 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 
 		pAdaptB_uc->SetName(_T("btnadapt_uc"));
 		pAdaptB_uc->SetFloat(true);
-		pAdaptB_uc->SetAttribute(_T("pos"), _T("120,398,0,0"));
+		pAdaptB_uc->SetAttribute(_T("pos"), _T("120,428,0,0"));
 		pAdaptB_uc->SetFixedWidth(16);
 		pAdaptB_uc->SetFixedHeight(16);
 		pAdaptB_uc->SetVisible(true);
@@ -1953,7 +2007,7 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 
 		pAdaptB_c->SetName(_T("btnadapt_c"));
 		pAdaptB_c->SetFloat(true);
-		pAdaptB_c->SetAttribute(_T("pos"), _T("120,398,0,0"));
+		pAdaptB_c->SetAttribute(_T("pos"), _T("120,428,0,0"));
 		pAdaptB_c->SetFixedWidth(16);
 		pAdaptB_c->SetFixedHeight(16);
 		pAdaptB_c->SetVisible(false);
@@ -1967,7 +2021,7 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 
 		pAdaptC->SetName(_T("txtadapt"));
 		pAdaptC->SetFloat(true);
-		pAdaptC->SetAttribute(_T("pos"), _T("140,400,0,0"));
+		pAdaptC->SetAttribute(_T("pos"), _T("140,430,0,0"));
 		pAdaptC->SetFixedWidth(50);
 		pAdaptC->SetFixedHeight(15);
 		pAdaptC->SetBkImage(_T("res\\livewallcfgtxtadapt.png"));
@@ -1978,7 +2032,7 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 
 		pStretchB_uc->SetName(_T("btnstretch_uc"));
 		pStretchB_uc->SetFloat(true);
-		pStretchB_uc->SetAttribute(_T("pos"), _T("120,438,0,0"));
+		pStretchB_uc->SetAttribute(_T("pos"), _T("120,468,0,0"));
 		pStretchB_uc->SetFixedWidth(16);
 		pStretchB_uc->SetFixedHeight(16);
 		pStretchB_uc->SetVisible(true);
@@ -1991,7 +2045,7 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 
 		pStretchB_c->SetName(_T("btnstretch_c"));
 		pStretchB_c->SetFloat(true);
-		pStretchB_c->SetAttribute(_T("pos"), _T("120,438,0,0"));
+		pStretchB_c->SetAttribute(_T("pos"), _T("120,468,0,0"));
 		pStretchB_c->SetFixedWidth(16);
 		pStretchB_c->SetFixedHeight(16);
 		pStretchB_c->SetVisible(false);
@@ -2005,7 +2059,7 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 
 		pStretchC->SetName(_T("txtstretch"));
 		pStretchC->SetFloat(true);
-		pStretchC->SetAttribute(_T("pos"), _T("140,440,0,0"));
+		pStretchC->SetAttribute(_T("pos"), _T("140,470,0,0"));
 		pStretchC->SetFixedWidth(53);
 		pStretchC->SetFixedHeight(13);
 		pStretchC->SetBkImage(_T("res\\livewallcfgtxtstretch.png"));
@@ -2016,7 +2070,7 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 
 		pTileB_uc->SetName(_T("btntile_uc"));
 		pTileB_uc->SetFloat(true);
-		pTileB_uc->SetAttribute(_T("pos"), _T("120,478,0,0"));
+		pTileB_uc->SetAttribute(_T("pos"), _T("120,508,0,0"));
 		pTileB_uc->SetFixedWidth(16);
 		pTileB_uc->SetFixedHeight(16);
 		pTileB_uc->SetVisible(true);
@@ -2029,7 +2083,7 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 
 		pTileB_c->SetName(_T("btntile_c"));
 		pTileB_c->SetFloat(true);
-		pTileB_c->SetAttribute(_T("pos"), _T("120,478,0,0"));
+		pTileB_c->SetAttribute(_T("pos"), _T("120,508,0,0"));
 		pTileB_c->SetFixedWidth(16);
 		pTileB_c->SetFixedHeight(16);
 		pTileB_c->SetVisible(false);
@@ -2043,7 +2097,7 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 
 		pTileC->SetName(_T("txttile"));
 		pTileC->SetFloat(true);
-		pTileC->SetAttribute(_T("pos"), _T("140,480,0,0"));
+		pTileC->SetAttribute(_T("pos"), _T("140,510,0,0"));
 		pTileC->SetFixedWidth(23);
 		pTileC->SetFixedHeight(13);
 		pTileC->SetBkImage(_T("res\\livewallcfgtxttile.png"));
@@ -2054,7 +2108,7 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 
 		pCenterB_uc->SetName(_T("btncenter_uc"));
 		pCenterB_uc->SetFloat(true);
-		pCenterB_uc->SetAttribute(_T("pos"), _T("120,518,0,0"));
+		pCenterB_uc->SetAttribute(_T("pos"), _T("120,548,0,0"));
 		pCenterB_uc->SetFixedWidth(16);
 		pCenterB_uc->SetFixedHeight(16);
 		pCenterB_uc->SetVisible(true);
@@ -2067,7 +2121,7 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 
 		pCenterB_c->SetName(_T("btncenter_c"));
 		pCenterB_c->SetFloat(true);
-		pCenterB_c->SetAttribute(_T("pos"), _T("120,518,0,0"));
+		pCenterB_c->SetAttribute(_T("pos"), _T("120,548,0,0"));
 		pCenterB_c->SetFixedWidth(16);
 		pCenterB_c->SetFixedHeight(16);
 		pCenterB_c->SetVisible(false);
@@ -2081,34 +2135,123 @@ LRESULT CFrameMain::OnUserMessageSettingWallSearch(UINT uMsg, WPARAM wParam, LPA
 
 		pCenterC->SetName(_T("txtcenter"));
 		pCenterC->SetFloat(true);
-		pCenterC->SetAttribute(_T("pos"), _T("140,520,0,0"));
+		pCenterC->SetAttribute(_T("pos"), _T("140,550,0,0"));
 		pCenterC->SetFixedWidth(53);
 		pCenterC->SetFixedHeight(13);
 		pCenterC->SetBkImage(_T("res\\livewallcfgtxtcenter.png"));
 		pVertical->Add(pCenterC);
 
 		// ContainerUI -- Line3
-		CContainerUI* pLine3 = new CContainerUI();
+		/*CContainerUI* pLine3 = new CContainerUI();
 
 		pLine3->SetName(_T("line3"));
 		pLine3->SetFloat(true);
-		pLine3->SetAttribute(_T("pos"), _T("84,550,0,0"));
+		pLine3->SetAttribute(_T("pos"), _T("84,540,0,0"));
 		pLine3->SetFixedWidth(600);
 		pLine3->SetFixedHeight(1);
 		pLine3->SetBkImage(_T("res\\line.png"));
-		pVertical->Add(pLine3);
+		pVertical->Add(pLine3);*/
 
 		// ContainerUI -- Audio
 		CContainerUI* pAudio = new CContainerUI();
 
 		pAudio->SetName(_T("audio"));
 		pAudio->SetFloat(true);
-		pAudio->SetAttribute(_T("pos"), _T("80,570,0,0"));
+		pAudio->SetAttribute(_T("pos"), _T("384,350,0,0"));
 		pAudio->SetFixedWidth(133);
 		pAudio->SetFixedHeight(19);
 		pAudio->SetBkImage(_T("res\\livewallcfgaudio.png"));
 		pVertical->Add(pAudio);
 
+		// ButtonUI -- Audio
+		CButtonUI* pAudioB_uc = new CButtonUI();
+
+		pAudioB_uc->SetName(_T("btnaudio_uc"));
+		pAudioB_uc->SetFloat(true);
+		pAudioB_uc->SetAttribute(_T("pos"), _T("424,388,0,0"));
+		pAudioB_uc->SetFixedWidth(16);
+		pAudioB_uc->SetFixedHeight(16);
+		pAudioB_uc->SetVisible(true);
+		pAudioB_uc->SetAttribute(_T("normalimage"), _T("file='res\\uncheckedbuttons_s.png' source='0,0,16,16'"));
+		pAudioB_uc->SetAttribute(_T("hotimage"), _T("file='res\\uncheckedbuttons_s.png' source='0,16,16,32'"));
+		pAudioB_uc->SetAttribute(_T("pushedimage"), _T("file='res\\uncheckedbuttons_s.png' source='0,32,16,48'"));
+		pVertical->Add(pAudioB_uc);
+
+		CButtonUI* pAudioB_c = new CButtonUI();
+
+		pAudioB_c->SetName(_T("btnaudio_c"));
+		pAudioB_c->SetFloat(true);
+		pAudioB_c->SetAttribute(_T("pos"), _T("424,388,0,0"));
+		pAudioB_c->SetFixedWidth(16);
+		pAudioB_c->SetFixedHeight(16);
+		pAudioB_c->SetVisible(false);
+		pAudioB_c->SetAttribute(_T("normalimage"), _T("file='res\\checkedbuttons_s.png' source='0,0,16,16'"));
+		pAudioB_c->SetAttribute(_T("hotimage"), _T("file='res\\checkedbuttons_s.png' source='0,16,16,32'"));
+		pAudioB_c->SetAttribute(_T("pushedimage"), _T("file='res\\checkedbuttons_s.png' source='0,32,16,48'"));
+		pVertical->Add(pAudioB_c);
+
+		// ContainerUI -- Audio
+		CContainerUI* pAudioC = new CContainerUI();
+
+		pAudioC->SetName(_T("txtaudio"));
+		pAudioC->SetFloat(true);
+		pAudioC->SetAttribute(_T("pos"), _T("444,390,0,0"));
+		pAudioC->SetFixedWidth(103);
+		pAudioC->SetFixedHeight(13);
+		pAudioC->SetBkImage(_T("res\\livewallcfgtxtaudio.png"));
+		pVertical->Add(pAudioC);
+
+		// ContainerUI -- Logs
+		CContainerUI* pLogs = new CContainerUI();
+
+		pLogs->SetName(_T("logs"));
+		pLogs->SetFloat(true);
+		pLogs->SetAttribute(_T("pos"), _T("384,430,0,0"));
+		pLogs->SetFixedWidth(120);
+		pLogs->SetFixedHeight(19);
+		pLogs->SetBkImage(_T("res\\livewallcfglogs.png"));
+		pVertical->Add(pLogs);
+
+		// ButtonUI -- Logs
+		CButtonUI* pLogsB_uc = new CButtonUI();
+
+		pLogsB_uc->SetName(_T("btnlogs_uc"));
+		pLogsB_uc->SetFloat(true);
+		pLogsB_uc->SetAttribute(_T("pos"), _T("424,468,0,0"));
+		pLogsB_uc->SetFixedWidth(16);
+		pLogsB_uc->SetFixedHeight(16);
+		pLogsB_uc->SetVisible(true);
+		pLogsB_uc->SetAttribute(_T("normalimage"), _T("file='res\\uncheckedbuttons_s.png' source='0,0,16,16'"));
+		pLogsB_uc->SetAttribute(_T("hotimage"), _T("file='res\\uncheckedbuttons_s.png' source='0,16,16,32'"));
+		pLogsB_uc->SetAttribute(_T("pushedimage"), _T("file='res\\uncheckedbuttons_s.png' source='0,32,16,48'"));
+		pVertical->Add(pLogsB_uc);
+
+		CButtonUI* pLogsB_c = new CButtonUI();
+
+		pLogsB_c->SetName(_T("btnlogs_c"));
+		pLogsB_c->SetFloat(true);
+		pLogsB_c->SetAttribute(_T("pos"), _T("424,468,0,0"));
+		pLogsB_c->SetFixedWidth(16);
+		pLogsB_c->SetFixedHeight(16);
+		pLogsB_c->SetVisible(false);
+		pLogsB_c->SetAttribute(_T("normalimage"), _T("file='res\\checkedbuttons_s.png' source='0,0,16,16'"));
+		pLogsB_c->SetAttribute(_T("hotimage"), _T("file='res\\checkedbuttons_s.png' source='0,16,16,32'"));
+		pLogsB_c->SetAttribute(_T("pushedimage"), _T("file='res\\checkedbuttons_s.png' source='0,32,16,48'"));
+		pVertical->Add(pLogsB_c);
+
+		// ContainerUI -- Logs
+		CContainerUI* pLogsC = new CContainerUI();
+
+		pLogsC->SetName(_T("txtlogs"));
+		pLogsC->SetFloat(true);
+		pLogsC->SetAttribute(_T("pos"), _T("444,470,0,0"));
+		pLogsC->SetFixedWidth(92);
+		pLogsC->SetFixedHeight(16);
+		pLogsC->SetBkImage(_T("res\\livewallcfgtxtlogs.png"));
+		pVertical->Add(pLogsC);
+
+		// Send Message Update...
+		::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_SETTINGWALL_GETCONFIG, (WPARAM)0, (LPARAM)0);
 	}
 	return 0;
 }
@@ -2195,6 +2338,415 @@ LRESULT CFrameMain::OnUserMessageSettingAISearch(UINT uMsg, WPARAM wParam, LPARA
 	{
 		pVertical->RemoveAll();
 	}
+	return 0;
+}
+
+//-------------------------------------------------
+// @Function:	OnUserMessageSettingWallGetConfig()
+// @Purpose: CFrameMain获取配置文件信息
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-------------------------------------------------
+LRESULT CFrameMain::OnUserMessageSettingWallGetConfig(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	char chFile[MAX_PATH] = { 0 };
+	char* pTemp = NULL;
+
+	int nLiveCoreMode = 0;
+	int nLiveCoreShowGraphics = 0;
+	int nLiveCoreShowGraphicsFont = 0;
+	int nLiveCoreWallpaperMode = 0;
+	int nLiveCoreWallpaperAudioMode = 0;
+	int nLiveCoreLogProcess = 0;
+
+	// analyze file path...
+	CPlumFile* pFile = new CPlumFile();
+	pFile->PlumFileGetModuleFileNameA(chFile, MAX_PATH);
+
+	pTemp = strrchr(chFile, '\\');
+	if (pTemp)* pTemp = '\0';
+	strcat_s(chFile, "\\config\\LiveCore.cfg");
+
+	// analyze config info...
+	char chArray[MAX_PATH] = { 0 };
+	int nValue = 0;
+
+	memset(chArray, 0, MAX_PATH);
+	GetPrivateProfileStringA("LIVECOREMODE", "LiveCore_Mode", 0, chArray, MAX_PATH, chFile);
+	nValue = atoi(chArray);
+	nLiveCoreMode = nValue;																							// LiveCore模式: 0~组合模式 1~分离模式
+
+	memset(chArray, 0, MAX_PATH);
+	GetPrivateProfileStringA("LIVECORESHOW", "LiveCore_Show_Graphics", 0, chArray, MAX_PATH, chFile);
+	nValue = atoi(chArray);
+	nLiveCoreShowGraphics = nValue;																					// LiveCore显示: 0~不显示显卡型号(fps) 1~显示显卡型号(fps)
+
+	memset(chArray, 0, MAX_PATH);
+	GetPrivateProfileStringA("LIVECORESHOW", "LiveCore_Show_GraphicsFont", 0, chArray, MAX_PATH, chFile);
+	nValue = atoi(chArray);
+	nLiveCoreShowGraphicsFont = nValue;																				// LiveCore显示字体大小
+
+	memset(chArray, 0, MAX_PATH);
+	GetPrivateProfileStringA("LIVECOREWALLPAPERMODE", "LiveCore_Wallpaper_Mode", 0, chArray, MAX_PATH, chFile);
+	nValue = atoi(chArray);
+	nLiveCoreWallpaperMode = nValue;																					// LiveCore屏幕分辨率模式: 0~填充 1~适应 2~拉伸 3~平铺 4~居中
+
+	memset(chArray, 0, MAX_PATH);
+	GetPrivateProfileStringA("LIVECOREWALLPAPERMODE", "LiveCore_Wallpaper_Audio", 0, chArray, MAX_PATH, chFile);
+	nValue = atoi(chArray);
+	nLiveCoreWallpaperAudioMode = nValue;																				// LiveCore音频播放模式: 0~不播放音频 1~播放音频
+
+	memset(chArray, 0, MAX_PATH);
+	GetPrivateProfileStringA("LIVECORELOGMODE", "LiveCore_Log_Process", 0, chArray, MAX_PATH, chFile);
+	nValue = atoi(chArray);
+	nLiveCoreLogProcess = nValue;																						// LiveCore日志记录: 0~不记录过程 1~记录过程
+
+	// safe delete object...
+	SAFE_DELETE(pFile);
+
+	// show configure...
+	if (m_pSettingsOpt->IsSelected())
+	{
+		if (m_pLiveSettingWallOpt->IsSelected())
+		{
+			CVerticalLayoutUI* pVertical = static_cast<CVerticalLayoutUI*>(m_PaintManager.FindControl(_T("livesettingcontent")));
+			if (pVertical != NULL)
+			{
+				CButtonUI* pCombineB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btncombine_uc")));
+				CButtonUI* pCombineB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btncombine_c")));
+				CButtonUI* pAloneB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnalone_uc")));
+				CButtonUI* pAloneB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnalone_c")));
+				CButtonUI* pGraphicsB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btngraphics_uc")));
+				CButtonUI* pGraphicsB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btngraphics_c")));
+				CButtonUI* pFontB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnfont_uc")));
+				CButtonUI* pFontB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnfont_c")));
+				CButtonUI* pFillB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnfill_uc")));
+				CButtonUI* pFillB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnfill_c")));
+				CButtonUI* pAdaptB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnadapt_uc")));
+				CButtonUI* pAdaptB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnadapt_c")));
+				CButtonUI* pStretchB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnstretch_uc")));
+				CButtonUI* pStretchB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnstretch_c")));
+				CButtonUI* pTileB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btntile_uc")));
+				CButtonUI* pTileB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btntile_c")));
+				CButtonUI* pCenterB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btncenter_uc")));
+				CButtonUI* pCenterB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btncenter_c")));
+				CButtonUI* pAudioB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnaudio_uc")));
+				CButtonUI* pAudioB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnaudio_c")));
+				CButtonUI* pLogsB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnlogs_uc")));
+				CButtonUI* pLogsB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnlogs_c")));
+				CEditUI* pFontE = static_cast<CEditUI*>(pVertical->FindSubControl(_T("edtfont")));
+
+				// switch mode...
+				if (nLiveCoreMode == 0)
+				{
+					pCombineB_uc->SetVisible(false);
+					pCombineB_c->SetVisible(true);
+					pAloneB_uc->SetVisible(true);
+					pAloneB_c->SetVisible(false);
+				}
+				else if (nLiveCoreMode == 1)
+				{
+					pCombineB_uc->SetVisible(true);
+					pCombineB_c->SetVisible(false);
+					pAloneB_uc->SetVisible(false);
+					pAloneB_c->SetVisible(true);
+				}
+
+				// switch graphics...
+				if (nLiveCoreShowGraphics == 0)
+				{
+					pGraphicsB_uc->SetVisible(true);
+					pGraphicsB_c->SetVisible(false);
+					pFontB_uc->SetVisible(true);
+					pFontB_c->SetVisible(false);
+					pFontE->SetEnabled(false);
+				}
+				else if (nLiveCoreShowGraphics == 1)
+				{
+					pGraphicsB_uc->SetVisible(false);
+					pGraphicsB_c->SetVisible(true);
+					pFontB_uc->SetVisible(false);
+					pFontB_c->SetVisible(true);
+					pFontE->SetEnabled(true);
+				}
+
+				CDuiString strFont;
+				strFont.Format(_T("%d"), nLiveCoreShowGraphicsFont);
+				pFontE->SetText(strFont);
+
+				// switch display...
+				if (nLiveCoreWallpaperMode == 0)
+				{
+					pFillB_uc->SetVisible(false);
+					pFillB_c->SetVisible(true);
+					pAdaptB_uc->SetVisible(true);
+					pAdaptB_c->SetVisible(false);
+					pStretchB_uc->SetVisible(true);
+					pStretchB_c->SetVisible(false);
+					pTileB_uc->SetVisible(true);
+					pTileB_c->SetVisible(false);
+					pCenterB_uc->SetVisible(true);
+					pCenterB_c->SetVisible(false);
+				}
+				else if (nLiveCoreWallpaperMode == 1)
+				{
+					pFillB_uc->SetVisible(true);
+					pFillB_c->SetVisible(false);
+					pAdaptB_uc->SetVisible(false);
+					pAdaptB_c->SetVisible(true);
+					pStretchB_uc->SetVisible(true);
+					pStretchB_c->SetVisible(false);
+					pTileB_uc->SetVisible(true);
+					pTileB_c->SetVisible(false);
+					pCenterB_uc->SetVisible(true);
+					pCenterB_c->SetVisible(false);
+				}
+				else if (nLiveCoreWallpaperMode == 2)
+				{
+					pFillB_uc->SetVisible(true);
+					pFillB_c->SetVisible(false);
+					pAdaptB_uc->SetVisible(true);
+					pAdaptB_c->SetVisible(false);
+					pStretchB_uc->SetVisible(false);
+					pStretchB_c->SetVisible(true);
+					pTileB_uc->SetVisible(true);
+					pTileB_c->SetVisible(false);
+					pCenterB_uc->SetVisible(true);
+					pCenterB_c->SetVisible(false);
+				}
+				else if (nLiveCoreWallpaperMode == 3)
+				{
+					pFillB_uc->SetVisible(true);
+					pFillB_c->SetVisible(false);
+					pAdaptB_uc->SetVisible(true);
+					pAdaptB_c->SetVisible(false);
+					pStretchB_uc->SetVisible(true);
+					pStretchB_c->SetVisible(false);
+					pTileB_uc->SetVisible(false);
+					pTileB_c->SetVisible(true);
+					pCenterB_uc->SetVisible(true);
+					pCenterB_c->SetVisible(false);
+				}
+				else if (nLiveCoreWallpaperMode == 4)
+				{
+					pFillB_uc->SetVisible(true);
+					pFillB_c->SetVisible(false);
+					pAdaptB_uc->SetVisible(true);
+					pAdaptB_c->SetVisible(false);
+					pStretchB_uc->SetVisible(true);
+					pStretchB_c->SetVisible(false);
+					pTileB_uc->SetVisible(true);
+					pTileB_c->SetVisible(false);
+					pCenterB_uc->SetVisible(false);
+					pCenterB_c->SetVisible(true);
+				}
+
+				// switch audio...
+				if (nLiveCoreWallpaperAudioMode == 0)
+				{
+					pAudioB_uc->SetVisible(true);
+					pAudioB_c->SetVisible(false);
+				}
+				else if (nLiveCoreWallpaperAudioMode == 1)
+				{
+					pAudioB_uc->SetVisible(false);
+					pAudioB_c->SetVisible(true);
+				}
+
+				// switch logs...
+				if (nLiveCoreLogProcess == 0)
+				{
+					pLogsB_uc->SetVisible(true);
+					pLogsB_c->SetVisible(false);
+				}
+				else if (nLiveCoreLogProcess == 1)
+				{
+					pLogsB_uc->SetVisible(false);
+					pLogsB_c->SetVisible(true);
+				}
+
+			}
+		}
+	}
+
+	return 0;
+}
+
+//-------------------------------------------------
+// @Function:	OnUserMessageSettingWallSetConfig()
+// @Purpose: CFrameMain设置配置文件信息
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//-------------------------------------------------
+LRESULT CFrameMain::OnUserMessageSettingWallSetConfig(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+	char chFile[MAX_PATH] = { 0 };
+	char* pTemp = NULL;
+
+	// record configure...
+	if (m_pSettingsOpt->IsSelected())
+	{
+		if (m_pLiveSettingWallOpt->IsSelected())
+		{
+			CVerticalLayoutUI* pVertical = static_cast<CVerticalLayoutUI*>(m_PaintManager.FindControl(_T("livesettingcontent")));
+			if (pVertical != NULL)
+			{
+				CButtonUI* pCombineB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btncombine_uc")));
+				CButtonUI* pCombineB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btncombine_c")));
+				CButtonUI* pAloneB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnalone_uc")));
+				CButtonUI* pAloneB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnalone_c")));
+				CButtonUI* pGraphicsB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btngraphics_uc")));
+				CButtonUI* pGraphicsB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btngraphics_c")));
+				CButtonUI* pFontB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnfont_uc")));
+				CButtonUI* pFontB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnfont_c")));
+				CButtonUI* pFillB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnfill_uc")));
+				CButtonUI* pFillB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnfill_c")));
+				CButtonUI* pAdaptB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnadapt_uc")));
+				CButtonUI* pAdaptB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnadapt_c")));
+				CButtonUI* pStretchB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnstretch_uc")));
+				CButtonUI* pStretchB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnstretch_c")));
+				CButtonUI* pTileB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btntile_uc")));
+				CButtonUI* pTileB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btntile_c")));
+				CButtonUI* pCenterB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btncenter_uc")));
+				CButtonUI* pCenterB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btncenter_c")));
+				CButtonUI* pAudioB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnaudio_uc")));
+				CButtonUI* pAudioB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnaudio_c")));
+				CButtonUI* pLogsB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnlogs_uc")));
+				CButtonUI* pLogsB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnlogs_c")));
+				CEditUI* pFontE = static_cast<CEditUI*>(pVertical->FindSubControl(_T("edtfont")));
+
+				// analyze file path...
+				CPlumFile* pFile = new CPlumFile();
+				pFile->PlumFileGetModuleFileNameA(chFile, MAX_PATH);
+
+				pTemp = strrchr(chFile, '\\');
+				if (pTemp)* pTemp = '\0';
+				strcat_s(chFile, "\\config\\LiveCore.cfg");
+
+				// record mode...
+				if (pCombineB_c->IsVisible())
+				{
+					char chArrValue[MAX_PATH] = { 0 };
+					memset(chArrValue, 0, MAX_PATH);
+					strcpy_s(chArrValue, "0");
+					WritePrivateProfileStringA("LIVECOREMODE", "LiveCore_Mode", chArrValue, chFile);
+				}
+				else
+				{
+					char chArrValue[MAX_PATH] = { 0 };
+					memset(chArrValue, 0, MAX_PATH);
+					strcpy_s(chArrValue, "1");
+					WritePrivateProfileStringA("LIVECOREMODE", "LiveCore_Mode", chArrValue, chFile);
+				}
+
+				// record graphics...
+				if (pGraphicsB_c->IsVisible())
+				{
+					char chArrValue[MAX_PATH] = { 0 };
+					memset(chArrValue, 0, MAX_PATH);
+					strcpy_s(chArrValue, "1");
+					WritePrivateProfileStringA("LIVECORESHOW", "LiveCore_Show_Graphics", chArrValue, chFile);
+				}
+				else
+				{
+					char chArrValue[MAX_PATH] = { 0 };
+					memset(chArrValue, 0, MAX_PATH);
+					strcpy_s(chArrValue, "0");
+					WritePrivateProfileStringA("LIVECORESHOW", "LiveCore_Show_Graphics", chArrValue, chFile);
+				}
+
+				// record font...
+				if (pFontB_c->IsVisible())
+				{
+					CDuiString strfont = pFontE->GetText();
+					int nfont = _ttoi(strfont.GetData());
+					if (nfont > 0 && nfont < 100)
+					{
+						char chArrValue[MAX_PATH] = { 0 };
+						memset(chArrValue, 0, MAX_PATH);
+						sprintf_s(chArrValue, "%d", nfont);
+						WritePrivateProfileStringA("LIVECORESHOW", "LiveCore_Show_GraphicsFont", chArrValue, chFile);
+					}
+				}
+
+				// record display...
+				if (pFillB_c->IsVisible())
+				{
+					char chArrValue[MAX_PATH] = { 0 };
+					memset(chArrValue, 0, MAX_PATH);
+					strcpy_s(chArrValue, "0");
+					WritePrivateProfileStringA("LIVECOREWALLPAPERMODE", "LiveCore_Wallpaper_Mode", chArrValue, chFile);
+				}
+				else if (pAdaptB_c->IsVisible())
+				{
+					char chArrValue[MAX_PATH] = { 0 };
+					memset(chArrValue, 0, MAX_PATH);
+					strcpy_s(chArrValue, "1");
+					WritePrivateProfileStringA("LIVECOREWALLPAPERMODE", "LiveCore_Wallpaper_Mode", chArrValue, chFile);
+				}
+				else if (pStretchB_c->IsVisible())
+				{
+					char chArrValue[MAX_PATH] = { 0 };
+					memset(chArrValue, 0, MAX_PATH);
+					strcpy_s(chArrValue, "2");
+					WritePrivateProfileStringA("LIVECOREWALLPAPERMODE", "LiveCore_Wallpaper_Mode", chArrValue, chFile);
+				}
+				else if (pTileB_c->IsVisible())
+				{
+					char chArrValue[MAX_PATH] = { 0 };
+					memset(chArrValue, 0, MAX_PATH);
+					strcpy_s(chArrValue, "3");
+					WritePrivateProfileStringA("LIVECOREWALLPAPERMODE", "LiveCore_Wallpaper_Mode", chArrValue, chFile);
+				}
+				else if (pCenterB_c->IsVisible())
+				{
+					char chArrValue[MAX_PATH] = { 0 };
+					memset(chArrValue, 0, MAX_PATH);
+					strcpy_s(chArrValue, "4");
+					WritePrivateProfileStringA("LIVECOREWALLPAPERMODE", "LiveCore_Wallpaper_Mode", chArrValue, chFile);
+				}
+
+				// record audio...
+				if (pAudioB_c->IsVisible())
+				{
+					char chArrValue[MAX_PATH] = { 0 };
+					memset(chArrValue, 0, MAX_PATH);
+					strcpy_s(chArrValue, "1");
+					WritePrivateProfileStringA("LIVECOREWALLPAPERMODE", "LiveCore_Wallpaper_Audio", chArrValue, chFile);
+				}
+				else
+				{
+					char chArrValue[MAX_PATH] = { 0 };
+					memset(chArrValue, 0, MAX_PATH);
+					strcpy_s(chArrValue, "0");
+					WritePrivateProfileStringA("LIVECOREWALLPAPERMODE", "LiveCore_Wallpaper_Audio", chArrValue, chFile);
+				}
+
+				// record logs...
+				if (pLogsB_c->IsVisible())
+				{
+					char chArrValue[MAX_PATH] = { 0 };
+					memset(chArrValue, 0, MAX_PATH);
+					strcpy_s(chArrValue, "1");
+					WritePrivateProfileStringA("LIVECORELOGMODE", "LiveCore_Log_Process", chArrValue, chFile);
+				}
+				else
+				{
+					char chArrValue[MAX_PATH] = { 0 };
+					memset(chArrValue, 0, MAX_PATH);
+					strcpy_s(chArrValue, "0");
+					WritePrivateProfileStringA("LIVECORELOGMODE", "LiveCore_Log_Process", chArrValue, chFile);
+				}
+
+				// safe delete object...
+				SAFE_DELETE(pFile);
+
+			}
+		}
+	}
+
 	return 0;
 }
 
@@ -3449,6 +4001,12 @@ void CFrameMain::OnLButtonClickedOtherEvent(CControlUI* pSender)
 				CButtonUI* pTileB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btntile_c")));
 				CButtonUI* pCenterB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btncenter_uc")));
 				CButtonUI* pCenterB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btncenter_c")));
+				CButtonUI* pAudioB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnaudio_uc")));
+				CButtonUI* pAudioB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnaudio_c")));
+				CButtonUI* pLogsB_uc = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnlogs_uc")));
+				CButtonUI* pLogsB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnlogs_c")));
+				CButtonUI* pSaveB = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("save")));
+				CButtonUI* pRefreshB = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("refresh")));
 
 				if (pSender == pCombineB_uc)
 				{
@@ -3558,6 +4116,40 @@ void CFrameMain::OnLButtonClickedOtherEvent(CControlUI* pSender)
 					pTileB_c->SetVisible(false);
 					pCenterB_uc->SetVisible(false);
 					pCenterB_c->SetVisible(true);
+				}
+
+				if (pSender == pAudioB_uc)
+				{
+					pAudioB_uc->SetVisible(false);
+					pAudioB_c->SetVisible(true);
+				}
+
+				if (pSender == pAudioB_c)
+				{
+					pAudioB_uc->SetVisible(true);
+					pAudioB_c->SetVisible(false);
+				}
+
+				if (pSender == pLogsB_uc)
+				{
+					pLogsB_uc->SetVisible(false);
+					pLogsB_c->SetVisible(true);
+				}
+
+				if (pSender == pLogsB_c)
+				{
+					pLogsB_uc->SetVisible(true);
+					pLogsB_c->SetVisible(false);
+				}
+
+				if (pSender == pSaveB)
+				{
+					::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_SETTINGWALL_SETCONFIG, (WPARAM)0, (LPARAM)0);
+				}
+
+				if (pSender == pRefreshB)
+				{
+					::PostMessageA(this->GetHWND(), WM_USER_MESSAGE_SETTINGWALL_GETCONFIG, (WPARAM)0, (LPARAM)0);
 				}
 
 			}
