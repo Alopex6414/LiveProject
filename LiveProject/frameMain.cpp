@@ -4007,6 +4007,7 @@ void CFrameMain::OnLButtonClickedOtherEvent(CControlUI* pSender)
 				CButtonUI* pLogsB_c = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("btnlogs_c")));
 				CButtonUI* pSaveB = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("save")));
 				CButtonUI* pRefreshB = static_cast<CButtonUI*>(pVertical->FindSubControl(_T("refresh")));
+				CEditUI* pFontE = static_cast<CEditUI*>(pVertical->FindSubControl(_T("edtfont")));
 
 				if (pSender == pCombineB_uc)
 				{
@@ -4040,12 +4041,14 @@ void CFrameMain::OnLButtonClickedOtherEvent(CControlUI* pSender)
 				{
 					pFontB_uc->SetVisible(false);
 					pFontB_c->SetVisible(true);
+					pFontE->SetEnabled(true);
 				}
 
 				if (pSender == pFontB_c)
 				{
 					pFontB_uc->SetVisible(true);
 					pFontB_c->SetVisible(false);
+					pFontE->SetEnabled(false);
 				}
 
 				if (pSender == pFillB_uc)
