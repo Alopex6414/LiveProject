@@ -127,6 +127,11 @@
     <ClCompile Include="WinProcess.cpp" />
     <ClCompile Include="WinUtilities.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="WinMain.h" />
+    <ClInclude Include="WinProcess.h" />
+    <ClInclude Include="WinUtilities.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
