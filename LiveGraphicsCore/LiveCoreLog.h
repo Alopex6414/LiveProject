@@ -4,10 +4,10 @@
 *     All rights reserved.
 *
 * @file		LiveCoreLog.h
-* @brief	This Program is LiveWallpaperCore Project.
+* @brief	This Program is LiveGraphicsCore Project.
 * @author	alopex
 * @version	v1.00a
-* @date		2019-04-13
+* @date		2019-06-22
 */
 #pragma once
 
