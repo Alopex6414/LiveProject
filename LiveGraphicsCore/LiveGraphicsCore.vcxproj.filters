@@ -533,6 +533,9 @@
     <ClInclude Include="..\Prunus\Inc\PlumThread.h">
       <Filter>Prunus</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\DirectX\Inc\D3DX_DXGIFormatConvert.inl">
@@ -556,5 +559,15 @@
     <None Include="..\DirectX\Inc\xnamathvector.inl">
       <Filter>DirectX</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="LiveGraphicsCore.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resource\Icon\LiveCore.ico">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>
