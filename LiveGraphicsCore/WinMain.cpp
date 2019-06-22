@@ -27,11 +27,11 @@ int WINAPI WinMain(IN HINSTANCE hInstance, IN HINSTANCE hPrevInstance, IN LPSTR 
 	HRESULT hr;
 
 	// start livecore process...
-	CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "LiveWallpaperCore Process Commond Line: %s", lpCmdLine);
+	CLiveCoreLog::LiveCoreLogExWriteLine(__FILE__, __LINE__, "LiveGraphicsCore Process Commond Line: %s", lpCmdLine);
 
 	// check process exist...
 	HANDLE hMutex;
-	hMutex = CreateMutex(NULL, TRUE, L"LiveWallpaperCore");
+	hMutex = CreateMutex(NULL, TRUE, L"LiveGraphicsCore");
 	if (hMutex)
 	{
 		if (ERROR_ALREADY_EXISTS == GetLastError())
