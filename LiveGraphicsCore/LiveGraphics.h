@@ -14,4 +14,7 @@
 #ifndef __LIVEGRAPHICS_H_
 #define __LIVEGRAPHICS_H_
 
+// Include Common Header File
+#include "Common.h"
+
 #endif // !__LIVEGRAPHICS_H_
