@@ -17,4 +17,15 @@
 // Include Common Header File
 #include "Common.h"
 
+// Class Definition
+class CLiveGraphics
+{
+private:
+
+public:
+	CLiveGraphics();
+	~CLiveGraphics();
+
+};
+
 #endif // !__LIVEGRAPHICS_H_

@@ -10,3 +10,25 @@
 * @date		2019-06-22
 */
 #include "LiveGraphics.h"
+
+//----------------------------------------------
+// @Function:	CLiveGraphics()
+// @Purpose: CLiveGraphics构造函数
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+CLiveGraphics::CLiveGraphics()
+{
+}
+
+//----------------------------------------------
+// @Function:	~CLiveGraphics()
+// @Purpose: CLiveGraphics析构函数
+// @Since: v1.00a
+// @Para: None
+// @Return: None
+//----------------------------------------------
+CLiveGraphics::~CLiveGraphics()
+{
+}
