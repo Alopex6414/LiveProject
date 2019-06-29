@@ -26,6 +26,12 @@ public:
 	CLiveGraphics();
 	~CLiveGraphics();
 
+	BOOL CLiveGraphicsInit();
+	void CLiveGraphicsRelease();
+
+	void CLiveGraphicsUpdate();
+	void CLiveGraphicsRender();
+
 };
 
 #endif // !__LIVEGRAPHICS_H_
