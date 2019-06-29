@@ -12,6 +12,10 @@
 #include "WinProcess.h"
 #include "WinUtilities.h"
 
+#include "LiveGraphics.h"
+
+CLiveGraphics g_LiveGraphics;
+
 float g_fLastTime = 0.0f;
 float g_fCurrentTime = 0.0f;
 float g_fDeltaTime = 0.0f;
@@ -42,7 +46,7 @@ WndPara* SetWindowParameterCallBack(void)
 //------------------------------------------------------------------
 BOOL InitWindowExtraCallBack(void)
 {
-	return TRUE;
+	return g_LiveGraphics.CLiveGraphicsInit();
 }
 
 //------------------------------------------------------------------
@@ -54,6 +58,7 @@ BOOL InitWindowExtraCallBack(void)
 //------------------------------------------------------------------
 void ReleaseWindowExtraCallBack(void)
 {
+	g_LiveGraphics.CLiveGraphicsRelease();
 }
 
 //------------------------------------------------------------------
@@ -66,6 +71,10 @@ void ReleaseWindowExtraCallBack(void)
 void Direct3DRenderCallBack(void)
 {
 	g_fLastTime = (float)timeGetTime() * 0.001f;
+
+	g_LiveGraphics.CLiveGraphicsUpdate();
+	g_LiveGraphics.CLiveGraphicsRender();
+
 	g_fCurrentTime = (float)timeGetTime() * 0.001f;
 	g_fDeltaTime = g_fCurrentTime - g_fLastTime;
 }
