@@ -28,6 +28,14 @@ private:
 	IDirect3DDevice9* m_pD3D9Device;				// DirectX 绘制设备
 	IDirect3DSurface9* m_pD3D9Surface;				// DirectX 绘制表面
 
+private:
+	int	m_nDeskTopWidth;							// Desktop 宽度
+	int m_nDeskTopHeight;							// Desktop 高度
+
+public:
+	int m_nGraphicsWidth;							// Graphics 宽度
+	int m_nGraphicsHeight;							// Graphics 高度
+
 public:
 	CLiveGraphics();
 	~CLiveGraphics();
