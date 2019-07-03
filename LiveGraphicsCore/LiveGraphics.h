@@ -21,6 +21,12 @@
 class CLiveGraphics
 {
 private:
+	DirectGraphics* m_pMainGraphics;				// DirectX 渲染类实例
+	CCerasusfps* m_pMainfps;						// DirectX 帧速率
+
+private:
+	IDirect3DDevice9* m_pD3D9Device;				// DirectX 绘制设备
+	IDirect3DSurface9* m_pD3D9Surface;				// DirectX 绘制表面
 
 public:
 	CLiveGraphics();
